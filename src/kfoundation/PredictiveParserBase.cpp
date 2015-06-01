@@ -512,7 +512,7 @@ namespace kfoundation {
     unsigned short int n = 0;
     wchar_t ch;
     
-    while(!testSpace()) {
+    while(!testSpace() && !_eof) {
       n = readAny(ch, buffer);
       storage.append((char*)buffer, n);
       total += n;
@@ -527,7 +527,7 @@ namespace kfoundation {
     unsigned short int n = 0;
     wchar_t ch;
     
-    while(!testNewLine()) {
+    while(!testNewLine() && !_eof) {
       n = readAny(ch, buffer);
       storage.append((char*)buffer, n);
       total += n;
@@ -542,7 +542,7 @@ namespace kfoundation {
     unsigned short int n = 0;
     wchar_t ch;
     
-    while(!testNewLine() && !testSpace()) {
+    while(!testNewLine() && !testSpace() && !_eof) {
       n = readAny(ch, buffer);
       storage.append((char*)buffer, n);
       total += n;
@@ -557,7 +557,7 @@ namespace kfoundation {
     unsigned short int n = 0;
     wchar_t ch;
     
-    while(!testChar(t)) {
+    while(!testChar(t) && !_eof) {
       n = readAny(ch, buffer);
       storage.append((char*)buffer, n);
       total += n;
@@ -574,7 +574,7 @@ namespace kfoundation {
     wchar_t ch;
     bool escapeFlag = false;
     
-    while(!testChar(t) || escapeFlag) {
+    while((!testChar(t) || escapeFlag) && !_eof) {
       n = readAny(ch, buffer);
       
       if(escapeFlag) {
@@ -596,7 +596,7 @@ namespace kfoundation {
     unsigned short int n = 0;
     wchar_t ch;
     
-    while(!testSequence(str)) {
+    while(!testSequence(str) && !_eof) {
       n = readAny(ch, buffer);
       storage.append((char*)buffer, n);
       total += n;
