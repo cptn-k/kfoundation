@@ -156,9 +156,9 @@ namespace kfoundation {
 //\/ System /\/////////////////////////////////////////////////////////////////
   
   
-  const SPtr<InputStream> System::IN = new StandardInputStreamAdapter(cin);
-  const SPtr<OutputStream> System::OUT = new StandardOutputStreamAdapter(cout);
-  const SPtr<OutputStream> System::ERR = new StandardOutputStreamAdapter(cerr);
+  //const SPtr<InputStream> System::IN = new StandardInputStreamAdapter(cin);
+  //const SPtr<OutputStream> System::OUT = new StandardOutputStreamAdapter(cout);
+  //const SPtr<OutputStream> System::ERR = new StandardOutputStreamAdapter(cerr);
   
   void* System::getSystem() {
     return __k_getSystem();

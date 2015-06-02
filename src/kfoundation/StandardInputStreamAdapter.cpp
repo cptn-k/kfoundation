@@ -23,7 +23,7 @@ namespace kfoundation {
   StandardInputStreamAdapter::StandardInputStreamAdapter(istream& stream)
   : _is(stream)
   {
-    mark();
+    // nothing
   }
   
   

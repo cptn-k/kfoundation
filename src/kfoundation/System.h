@@ -48,9 +48,9 @@ namespace kfoundation {
     
   // --- STATIC FIELDS --- //
     
-    public: static const SPtr<InputStream> IN;
-    public: static const SPtr<OutputStream> OUT;
-    public: static const SPtr<OutputStream> ERR;
+    //public: static const SPtr<InputStream> IN;
+    //public: static const SPtr<OutputStream> OUT;
+    //public: static const SPtr<OutputStream> ERR;
     
     
   // --- STATIC METHODS --- //
