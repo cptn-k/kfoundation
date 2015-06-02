@@ -32,8 +32,15 @@ namespace kfoundation {
     enum class_t {
       A, B, C, NONE
     };
+
+  // --- STATIC FIELDS --- //
     
-    
+    private: static const kf_octet_t CLASS_A_MASK[4];
+    private: static const kf_octet_t CLASS_B_MASK[4];
+    private: static const kf_octet_t CLASS_C_MASK[4];
+    private: static const kf_octet_t DEFAULT_MASK[4];
+ 
+
   // --- FIELDS --- //
     
     private: kf_octet_t _ip[4];

@@ -22,6 +22,13 @@
 
 namespace kfoundation {
 
+// --- static fields --- //
+
+  const kf_octet_t InternetAddress::CLASS_A_MASK[4] = {0, 255, 255, 255};
+  const kf_octet_t InternetAddress::CLASS_B_MASK[4] = {0, 0, 255, 255};
+  const kf_octet_t InternetAddress::CLASS_C_MASK[4] = {0, 0, 0, 255};
+  const kf_octet_t InternetAddress::DEFAULT_MASK[4] = {0, 0, 0, 0};
+
   
 // --- (DE)CONSTRUCTORS --- //
   
@@ -140,16 +147,16 @@ namespace kfoundation {
   InternetAddress InternetAddress::getSubnetMask() const {
     switch (getClass()) {
       case A:
-        return InternetAddress((kf_octet_t[4]){0, 255, 255, 255}, -1);
+        return InternetAddress(CLASS_A_MASK, -1);
         
       case B:
-        return InternetAddress((kf_octet_t[4]){0, 0, 255, 255}, -1);
+        return InternetAddress(CLASS_B_MASK, -1);
         
       case C:
-        return InternetAddress((kf_octet_t[4]){0, 0, 0, 255}, -1);
+        return InternetAddress(CLASS_C_MASK, -1);
         
       default:
-        return InternetAddress((kf_octet_t[4]){0, 0, 0, 0}, -1);
+        return InternetAddress(DEFAULT_MASK, -1);
     }
   }
   
