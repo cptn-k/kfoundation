@@ -54,6 +54,8 @@ namespace kfoundation {
     
   #ifdef KF_MAC
     pthread_setname_np(obj->_name.c_str());
+  #elif defined(KF_LINUX)
+    pthread_setname_np(pthread_self(), obj->_name.c_str());
   #else
     #error "platform not supported"
   #endif
