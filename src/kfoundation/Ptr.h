@@ -18,6 +18,9 @@
 #ifndef KFOUNDATION_PTR_H
 #define KFOUNDATION_PTR_H
 
+// Std
+#include <typeinfo>
+
 // Internal
 #include "ObjectSerializer.h"
 #include "NullPointerException.h"
