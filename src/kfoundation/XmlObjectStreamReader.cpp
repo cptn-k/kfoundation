@@ -228,7 +228,7 @@ namespace kfoundation {
   }
   
   Ptr<Token> XmlAttribute::next() throw(ParseException) {
-    return _owner->next();
+    return _owner->next().retain();
   }
   
   void XmlAttribute::printToStream(ostream &os) const {
@@ -637,7 +637,7 @@ namespace kfoundation {
         if(!_nextAttrib.isNull()) {
           Ptr<Token> t = _nextAttrib.AS(Token);
           _nextAttrib = NULL;
-          return t;
+          return t.retain();
         }
         
         _parser->skipSpacesAndNewLines();

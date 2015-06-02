@@ -9,8 +9,7 @@
 #ifndef KFOUNDATION_MANAGED_ARRAY_DECL
 #define KFOUNDATION_MANAGED_ARRAY_DECL
 
-#include <vector>
-
+#include <typeinfo>
 #include "SerializingStreamer.h"
 
 namespace kfoundation {
