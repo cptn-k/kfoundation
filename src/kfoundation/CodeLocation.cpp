@@ -77,8 +77,6 @@ namespace kfoundation {
     builder->object("CodeLocation")
       ->attribute("line", _line)
       ->attribute("col", _col)
-      ->attribute("byteIndex", _byteIndex)
-      ->attribute("charIndex", _charIndex)
       ->endObject();
   }
   
