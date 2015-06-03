@@ -61,13 +61,16 @@ namespace kfoundation {
     
     _hostSocket = socket(PF_INET, SOCK_STREAM, 0);
     
+    bool opVal = true;
+    setsockopt(_hostSocket, SOL_SOCKET, SO_REUSEADDR, &opVal, sizeof(opVal));
+    
     int err = ::bind(_hostSocket, (sockaddr*)&_sockaddr, sizeof(_sockaddr));
     
     if(err != 0) {
       throw IOException("Could not bind to host "
-                        + string(inet_ntoa(_sockaddr.sin_addr)) + ":"
-                        + Int::toString(ntohs(_sockaddr.sin_port))
-                        + ". Reason: " + System::getLastSystemError());
+        + string(inet_ntoa(_sockaddr.sin_addr)) + ":"
+        + Int::toString(ntohs(_sockaddr.sin_port))
+        + ". Reason: " + System::getLastSystemError());
     }
     
     _isBound = true;
@@ -81,6 +84,7 @@ namespace kfoundation {
     
     if(_isBound) {
       _isBound = false;
+      shutdown(_hostSocket, SHUT_RDWR);
       ::close(_hostSocket);
     }    
   }
