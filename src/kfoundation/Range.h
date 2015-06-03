@@ -50,6 +50,7 @@ namespace kfoundation {
     public: Range intersectWith(const Range& other) const;
     public: Range joinWith(const Range& other) const;
     public: Range joinWith(const Tuple& point) const;
+    public: Range divide(const Tuple& divisor, const Tuple& selector) const;
     public: bool isAdjecentTo(const Range& other) const;
     public: bool contains(const Tuple& point) const;
     public: bool contains(const Range& other) const;

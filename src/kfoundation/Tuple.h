@@ -56,6 +56,8 @@ namespace kfoundation {
     public: Tuple operator* (const int n) const;
     public: Tuple operator* (const Tuple& other) const;
     public: Tuple operator/ (const int n) const;
+    public: Tuple operator/ (const Tuple& other) const;
+    public: Tuple operator% (const Tuple& other) const;
     public: bool operator== (const Tuple& other) const;
     
     // From Streamer

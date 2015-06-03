@@ -240,6 +240,36 @@ namespace kfoundation {
   }
   
   
+  Tuple Tuple::operator/(const Tuple& other) const {
+    if(other._size != _size) {
+      throw KFException("Size mismatch. Given: " + Int(other._size)
+                        + ", Expected: " + _size);
+    }
+    
+    Tuple result(_size);
+    for(int i = 0; i < _size; i++) {
+      result._elements[i] = _elements[i] / other._elements[i];
+    }
+    
+    return result;
+  }
+  
+  
+  Tuple Tuple::operator%(const Tuple& other) const {
+    if(other._size != _size) {
+      throw KFException("Size mismatch. Given: " + Int(other._size)
+                        + ", Expected: " + _size);
+    }
+    
+    Tuple result(_size);
+    for(int i = 0; i < _size; i++) {
+      result._elements[i] = _elements[i] % other._elements[i];
+    }
+    
+    return result;
+  }
+  
+  
   bool Tuple::operator==(const Tuple &other) const {
     if(other._size != _size) {
       return false;

@@ -189,6 +189,14 @@ namespace kfoundation {
   }
   
   
+  Range Range::divide(const Tuple& divisor, const Tuple& selector) const {
+    Tuple mSize = _size / divisor;
+    Tuple mBegin = _begin + mSize * selector;
+    Tuple mEnd = mBegin + mSize;
+    return Range(mBegin, mEnd);
+  }
+  
+  
   bool Range::isAdjecentTo(const Range &other) const {
     return intersectWith(other).isEmpty()
         && !intersectWith(other.grow(1)).isEmpty();
