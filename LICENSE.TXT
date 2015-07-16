@@ -5,13 +5,13 @@ KNORBA FREE PUBLIC LICENSE AGREEMENT
     Notice
 
 This agreement is a modified version of CeCILL-B Free Sofrware License 
-Agreement, that prohibits military organizations from using the licensed
+Agreement that prohibits military organizations from using the licensed
 software, and also prohibits the software to be used in harmful ways.
 
 The authors of the original CeCILL-B (for Ce[a] C[nrs] I[nria] L[ogiciel] 
 L[ibre]) license are: 
 
-Commissariat à l'Energie Atomique - CEA, a public scientific, technical
+Commissariat l'Energie Atomique - CEA, a public scientific, technical
 and industrial research establishment, having its principal place of
 business at 25 rue Leblanc, immeuble Le Ponant D, 75015 Paris, France.
 
