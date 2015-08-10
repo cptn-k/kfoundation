@@ -331,6 +331,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Serializing method.
+   */
+  
   void RefCountMemoryManager::serialize(PPtr<ObjectSerializer> seralizer) const
   {
     seralizer->object("RefCountMemoryManager")

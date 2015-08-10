@@ -23,6 +23,18 @@ namespace kfoundation {
   
   class ManagedObject;
   
+  
+  /**
+   * Manages all the memory managers used in a process.
+   * Only once instance of this class exists per process.
+   * This instance can be obtained via System::getMasterMemoryManager().
+   * 
+   * This object always owns an instance of RefCountMemoryManager as its 
+   * default manager. To access use `getManagerAtIndex(0)`.
+   *
+   * @ingroup memory
+   */
+  
   class MasterMemoryManager {
     
   // --- FIELDS --- //

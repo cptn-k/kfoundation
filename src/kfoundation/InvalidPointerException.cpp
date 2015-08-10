@@ -17,6 +17,10 @@
 
 namespace kfoundation {
   
+  /**
+   * Constructor.
+   */
+  
   InvalidPointerException::InvalidPointerException(string message)
     : MemoryException(message)
   {

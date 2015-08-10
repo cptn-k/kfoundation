@@ -20,6 +20,13 @@
 
 namespace kfoundation {
 
+  /**
+   * Thrown on attempt to access an invalid pointer.
+   *
+   * @ingroup memory
+   * @ingroup exceptions
+   */
+  
   class InvalidPointerException : public MemoryException {
   public:
     InvalidPointerException(string message);

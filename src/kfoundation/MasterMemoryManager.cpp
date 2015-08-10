@@ -33,6 +33,10 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Default constructor.
+   */
+  
   MasterMemoryManager::MasterMemoryManager() {
     _recordTable = new ObjectRecord*[N_MAX_MANAGERS];
     memset(_recordTable, 0, sizeof(ObjectRecord*)*N_MAX_MANAGERS);
@@ -51,6 +55,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Deconstructor.
+   */
+  
   MasterMemoryManager::~MasterMemoryManager() {
     for(int i = 0; i < N_MAX_MANAGERS; i++) {
       if(_managers[i] != NULL) {
@@ -63,10 +71,21 @@ namespace kfoundation {
   
 // --- METHODS --- //
   
+  /**
+   * Registeres a new object to the default manager.
+   */
+  
   const ObjectRecord& MasterMemoryManager::registerObject(ManagedObject* ptr) {
     return _managers[0]->registerObject(ptr);
   }
   
+  
+  /**
+   * Registers a new memory manager and assignes it with a unique ID.
+   *
+   * @param manager The manager to be registered.
+   * @return The ID assigned to the given manager.
+   */
   
   int MasterMemoryManager::registerManager(MemoryManager *manager) {
     int index = -1;
@@ -89,6 +108,12 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Unregisters a memory manager given its index.
+   *
+   * @param index The index of the memory manager to be unregistered.
+   */
+  
   void MasterMemoryManager::unregisterManager(int index) {
     _recordTable[index] = NULL;
     _managers[index] = NULL;
@@ -96,10 +121,18 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the number of registered managers.
+   */
+  
   kf_octet_t MasterMemoryManager::getNManagers() {
     return _nManagers;
   }
   
+  
+  /**
+   * Returns the manager at the given index.
+   */
   
   MemoryManager* MasterMemoryManager::getManagerAtIndex(int index) {
     if(_managers[index] == NULL) {
@@ -109,6 +142,13 @@ namespace kfoundation {
     return _managers[index];
   }
   
+  
+  /**
+   * This should be called whenever a manager reallocates its table. 
+   * MasterMemoryManager keeps a separate record of the all memory manager 
+   * tables. If its location is changed for any reason, this function should
+   * be called to so that master updates its internal reference.
+   */
   
   void MasterMemoryManager::updataTable(int index) {
     _recordTable[index] = _managers[index]->getTable();
@@ -150,6 +190,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Prints a list of all managed objects.
+   */
+  
   void MasterMemoryManager::dump() const {
     for(int i = 0; i < _nManagers; i++) {
       if(_managers[i] != NULL) {
@@ -158,6 +202,10 @@ namespace kfoundation {
     }
   }
   
+  
+  /**
+   * Prints a report of memory usage.
+   */
   
   void MasterMemoryManager::printStats() const {
     for(int i = 0; i < _nManagers; i++) {

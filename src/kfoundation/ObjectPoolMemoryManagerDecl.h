@@ -31,6 +31,18 @@ namespace kfoundation {
   template<typename T>
   class PPtr;
   
+  /**
+   * Reuses the objects in a preallocated pool whenever a new instance is
+   * needed. When an object is no longer needed, it will not be deleted, 
+   * instead, it's PoolObject::finalize() method will be called to clean it
+   * up for next use. When pool is full and a new instance is needed, 
+   * the pool size will be automatically increased.
+   *
+   * Call get() method to obtain a clean instance to use.
+   *
+   * @ingroup memory
+   */
+  
   template<typename T>
   class ObjectPoolMemoryManager : public MemoryManager {
     

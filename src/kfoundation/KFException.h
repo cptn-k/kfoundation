@@ -1,7 +1,8 @@
 /*---[KFException.h]-------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: KFException
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::KFException::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and 
  |  Chemial Research) All rights reserved.
@@ -26,6 +27,22 @@ namespace kfoundation {
 
 using namespace std;
 
+/**
+ * Superclass for all exceptions in KFoundation.
+ *
+ * It maintain a record of stack trace at the time it is thrown. Since this
+ * class is a SerializingStreamer, it can be fed directly to logger.
+ *
+ *     try {
+ *       ... something ...
+ *     } catch(KFException& e) {
+ *       LOG << e << EL;
+ *     }
+ *.
+ * @ingroup exceptions
+ * @headerfile KFException.h <kfoundation/KFException.h>
+ */
+  
 class KFException : public SerializingStreamer, public exception {
   
 // --- NESTED TYPES --- //
@@ -65,6 +82,7 @@ class KFException : public SerializingStreamer, public exception {
     
     public: void serialize(PPtr<ObjectSerializer> os) const;
   };
+  
   
 // --- STATIC FIELDS --- //
   

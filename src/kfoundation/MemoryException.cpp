@@ -10,6 +10,10 @@
 
 namespace kfoundation {
 
+  /**
+   * Constructor.
+   */
+  
   MemoryException::MemoryException(string message)
     : KFException(message)
   {

@@ -24,7 +24,14 @@
 
 namespace kfoundation {
   
-  class RefCountMemoryManager : public MemoryManager {
+  /**
+   * Reference counting memory manager.
+   *
+   * @ingroup memory
+   */
+  
+  class RefCountMemoryManager
+  : public MemoryManager, public SerializingStreamer {
     
   // --- STATIC FIELDS --- //
     
@@ -73,6 +80,7 @@ namespace kfoundation {
 
     // Inherited from Serializing Streamer
     public: void serialize(PPtr<ObjectSerializer> seralizer) const;
+    
   };
   
 }

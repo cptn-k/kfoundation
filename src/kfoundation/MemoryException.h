@@ -20,6 +20,13 @@
 
 namespace kfoundation {
 
+  /**
+   * Used to throw exeptions related to memory.
+   *
+   * @ingroup memory
+   * @ingroup exceptions
+   */
+  
   class MemoryException : public KFException {
     public: MemoryException(string message);
   };

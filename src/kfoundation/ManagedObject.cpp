@@ -1,7 +1,9 @@
 /*---[ManagedObject.h]-----------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: ManagedObject
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::ManagedObject::*
+ |              kfoundation::PoolObject::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -25,6 +27,10 @@ namespace kfoundation {
 
 //\/ ManagedObject /\//////////////////////////////////////////////////////////
   
+  /**
+   * Default constructor.
+   */
+  
   ManagedObject::ManagedObject()
   : _ptr(registerPtr())
   {
@@ -39,6 +45,11 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Deconstructor. Upon distruction makes sure this object is undregistered
+   * from its corresponding memory manager.
+   */
+  
   ManagedObject::~ManagedObject() {
     _ptr.unmanage();
   }
@@ -50,6 +61,10 @@ namespace kfoundation {
     return Ptr<ManagedObject>(rec.manager, rec.index);
   }
   
+  
+  /**
+   * Returns a managed poitner to this object.
+   */
   
   PPtr<ManagedObject> ManagedObject::getPtr() const {
     return _ptr;
@@ -63,5 +78,11 @@ namespace kfoundation {
   {
     // Nothing;
   }
+  
+  /**
+   * @fn kfoundation::PoolObject::finalize()
+   * Cleansup this object after each use. This method should be implemented by
+   * subclasses in place of destructor.
+   */
   
 } // namespace kfoundation

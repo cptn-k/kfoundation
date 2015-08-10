@@ -1,7 +1,8 @@
 /*---[Ptr.cpp]-------------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: PtrBase
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::PtrBase::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.

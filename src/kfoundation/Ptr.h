@@ -1,9 +1,10 @@
 /*---[Ptr.h]---------------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: Ptr
- |         PPtr
- |         SPtr
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::Ptr<T>::*
+ |              kfoundation::SPtr<T>::*
+ |              kfoundation::PPtr<T>::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -40,6 +41,10 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Constructs a NULL-pointer to the given template class type.
+   */
+  
   template<typename T>
   inline Ptr<T>::Ptr() {
     _locator.objectIndex = -1;
@@ -51,6 +56,14 @@ namespace kfoundation {
     #endif
   }
   
+  
+  /**
+   * Converts a given C pointer to managed pointer.
+   *
+   * @param obj Pointer to a ManagedObject or one of its subclasses, or NULL.
+   * @param trace Used for debugging. Causes a lot of information to be printed
+   *              everytime the pointer is modified.
+   */
   
   template<typename T>
   Ptr<T>::Ptr(T* obj, bool trace) {
@@ -93,7 +106,12 @@ namespace kfoundation {
     _serial = serial++;
     #endif
   }
+
   
+  /**
+   * Copy constructor.
+   * @param other The other pointer to be copied.
+   */
   
   template<typename T>
   inline Ptr<T>::Ptr(const Ptr<T>& other) {
@@ -113,6 +131,11 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Deconstructor. If not a passive pointer, the pointed object will
+   * be released.
+   */
+  
   template<typename T>
   Ptr<T>::~Ptr() {
     if(_locator.autorelease) {
@@ -129,7 +152,17 @@ namespace kfoundation {
   
 // --- METHODS --- //
   
-#ifdef DEBUG
+#if defined(DEBUG) || defined(__doxygen__)
+  
+  /**
+   * Enables trace mode. Causes a lot of information to be printed every time
+   * this pointer is modified. This method is only available when compiled with
+   * DEBUG macro defined.
+   *
+   * @return Self
+   * @see untrace()
+   */
+  
   template<typename T>
   Ptr<T>& Ptr<T>::trace() {
     cout << "Tracing: " << *this << endl;
@@ -138,6 +171,14 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Disables trace mode. This method is only available when compiled with
+   * DEBUG macro defined.
+   *
+   * @return Self
+   * @see trace()
+   */
+  
   template<typename T>
   Ptr<T>& Ptr<T>::untrace() {
     cout << "Untracing: " << *this << endl;
@@ -145,6 +186,14 @@ namespace kfoundation {
     return *this;
   }
   
+  
+  /**
+   * Manually releases the pointed object, and makes the pointer passive for
+   * the rest of its life time. This method is only available with DEBUG macro
+   * defined.
+   *
+   * @return Self
+   */
   
   template<typename T>
   Ptr<T>& Ptr<T>::del() {
@@ -161,8 +210,14 @@ namespace kfoundation {
     }
     return *this;
   }
+  
 #endif
   
+  /**
+   * Increases the retain count for the object pointed by this pointer by one.
+   *
+   * @return Self
+   */
   
   template<typename T>
   Ptr<T>& Ptr<T>::retain() {
@@ -183,6 +238,13 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Decreases the retain count for the object pointed by this pinter by one.
+   * If the retain count reaches zero, the object will be deleted.
+   *
+   * @return Self
+   */
+  
   template<typename T>
   Ptr<T>& Ptr<T>::release() {
     if(_locator.objectIndex == -1) {
@@ -201,6 +263,15 @@ namespace kfoundation {
     return *this;
   }
   
+  
+  /**
+   * Changes the object pointed to by this pointer, releases the previous object
+   * and retains the new one.
+   *
+   * @param replacement The new objcet to point to. It should be an instance of
+   *                    ManagedObject or one of its subclasses, or NULL.
+   * @return Self
+   */
   
   template<typename T>
   inline Ptr<T>& Ptr<T>::replace(T* const& replacement) {
@@ -229,6 +300,14 @@ namespace kfoundation {
     return *this;
   }
 
+  
+  /**
+   * Changes the object pointed to by this pointer, releases the previous object
+   * and retains the new one.
+   *
+   * @param replacement A pointer to the replacement object.
+   * @return Self
+   */
   
   template<typename T>
   inline Ptr<T>& Ptr<T>::replace(const Ptr<T>& replacement) {
@@ -279,6 +358,11 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the retain count for the pointed object. If this pointer is invaild
+   * (or NULL) the returned value will be negative.
+   */
+  
   template<typename T>
   int Ptr<T>::getRetainCount() const {
     if(!_locator.objectIndex) {
@@ -300,11 +384,20 @@ namespace kfoundation {
   }
   
 
+  /**
+   * Checks if this is a NULL-pointer.
+   */
+  
   template<typename T>
   inline bool Ptr<T>::isNull() const {
     return _locator.objectIndex == -1;
   }
   
+  
+  /**
+   * Checks if this is a valid pointed. A pointer is valid if it is not NULL and
+   * it points to an existing object.
+   */
   
   template<typename T>
   inline bool Ptr<T>::isValid() const {
@@ -325,6 +418,11 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Dereference operator. Functions the same as normal C/C++ dereference
+   * operator.
+   */
+  
   template<typename T>
   inline T& Ptr<T>::operator*() const {
     if(_locator.objectIndex == -1) {
@@ -344,6 +442,10 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Returns the actual memory location the pointed object is stored.
+   */
+  
   template<typename T>
   inline T* Ptr<T>::toPurePtr() const {
     if(_locator.objectIndex == -1) {
@@ -360,6 +462,11 @@ namespace kfoundation {
     return (T*)record->ptr;
   }
 
+  
+  /**
+   * Structure dereference operator. Functions the same as normal C/C++ 
+   * equivalant.
+   */
   
   template<typename T>
   inline T* Ptr<T>::operator->() const {
@@ -380,17 +487,35 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Replaces the pointed object with a new one, releases the previous object,
+   * and retains the new one. Internally, it calls replace(const Ptr<T>&).
+   *
+   * @return Self
+   */
+  
   template<typename T>
   inline Ptr<T>& Ptr<T>::operator=(const Ptr<T>& other) {
     return replace(other);
   }
 
   
+  /**
+   * Replaces the pointed object with a new one, releases the previous object,
+   * and retains the new one. Internally, it calls replace(T* const&).
+   *
+   * @return Self
+   */
+  
   template<typename T>
   inline Ptr<T>& Ptr<T>::operator=(T* const& obj) {
     return replace(obj);
   }
 
+  
+  /**
+   * Equality operator.
+   */
   
   template<typename T>
   bool Ptr<T>::operator==(const Ptr<T>& other) const {
@@ -400,11 +525,19 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Equality operator between a managed pointer and a classic pointer.
+   */
+  
   template<typename T>
   bool Ptr<T>::operator==(const T* ptr) const {
     return toPurePtr() == ptr;
   }
   
+  
+  /**
+   * Inequality operator.
+   */
   
   template<typename T>
   bool Ptr<T>::operator!=(const Ptr<T>& other) const {
@@ -413,6 +546,10 @@ namespace kfoundation {
         || _locator.key != other._locator.key;
   }
   
+  
+  /**
+   * Inequality operator between a managed pointer and a class pointer.
+   */
   
   template<typename T>
   bool Ptr<T>::operator!=(const T* ptr) const {
@@ -426,6 +563,17 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if the pointed object is an instance of the given template argument.
+   * 
+   *     if(myPtr.isa<MyClass>()) { ... }
+   *
+   * A more elegant syntax is provided by ISA(X) macro.
+   *
+   *     if(myPtr.ISA(MyClass)) { ... }
+   *
+   */
+  
   template<typename T>
   template<typename K>
   inline bool Ptr<T>::isa() const {
@@ -435,6 +583,18 @@ namespace kfoundation {
     
     return dynamic_cast<K*>(toPurePtr()) != NULL;
   }
+  
+  
+  /**
+   * Casts the pointed object to the type given as template argument. 
+   *
+   *     Ptr<MySuperClass> castedPtr = myPtr.cast<MySuperClass>();
+   *
+   * A more elegant syntax is available through AS(X) macro.
+   *
+   *     Ptr<MySuperClass> castedPtr = myPtr.AS(MySuperClass);
+   *
+   */
   
   template<typename T>
   template<typename K>
@@ -496,6 +656,10 @@ namespace kfoundation {
 #endif
 
   
+  /**
+   * Returns a short string representation of this pointer.
+   */
+  
   template<typename T>
   string Ptr<T>::toShortString() const {
     return System::demangle(typeid(T).name()) + "@["
@@ -503,6 +667,10 @@ namespace kfoundation {
         + ":" + Int::toString(_locator.objectIndex) + "]";
   }
   
+  
+  /**
+   * Serializing method.
+   */
   
   template<typename T>
   void Ptr<T>::serialize(PPtr<ObjectSerializer> builder) const {
@@ -525,6 +693,10 @@ namespace kfoundation {
   
 //\/ SPtr /\///////////////////////////////////////////////////////////////////
   
+  /**
+   * Default constructor, creates a static NULL-pointer.
+   */
+  
   template<typename T>
   SPtr<T>::SPtr()
   : Ptr<T>()
@@ -532,6 +704,16 @@ namespace kfoundation {
     Ptr<T>::_locator.selfDestruct = false;
   }
   
+  
+  /**
+   * Constructs a static pointer to the object at the given memory location.
+   * This constructor is called when initializing object as follows.
+   *
+   *     public: static SPtr<MyClass> MY_STATIC_OBJECT = new MyClass();
+   *
+   * @param obj Should be pointing to a valid instance of ManagedObject or
+   *            one of its subclasses, or NULL.
+   */
   
   template<typename T>
   SPtr<T>::SPtr(T* obj)
@@ -546,6 +728,11 @@ namespace kfoundation {
     System::getMasterMemoryManager().registerSPtr(this);
   }
   
+  
+  /**
+   * Copy constructor. If the given parameter is not static, it will be made 
+   * static.
+   */
   
   template<typename T>
   SPtr<T>::SPtr(const Ptr<T>& obj)
@@ -577,6 +764,11 @@ namespace kfoundation {
   
 //\/ PPtr /\///////////////////////////////////////////////////////////////////
   
+  /**
+   * Default constructor, creates a passive NULL-pointer. Passive pointers do
+   * not automatically retain or release.
+   */
+  
   template<typename T>
   PPtr<T>::PPtr()
   :Ptr<T>()
@@ -584,6 +776,12 @@ namespace kfoundation {
     Ptr<T>::_locator.autorelease = false;
   }
   
+  
+  /**
+   * Copy constructor.
+   *
+   * @param obj The pointer to be copied.
+   */
   
   template<typename T>
   PPtr<T>::PPtr(const PPtr<T>& obj)
@@ -593,6 +791,12 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Copy constructor from nonpassive pointer.
+   *
+   * @param obj The pointer to be copied.
+   */
+  
   template<typename T>
   PPtr<T>::PPtr(const Ptr<T>& obj)
   : Ptr<T>(obj)
@@ -600,6 +804,12 @@ namespace kfoundation {
     Ptr<T>::_locator.autorelease = false;
   }
   
+  
+  /**
+   * Copy constructor from static pointer.
+   *
+   * @param obj The pointer to be copied.
+   */
   
   template<typename T>
   PPtr<T>::PPtr(const SPtr<T>& obj)
@@ -609,6 +819,13 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Creates a passive pointer to the object at the given memory location.
+   *
+   * @param obj Should be a valid instance of ManagedObject or one of its
+   *            subclasses, or NULL.
+   */
+  
   template<typename T>
   PPtr<T>::PPtr(T* const obj)
   : Ptr<T>(obj)
@@ -617,7 +834,6 @@ namespace kfoundation {
   }
   
 } // namespace kfoundation
-
 
 
 #endif // defined(KFOUNDATION_PTR_H)

@@ -1,9 +1,10 @@
 /*---[MemoryManager.h]-----------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: MemoryManager
- |  Strcut: ObjectRecord
- |          Statistics
+ |  Project   : KFoundation
+ |  Declares  : struct kfoundation::ObjectRecord
+ |              struct kfoundation::Statistics
+ |              class kfoundation::MemoryManager
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -26,15 +27,19 @@
 
 namespace kfoundation {
   
+  /**
+   * Structure of memory manager's table records.
+   */
+  
   struct ObjectRecord  {
-    ManagedObject* ptr;
-    kf_int16_t retainCount;
-    kf_int16_t key;
-    kf_int8_t  manager;
-    kf_int16_t index;
-    kf_int32_t serialNumber;
-    bool       isStatic;
-    bool       isBeingDeleted;
+    ManagedObject* ptr;        ///< Memory location of the target object
+    kf_int16_t retainCount;    ///< Retain count
+    kf_int16_t key;            ///< Key
+    kf_int8_t  manager;        ///< The ID of the manager owning this table
+    kf_int16_t index;          ///< Index of this record
+    kf_int32_t serialNumber;   ///< Unique serial number for this object
+    bool       isStatic;       ///< `true' if the object is static
+    bool       isBeingDeleted; ///< Flag for internal use
   };
   
   
@@ -44,7 +49,12 @@ namespace kfoundation {
   };
 
   
-  class MemoryManager : public SerializingStreamer {
+  /**
+   * Abstract interface to be implemented by all memory managers.
+   * @ingroup memory
+   */
+  
+  class MemoryManager {
     public: virtual ~MemoryManager();
     public: virtual const ObjectRecord& registerObject(ManagedObject* obj) = 0;
     public: virtual void retain(kf_int32_t index, kf_int16_t key) = 0;

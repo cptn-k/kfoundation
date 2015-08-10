@@ -20,6 +20,13 @@
 
 namespace kfoundation {
 
+  /**
+   * Thrown on attempt to access to a null pointer.
+   *
+   * @ingroup memory
+   * @ingroup exceptions
+   */
+  
   class NullPointerException : public InvalidPointerException {
   public:
     NullPointerException();

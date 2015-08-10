@@ -1,7 +1,9 @@
 /*---[ManagedObject.h]-----------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: ManagedObject
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::ManagedObject::*
+ |              kfoundation::PoolObject::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -22,6 +24,13 @@
 namespace kfoundation {
 
 //\/ ManagedObject /\//////////////////////////////////////////////////////////
+  
+  /**
+   * The root class for all classes using KFoundation framework. 
+   * Only subclasses of ManagedObject can be accessed via managed pointers.
+   *
+   * @headerfile ManagedObject.h <kfoundation/ManagedObject.h>
+   */
   
   class ManagedObject {
     
@@ -46,6 +55,15 @@ namespace kfoundation {
   
   
 //\/ PoolObject /\/////////////////////////////////////////////////////////////
+  
+  
+  /**
+   * Superclass for all objects that are meant to be allocated by a pool memory
+   * manager. These objects will never be destructed. Instead, they should
+   * implement the finalize() method to cleanup themselves after each use.
+   *
+   * @headerfile ManagedObject.h <kfoundation/ManagedObject.h>
+   */
   
   class PoolObject : public ManagedObject {
     public: PoolObject(kf_octet_t manager, kf_int32_t index);

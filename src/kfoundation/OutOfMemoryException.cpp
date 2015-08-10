@@ -17,6 +17,12 @@
 
 namespace kfoundation {
   
+  /**
+   * Constructor.
+   *
+   * @param message The message to be displayed once the exception is thrown.
+   */
+  
   OutOfMemoryException::OutOfMemoryException(string message)
     : MemoryException(message)
   {

@@ -1,7 +1,8 @@
 /*---[KFException.cpp]-----------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: KFException
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::KFException::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -78,11 +79,13 @@ using namespace std;
     return item;
   }
   
+  
   char* KFException::StackTraceItem::readWhiteSpace(char* str) {
     while(*str == ' ')
       str++;
     return str;
   }
+  
   
   char* KFException::StackTraceItem::readText(char* str) {
     while(*str != ' ' && *str != 0)
@@ -90,11 +93,13 @@ using namespace std;
     return str;
   }
   
+  
   char* KFException::StackTraceItem::readChar(char* str, char ch) {
     if(*str == ch)
       str++;
     return str;
   }
+  
   
   string KFException::StackTraceItem::demangle(string str) {
     size_t len = 200;
@@ -127,6 +132,13 @@ using namespace std;
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Primary constructor. Once invoked, creates and stores the current stack 
+   * trace.
+   *
+   * @param message The error message describing the exception.
+   */
+  
   KFException::KFException(string message)
   : _name("KFException"), _message(message)
   {
@@ -135,6 +147,11 @@ using namespace std;
     _nHiddenFrames = 3;
   }
   
+  
+  /**
+   * Copy constructor.
+   * @param other The object to be copied.
+   */
   
   KFException::KFException(const KFException& other) {
     _name = other._name;
@@ -147,6 +164,8 @@ using namespace std;
     }
   }
   
+  
+  /** Deconstructor */
   
   KFException::~KFException() throw() {
     if(NOT_NULL(_stackTrace)) {
@@ -180,6 +199,15 @@ using namespace std;
 #error "This platform is not supported."
 #endif
 
+  /**
+   * This method should be called in the constructor of every subclass.
+   * It sets the name of the exception which would normally be the same as the
+   * name of the class. At the same time, it keeps track of the number of
+   * exception class constructors of superclasses called within each other, in
+   * order to remove them from the printed stack trace.
+   *
+   * @param name The name of the exception class.
+   */
   
   void KFException::setName(string name) {
     _name = name;
@@ -192,12 +220,21 @@ using namespace std;
   }
 
   
+  /**
+   * @return The message assigned to this exception.
+   */
   const string& KFException::getMessage() const {
     return _message;
   }
 
   
   // Inherited from SerializingStreamer //
+  
+  /**
+   * Serializing method.
+   *
+   * @param builder The ObjectSerializer used to build the output.
+   */
   
   void KFException::serialize(PPtr<ObjectSerializer> builder) const {
     builder->object(_name)
@@ -216,6 +253,11 @@ using namespace std;
   
   // Inherited from exception //
 
+  /**
+   * Overriding the standard C++ behaviour, returns the message and stack trace
+   * in C-string format.
+   */
+  
   const char* KFException::what() const throw() {
     const char* str = toString().c_str();
     return str;

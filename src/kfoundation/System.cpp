@@ -1,8 +1,9 @@
 /*---[System.cpp]----------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: System
- |         __k_SystemImpl
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::__SystemImpl::*
+ |  Implements: kfoundation::System::*
+ |              kfoundation::__SystemImpl::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -164,11 +165,20 @@ namespace kfoundation {
     return __k_getSystem();
   }
 
+  
+  /**
+   * Returns executable path for the current process. Symlinks are resolved
+   * internally.
+   */
 
   PPtr<Path> System::getExePath() {
     return __k_getSystem()->getExePath();
   }
 
+  
+  /**
+   * Returns the current working directory.
+   */
 
   Ptr<Path> System::getCurrentWorkingDirectory() {
     char buffer[1024];
@@ -179,10 +189,18 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Used to check if the current platform is big-endian.
+   */
+  
   bool System::isBigEndian() {
     return true;
   }
   
+  
+  /**
+   * Demangles a C++ ABI symbol into a human readable one.
+   */
   
   string System::demangle(string str) {
     size_t len = __KF_BUFFER_SIZE;
@@ -200,6 +218,10 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Given pointer to a symbol, returns its name.
+   */
+  
   string System::resolveSymbolName(void *ptr) {
   #if defined(KF_UNIX)
     Dl_info info;
@@ -213,6 +235,11 @@ namespace kfoundation {
   #endif
   }
 
+  
+  /**
+   * Returns the human-readable description of the last system error as
+   * indicated by errno variable.
+   */
 
   string System::getLastSystemError() {
     char buffer[200];
@@ -221,6 +248,10 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Return type of the undelying operating system.
+   */
+  
   System::operating_system_t System::getOperatingSystem() {
   #if defined(KF_MAC)
     return APPLE_OS_X;
@@ -237,21 +268,49 @@ namespace kfoundation {
   #endif
   }
 
+  
+  /**
+   * Returns the default system logger.
+   */
 
   Logger& System::getLogger() {
     return __k_getSystem()->getLogger();
   }
 
   
+  /**
+   * Causes the current threed to sleep for the given number of miliseconds.
+   *
+   * Most platforms provide sleep() which works with 1-second resolution, and
+   *   usleep() which works with 1-microsecond resolution. System::sleep()
+   *   provides milisecond resolution which makes sense in most devices, and
+   *   has the same interface as Java.System.sleep(). Can be used in
+   *   conjunction with System::getCurrentTimeInMiliseconds() without the fuss
+   *   of timeval struct.
+   *
+   * @param msecs The number of miliseconds to sleep.
+   */
+  
   void System::sleep(const int msecs) {
     ::usleep(msecs*1000);
   }
 
 
+  /**
+   * Executes the given command with the given set of arguments.
+   * @param command The command to be executed.
+   * @param args An array of C strings, each containing a signle argument.
+   * @param argc The number of elements in args.
+   */
+  
   int System::exec(const char* command, char **args, int argc) {
     throw KFException("Not implemented");
   }
 
+  
+  /**
+   * Returns reference to the master memory manager.
+   */
 
   MasterMemoryManager& System::getMasterMemoryManager() {
     return __k_getSystem()->getMasterMemoryManager();
@@ -263,7 +322,12 @@ namespace kfoundation {
     __k_takeoverfunction_t fn = (__k_takeoverfunction_t)ptr;
     fn(__k_getSystem());
   }
-    
+  
+  
+  /**
+   * Returns the current time in miliseconds from the standard origin time.
+   * The origin time is usually midnigh January 1, 1970 UTC.
+   */
   
   kf_int64_t System::getCurrentTimeInMiliseconds() {
     timeval tv;
@@ -271,6 +335,10 @@ namespace kfoundation {
     return (kf_int64_t)tv.tv_sec * 1000 + tv.tv_usec / 1000;
   }
   
+  
+  /**
+   * Returns the process id for this process.
+   */
   
   int System::getPid() {
     return ::getpid();

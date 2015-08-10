@@ -17,11 +17,20 @@
 
 namespace kfoundation {
   
+  /**
+   * Default constructor.
+   */
+  
   NullPointerException::NullPointerException()
   : InvalidPointerException("")
   {
     setName("NullPointerException");
   }
+  
+  
+  /**
+   * Message constructor.
+   */
   
   NullPointerException::NullPointerException(string message)
     : InvalidPointerException(message)

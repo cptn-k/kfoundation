@@ -1,7 +1,8 @@
 /*---[System.h]------------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: System
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::System::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -29,18 +30,28 @@ namespace kfoundation {
   class Runnable;
   class InputStream;
   class OutputStream;
+  
+  /**
+   * @brief Provides a cross-platform way to access sytsem features. It cannot
+   *        be instantiated.
+   * @headerfile System.h <kfoundation/System.h>
+   */
     
   class System {
     
   // --- NESTED TYPES --- //
     
+    /**
+     * Operating system type
+     */
+    
     public: typedef enum {
-      LINUX,
-      FREE_BSD,
-      SOLARIS,
-      APPLE_OS_X,
-      MACH,
-      UNSUPPORTED
+      LINUX,        ///< Linux
+      FREE_BSD,     ///< Free BSD
+      SOLARIS,      ///< Solaris
+      APPLE_OS_X,   ///< Apple Mac OS X
+      MACH,         ///< Mach
+      UNSUPPORTED   ///< Other / Unsupported
     } operating_system_t;
     
     typedef pthread_t thread_t;

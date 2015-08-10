@@ -20,6 +20,13 @@
 
 namespace kfoundation {
 
+  /**
+   * Thrown on out of memory.
+   *
+   * @ingroup exceptions
+   * @ingroup memory
+   */
+  
   class OutOfMemoryException : public MemoryException {
   public:
     OutOfMemoryException(string message);

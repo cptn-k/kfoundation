@@ -34,6 +34,13 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Constructor.
+   * @param initialCapacity Initial capacity.
+   * @param growthRate The capacity will be multiplied by this value every time
+   *                   more objects than capacity is needed.
+   */
+  
   template<typename T>
   ObjectPoolMemoryManager<T>::ObjectPoolMemoryManager(const int initialCapacity,
       const int growthRate)
@@ -62,6 +69,10 @@ namespace kfoundation {
     }
   }
   
+  
+  /**
+   * Deconstructor. Deconstructs all objects in the pool internally.
+   */
   
   template<typename T>
   ObjectPoolMemoryManager<T>::~ObjectPoolMemoryManager() {
@@ -122,6 +133,10 @@ namespace kfoundation {
     return string(buffer);
   }
   
+  
+  /**
+   * Returns an unused objects in the pool with reference count of 1.
+   */
   
   template<typename T>
   Ptr<T> ObjectPoolMemoryManager<T>::get() {
@@ -290,6 +305,10 @@ namespace kfoundation {
     _trace = false;
   }
   
+  
+  /**
+   * Serializer.
+   */
   
   template<typename T>
   void ObjectPoolMemoryManager<T>::serialize(PPtr<ObjectSerializer> seralizer)
