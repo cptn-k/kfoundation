@@ -44,7 +44,8 @@ namespace kfoundation {
    */
   
   template<typename T>
-  class ObjectPoolMemoryManager : public MemoryManager {
+  class ObjectPoolMemoryManager
+  : public MemoryManager, public SerializingStreamer {
     
   // --- FIELDS --- //
     

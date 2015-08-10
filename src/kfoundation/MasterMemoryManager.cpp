@@ -195,11 +195,13 @@ namespace kfoundation {
    */
   
   void MasterMemoryManager::dump() const {
-    for(int i = 0; i < _nManagers; i++) {
-      if(_managers[i] != NULL) {
-        LOG << "Manager[" << i << "]:  " << *_managers[i] << EL;
-      }
-    }
+    throw KFException("Operation not implemented.");
+    
+//    for(int i = 0; i < _nManagers; i++) {
+//      if(_managers[i] != NULL) {
+//        // Something here
+//      }
+//    }
   }
   
   
