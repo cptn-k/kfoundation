@@ -1,10 +1,18 @@
-//
-//  BufferInputStream.h
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 10/28/14.
-//  Copyright (c) 2014 Kay Khandan. All rights reserved.
-//
+/*---[BufferInputStream.h]-------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::BufferInputStream::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__BufferInputStream__
 #define __KFoundation__BufferInputStream__
@@ -12,6 +20,13 @@
 #include "InputStream.h"
 
 namespace kfoundation {
+  
+  /**
+   * Input stream to read from a buffer in memory.
+   *
+   * @ingroup io
+   * @headerfile BufferInputStream.h <kfoundation/BufferInputStream.h>
+   */
   
   class BufferInputStream : public InputStream {
   

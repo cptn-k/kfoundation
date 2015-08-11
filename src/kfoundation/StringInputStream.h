@@ -1,10 +1,18 @@
-//
-//  StringInputStream.h
-//  KFoundation
-//
-//  Created by Kay Khandan on 10/11/14.
-//  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
-//
+/*---[StringInputStream.h]-------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::StringInputStream::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__StringInputStream__
 #define __KFoundation__StringInputStream__
@@ -12,6 +20,13 @@
 #include "InputStream.h"
 
 namespace kfoundation {
+  
+  /**
+   * Input stream to read from string.
+   *
+   * @ingroup io
+   * @headerfile StringInputStream.h <kfoundation/StringInputStream.h>
+   */
   
   class StringInputStream : public InputStream {
   private:
@@ -36,6 +51,6 @@ namespace kfoundation {
     bool isBigEndian();
   };
   
-}
+} // namespace kfoundation
 
 #endif /* defined(__KFoundation__StringInputStream__) */

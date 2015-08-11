@@ -1,10 +1,18 @@
-//
-//  FileInputStream.h
-//  KFoundation-XCode-Wrapper
-//
-//  Created by Hamed KHANDAN on 8/15/14.
-//  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
-//
+/*---[FileInputStream.h]---------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::FileInputStream::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation_XCode_Wrapper__FileInputStream__
 #define __KFoundation_XCode_Wrapper__FileInputStream__
@@ -18,6 +26,13 @@ using namespace std;
 namespace kfoundation {
   
   class Path;
+
+  /**
+   * Input stream to read from file.
+   *
+   * @ingroup io
+   * @headerfile FileInputStream.h <kfoundation/FileInputStream.h>
+   */
   
   class FileInputStream : public InputStream {
   private:

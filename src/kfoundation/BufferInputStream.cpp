@@ -1,10 +1,18 @@
-//
-//  BufferInputStream.cpp
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 10/28/14.
-//  Copyright (c) 2014 Kay Khandan. All rights reserved.
-//
+/*---[BufferInputStream.cpp]-----------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::BufferInputStream::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 // Std
 #include <cstring>
@@ -19,6 +27,16 @@ namespace kfoundation {
 
 // --- (DE)CONSTRUCTORS --- //
   
+  
+  /**
+   * Constructor.
+   *
+   * @param buffer The buffer to read from.
+   * @param size Size of the buffer to read.
+   * @param takeover If set `true` the buffer will be deleted once this object
+   *                 is deconstructed. The default value is `false`.
+   */
+  
   BufferInputStream::BufferInputStream(const kf_octet_t* const buffer,
       const kf_int32_t size, bool takeover)
   {
@@ -29,6 +47,10 @@ namespace kfoundation {
     _mark = 0;
   }
   
+  
+  /**
+   * Deconstructor.
+   */
   
   BufferInputStream::~BufferInputStream() {
     if(_takeover) {
@@ -42,6 +64,7 @@ namespace kfoundation {
   kf_int32_t BufferInputStream::getSize() const {
     return _size;
   }
+  
   
   kf_int32_t BufferInputStream::read(kf_octet_t* buffer, const kf_int32_t nBytes)
   {

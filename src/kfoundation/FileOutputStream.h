@@ -1,10 +1,18 @@
-//
-//  FileOutptuStream.h
-//  KFoundation
-//
-//  Created by Kay Khandan on 11/2/14.
-//  Copyright (c) 2014 Kay Khandan. All rights reserved.
-//
+/*---[FileOutputStream.h]--------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::FileOutputStream::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__FileOutptuStream__
 #define __KFoundation__FileOutptuStream__
@@ -17,6 +25,13 @@ namespace kfoundation {
   using namespace std;
   
   class Path;
+  
+  /**
+   * Output stream used to write data on file.
+   * 
+   * @ingroup io
+   * @headerfile FileOutputStream.h <kfoundation/FileOutputStream.h>
+   */
   
   class FileOutputStream : public OutputStream {
     

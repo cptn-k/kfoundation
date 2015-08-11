@@ -1,10 +1,18 @@
-//
-//  BufferOutputStream.cpp
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 10/28/14.
-//  Copyright (c) 2014 Kay Khandan. All rights reserved.
-//
+/*---[BufferOutputStream.cpp]----------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::BufferOutputStream::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 // Std
 #include <cstdio>
@@ -21,7 +29,7 @@
 #define BUFFER_GROWTH_RATE 2
 
 namespace kfoundation {
-
+  
   string BufferOutputStream::toBinaryString(const kf_octet_t *data, int size) {
     using namespace std;
     char* chars = new char[size*3 + 3];
@@ -35,13 +43,24 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Constructor, creates a new stream with an internal buffer of given
+   * capacity. If more octets than the given capacity is written to it, the
+   * buffer size will grow exponentially.
+   *
+   * @param capacity The initial capacity of the internal buffer.
+   */
+  
   BufferOutputStream::BufferOutputStream(const kf_int32_t capacity) {
     _capacity = capacity;
     _size = 0;
     _data = new kf_octet_t[_capacity];
-    _debug = false;
   }
   
+  
+  /**
+   * Deconstructor.
+   */
   
   BufferOutputStream::~BufferOutputStream() {
     delete[] _data;
@@ -58,29 +77,26 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the pointer to the first byte of the internal buffer. 
+   * @note The returned value might change as the internal buffer expands.
+   */
+  
   kf_octet_t* BufferOutputStream::getData() const {
     return _data;
   }
   
+  
+  /**
+   * Returns the number of octets written to this stream.
+   */
   
   kf_int32_t BufferOutputStream::getSize() const {
     return _size;
   }
   
   
-  void BufferOutputStream::print() const {
-    using namespace std;
-    for(int i = 0; i < _size; i++) {
-      printf("%02X ", (int)_data[i]);
-    }
-    printf("\n");
-  }
-  
-  
-  void BufferOutputStream::debug(bool on) {
-    _debug = on;
-  }
-  
+  // Inherited from InputStream
   
   bool BufferOutputStream::isBigEndian() const {
     return System::isBigEndian();
@@ -96,13 +112,6 @@ namespace kfoundation {
     
     memcpy(_data + _size, buffer, nBytes);
     _size += nBytes;
-    
-    if(_debug) {
-      for(int i = 0; i < nBytes; i++) {
-        printf("%02X ", (int)buffer[i]);
-      }
-      fflush(stdout);
-    }
   }
   
   
@@ -113,11 +122,6 @@ namespace kfoundation {
     
     _data[_size] = byte;
     _size++;
-    
-    if(_debug) {
-      printf("%02X ", (int)byte);
-      fflush(stdout);
-    }
   }
   
   
@@ -132,9 +136,7 @@ namespace kfoundation {
   
   
   void BufferOutputStream::close() {
-    if(_debug) {
-      printf("\n");
-    }
+    // Nothing
   }
   
 } // namespace kfoundation

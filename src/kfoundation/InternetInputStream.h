@@ -1,10 +1,18 @@
-//
-//  InternetInputStream.h
-//  KFoundation
-//
-//  Created by Kay Khandan on 3/28/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[InternetInputStream.h]-----------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::InternetInputStream::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__InternetInputStream__
 #define __KFoundation__InternetInputStream__
@@ -22,6 +30,13 @@
 #include "SerializingStreamer.h"
 
 namespace kfoundation {
+  
+  /**
+   * Input stream used to read from a TCP/IP port.
+   *
+   * @ingroup io
+   * @headerfile InternetInputStream.h <kfoundation/InternetInputStream.h>
+   */
   
   class InternetInputStream : public InputStream, public SerializingStreamer {
     

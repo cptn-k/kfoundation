@@ -1,10 +1,18 @@
-//
-//  InternetInputStream.cpp
-//  KFoundation
-//
-//  Created by Kay Khandan on 3/28/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[InternetInputStream.cpp]---------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::InternetInputStream::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 // Std
 #include <unistd.h>
@@ -24,13 +32,34 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
-  InternetInputStream::InternetInputStream()
-  {
+  /**
+   * Constructor, creates a closed input stream.
+   * To use, first, bind this stream to an address using
+   * bind(const InternetAddress&) method, then invoke listen() method.
+   * listen() is a blocking method. It will be unblocked once a connection
+   * from a remote host is established.
+   * The following is the common pattern to use this
+   * class:
+   *
+   *     Ptr<InternetInputStream> iis = new InternetInputStream();
+   *     iis.bind(InternetAddress("1.2.3.4:5678"));
+   *     iis.listen();
+   *     while(!iis.isEof()) {
+   *         iis.read();
+   *     }
+   *.
+   */
+  
+  InternetInputStream::InternetInputStream() {
     _isBound = false;
     _isOpen = false;
     _isEof = true;
   }
   
+  
+  /**
+   * Deconstructor.
+   */
   
   InternetInputStream::~InternetInputStream() {
     unbind();
@@ -40,10 +69,26 @@ namespace kfoundation {
   
 // --- METHODS --- //
   
+  /**
+   * Returns the address that this stream is assigned to,.
+   */
+  
   const InternetAddress& InternetInputStream::getAddress() const {
     return _address;
   }
   
+  
+  /**
+   * Binds this stream to an Internet address. If the stream is already open and
+   * bound to another address, it will be closed and unbound. If the process
+   * does not have enough privilages to bind to the given address and port,
+   * or the port is already in use, this function will throw and exception.
+   *
+   * @param address The address to bind this stream to.
+   * @throw Throws IOException if binding fails.
+   * @see unbind()
+   * @see isBound()
+   */
   
   void InternetInputStream::bind(const InternetAddress& address)
   throw(IOException)
@@ -51,21 +96,21 @@ namespace kfoundation {
     if(_isBound) {
       unbind();
     }
-    
+
     _address = address;
-    
+
     memset(&_sockaddr, 0, sizeof(sockaddr_in));
     _sockaddr.sin_family = AF_INET;
     memcpy(&_sockaddr.sin_addr.s_addr, address.getIp(), 4);
     _sockaddr.sin_port = htons(address.getPort());
-    
+
     _hostSocket = socket(PF_INET, SOCK_STREAM, 0);
-    
+
     bool opVal = true;
     setsockopt(_hostSocket, SOL_SOCKET, SO_REUSEADDR, &opVal, sizeof(opVal));
-    
+
     int err = ::bind(_hostSocket, (sockaddr*)&_sockaddr, sizeof(_sockaddr));
-    
+
     if(err != 0) {
       throw IOException("Could not bind to host "
         + string(inet_ntoa(_sockaddr.sin_addr)) + ":"
@@ -76,6 +121,13 @@ namespace kfoundation {
     _isBound = true;
   }
   
+  
+  /**
+   * Closes and unbinds this stream.
+   *
+   * @see bind()
+   * @see isBound()
+   */
   
   void InternetInputStream::unbind() {
     if(_isOpen) {
@@ -90,10 +142,23 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if this stream is bound to an address.
+   *
+   * @see bind()
+   * @see unbind()
+   */
+  
   bool InternetInputStream::isBound() const {
     return _isBound;
   }
   
+  
+  /**
+   * Blocks the current thread until an incomming connection is stablished. 
+   *
+   * @throw Throws IOException if listening could not be initiated.
+   */
   
   void InternetInputStream::listen() {
     _nReceived = 0;
@@ -115,10 +180,18 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if the port is open.
+   */
+  
   bool InternetInputStream::isOpen() const {
     return _isOpen;
   }
   
+  
+  /**
+   * Closes the stream if it is open.
+   */
   
   void InternetInputStream::close() {
     if(_isOpen) {
@@ -128,6 +201,10 @@ namespace kfoundation {
     _isEof = true;
   }
   
+  
+  /**
+   * Returns the number of octets received since the connection is stablished.
+   */
   
   kf_int32_t InternetInputStream::getNReceivedOctets() const {
     return _nReceived;

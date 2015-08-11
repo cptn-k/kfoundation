@@ -1,7 +1,8 @@
-/*---[OutputStream.h]-------------------------------------------m(._.)m--------*\
+/*---[OutputStream.h]------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: OutputStream
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::OutputStream::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -26,13 +27,58 @@ namespace kfoundation {
   
   class InputStream;
   
+  /**
+   * Abstract inferface for all output streams.
+   *
+   * @ingroup io
+   * @headerfile OutputStream.h <kfoundation/OutputStream.h>
+   */
+  
   class OutputStream : public ManagedObject {
-  public:
-    virtual bool isBigEndian() const = 0;
-    virtual void write(const kf_octet_t* buffer, const kf_int32_t nBytes) = 0;
-    virtual void write(kf_octet_t byte) = 0;
-    virtual void write(PPtr<InputStream> os) = 0;
-    virtual void close() = 0;
+    
+    
+    /**
+     * Writes the given number of octets of the given buffer to the stream.
+     *
+     * @param buffer The octets to write.
+     * @param nOctets Number of octets to write.
+     */
+    
+    public: virtual void write(const kf_octet_t* buffer, const kf_int32_t nOctets) = 0;
+    
+    
+    /**
+     * Writes a single octet to the stream.
+     *
+     * @param octet The octet to write
+     */
+    
+    public: virtual void write(const kf_octet_t octet) = 0;
+    
+    
+    /**
+     * Writes the available contents from the given input stream to this
+     * output stream.
+     *
+     * @param is The stream to read from.
+     */
+    
+    public: virtual void write(PPtr<InputStream> is) = 0;
+    
+    
+    /**
+     * Closes the stream. It will no longer be readable.
+     */
+    
+    public: virtual void close() = 0;
+    
+    
+    /**
+     * Checks if the stream is big-endian.
+     */
+    
+    public: virtual bool isBigEndian() const = 0;
+    
   };
   
 } // namespace kfoundation

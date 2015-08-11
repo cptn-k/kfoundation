@@ -1,10 +1,18 @@
-//
-//  StandardInputStreamAdapter.h
-//  KFoundation
-//
-//  Created by Kay Khandan on 3/28/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[StandardInputStreamAdapter.h]----------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::StandardInputStreamAdapter::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__StandardInputStreamAdapter__
 #define __KFoundation__StandardInputStreamAdapter__
@@ -18,12 +26,21 @@
 
 namespace kfoundation {
   
+  /**
+   * Wraps around the given `istream` (C++ standard libraries) to be read as a
+   * a KFoundation input stream.
+   *
+   * @ingroup io
+   * @headerfile StandardInputStreamAdapter.h <kfoundation/StandardInputStreamAdapter.h>
+   */
+  
   class StandardInputStreamAdapter : public InputStream {
     
   // --- FIELDS --- //
   
     private: istream& _is;
     private: istream::pos_type _mark;
+    
     
   // --- (DE)CONSTRUCTORS --- //
     

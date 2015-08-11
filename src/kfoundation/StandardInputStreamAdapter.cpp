@@ -1,10 +1,18 @@
-//
-//  StandardInputStreamAdapter.cpp
-//  KFoundation
-//
-//  Created by Kay Khandan on 3/28/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[StandardInputStreamAdapter.cpp]--------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::StandardInputStreamAdapter::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 // Std
 #include <istream>
@@ -19,6 +27,10 @@
 namespace kfoundation {
   
 // --- (DE)CONSTGRUCTORS --- //
+  
+  /**
+   * Constructor, wraps the new instance around the given `istream` object.
+   */
   
   StandardInputStreamAdapter::StandardInputStreamAdapter(istream& stream)
   : _is(stream)

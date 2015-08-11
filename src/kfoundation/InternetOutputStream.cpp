@@ -1,10 +1,18 @@
-//
-//  InternetOutputStream.cpp
-//  KFoundation
-//
-//  Created by Kay Khandan on 3/28/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[InternetOutputStream.cpp]-------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::InternetOutputStream::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 // Unix
 #include <unistd.h>
@@ -24,6 +32,11 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTOR --- //
   
+  /**
+   * Constructor, the object will dedicated to read from the given address.
+   * To use, invoke connect() first.
+   */
+  
   InternetOutputStream::InternetOutputStream(const InternetAddress& address)
   : _address(address)
   {
@@ -35,6 +48,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Deconstructor.
+   */
+  
   InternetOutputStream::~InternetOutputStream() {
     if(_isOpen) {
       close();
@@ -45,10 +62,21 @@ namespace kfoundation {
   
 // --- METHODS --- //
   
+  /**
+   * Returns the address this stream is assigend to.
+   */
+  
   const InternetAddress& InternetOutputStream::getAddress() const {
     return _address;
   }
   
+  
+  /**
+   * Connects to the given remote address.
+   * Blocks the current thread until the connection is established.
+   *
+   * @throw Throws IOException if the connection could not be established.
+   */
   
   void InternetOutputStream::connect() throw(IOException){
     if(_isOpen) {
@@ -70,10 +98,18 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if the connection is open.
+   */
+  
   bool InternetOutputStream::isOpen() const {
     return _isOpen;
   }
   
+  
+  /**
+   * Get the number of octets written since the connection is established.
+   */
   
   kf_int32_t InternetOutputStream::getNSentOctets() const {
     return _nSent;
