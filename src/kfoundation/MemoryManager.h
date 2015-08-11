@@ -29,6 +29,7 @@ namespace kfoundation {
   
   /**
    * Structure of memory manager's table records.
+   * @headerfile MemoryManager.h <kfoundation/MemoryManager.h>
    */
   
   struct ObjectRecord  {
@@ -51,7 +52,9 @@ namespace kfoundation {
   
   /**
    * Abstract interface to be implemented by all memory managers.
+   *
    * @ingroup memory
+   * @headerfile MemoryManager.h <kfoundation/MemoryManager.h>
    */
   
   class MemoryManager {

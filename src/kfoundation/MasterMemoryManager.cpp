@@ -1,7 +1,8 @@
 /*---[MasterMemoryManager.cpp]---------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: MasterMemoryManager
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::MasterMemoryManager::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.

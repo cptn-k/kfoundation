@@ -1,7 +1,8 @@
 /*---[MasterMemoryManager.h]-----------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: MasterMemoryManager
+ |  Project   : KFoundation
+ |  Declares  : MasterMemoryManager::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -33,6 +34,7 @@ namespace kfoundation {
    * default manager. To access use `getManagerAtIndex(0)`.
    *
    * @ingroup memory
+   * @headerfile MasterMemoryManager.h <kfoundation/MasterMemoryManager.h>
    */
   
   class MasterMemoryManager {

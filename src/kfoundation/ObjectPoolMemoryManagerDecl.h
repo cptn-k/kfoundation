@@ -1,7 +1,8 @@
 /*---[ObjectPoolMemoryManagerDecl.h]---------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: ObjectPoolMemoryManagerDecl<T>
+ |  Project   : KFoundation
+ |  Declares  : ObjectPoolMemoryManager
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -41,6 +42,7 @@ namespace kfoundation {
    * Call get() method to obtain a clean instance to use.
    *
    * @ingroup memory
+   * @headerfile ObjectPoolMemoryManager.h <kfoundation/ObjectPoolMemoryManager.h>
    */
   
   template<typename T>

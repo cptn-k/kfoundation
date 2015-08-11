@@ -1,7 +1,8 @@
 /*---[Path.cpp]------------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: Path
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::Path::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -32,12 +33,22 @@ namespace kfoundation {
   
   using namespace std;
 
-#ifdef KF_UNIX
+  /**
+   * Path separator symbol on the current platform.
+   */
+  
+#if defined(KF_UNIX) || defined(__doxygen__)
   const char Path::PATH_SEPARATOR = '/';
 #else
 #  error "Unsupported platform"
 #endif
   
+  
+  /**
+   * Constructor.
+   *
+   * @param str String containing the desired path. It can be empty.
+   */
   
   Path::Path(const string& str) {
     _str = str;
@@ -45,6 +56,10 @@ namespace kfoundation {
     refresh();
   }
   
+  
+  /**
+   * Deconstructor.
+   */
   
   Path::~Path() {
     // Nothing;
@@ -71,20 +86,38 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if the path has extention. That is, if the last segment of the path
+   * contatins a dot '.'.
+   */
+  
   bool Path::hasExtention() const {
     return _extention != -1;
   }
   
+  
+  /**
+   * Checks if the path is absolute. That is, if it begins with a separator
+   * character.
+   */
   
   bool Path::isAbsolute() const {
     return _isAbsolute;
   }
   
   
+  /**
+   * Returns the number of segments in the path.
+   */
+  
   int Path::getNSegments() const {
     return (int)_segments->getSize();
   }
   
+  
+  /**
+   * Returns the path segment at the given index.
+   */
   
   string Path::getSegement(int index) const {
     int begin = (index == 0)?0:(_segments->at(index - 1) + 1);
@@ -98,6 +131,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the last segment of the path excluding the extension if exists.
+   */
+  
   string Path::getFileName() const {
     int s = _segments->getSize() - 1;
     int begin = (s == 0)?0:(_segments->at(s - 1) + 1);
@@ -110,6 +147,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the extension if exists, otherwise, an empty string.
+   */
+  
   string Path::getExtention() const {
     if(!hasExtention()) {
       return "";
@@ -119,16 +160,28 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the last segment of the path including extention.
+   */
+  
   string Path::getFileNameWithExtension() const {
     return getSegement(getNSegments() - 1);
   }
   
+  
+  /**
+   * Add a segment to the path.
+   */
   
   Ptr<Path> Path::addSegement(const string &s) {
     string str = _str + PATH_SEPARATOR + s;
     return new Path(str);
   }
   
+  
+  /**
+   * Changes the file extensions. Adds one if it does not exist.
+   */
   
   Ptr<Path> Path::changeExtension(const string& ex) {
     if(hasExtention()) {
@@ -141,6 +194,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Removes the extension.
+   */
+  
   Ptr<Path> Path::removeExtension() {
     if(hasExtention()) {
       string str = _str.substr(0, _extention);
@@ -150,6 +207,11 @@ namespace kfoundation {
     return getPtr().AS(Path).retain();
   }
   
+  
+  /**
+   * Returns the parent path of the current path by removing its last segment.
+   * If the path has only one segment or is empty, returns an empty path.
+   */
   
   Ptr<Path> Path::parent() {
     int s = _segments->getSize();
@@ -162,6 +224,10 @@ namespace kfoundation {
     return new Path(str);
   }
   
+  
+  /**
+   * Makes a new directory at the path encoded by this object.
+   */
   
   void Path::makeDir() const {
 #ifdef KF_UNIX
@@ -176,6 +242,11 @@ namespace kfoundation {
 #endif
   }
   
+  
+  /**
+   * Checks if a file or directory pointed by this path object exists.
+   */
+  
   bool Path::exists() const {
 #ifdef KF_UNIX
     return access(_str.c_str(), F_OK) != -1;
@@ -184,6 +255,10 @@ namespace kfoundation {
 #endif
   }
   
+  
+  /**
+   * Deletes the file or directory pointed by this path object.
+   */
   
   void Path::remove() const {
 #ifdef KF_UNIX
@@ -196,6 +271,10 @@ namespace kfoundation {
 #endif
   }
   
+  
+  /**
+   * Returns the string value of this pat.
+   */
   
   const string& Path::getString() const {
     return _str;

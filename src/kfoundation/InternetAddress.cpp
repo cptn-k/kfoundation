@@ -1,7 +1,8 @@
 /*---[InternetAddress.cpp]-------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: InternetAddress
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::InternetAddress::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -32,11 +33,23 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  
+  /**
+   * Constructs and address with value of 0.0.0.0:0
+   */
+  
   InternetAddress::InternetAddress() {
     memset(_ip, 0, sizeof(_ip));
     _port = -1;
   }
   
+  
+  /**
+   * Constructos a new instance with the given IP address and port number.
+   * 
+   * @param ip An array of kf_octet_t of size 4.
+   * @param port A port number.
+   */
   
   InternetAddress::InternetAddress(const kf_octet_t* ip, kf_int32_t port)
   {
@@ -45,11 +58,27 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Constructs a new instance parsing the address from the given string.
+   *
+   * @param str A string in X.Y.Z.T:P format. ':P' part is optional. If not
+   *            present, the port number will be assumed 0.
+   */
+  
   InternetAddress::InternetAddress(const string& str) {
     _port = -1;
     parseString(str);
   }
   
+  
+  /**
+   * Constructs a new instance parsing the address from the given string, 
+   * and assigning port number from the given value.
+   *
+   * @param str A string in X.Y.Z.T:P format. ':P' part is optional. It will be
+   *            ignored even if specified.
+   * @param port A port number.
+   */
   
   InternetAddress::InternetAddress(const string& str, kf_int32_t port)
   {
@@ -57,6 +86,10 @@ namespace kfoundation {
     _port = port;
   }
   
+  
+  /**
+   * Copy constructor.
+   */
   
   InternetAddress::InternetAddress(const InternetAddress& other) {
     _port = other._port;
@@ -97,20 +130,38 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the IP address as an array of kf_octet_t
+   */
+  
   const kf_octet_t* InternetAddress::getIp() const {
     return _ip;
   }
   
+  
+  /**
+   * Returns the port number.
+   */
   
   kf_int32_t InternetAddress::getPort() const {
     return _port;
   }
   
   
+  /**
+   * Creates a new instance changing the port number to the one specified.
+   *
+   * @param port The port number for the new object.
+   */
+  
   InternetAddress InternetAddress::copyWithPort(kf_int32_t port) const {
     return InternetAddress(_ip, port);
   }
   
+  
+  /**
+   * Checks if two instance of this class are equal.
+   */
   
   bool InternetAddress::equals(const InternetAddress& other) const {
     if(_port != other._port) {
@@ -121,6 +172,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the class of this address.
+   */
+  
   InternetAddress::class_t InternetAddress::getClass() const {
     if(_ip[0] >= 1 && _ip[0] <= 126) {
       return A;
@@ -128,11 +183,17 @@ namespace kfoundation {
       return B;
     } else if(_ip[0] >= 192 && _ip[0] <= 223) {
       return C;
+    } else if(_ip[0] >= 224 && _ip[0] <= 239) {
+      return D;
+    } else {
+      return E;
     }
-    
-    return NONE;
   }
   
+  
+  /**
+   * Returns the address used to broad cast to the corresponding subnet.
+   */
   
   InternetAddress InternetAddress::getBroadcastAddress() const {
     InternetAddress mask = getSubnetMask();
@@ -143,6 +204,10 @@ namespace kfoundation {
     return InternetAddress(masked, -1);
   }
   
+  
+  /**
+   * Returns the corresponding subnet mask.
+   */
   
   InternetAddress InternetAddress::getSubnetMask() const {
     switch (getClass()) {

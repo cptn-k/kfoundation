@@ -1,7 +1,8 @@
 /*---[NullPointerException.cpp]--------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: NullPointerException
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::NullPointerException::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.

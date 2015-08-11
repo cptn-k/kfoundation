@@ -1,7 +1,8 @@
 /*---[OutOfMemoryException.h]----------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: OutOfMemoryException
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::OutOfMemoryException::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -25,6 +26,7 @@ namespace kfoundation {
    *
    * @ingroup exceptions
    * @ingroup memory
+   * @headerfile OutOfMemoryException.h <kfoundation/OutOfMemoryException.h>
    */
   
   class OutOfMemoryException : public MemoryException {

@@ -1,7 +1,8 @@
 /*---[NullPointerException.h]----------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: NullPointerException
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::NullPointerException::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -25,6 +26,7 @@ namespace kfoundation {
    *
    * @ingroup memory
    * @ingroup exceptions
+   * @headerfile NullPointerException.h <kfoundation/NullPointerException.h>
    */
   
   class NullPointerException : public InvalidPointerException {

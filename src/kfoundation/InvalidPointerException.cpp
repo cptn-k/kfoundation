@@ -1,7 +1,8 @@
 /*---[InvalidPointerException.cpp]-----------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: InvalidPointerException
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::InvalidPointerException::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.

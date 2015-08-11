@@ -1,7 +1,8 @@
 /*---[RefCountMemoryManager.cpp]-------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: RefCountMemoryManager
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::RefCountMemoryManager::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -37,6 +38,11 @@ namespace kfoundation {
   
 
 // --- (DE)CONSTRUCTORS --- //
+
+  
+  /**
+   * Constructor.
+   */
   
   RefCountMemoryManager::RefCountMemoryManager(MasterMemoryManager* master) {
     pthread_mutexattr_init(&_attribs);
@@ -58,6 +64,10 @@ namespace kfoundation {
     _isClosed = false;
   }
   
+  
+  /**
+   * Deconstructor.
+   */
   
   RefCountMemoryManager::~RefCountMemoryManager() {
     pthread_mutex_destroy(&_mutex);

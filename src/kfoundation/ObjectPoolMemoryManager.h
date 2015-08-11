@@ -1,7 +1,8 @@
-/*---[ObjectPoolMemoryManager.h]-------------------------------m(._.)m--------*\
+/*---[ManagedObject.h]-----------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: ObjectPoolMemoryManagerDecl<T>
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::ObjectPoolMemoryManager
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.

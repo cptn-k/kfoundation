@@ -1,7 +1,8 @@
 /*---[Path.h]--------------------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: Path
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::Path::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -26,6 +27,16 @@ namespace kfoundation {
   
   using namespace std;
 
+  /**
+   * Used to represent and manipulate file and directory pathnames.
+   *
+   * @note For better performance use getString() rather than toString() to 
+   * get the string value of this object.
+   *
+   * @ingroup io
+   * @headerfile Path.h <kfoundation/Path.h>
+   */
+  
   class Path : public ManagedObject, public SerializingStreamer {
   private:
     string _str;

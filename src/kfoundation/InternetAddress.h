@@ -1,7 +1,8 @@
 /*---[InternetAddress.h]---------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: InternetAddress
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::InternetAddress::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -25,12 +26,28 @@ namespace kfoundation {
   
   using namespace std;
   
+  
+  /**
+   * Encodes an IP address and port number. This is an immutable object.
+   *
+   * @ingroup io
+   * @headerfile InternetAddress.h <kfoundation/InternetAddress.h>
+   */
+  
   class InternetAddress : public Streamer {
     
   // --- NESTED TYPES --- //
     
-    enum class_t {
-      A, B, C, NONE
+    /**
+     * Represents IPv4 address classes.
+     */
+    
+    public: enum class_t {
+      A, ///< Class A
+      B, ///< Class B
+      C, ///< Class C
+      D, ///< Class D, reserved for multicast
+      E, ///< Class E, experimental, used for research
     };
 
   // --- STATIC FIELDS --- //

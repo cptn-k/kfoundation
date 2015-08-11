@@ -1,7 +1,8 @@
 /*---[RefCountMemoryManager.h]---------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: RefCountMemoryManager
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::RefCountMemoryManager::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -28,6 +29,7 @@ namespace kfoundation {
    * Reference counting memory manager.
    *
    * @ingroup memory
+   * @headerfile RefCountMemoryManager.h <kfoundation/RefCountMemoryManager.h>
    */
   
   class RefCountMemoryManager

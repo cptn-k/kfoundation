@@ -1,7 +1,8 @@
 /*---[MemoryException.h]---------------------------------------m(._.)m--------*\
  |
- |  Project: KFoundation
- |  Class: MemoryException
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::MemoryException::*
+ |  Implements: -
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -25,6 +26,7 @@ namespace kfoundation {
    *
    * @ingroup memory
    * @ingroup exceptions
+   * @headerfile MemoryException.h <kfoundation/MemoryException.h>
    */
   
   class MemoryException : public KFException {
