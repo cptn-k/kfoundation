@@ -14,6 +14,17 @@
 #include "PtrDecl.h"
 
 namespace kfoundation {
+  
+  
+  /**
+   * Encodes location of a character in a text file. The location is expressed
+   * as line, column. Character index and byte index from the begining of the
+   * file are also available. These two may be different in UTF encoded
+   * files.
+   *
+   * @ingroup io
+   * @ingroup utils
+   */
 
   class CodeLocation : public SerializingStreamer {
   private:
@@ -42,17 +53,37 @@ namespace kfoundation {
     void serialize(PPtr<ObjectSerializer> builder) const;
   };
   
+  
+  /**
+   * Getter, returns line number.
+   */
+  
   inline long int CodeLocation::getLine() const {
     return _line;
   }
+  
+  
+  /**
+   * Getter, returns column number.
+   */
   
   inline long int CodeLocation::getCol() const {
     return _col;
   }
   
+  
+  /**
+   * Getter, return the byte index.
+   */
+  
   inline long int CodeLocation::getByteIndex() const {
     return _byteIndex;
   }
+  
+  
+  /**
+   * Getter, returns the character index.
+   */
   
   inline long int CodeLocation::getCharIndex() const {
     return _charIndex;

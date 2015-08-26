@@ -1,10 +1,18 @@
-//
-//  Thread.cpp
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 3/19/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[Thread.cpp]----------------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::Thread::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 // POSIX
 #include <pthread.h>
@@ -115,6 +123,10 @@ namespace kfoundation {
   
 // --- STATIC METHODS --- //
   
+  /**
+   * Returns the name of the thread that this method is invoked on.
+   */
+  
   string Thread::getNameOfCurrentThread() {
     char name[100];
     pthread_getname_np(pthread_self(), name, 100);
@@ -129,12 +141,25 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Default constructor.
+   * Assigns a default name to this thread as "KFoundation Thread N" where N
+   * is a incremental counter.
+   */
+  
   Thread::Thread() {
     _counter++;
     _implementation = new __k_ThreadImplementation(*this);
     _implementation->setName("KFoundation Thread " + Int::toString(_counter));
   }
   
+  
+  /**
+   * Constructs a named thread.
+   *
+   * @see getName()
+   * @see getNameOfCurrentThread()
+   */
   
   Thread::Thread(const string& name) {
     _counter++;
@@ -143,12 +168,22 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Deconstructor.
+   */
+  
   Thread::~Thread() {
     delete _implementation;
   }
   
   
 // --- METHODS --- //
+  
+  /**
+   * Creates a new thread, invoking the run() method.
+   * This object is retained once the thread is started and released once it is
+   * ended.
+   */
   
   void Thread::start() {
     if(isRunning()) {
@@ -161,18 +196,42 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if this thread is running.
+   * A thead is in running state after the start() method is called, and before
+   * run() method ends.
+   */
+  
   bool Thread::isRunning() const {
     return _implementation->isRunning();
   }
   
+  
+  /**
+   * Returns the name of this thread.
+   */
   
   const string& Thread::getName() const {
     return _implementation->getName();
   }
   
   
+  /**
+   * Returns true if this method is invoked on the thread represented by this
+   * object. If invoked from another thread, returns false.
+   */
+  
   bool Thread::isTheCurrentThread() const {
     return _implementation->isTheCurrentThread();
   }
+  
+  
+  /**
+   * @fn kfoundation::Thread::run()
+   *
+   * The implementation of this method will be called once a new thread is 
+   * started. When this method exits, the thread is considered to be ended, 
+   * and it will be destroyed.
+   */
   
 } // kfoundation

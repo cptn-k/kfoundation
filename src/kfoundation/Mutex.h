@@ -1,19 +1,55 @@
-//
-//  Mutex.h
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 3/19/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[Mutex.h]-------------------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::Mutex::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__Mutex__
 #define __KFoundation__Mutex__
+
+/**
+ * This mimics the `synchronized` block in Java. For example, with `m` being
+ * a Mutex,
+ *
+ *     KF_SYNCHRONIZED(m,
+ *         // Critical region
+ *     )
+ *.
+ *
+ * The following syntax is also valid. Use of curly braces and semicolon is 
+ * optional.
+ *
+ *     KF_SYNCHRONIZED(m, {
+ *         // Critical region
+ *     });
+ *.
+ *
+ * @ingroup defs
+ * @ingroup thread
+ */
 
 #define KF_SYNCHRONIZED(X, Y) {X .lock();\
 {Y}\
 X .unlock();} KF_NOP
 
 namespace kfoundation {
+  
+  /**
+   * Mutex, used to prevent multiple threads to enter a critical region.
+   *
+   * @ingroup thread
+   * @headerfile Mutex.h <kfoundation/Mutex.h>
+   */
   
   class Mutex {
   
@@ -47,10 +83,18 @@ namespace kfoundation {
   
 // --- INLINE METHODS --- //
   
+  /**
+   * Locks the mutex.
+   */
+  
   inline void Mutex::lock() {
     _implementation->lock();
   }
   
+  
+  /**
+   * Unlocks the mutex.
+   */
   
   inline void Mutex::unlock() {
     _implementation->unlock();

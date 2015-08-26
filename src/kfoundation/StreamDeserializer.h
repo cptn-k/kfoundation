@@ -16,6 +16,15 @@ namespace kfoundation {
   class ObjectToken;
   class InputStream;
   
+  
+  /**
+   * Interface to be implemented by any class that can be deserialized from
+   * stream.
+   *
+   * @ingroup io
+   * @headefile StreamDeserializer.h <kfoundation/StreamDeserializer.h>
+   */
+  
   class StreamDeserializer {
     public: virtual void deserialize(PPtr<ObjectToken> headToken) = 0;
     public: void readFromXmlStream(PPtr<InputStream> stream);

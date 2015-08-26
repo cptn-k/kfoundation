@@ -12,13 +12,6 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
-/**
- *
- * @file 
- * Defines the interface of `kfoundation::Streamer` class
- *
- */
-
 #ifndef ORG_KNORBA_COMMON_STRINGSTREAMER
 #define ORG_KNORBA_COMMON_STRINGSTREAMER
 
@@ -37,20 +30,20 @@ namespace kfoundation {
    * function which internally invokes `printToStream(ostream&)` feeding it with
    * `std::stringstream`.
    *
-   * @see operator<<(ostream&, Streamer&)
+   * @see operator<<(ostream&, const Streamer&)
+   * @see operator+(const string&, const Streamer&)
+   * @see operator+(const Streamer&, const string&)
+   * @ingroup io
+   * @headerfile Streamer.h <kfoundation/Streamer.h>
    */
+  
   class Streamer {
     
    /**
-    * Prints information related to the implementing class into the given
-    * output stream.
+    * Implements compatibility with Streamer interface.
     */
+    
     public: virtual void printToStream(ostream& stream) const = 0;
-
-   /**
-    * Converts the result of invocation of `printToStream(ostream&)` to a
-    * `std::string` object. 
-    */
     public: virtual string toString() const;
   };
 
@@ -65,10 +58,18 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Concatanation support between a string and a Streamer.
+   */
+  
   inline string operator+(const string& lhs, const Streamer& rhs) {
     return lhs + rhs.toString();
   }
 
+  
+  /**
+   * Concatenation support between a streamer and a string.
+   */
   
   inline string operator+(const Streamer& lhs, const string& rhs) {
     return lhs.toString().append(rhs);

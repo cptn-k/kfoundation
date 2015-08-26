@@ -1,0 +1,189 @@
+/** @defgroup defs Macros and Typedefs */
+/** @defgroup exceptions Exceptions */
+/** @defgroup memory Memory Management */
+/** @defgroup io Input/Output */
+/** @defgroup thread Mutithreading */
+/** @defgroup containers Wrappers and Containers */
+/** @defgroup utils Utilities */
+/** @defgroup serialization Object Serialization and Deserialization */
+/** @defgroup range Range Arithmatics */
+
+/**
+ * @mainpage Overview
+ *
+ * KFoundation is a collection of C++ APIs that are essential to every
+ * programmer. Some of them like Logger have been missing in C++ standard
+ * libraries, and some of the like managed pointers (Ptr) replace existing C++
+ * standard APIs like auto_ptr, etc. with better fucntionality.
+ *
+ * Most classes in KFoundation implement kfoundation::Streamer interface.
+ * This interface provides a toString() funtion and also overloads << operator
+ * for both ostream and logger stream. For example, if myObject is a Streamer,
+ * you can do the following:
+ *
+ *     cout << myObject << endl;
+ *     LOG << myObject << EL;
+ *     string str = myObject.toString();
+ *
+ * The KFoundation APIs can be divided into the following categories (modules):
+ *
+ * * Types and Macros
+ * * Memory Management
+ * * Wrappers and Containers
+ * * I/O
+ * * Object Serialization and Deserialization
+ * * Utilities
+ * * Range Arithmatics
+ * * Exceptions
+ *
+ *
+ * The following breifly explains the most essential APIs in each module.
+ *
+ * Types and Macros
+ * ================
+ *
+ * KFoundation defines a set of portable types. These are, kf_octet_t,
+ * kf_int8_t, kf_int16_t, kf_int32_t, and kf_int64_t.
+ *
+ * There are a serries of macros helping to detect the operating system.
+ * Thesre are, KF_LINUX, KF_MAC, KF_MACH, KF_SOLARIS, and KF_FREE_BSD. If
+ * the target machine or operating system is supported by KFoundation,
+ * KF_SUPPORTED will be defined.
+ *
+ * Use IS_NULL(X) and NOT_NULL(X) macros to make your code more readable. There
+ * are other macros like ISA(X), and AS(X) that are related to memory
+ * management module.
+ *
+ * @ref defs "See all APIs here."
+ *
+ *
+ * Memory Management
+ * =================
+ *
+ * KFoundation provides an automatic memory management solution with several
+ * advantages. Every and only subclasses of ManagedObject can take advantage of
+ * this feature. Thus ManagedObject is the root class in KFoundation inheritance
+ * hierarchy. To create a pointer to a managed object use Ptr<T>, PPtr<T>, or
+ * SPtr<T> instead a standard one. See documentation for
+ * kfoundation::Ptr for more details.
+ *
+ * KFoundation memory management protects you from getting segmentation fault,
+ * and instread throws NullPointerException or InvalidPointerException as
+ * appropriate with complete stack trace that helps you debug your program or
+ * just keep it running without a crash.
+ *
+ * If ever needed, you may interact with running memory managers by invoking
+ * @ref kfoundation::System::getMasterMemoryManager() "System::getMasterMemoryManager()".
+ * You may create and register
+ * your own managers as well. A memory manager should be a subclass of
+ * @ref kfoundation::MemoryManager "MemoryManager".
+ *
+ * @ref memory "See all APIs here."
+ *
+ *
+ * Wrappers and Containers
+ * =======================
+ *
+ * Languages like Java offer type-wrapper classes corresponding to primitive
+ * types.
+ * Thesre are good when you need to use a variable of primitive type like an
+ * object. KFoundation offers Bool, Int, LongInt, Double, and UniChar for the
+ * same purpose. Specially UniChar contains a set of very useful functions to
+ * deal with Unicode and UTF-8 encoding.
+ *
+ * At the moment, there are only two container classes, namely Array<T> and
+ * ManagedArray<T>. ManagedArray<T> is a container for ManagedObjects, and
+ * Array<T> is a container for everything else. However Array<T> is a
+ * ManagedObject itself. NummericVector<T> is a subclass of Array<T> that
+ * implements primary mathematical operations and implements Streamer interface
+ * i.e. it has a toString() method.
+ *
+ * @ref containers "See all APIs here."
+ *
+ *
+ * I/O
+ * ===
+ *
+ * KFoundation offers InputStream and OutputStream classes that are minimalist
+ * equivalant of ostream and istream. Thanks to their minimalist design, an
+ * extensive set of stream types could by provided by KFoundation. Thesre are,
+ * BufferInputStream, BufferOutputStream, FileInputStream, FileOutputStream,
+ * InternetInputStream, InternetOutputStream, and StringInputStream. If you
+ * need to use a standard istream or ostream object withing KFoundation
+ * StandardInputStreamAdapter and StandardOutputStreamAdapter are provided
+ * for that purpose.
+ *
+ * @ref io "See all APIs here."
+ *
+ *
+ * Object Serialization and Deserialization
+ * ========================================
+ *
+ * KFoundation offers a powerful and intuitive way for objects to implement
+ * serialization
+ * and deserialization capabilities. Objects that can be serialized are needed
+ * to implement SerializingStreamer interface. And those that can be
+ * deserialized should implement StreamDeserializer interface. When implemented,
+ * these interfaces allow those object to be serialized/deserialized to and from
+ * every format that is supported by KFoundation, including XML, JSON, and KFOR.
+ *
+ * To learn more about serialization read documentation for
+ * @ref kfoundation::ObjectSerializer "ObjectSerializer".
+ * And for deserialization check the documentation for
+ * @ref kfoundation::Token "Token"
+ * class.
+ *
+ * @ref serialization "See all APIs here."
+ *
+ *
+ * Utilites
+ * ========
+ *
+ * * @ref kfoundation::Logger "Logger"
+ *   is a multi-channel multi-level logging utility. You often use
+ *   it indirectly via LOG, LOG_XXX, and DLOG_XXX macros.
+ * * @ref kfoundation::System "System"
+ *   class provides a set of cross-platform APIs to access system features.
+ * * @ref kfoundation::Timer "Timer"
+ *   is used to measure performance of a code fragment.
+ * * @ref kfoundation::PredictiveParserBase "PredictiveParserBase"
+ *   is a utility to write parsers. It is used internally to implement obejct
+ *   deserialization in KFoundation.
+ *
+ * @ref utils "See all APIs here."
+ *
+ *
+ * Range Arithmatics
+ * =================
+ *
+ * If you usually work with multidimensional arrays and stencil copmutation,
+ * and specially if you do
+ * so in a distributed envrionment, these classes make your life much easier.
+ *
+ * @ref kfoundation::Tuple "Tuple"
+ * represents an element in n-dimentional array. It implements a large
+ * range of mathematical operations.
+ * @ref kfoundation::Range "Range" is a range of indexes. This class
+ * can divide your range into desired pieces, analyse borders, detect
+ * overlapping and adjecent ranges and so on.
+ *
+ * @ref kfoundation::RangeIterator "RangeIterator" is an exciting feature that
+ * summarizes all your `for` loops into one small one, and is suplemented by
+ * @ref kfoundation::ProximityIterator "ProximityIterator" to make stensil
+ * computation with C++ as easy as it had never been.
+ *
+ * @ref range "See all APIs here."
+ *
+ *
+ * Exceptions
+ * ==========
+ *
+ * KFoundation exceptions provide serializable (also printable) stack trace.
+ * The root class for all exceptions is KFException. You may define your own
+ * exception. Remember to always call setName() method once in constructor if
+ * you do so.
+ *
+ * @ref exceptions "See all APIs here."
+ *
+ */
+

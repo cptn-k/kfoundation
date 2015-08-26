@@ -16,6 +16,16 @@
 
 namespace kfoundation {
   
+  /**
+   * Thrown when a parsing error happens. Stores a string message and a
+   * CodeLocation or CodeRange if needed.
+   *
+   * @ingroup io
+   * @ingroup utils
+   * @ingroup exceptions
+   * @headerfile ParseException.h <kfoundation/ParseException.h>
+   */
+  
   class ParseException : public KFException {
   private:
     CodeLocation _begin;

@@ -10,6 +10,13 @@ using namespace std;
 
 namespace kfoundation {
   
+  /**
+   * Wrapper class for `bool` type.
+   *
+   * @ingroup containers
+   * @headerfile Bool.h <kfoundation/Bool.h>
+   */
+  
   class Bool : public ManagedObject, public Streamer {
   private:
     bool _value;
@@ -17,9 +24,9 @@ namespace kfoundation {
   public:
     Bool(bool value);
     inline bool get() const;
-    inline void set(const bool& value);
+    inline void set(const bool value);
     
-    static string toString(bool value);
+    static string toString(const bool value);
     
     // From Streamer
     void printToStream(ostream& os) const;

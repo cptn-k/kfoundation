@@ -1,10 +1,18 @@
-//
-//  Runnable.h
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 3/19/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[Thread.h]------------------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::Thread::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__Runnable__
 #define __KFoundation__Runnable__
@@ -15,6 +23,15 @@
 namespace kfoundation {
   
   class KFException;
+  
+  
+  /**
+   * An object-oriented, cross-platform abstraction for thread. 
+   * To use, implement the run() method and call start().
+   *
+   * @ingroup thread
+   * @headerfile Thread.h <kfoundation/Thread.h>
+   */
   
   class Thread : public ManagedObject {
 

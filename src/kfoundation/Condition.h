@@ -1,15 +1,30 @@
-//
-//  Condition.h
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 3/19/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[Condition.h]---------------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::Condition::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef __KFoundation__Condition__
 #define __KFoundation__Condition__
 
 namespace kfoundation {
+  
+  /**
+   * Condition variable, used to control a thread from another.
+   *
+   * @ingroup thread
+   * @headerfile Condition.h <kfoundation/Condition.h>
+   */
   
   class Condition {
   
@@ -38,7 +53,7 @@ namespace kfoundation {
     
   // --- METHODS --- //
     
-    public: inline void block(kf_int64_t timeout);
+    public: inline void block(const kf_int64_t timeout);
     public: inline void block();
     public: inline void release();
     public: inline void releaseAll();
@@ -49,25 +64,52 @@ namespace kfoundation {
   
 // --- INLINE METHODS --- //
   
-  inline void Condition::block(kf_int64_t timeout) {
+  /**
+   * Blocks this thread until the release() is called by another thread, or
+   * the given timeout is reached. If it is meant to be block for a given 
+   * period of time `dt`, use the following pattern:
+   *
+   *     condition.block(System::getCurrentTimeInMiliseconds() + dt);
+   *
+   * @param timeout Target absolute time measured in miliseconds.
+   */
+  
+  inline void Condition::block(const kf_int64_t timeout) {
     _implementation->block(timeout);
   }
   
+  
+  /**
+   * Blocks this thread unless release() is called by another thread.
+   */
   
   inline void Condition::block() {
     _implementation->block();
   }
   
   
+  /**
+   * Releases the thread blocked by this condition variable. If multiple threads
+   * are blocked, one of them will be released.
+   */
+  
   inline void Condition::release() {
     _implementation->release();
   }
   
   
+  /**
+   * Releases all threads blocked by this condition.
+   */
+  
   inline void Condition::releaseAll() {
     _implementation->releaseAll();
   }
   
+  
+  /**
+   * Checks if this condition variable is currently blocking any thread.
+   */
   
   inline bool Condition::isBlocked() const {
     return _implementation->isBlocked();

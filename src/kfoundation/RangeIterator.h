@@ -19,6 +19,24 @@ namespace kfoundation {
   
   class Range;
   
+  
+  /**
+   * Used to iterate over all points in a given range. The begining of the 
+   * range is inclusive and the end of it is exclusive.
+   * Usage:
+   *
+   *     Range r(Tupel2D(10, 10), Tuple2D(20, 30));
+   *     for(RangeIterator(r); r.hasMore(); r.next()) {
+   *         Tuple point = r;
+   *         ... do somethinf with r ...
+   *     }
+   *.
+   *
+   * @ingroup range
+   * @headerfile RangeIterator.h <kfoundation/RangeIterator.h>
+   */
+   
+  
   class RangeIterator : public Tuple {
     
   // --- FIELDS --- //
@@ -44,6 +62,10 @@ namespace kfoundation {
     
   };
   
+  
+  /**
+   * Checks if there are more points to iterator.
+   */
   
   inline bool RangeIterator::hasMore() const {
     return _hasMore;

@@ -76,22 +76,103 @@ namespace kfoundation {
 
   using namespace std;
   
+  
+  /**
+   * Flagges that can be passed to logger via << operator.
+   */
+  
   typedef enum {
-    EL,
-    EL_CON
+    EL,     ///< End log. Shoud be at the end of each logged message.
+    EL_CON  ///< End log and print to console.
   } logger_flag_t;
 
+  
+  /**
+   * Multi-channel, muti-level logger utility. Normally, you want to use the
+   * default logger already provided via System::getLogger(). LOG and LOG_XXX
+   * macros expand to the default logger. So,
+   *
+   *     LOG << "Hello" << EL;
+   *
+   * is equivalant to
+   *
+   *     System::getLogger().log(Logger::L3) << "Hello" << EL;
+   *
+   * Calling log() method starts a log stream. The stream should end with EL 
+   * in order to be flushed into the designated channels. Inbetween, any
+   * of the following types can be used:
+   *
+   * * string
+   * * char*
+   * * wchar_t*
+   * * bool
+   * * char
+   * * int
+   * * long int
+   * * long long int
+   * * float
+   * * double
+   * * long double
+   * * Streamer and any of its subclasses.
+   *
+   * The default logger has one channel that outputs to standard error console.
+   * However it is possible add and remove channels manually via
+   * removeAllChannels() and addChannel() methods.
+   *
+   * Log level determines the importance of the message being logged.
+   * Ordered by importance from lowest to highest, these levels are 
+   *
+   * * L3
+   * * L2
+   * * L1
+   * * WRN
+   * * ERR
+   *
+   * A channel will filter any message with a level lower than
+   * its designated level. For example a channel designated with WRN level,
+   * will pass WRN and ERR but filters L3, L2, and L1.
+   *
+   * It is possible to reduce the amount of output produced by logger
+   * by setting its level or using mute() method or
+   * Logger::Channel::setSilent().
+   *
+   * Another way that helps the performance of your released program is to use 
+   * DLOG_XXX macros. Usage:
+   *
+   *     DLOG_L3("myCounter: " << myCounter);
+   *
+   * And to disable logging define DLOG_L3 as nothing in the begining of your
+   * file. For example:
+   *
+   *     #ifndef DEBUG
+   *     #undef DLOG_L3
+   *     #define DLOG_L3
+   *     #endif
+   *
+   * This will remove the log part all together from your compiled code.
+   *
+   * To customize the header preceeding each log, use Channel::setFormat()
+   * method.
+   *
+   * @ingroup utils
+   * @headerfile Logger.h <kfoundation/Logger.h>
+   */
+   
 
   class Logger {
 
     // --- NESTED DATA TYPES --- //
     
+    /**
+     * Log level.
+     */
+    
     public: typedef enum {
-      ERR = 0, /**< Error severity level    */
-      WRN = 1, /**< Warning severity level  */
-      L1  = 2, /**< Severity lower than WRN but higher than L2 */
-      L2  = 3, /**< Severity lower than L1 but higher than L3  */
-      L3  = 4, /**< The lowest severity level */
+      ERR = 0, ///< Error severity level
+      WRN = 1, ///< Warning severity level
+      L1  = 2, ///< Severity lower than WRN but higher than L2
+      L2  = 3, ///< Severity lower than L1 but higher than L3
+      L3  = 4, ///< The lowest severity level
     } level_t;
     
     
@@ -102,6 +183,11 @@ namespace kfoundation {
       level_t level;
     };
     
+    
+    /**
+     * Logger channel.
+     * @headerfile Logger.h <kfoundation/Logger.h>
+     */
 
     class Channel {
       
@@ -142,6 +228,12 @@ namespace kfoundation {
       
     }; // class Channel
 
+    
+    /**
+     * Log stream. Created when logger::log() method is called and distroyed
+     * once EL is passed to it.
+     * @headerfile Logger.h <kfoundation/Logger.h>
+     */
 
     class Stream {
       

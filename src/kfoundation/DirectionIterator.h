@@ -15,6 +15,20 @@
 
 namespace kfoundation {
   
+  /**
+   * Used to iterate all possible directions in an space of given dimensions.
+   * Usage:
+   *
+   *     for(DirectionIterator di(3); di.hasMore(); di.next()) {
+   *         Direction d = di;
+   *         ... do something with d ...
+   *     }
+   *.
+   *
+   * @ingroup range
+   * @headerfile DirectionIterator.h <kfoundation/DirectionIterator.h>
+   */
+  
   class DirectionIterator : public Direction {
     
   // --- FIELDS --- //
@@ -35,6 +49,10 @@ namespace kfoundation {
     
   };
   
+  
+  /**
+   * Checks if there is more items to iterate.
+   */
   
   inline bool DirectionIterator::hasMore() const {
     return _hasMore;

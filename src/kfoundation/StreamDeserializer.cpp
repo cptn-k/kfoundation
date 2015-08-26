@@ -15,6 +15,17 @@
 
 namespace kfoundation {
   
+  /**
+   * @fn kfoundation::StreamDeserializer::deserialize()
+   * Implements object deserialization capability.
+   */
+  
+  
+  /**
+   * Sets this object deserializing the given XML stream.
+   * @param stream The XML stream to read the object from.
+   */
+  
   void StreamDeserializer::readFromXmlStream(PPtr<InputStream> stream) {
     Ptr<XmlObjectStreamReader> reader = new XmlObjectStreamReader(stream);
     Ptr<Token> headToken = reader->next();

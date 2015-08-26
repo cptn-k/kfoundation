@@ -18,6 +18,14 @@ namespace kfoundation {
   
   class RangeIterator;
   
+  /**
+   * Represents a range in n-dimensional space. A range has a begining and
+   * and end, each represented by a tuple of the same dimensions.
+   *
+   * @ingroup range
+   * @headerfile Range.h <kfoundation/Range.h>
+   */
+  
   class Range : public Streamer {
     
   // --- PRIVATE FIELDS --- //

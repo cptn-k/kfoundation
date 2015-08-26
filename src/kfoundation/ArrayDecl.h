@@ -1,10 +1,18 @@
-//
-//  ArrayDecl.h
-//  KFoundation-XCode-Wrapper
-//
-//  Created by Hamed KHANDAN on 8/13/14.
-//  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
-//
+/*---[ArrayDecl.h]---------------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::Array::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef KFOUNDATION_ARRAY_DECL
 #define KFOUNDATION_ARRAY_DECL
@@ -18,6 +26,17 @@ namespace kfoundation {
 
   using namespace std;
   
+  
+  /**
+   * A resizable, one-dimensional indexed container. This class is not designed
+   * to contain
+   * managed objects. For managed objects, use ManagedArray.
+   *
+   * @ingroup containers
+   * @see ManagedArray
+   * @headerfile Array.h <kfoundation/Array.h>
+   */
+  
   template<typename T>
   class Array : public ManagedObject {
     
@@ -29,7 +48,8 @@ namespace kfoundation {
     
   // --- STATIC FIELDS --- //
     
-  public: static const kf_int32_t NOT_FOUND;
+    public: static const kf_int32_t NOT_FOUND;
+    
     
   // --- FIELDS --- //
     
@@ -46,6 +66,7 @@ namespace kfoundation {
     
     
   // --- METHODS --- //
+    
     private: void grow(kf_int32_t newCapacity);
     public:  void remove(const kf_int32_t index);
     public:  void push(const T& value);

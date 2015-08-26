@@ -23,14 +23,26 @@ namespace kfoundation {
   
   using namespace std;
   
+  
+  /**
+   * Represents directions in n-dimensional space. n can be between 0 to 4.
+   *
+   * @ingroup range
+   * @headerfile Direction.h <kfoundation/Direction.h>
+   */
+  
   class Direction : public Streamer {
     
   // --- NESTED TYPES --- //
     
+    /**
+     * Directions alongside a line.
+     */
+    
     public: typedef enum {
-      BACK    = -1,
-      NEUTRAL = 0,
-      FORTH   = 1
+      BACK    = -1, ///< Backward
+      NEUTRAL = 0,  ///< Netural
+      FORTH   = 1   ///< Forward
     } component_t;
     
     
@@ -64,16 +76,30 @@ namespace kfoundation {
 // --- INLINE METHODS --- //
   
   
+  /**
+   * Returns the number of elements.
+   */
+  
   inline kf_int8_t Direction::getSize() const {
     return _size;
   }
   
+  
+  /**
+   * Setter, sets the element at the given index to the given value.
+   *
+   * @return Reference to self.
+   */
   
   inline Direction& Direction::set(kf_int8_t index, const component_t value) {
     _components[index] = (kf_int8_t)value;
     return *this;
   }
   
+  
+  /**
+   * Returns the value of element at the given index.
+   */
   
   inline Direction::component_t Direction::get(kf_int8_t index) const {
     return (component_t)_components[index];

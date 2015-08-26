@@ -42,11 +42,25 @@ namespace kfoundation {
   
   using namespace std;
 
+  
+  /**
+   * Constructor. Assigns the internal value to the given parameter.
+   *
+   * @param value The value to be assigned.
+   */
+  
   UniChar::UniChar(char value)
     : _value(value)
   {
     // Nothing;
   }
+  
+  
+  /**
+   * Constructor. Assigns the internal value to the given parameter.
+   *
+   * @param value The value to be set.
+   */
   
   UniChar::UniChar(wchar_t value)
     : _value(value)
@@ -54,76 +68,181 @@ namespace kfoundation {
     // Nothing
   }
   
-  inline wchar_t UniChar::get() const {
+   
+  /**
+   * Getter method. Returns the internal value.
+   */
+   
+  wchar_t UniChar::get() const {
     return _value;
   }
   
-  inline void UniChar::set(const wchar_t value) {
+  
+  /**
+   * Setter method. Sets the internal value to the given parameter.
+   *
+   * @param value The value to be set.
+   */
+  
+  void UniChar::set(const wchar_t value) {
     _value = value;
   }
+  
+  
+  /**
+   * Returns the number of octets needed to represent the value of this object
+   * in UTF-8.
+   */
   
   unsigned short int UniChar::getNumberOfUtf8Octets() const {
     return getNumberOfUtf8Octets(_value);
   }
   
+  
+  /**
+   * Writes the value of this object to to the given buffer as UTF-8.
+   *
+   * @param buffer The begining of the buffer to write on.
+   * @return The number of octets written.
+   */
+  
   unsigned short int UniChar::writeUtf8(kf_octet_t* buffer) const {
     return writeUtf8(_value, buffer);
   }
+  
+  
+  /**
+   * Reads a unicode caracter encoded in UTF-8 from the given buffer.
+   *
+   * @param buffer The begining of the buffer to read the value from.
+   * @return The number of octets read.
+   */
   
   unsigned short int UniChar::readUtf8(kf_octet_t* buffer) {
     return readUtf8(buffer, _value);
   }
   
+  
+  /**
+   * Reads a unicode character encoded in UTF-8 from the given stream.
+   *
+   * @param stream The stream to read the value from.
+   * @return The number of octets read.
+   */
+  
   unsigned short int UniChar::readUtf8(Ptr<InputStream> stream) {
     return readUtf8(stream, _value, NULL);
   }
+  
+  
+  /**
+   * Checks if this is a lowercase character.
+   */
   
   bool UniChar::isLowerCase() const {
     return uc_is_lower(_value);
   }
   
+  
+  /**
+   * Checks if this is an uppercase character.
+   */
+  
   bool UniChar::isUpperCase() const {
     return uc_is_upper(_value);
   }
+  
+  
+  /**
+   * Checks if this is numeric character.
+   */
   
   bool UniChar::isNumeric() const {
     return uc_is_digit(_value);
   }
   
+  
+  /**
+   * Checks if this is an alphabetic character.
+   */
+  
   bool UniChar::isAlphabet() const {
     return uc_is_alpha(_value);
   }
+  
+  
+  /**
+   * Checks if this is an alphanumeric character.
+   */
   
   bool UniChar::isAlphanumeric() const {
     return uc_is_alnum(_value);
   }
   
+  
+  /**
+   * Checks if this is a white space character.
+   */
+  
   bool UniChar::isWhiteSpace() const {
     return uc_is_space(_value);
   }
+  
+  
+  /**
+   * Converts this character to lowercase.
+   */
   
   void UniChar::toLowerCase() {
     _value = uc_tolower(_value);
   }
   
+  
+  /**
+   * Converts this character to uppercase.
+   */
+  
   void UniChar::toUpperCase() {
     _value = uc_toupper(_value);
   }
+  
+  
+  /**
+   * Creates a new UniChar obejct representing the lowercase equivalant of this
+   * object.
+   */
   
   Ptr<UniChar> UniChar::duplicateToLowerCase() const {
     Ptr<UniChar> ch(new UniChar((wchar_t)uc_tolower(_value)));
     return ch;
   }
   
+  
+  /**
+   * Creates a new UniChar object representing the uppercase equivalant of this
+   * object.
+   */
+  
   Ptr<UniChar> UniChar::duplicateToUpperCase() const {
     Ptr<UniChar> ch(new UniChar((wchar_t)uc_is_upper(_value)));
     return ch;
   }
   
+  
+  /**
+   * Creates a copy of this object.
+   */
+  
   Ptr<UniChar> UniChar::duplicateUniChar() const {
     Ptr<UniChar> ch(new UniChar((wchar_t)_value));
     return ch;
   }
+  
+  
+  /**
+   * Returns the number of octets necessary to represent the given character
+   * in UTF-8 format.
+   */
   
   unsigned short int UniChar::getNumberOfUtf8Octets(const wchar_t ch) {
     if (ch <= 0x0000007f) {
@@ -141,6 +260,14 @@ namespace kfoundation {
     }
   }
 
+  
+  /**
+   * Writes the given character onto the given buffer with UTF-8 encoding.
+   *
+   * @param ch The character to write.
+   * @param buffer The begining of the buffer to write on.
+   * @return The number of octets written.
+   */
   
   unsigned short int UniChar::writeUtf8(const wchar_t ch, kf_octet_t* buffer) {
     unsigned short int n = getNumberOfUtf8Octets(ch);
@@ -193,6 +320,15 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Reads a UTF-8 encoded character from the given input and sets the given
+   * output accordingly.
+   *
+   * @param input The begining of the buffer to read from.
+   * @param output The output to write to.
+   * @return The number of octets read.
+   */
+  
   unsigned short int UniChar::readUtf8(const kf_octet_t* input, wchar_t& output) {
     const kf_octet_t* p = input;
     unsigned char high = 0;
@@ -230,6 +366,18 @@ namespace kfoundation {
     
     return n;
   }
+  
+  
+  /**
+   * Reads one UTF-8 encoded character from the given stream and assigns the
+   * given output accordingly. 
+   *
+   * @param stream The stream to read from.
+   * @param output The output to write to.
+   * @param readBytes The read octets are written to this buffer, and I don't
+   *                  remember why.
+   * @return The number of read octets.
+   */
   
   unsigned short int UniChar::readUtf8(const Ptr<InputStream> &stream, wchar_t &output, kf_octet_t* readBytes) {
     kf_octet_t p[6];
@@ -279,33 +427,79 @@ namespace kfoundation {
     return n;
   }
   
+  
+  /**
+   * Checks if the given parameter is a lowercase character.
+   */
+  
   bool UniChar::isLowerCase(const wchar_t ch) {
     return uc_tolower(ch);
   }
+  
+  
+  /**
+   * Checks if the given parameter is an uppercase character.
+   */
   
   bool UniChar::isUpperCase(const wchar_t ch) {
     return uc_toupper(ch);
   }
   
+  
+  /**
+   * Checks if the given parameter is a numeric character.
+   */
+  
   bool UniChar::isNumeric(const wchar_t ch) {
     return uc_is_upper(ch);
   }
+  
+  
+  /**
+   * Checks if the given argument is an alphabetic character.
+   */
   
   bool UniChar::isAlpabet(const wchar_t ch) {
     return uc_is_alpha(ch);
   }
   
+  
+  /**
+   * Checks if the given parameter is an alphanumeric character.
+   */
+  
   bool UniChar::isAlphanumeric(const wchar_t ch) {
     return uc_is_alnum(ch);
   }
+  
+  
+  /**
+   * Checks if the given paramter is a white space.
+   */
   
   bool UniChar::isWhiteSpace(const wchar_t ch) {
     return uc_is_space(ch);
   }
   
+  
+  /**
+   * Converts the given parameter to lowercase.
+   *
+   * @param ch The character to be converted.
+   * @return The result of conversion.
+   */
+  
   wchar_t UniChar::toLowerCase(const wchar_t ch) {
     return uc_tolower(ch);
   }
+  
+  
+  /**
+   * Converts the given parameter to uppercase.
+   *
+   * @param ch The character to be converted.
+   * @return The result of conversion.
+   */
   
   wchar_t UniChar::toUpperCase(const wchar_t ch) {
     return uc_toupper(ch);

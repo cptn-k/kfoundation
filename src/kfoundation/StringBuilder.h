@@ -12,13 +12,6 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
-/**
- *
- * @file
- * Implements the `org::knorba::cxxprecompiler::TextTransformation` class.
- *
- */
-
 #ifndef ORG_KNORBA_CXXPREPROCESSOR_SOURCETRANSFORMATION_H
 #define ORG_KNORBA_CXXPREPROCESSOR_SOURCETRANSFORMATION_H
 

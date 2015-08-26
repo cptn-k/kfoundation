@@ -1,10 +1,18 @@
-//
-//  Condition.cpp
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 3/19/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[Condition.cpp]-------------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::Condition::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 // POSIX
 #include <sys/time.h>
@@ -42,7 +50,7 @@ namespace kfoundation {
     private: pthread_mutexattr_t _mAttr;
     private: pthread_condattr_t _attr;
     private: pthread_cond_t _cond;
-    private: bool _isBlocked;
+    private: int _isBlocked;
     
     
   // --- (DE)CONSTRUCTORS --- //
@@ -77,7 +85,7 @@ namespace kfoundation {
     }
     pthread_cond_init(&_cond, &_attr);
     
-    _isBlocked = false;
+    _isBlocked = 0;
   }
   
   
@@ -96,20 +104,20 @@ namespace kfoundation {
     ts.tv_sec = timeout/1000;
     ts.tv_nsec = (timeout%1000)*1000000;
     
-    _isBlocked = true;
+    _isBlocked++;
     pthread_mutex_lock(&_m);
     pthread_cond_timedwait(&_cond, &_m, &ts);
     pthread_mutex_unlock(&_m);
-    _isBlocked = false;
+    _isBlocked--;
   }
   
   
   void __k_ConditionImplementation::block() {
-    _isBlocked = true;
+    _isBlocked++;
     pthread_mutex_lock(&_m);
     pthread_cond_wait(&_cond, &_m);
     pthread_mutex_unlock(&_m);
-    _isBlocked = false;
+    _isBlocked--;
   }
   
   
@@ -128,7 +136,7 @@ namespace kfoundation {
   
   
   bool __k_ConditionImplementation::isBlocked() const {
-    return _isBlocked;
+    return _isBlocked == 0;
   }
   
   

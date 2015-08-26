@@ -12,13 +12,6 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
-/**
- *
- * @file
- * Implements the `org::knorba::cxxprecompiler::TextTransformation` class.
- *
- */
-
 #include "Ptr.h"
 #include "UniChar.h"
 #include "StringBuilder.h"

@@ -16,6 +16,26 @@
 
 namespace kfoundation {
   
+  
+  /**
+   * Packs ample of basic functionalities to implement any predictive parser.
+   * It can be directly instantiated, or be extended to implement a parser for
+   * the desired grammar. Protected methods 
+   * `isValidIdentifierBeginChar()`,
+   * `isValidIdentifierChar()`, and
+   * `isSpace()` can be overriden if needed.
+   *
+   * There are two set of methods for reading the input. The readXXX methods
+   * consume the stream characters if successful, and return the number read
+   * character. If faild the stream will remain at its current position and
+   * return value will be zero. The testXXX methods will test if the given
+   * argument is there next in the stream without consuming anything.
+   *
+   * @ingroup io
+   * @ingroup utils
+   * @headerfile PredictiveParserBase.h <kfoundation/PredictiveParserBase.h>
+   */
+  
   class PredictiveParserBase : public ManagedObject {
   private:
     static const int BUFFER_CAPACITY = 16;

@@ -10,14 +10,21 @@ using namespace std;
 
 namespace kfoundation {
   
+/**
+ * Wrapper class for `double` type.
+ *
+ * @ingroup containers
+ * @headerfile Double.h <kfoundation/Double.h>
+ */
+  
 class Double : public ManagedObject, public Streamer {
 private:
   double _value;
 
 public:
-  Double(double value);
+  Double(const double value);
   inline double get() const;
-  inline void set(double v);
+  inline void set(const double v);
   static double parse(const string& str);
   
   // From Streamer

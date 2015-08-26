@@ -374,6 +374,13 @@ namespace kfoundation {
   
   const string XmlObjectStreamReader::ID_ATTRIB_NAME = "_id";
   
+  
+  /**
+   * Constructor.
+   * 
+   * @param input A stream containing XML representation of an object.
+   */
+  
   XmlObjectStreamReader::XmlObjectStreamReader(PPtr<InputStream> input) {
     _state = INITIAL;
     _input = input;
@@ -382,9 +389,15 @@ namespace kfoundation {
     parseHeader();
   }
   
+  
+  /**
+   * Deconstructor.
+   */
+  
   XmlObjectStreamReader::~XmlObjectStreamReader() {
     // Nothing;
   }
+  
   
   bool XmlObjectStreamReader::parseHeader() throw(ParseException) {
     if(!_parser->readSequence(L"<?xml")) {
@@ -412,6 +425,7 @@ namespace kfoundation {
     
     return true;
   }
+  
   
   Ptr<XmlAttribute> XmlObjectStreamReader::readAttribute() throw(ParseException) {
     _parser->skipSpacesAndNewLines();
@@ -455,6 +469,7 @@ namespace kfoundation {
     Ptr<XmlAttribute> attrib = new XmlAttribute(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end), name, value);
     return attrib.retain();
   }
+  
   
   Ptr<XmlElement> XmlObjectStreamReader::readElement() throw(ParseException) {
     string name;
@@ -621,6 +636,10 @@ namespace kfoundation {
     return endElement.AS(Token).retain();
   }
   
+  
+  /**
+   * Returns the next token in the stream.
+   */
   
   Ptr<Token> XmlObjectStreamReader::next() throw(ParseException) {
     _parser->skipSpacesAndNewLines();

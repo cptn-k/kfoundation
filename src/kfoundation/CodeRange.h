@@ -13,6 +13,15 @@
 
 namespace kfoundation {
   
+  
+  /**
+   * Encodes the location of the begining and end of a text file fragment.
+   *
+   * @ingroup utils
+   * @ingroup io
+   * @headerfile CodeRange.h <kfoundation/CodeRange.h>
+   */
+  
   class CodeRange : public SerializingStreamer {
     
   // --- FIELDS --- //

@@ -11,6 +11,13 @@ using namespace std;
 
 namespace kfoundation {
   
+  /**
+   * Wrapper class for unicode character. Uses a 4-byte internal represenation.
+   *
+   * @ingroup containers
+   * @headerfile UniChar.h <kfoundation/UniChar.h>
+   */
+  
   class UniChar : public ManagedObject, public Streamer {
   private:
     wchar_t _value;
@@ -20,8 +27,8 @@ namespace kfoundation {
     UniChar(const wchar_t value);
     UniChar(Ptr<UniChar> value);
     
-    inline wchar_t get() const;
-    inline void set(const wchar_t value);
+    wchar_t get() const;
+    void set(const wchar_t value);
     
     unsigned short int getNumberOfUtf8Octets() const;
     unsigned short int writeUtf8(kf_octet_t* buffer) const;

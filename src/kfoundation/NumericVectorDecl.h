@@ -1,10 +1,18 @@
-//
-//  NumericArray.h
-//  KFoundation-XCode-Wrapper
-//
-//  Created by Hamed KHANDAN on 8/27/14.
-//  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
-//
+/*---[NumericVectorDecl.h]-------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : kfoundation::NumericVectorDecl::*
+ |  Implements: -
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef KFOUNDATION_NUMERICVECTOR_DECL
 #define KFOUNDATION_NUMERICVECTOR_DECL
@@ -13,6 +21,14 @@
 #include "Streamer.h"
 
 namespace kfoundation {
+  
+  /**
+   * A subclass of Array, adds numeric operations. Can also convert the contents
+   * to and from string.
+   *
+   * @ingroup containers
+   * @headerfile NumericVector.h <kfounadtion/NumericVector.h>
+   */
   
   template<typename T>
   class NumericVector : public Array<T>, public Streamer {

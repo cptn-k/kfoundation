@@ -15,7 +15,16 @@
 namespace kfoundation {
 
 //// Tuple ////////////////////////////////////////////////////////////////////
-
+  
+  /**
+   * Represents a point in n-dimensional space. 
+   * n can be a number between 0 to 4.
+   * Tuple1D, Tuple2D, and Tuple3D are specializations provided for convenience.
+   *
+   * @ingroup range
+   * @headerfile Tuple.h <kfoundation/Tuple.h>
+   */
+  
   class Tuple : public Streamer {
   // --- FIELDS --- //
     
@@ -66,15 +75,27 @@ namespace kfoundation {
   };
   
   
+  /**
+   * Returns the size of this tuple.
+   */
+  
   inline kf_int8_t Tuple::getSize() const {
     return _size;
   }
   
   
+  /**
+   * Returns the value of the element at the given index.
+   */
+  
   inline kf_int32_t& Tuple::at(const kf_int8_t index) {
     return _elements[index];
   }
   
+  
+  /**
+   * Returns the value of the element at the given index.
+   */
   
   inline kf_int32_t Tuple::at(const kf_int8_t index) const {
     return _elements[index];
@@ -82,6 +103,13 @@ namespace kfoundation {
 
   
 //// Tuple1D //////////////////////////////////////////////////////////////////
+  
+  /**
+   * 1-dimensional specialization of Tuple.
+   *
+   * @ingroup range
+   * @headerfile Tuple.h <kfoundation/Tuple.h>
+   */
   
   class Tuple1D : public Tuple {
     
@@ -106,6 +134,10 @@ namespace kfoundation {
   };
   
   
+  /**
+   * Setter, sets the only element of this tuple to the given value.
+   */
+  
   inline Tuple& Tuple1D::set(int x) {
     _elements[0] = x;
     return *this;
@@ -114,12 +146,20 @@ namespace kfoundation {
   
 //// Tuple2D //////////////////////////////////////////////////////////////////
   
+  /**
+   * 2-dimensional specialization of Tuple.
+   *
+   * @ingroup range
+   * @headerfile Tuple.h <kfoundation/Tuple.h>
+   */
+  
   class Tuple2D : public Tuple {
   
   // --- STATIC FIELDS --- //
     
     public: static Tuple2D ONE;
     public: static Tuple2D ZERO;
+    
     
   // --- CONSTRUCTOR --- //
     
@@ -139,6 +179,13 @@ namespace kfoundation {
   
   
 //// Tuple3D //////////////////////////////////////////////////////////////////
+  
+  /**
+   * 3-dimensional specialization of Tuple.
+   *
+   * @ingroup range
+   * @headerfile Tuple.h <kfoundation/Tuple.h>
+   */
   
   class Tuple3D : public Tuple {
     

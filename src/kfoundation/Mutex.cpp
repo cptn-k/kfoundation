@@ -1,10 +1,18 @@
-//
-//  Mutex.cpp
-//  KFoundation
-//
-//  Created by Hamed KHANDAN on 3/19/15.
-//  Copyright (c) 2015 Kay Khandan. All rights reserved.
-//
+/*---[Mutex.h]-------------------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::Mutex::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 
 #include <pthread.h>
@@ -77,14 +85,25 @@ namespace kfoundation {
   
 // --- (DE)CONSTUCTORS --- //
   
+  /**
+   * Constructor.
+   *
+   * @param isShared Should be set true if the mutex is shared between multiple
+   *                 dynamic libraries (shared objects). Default value is 
+   *                 `false`.
+   */
+  
   Mutex::Mutex(bool isShared) {
     _implementation = new __k_MutexImplementation(isShared);
   }
   
   
+  /**
+   * Deconstructor.
+   */
+  
   Mutex::~Mutex() {
     delete _implementation;
   }
-  
   
 } // namespace kfoundation

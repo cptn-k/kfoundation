@@ -12,13 +12,6 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
-/**
- *
- * @file
- * Implementation of `kfoundation::Streamer` class.
- *
- */
-
 // Std
 #include <sstream>
 
@@ -31,6 +24,11 @@
 
 namespace kfoundation {
   
+  /**
+   * Converts the result of invocation of `printToStream(ostream&)` to a
+   * `std::string` object.
+   */
+
   string Streamer::toString() const {
     stringstream stream;
     this->printToStream(stream);

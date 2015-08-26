@@ -13,6 +13,13 @@
 namespace kfoundation {
 
   // --- ObjectDumpBuilderException -------------------------------------------
+
+  
+  /**
+   * Constructor.
+   *
+   * @param message A message describing the problem.
+   */
   
   ObjectDumpBuilderException::ObjectDumpBuilderException(string message)
     : KFException(message)
@@ -28,8 +35,7 @@ namespace kfoundation {
   {
     if(_state != OBJECT) {
       throw ObjectDumpBuilderException("Attribute is only allowed inside an "
-                                       "object, before decleration of any member. Path: "
-                                       + stackToString());
+          "object, before decleration of any member. Path: " + stackToString());
     }
     
     switch(_outputType) {
@@ -132,6 +138,15 @@ namespace kfoundation {
   const string ObjectSerializer::ID_ATTRIB_NAME("_id");
   const string ObjectSerializer::COLLECTION_CLASS_NAME("_collection");
   
+  
+  /**
+   * Constructor, sets output stream, type, and indent units.
+   *
+   * @param stream The stream to print the output to.
+   * @param outputType The output format.
+   * @param indentUnit Number of spaces for each indention level.
+   */
+  
   ObjectSerializer::ObjectSerializer(ostream& stream,
                                        output_type_t outputType,
                                        int indentUnit)
@@ -147,6 +162,13 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Constructor, sets the output stream and type, and sets indent units to 4.
+   *
+   * @param stream The stream to print the output to.
+   * @param outputType The output format.
+   */
+  
   ObjectSerializer::ObjectSerializer(ostream& stream, output_type_t outputType)
     : _outputType(outputType),
       _state(ROOT),
@@ -159,6 +181,14 @@ namespace kfoundation {
     }
   }
 
+  
+  /**
+   * Used to output an object owned by the current one. Only allowed after
+   * object() and attribute().
+   *
+   * @param name The corresponding member variable name (property name).
+   * @return Pointer to self.
+   */
   
   PPtr<ObjectSerializer> ObjectSerializer::member(const string& name) {
     if(_state != OBJECT && _state != OBJECT_BODY) {
@@ -202,6 +232,13 @@ namespace kfoundation {
     return getPtr().AS(ObjectSerializer);
   } // member(const string&)
 
+  
+  /**
+   * Used to output an object. Allowed in the begining or after member().
+   * 
+   * @param className Class name of the designated object.
+   * @return Pointer to self.
+   */
   
   PPtr<ObjectSerializer> ObjectSerializer::object(const string& className) {
     if(_state != ROOT && _state != MEMBER && _state != COLLECTION) {
@@ -257,12 +294,26 @@ namespace kfoundation {
   } // object(const string&)
   
   
+  /**
+   * Used to output a field which already has SerializingStreamer interface 
+   * implemented. Allowed only after member(). endObject() should NOT be called
+   * for this method.
+   *
+   * @param ref The field to be printed.
+   * @return Pointer to self.
+   */
+  
   PPtr<ObjectSerializer> ObjectSerializer::object(const SerializingStreamer& ref)
   {
     ref.serialize(getPtr().AS(ObjectSerializer));
     return getPtr().AS(ObjectSerializer);
   }
   
+  
+  /**
+   * Marks the end of an object started by the latest call of object() method.
+   * @return Pointer to self.
+   */
   
   PPtr<ObjectSerializer> ObjectSerializer::endObject() {
     if(_state != OBJECT && _state != OBJECT_BODY) {
@@ -307,11 +358,9 @@ namespace kfoundation {
       _isLead = item._isLead;
     }
     
-//    if(_stack.empty())
-//      _stream << '\n';
-    
     return getPtr().AS(ObjectSerializer);
   } // endObject();
+  
   
   PPtr<ObjectSerializer> ObjectSerializer::text(const string& value) {
     if(_state != OBJECT) {
@@ -339,6 +388,10 @@ namespace kfoundation {
   } // text(const string&)
   
 
+  /**
+   * Used to print a field that is `NULL`. Only allowed after member().
+   */
+  
   PPtr<ObjectSerializer> ObjectSerializer::null() {
     if(_state != MEMBER) {
       throw ObjectDumpBuilderException("null is only allowed immidiately after"
@@ -369,6 +422,11 @@ namespace kfoundation {
     return getPtr().AS(ObjectSerializer);
   } // null()
 
+  
+  /**
+   * Used to print a collection. Allowed only after member().
+   * @return Pointer to self.
+   */
   
   PPtr<ObjectSerializer> ObjectSerializer::collection() {
     if(_state != ROOT && _state != MEMBER) {
@@ -410,6 +468,13 @@ namespace kfoundation {
     return getPtr().AS(ObjectSerializer);
   } // collection(const string&)
 
+  
+  /**
+   * Marks end of a collection started by the latest unclosed call to 
+   * collection().
+   * @return Pointer to self.
+   */
+  
   PPtr<ObjectSerializer> ObjectSerializer::endCollection() {
     if(_state != COLLECTION) {
       throw ObjectDumpBuilderException("End collection doesn't match the opening"
@@ -454,44 +519,89 @@ namespace kfoundation {
     return getPtr().AS(ObjectSerializer);
   }
   
+  
+  /**
+   * Serializes a `string` attribute.
+   */
+  
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name, const string& value) {
     return attribute(name, value, STRING);
   }
+  
+  
+  /**
+   * Serializes a `char` attribute.
+   */
   
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name, char value) {
     return attribute(name, UniChar(value).toString(), CHAR);
   }
   
+  
+  /**
+   * Serializes an `int` attribute.
+   */
+  
   PPtr<ObjectSerializer> ObjectSerializer::attribute(const string& name, int value) {
     return attribute(name, Int(value).toString(), NUMBER);
   }
+  
+  
+  /**
+   * Serializes an `unsigned int` attribute.
+   */
   
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name, unsigned int value) {
     return attribute(name, Int(value).toString(), NUMBER);
   }
   
+  
+  /**
+   * Serializes a `long int` attribute.
+   */
+  
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name, long int value) {
     return attribute(name, LongInt::toString(value), NUMBER);
   }
+  
+  
+  /**
+   * Serializes an `unsigned long int` attribute.
+   */
   
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name, unsigned long int value) {
     return attribute(name, LongInt::toString(value), NUMBER);
   }
   
+  
+  /**
+   * Serializes a `double` attribuet.
+   */
+  
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name, double value) {
     return attribute(name, Double(value).toString(), NUMBER);
   }
   
+  
+  /**
+   * Serializes a `bool` attribute.
+   */
+  
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name, bool value) {
     return attribute(name, Bool::toString(value), BOOL);
   }
+
+  
+  /**
+   * Serializes an attribute with no value.
+   */
   
   PPtr<ObjectSerializer>
   ObjectSerializer::attribute(const string& name) {

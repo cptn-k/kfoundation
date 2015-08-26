@@ -22,17 +22,65 @@ namespace kfoundation {
   
   class UniString;
   
+  
+  /**
+   * Thrown when ObjectSerializer is used in an invalid way.
+   *
+   * @ingroup io
+   * @ingroup exceptions
+   * @headerfile ObjectSerializer.h <kfoundation/ObjectSerializer.h>
+   */
+  
   class ObjectDumpBuilderException : public KFException {
   public:
     ObjectDumpBuilderException(string message);
   };
+  
+  
+  /**
+   * Provides APIs to serialize an object. This is usually used in conjuction
+   * with SerializingStreamer. 
+   *
+   * Supported output formats are KFOR (KFoundation Format), XML, and JSON.
+   * To use, the methods shoud be called in particular order. If the order
+   * is not observed, an expcetion will be thrown.
+   *
+   * * A call to object(const string&) should be made first.
+   * * object() can be followed by attribute(), member(), or endObject().
+   * * attribute() can be followed by attribute(), member() or endObject().
+   * * member() can be followed by object(), collection(), or null().
+   * * There shold be an endObjectr() corresponding to each object() and
+   *   endCollection() corresponding to each collection().
+   *
+   * An expception is when using object(const SerializingStreamer&) 
+   * or object(const PPtr<T>) it is not needed to call endObject() because it
+   * is already called in the serializer() method of the given argument.
+   *
+   * All of these methods can be used chained sytax. Example:
+   *
+   *     void serialize(PPtr<ObjectSerializer> os) const {
+   *         os->object("MyClass")
+   *           ->attribute("counter", _counter)
+   *           ->attribute("name", _name)
+   *           ->member("innerObject")->object(innerObject)
+   *           ->endObject();
+   *     }
+   *
+   * @ingroup serialization
+   * @headerfile ObjectSerializer.h <kfoundation/ObjectSerializer.h>
+   */
 
   class ObjectSerializer : public ManagedObject {
   public:
+    
+    /**
+     * Output format.
+     */
+    
     typedef enum {
-      DUMP,
-      XML,
-      JSON
+      DUMP, ///< KFOR (KFoundation Format)
+      XML,  ///< XML
+      JSON  ///< JSON
     } output_type_t;
 
   private:

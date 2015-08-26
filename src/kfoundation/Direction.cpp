@@ -19,12 +19,20 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Constructor, creates a neutral direction of the given size.
+   */
+  
   Direction::Direction(kf_int8_t s)
   : _size(s)
   {
     memset(_components, 0, _size * sizeof(kf_int8_t));
   }
   
+  
+  /**
+   * Copy constructor.
+   */
   
   Direction::Direction(const Direction& copy)
   : _size(copy._size)
@@ -51,6 +59,10 @@ namespace kfoundation {
     }
   }
   
+  
+  /**
+   * Returns a direction opposite to this one.
+   */
 
   Direction Direction::getOpposite() const {
     Direction result(_size);
@@ -60,6 +72,10 @@ namespace kfoundation {
     return result;
   }
   
+  
+  /**
+   * Checks if this is a neutral direction.
+   */
   
   bool Direction::isCenter() const {
     for(int i = _size - 1; i >= 0; i--) {

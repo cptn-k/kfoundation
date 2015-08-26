@@ -14,19 +14,41 @@ namespace kfoundation {
 
   using namespace std;
   
-  Double::Double(double value)
+  /**
+   * Constructor. Sets the internal value to the given parameter.
+   */
+  
+  Double::Double(const double value)
     : _value(value)
   {
     // Nothing
   }
   
+  
+  /**
+   * Getter method. Returns the internal value.
+   */
+  
   inline double Double::get() const {
     return _value;
   }
   
-  inline void Double::set(double value) {
+  
+  /**
+   * Setter method. Sets the internal value to the given parameter.
+   */
+  
+  inline void Double::set(const double value) {
     _value = value;
   }
+  
+  
+  /**
+   * Parses the given string to the corresponding `double` value.
+   *
+   * @param str The string to be parsed.
+   * @return The numerical value parsed from the given string.
+   */
   
   double Double::parse(const string& str) {
     return atof(str.c_str());

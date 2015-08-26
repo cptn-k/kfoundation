@@ -9,24 +9,36 @@
 using namespace std;
 
 namespace kfoundation {
+
+  /**
+   * Wrapper class for 'long int' type.
+   *
+   * @ingroup containers
+   * @headerfile LongInt.h <kfoundation/LongInt.h>
+   */
   
   class LongInt : public ManagedObject, public Streamer {
   private:
     long int _value;
 
   public:
+    
+    /**
+     * Numeral Base
+     */
+    
     typedef enum {
-      DECIMAL,
-      HEXADECIMAL
+      DECIMAL,    ///< Base 10
+      HEXADECIMAL ///< Base 16
     } encoding_t;
     
     LongInt(const long int value);
     LongInt(const string& str, const encoding_t& encoding = DECIMAL);
     
     inline long int get() const;
-    inline void set(const long int& v);
+    inline void set(const long int v);
     
-    static long int parse(const string& str, const encoding_t encoding_t = DECIMAL);
+    static long int parse(const string& str, const encoding_t encoding = DECIMAL);
     static string toHexString(const long int v);
     static string toHexString(void* ptr);
     static string toString(const long int v);

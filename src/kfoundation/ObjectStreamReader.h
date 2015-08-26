@@ -24,11 +24,77 @@ namespace kfoundation {
   class CollectionToken;
   class EndCollectionToken;
   
+  
+  /**
+   * Generic interface for utility object used to read objets from an stream
+   * of a given format. No matter what the format of the stream is, it should
+   * be organized as if produced by ObjectSerializer.
+   * 
+   * @see Token
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   */
+  
   class ObjectStreamReader : public ManagedObject {
     public: virtual Ptr<Token> next() throw(ParseException) = 0;
   };
   
+  
 //\/ ObjectStreamToken /\//////////////////////////////////////////////////////
+  
+  
+  /**
+   * Represents a token in a stream. This is an abstract class. The actual
+   * object might be of any of the following types:
+   *
+   * * ObjectToken
+   * * AttributeToken
+   * * EndObjectToken
+   * * CollectionToken
+   * * EndCollectionToken
+   * * TextToken
+   *
+   * Use getType() method to determine the type and cast accordingly.
+   * Most often this object is used in predictive parsing manner. For
+   * example:
+   *
+   *      void deserialize(PPtr<ObjectToken> headToken) {
+   *          headToken->validateClass("MyClass");
+   *          Ptr<Token> token = headToken->next();
+   *          token->validateType(Token::ATTRIBUTE);
+   *          _name = token.AS(AttributeToken)->validateName("name")->getValue();
+   *          token->next()->validateType(END_OBJECT);
+   *      }
+   *
+   * Conditional statements can be added if desired:
+   *
+   *      void deserialize(PPtr<ObjectToken> headToken) {
+   *          headToken->validateClass("MyClass");
+   *          Ptr<Token> token = headToken->next();
+   *          if(token.is(Token::ATTRIBUTE)) {
+   *              PPtr<AttributeToken> attrib = token.AS(Attribute);
+   *              if(attrib->checkName("attrib1")) {
+   *                  _attrib1 = attrib->getValue();
+   *              } else if(attrib->checkName("attrib2") {
+   *                  _attrib2 = attrib->getValue();
+   *              } else {
+   *                  attrib->throwInvalidName();
+   *              }
+   *          } else {
+   *              token->validateType(Token::OBJECT);
+   *              ...
+   *          }
+   *          token->next()->validateType(END_OBJECT);
+   *      }
+   *
+   * validateXXX() methods cause an expection to be thrown if the given
+   * argument does not match the current token. The exception message will
+   * include a code location that helps the user to understand the problem.
+   *
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   * @see ObjectDeserializer
+   */
   
   class Token : public ObjectStreamReader {
   public:
@@ -44,7 +110,8 @@ namespace kfoundation {
     
     static const SPtr<Token> END_STREAM_TOKEN;
     static string toString(const type_t& t);
-    const CodeRange codeRange;
+    const CodeRange codeRange; ///< CodeRange marking begining and end of this
+                               ///  token.
     
   public:
     Token(const CodeRange& cr);
@@ -62,6 +129,16 @@ namespace kfoundation {
 
   
 //\/ ObjectToken /\////////////////////////////////////////////////////////////
+  
+  
+  /**
+   * Represents begining of an object in the parsed stream.
+   *
+   * @see Token
+   * @see ObjectStreamReader
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   */
   
   class ObjectToken : public Token {
   public:
@@ -87,6 +164,15 @@ namespace kfoundation {
   
 //\/ EndObjectToken /\/////////////////////////////////////////////////////////
   
+  /**
+   * Represents end of an object in the parsed stream.
+   *
+   * @see Token
+   * @see ObjectStreamReader
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   */
+
   class EndObjectToken : public Token {
   public:
     static const type_t TYPE;
@@ -105,6 +191,15 @@ namespace kfoundation {
   
   
 //\/ AttributeToken /\/////////////////////////////////////////////////////////
+  
+  /**
+   * Represents an attribute in the parsed stream.
+   *
+   * @see Token
+   * @see ObjectStreamReader
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   */
   
   class AttributeToken : public Token {
   public:
@@ -129,6 +224,15 @@ namespace kfoundation {
   
 //\/ TextToken /\//////////////////////////////////////////////////////////////
 
+  /**
+   * Represents a text body (CDATA) in the parsed stream.
+   *
+   * @see Token
+   * @see ObjectStreamReader
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   */
+
   class TextToken : public Token {
   public:
     static const type_t TYPE;
@@ -145,6 +249,15 @@ namespace kfoundation {
 
   
 //\/ CollectionToken /\////////////////////////////////////////////////////////
+  
+  /**
+   * Represents begining of a collection in the parsed stream.
+   *
+   * @see Token
+   * @see ObjectStreamReader
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   */
   
   class CollectionToken : public Token {
   public:
@@ -163,6 +276,15 @@ namespace kfoundation {
 
   
 //\/ EndCollectionToken /\/////////////////////////////////////////////////////
+  
+  /**
+   * Represents end of a collection in the parsed stream.
+   *
+   * @see Token
+   * @see ObjectStreamReader
+   * @ingroup serialization
+   * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
+   */
   
   class EndCollectionToken : public Token {
   public:

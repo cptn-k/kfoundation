@@ -16,6 +16,11 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Constructor, the resulting object iterates points from origin to the given
+   * upper bound (exclusive).
+   */
+  
   RangeIterator::RangeIterator(const Tuple& upperBound)
   : Tuple(upperBound.getSize()),
     _lowerBound(upperBound.getSize()),
@@ -25,6 +30,11 @@ namespace kfoundation {
     // Nothing;
   }
   
+  
+  /**
+   * Constructor, the resulting object iterates points from the given 
+   * lower bound (inclusive) to the given upper bound (exclusive).
+   */
   
   RangeIterator::RangeIterator(const Tuple& lowerBound, const Tuple& upperBound)
   : Tuple(lowerBound),
@@ -36,6 +46,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Copy constructor.
+   */
+  
   RangeIterator::RangeIterator(const Range& range)
   : Tuple(range.getBegin()),
     _lowerBound(range.getBegin()),
@@ -46,6 +60,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Deconstructor.
+   */
+  
   RangeIterator::~RangeIterator() {
     // Nothing;
   }
@@ -53,12 +71,20 @@ namespace kfoundation {
   
 // --- METHODS --- //
   
+  /**
+   * Resets this iterator.
+   */
+  
   const RangeIterator& RangeIterator::first() {
     Tuple::set(_lowerBound);
     _hasMore = ((_upperBound = _lowerBound).productAll() >= 0);
     return *this;
   }
   
+  
+  /**
+   * Moves on to the next point.
+   */
   
   const RangeIterator& RangeIterator::next() {
     int i = 0;

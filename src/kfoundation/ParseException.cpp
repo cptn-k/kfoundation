@@ -14,6 +14,14 @@
 
 namespace kfoundation {
   
+  
+  /**
+   * Constructor, creates a new instance with the given message but no code
+   * location.
+   *
+   * @param message A message describing the error.
+   */
+  
   ParseException::ParseException(const string& message)
     : KFException(message)
   {
@@ -21,6 +29,15 @@ namespace kfoundation {
     _hasLocation = false;
     _hasRange = false;
   }
+  
+  
+  /**
+   * Constructor, stores the given string message and CodeLocation to report
+   * when thrown.
+   *
+   * @param message A message describing the error.
+   * @param The location of the parsed stream in which the error is observed.
+   */
   
   ParseException::ParseException(const string& message, const CodeLocation& location)
     : KFException(message + " (Line: " + LongInt::toString(location.getLine())
@@ -30,6 +47,15 @@ namespace kfoundation {
     _begin = location;
     _hasLocation = true;
   }
+  
+  
+  /**
+   * Constructor, stores the given string message and CoreRange to report
+   * when thrown.
+   *
+   * @param message A message describing the error.
+   * @param range The code range in which the error is observed.
+   */
   
   ParseException::ParseException(const string& message, const CodeRange& range)
     : KFException(message + " (Line: " + LongInt::toString(range.getBegin().getLine())
@@ -42,21 +68,48 @@ namespace kfoundation {
     _hasRange = true;
   }
   
+  
+  /**
+   * Deconstrcutor.
+   */
+  
   ParseException::~ParseException() throw() {
     // Nothing;
   }
+  
+  
+  /**
+   * Checks if a CodeLocation is stored in this object.
+   */
   
   bool ParseException::hasLocation() const {
     return _hasLocation;
   }
   
+  
+  /**
+   * Checks if a CodeRange is stored in this object.
+   */
+  
   bool ParseException::hasRange() const {
     return _hasRange;
   }
   
+  
+  /**
+   * Returns the begining of the range that the error is observed.
+   * Can be used when either hasLocation() or hadRange() is `true`.
+   */
+  
   const CodeLocation& ParseException::getBegin() const {
     return _begin;
   }
+  
+  
+  /**
+   * Returns the end of the range that the error is observed.
+   * Can be used only if hasRange() is `true`.
+   */
   
   const CodeLocation& ParseException::getEnd() const {
     return _end;

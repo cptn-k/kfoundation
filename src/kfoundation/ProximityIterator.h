@@ -17,6 +17,14 @@
 
 namespace kfoundation {
   
+  /**
+   * Iterates the proximity of a desired point. Particularly useful for stencil
+   * computation.
+   *
+   * @ingroup range
+   * @headerfile ProximityIterator.h <kfoundation/ProximityIterator.h>
+   */
+  
   class ProximityIterator : public Tuple {
     
   // --- FIELDS --- //
@@ -42,6 +50,10 @@ namespace kfoundation {
     
   };
   
+  
+  /**
+   * Checks if there are more points to iterate.
+   */
   
   inline bool ProximityIterator::hasMore() {
     return _hasMore;

@@ -12,6 +12,12 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Constructor.
+   *
+   * @param nDims Number of dimensions.
+   */
+  
   DirectionIterator::DirectionIterator(kf_int8_t nDims)
   : Direction(nDims)
   {
@@ -21,6 +27,10 @@ namespace kfoundation {
   
 // --- METHODS --- //
   
+  /**
+   * Resets the iterator.
+   */
+   
   void DirectionIterator::first() {
     _hasMore = true;
     for(int i = getSize() - 1; i >= 0; i--) {
@@ -28,6 +38,10 @@ namespace kfoundation {
     }
   }
   
+  
+  /**
+   * Moves on to the next element.
+   */
   
   void DirectionIterator::next() {
     short int s = getSize();

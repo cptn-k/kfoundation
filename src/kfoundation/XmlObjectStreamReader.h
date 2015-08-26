@@ -21,6 +21,16 @@ namespace kfoundation {
   class XmlElement;
   class XmlEndElement;
   
+  
+  /**
+   * ObjectStreamReader to deserialize XML streams.
+   *
+   * @see ObjectStreamReader
+   * @see StreamDeserializer
+   * @ingroup io
+   * @headerfile XmlObjectStreamReader.h <kfoundation/XmlObjectStreamReader.h>
+   */
+  
   class XmlObjectStreamReader : /*public ObjectStreamReader*/ public ManagedObject {
   public: static const string ID_ATTRIB_NAME;
     

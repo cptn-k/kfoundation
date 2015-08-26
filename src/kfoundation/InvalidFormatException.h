@@ -13,6 +13,13 @@
 
 namespace kfoundation {
   
+  /**
+   * Thrown when an input with an invalid format is encountered.
+   *
+   * @ingroup exceptions
+   * @headerfile InvalidFormatException.h <kfoundation/InvalidFormatException.h>
+   */
+  
   class InvalidFormatException : public KFException {
   public:
     InvalidFormatException(string message);

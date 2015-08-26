@@ -18,10 +18,19 @@ namespace kfoundation {
   
 // --- (DE)CONSTRUCTORS --- //
   
+  /**
+   * Default constructor. Creates a range in 0-D space.
+   */
+  
   Range::Range() {
     // Nothing;
   }
   
+  
+  /**
+   * Constructor, creates a range in a space of the given dimensions, with
+   * all elements assigned to zero.
+   */
   
   Range::Range(kf_int8_t size)
   : _begin(size),
@@ -31,6 +40,10 @@ namespace kfoundation {
     // Nothing
   }
   
+  
+  /**
+   * Constructor, creates a range with the given begining and end.
+   */
   
   Range::Range(const Tuple& begin, const Tuple& end)
   : _begin(begin),
@@ -44,6 +57,11 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Constructor, creates a range with its begining at the origin and end at
+   * the given parameter.
+   */
+  
   Range::Range(const Tuple& end)
   : _begin(end.getSize()),
     _end(end),
@@ -52,6 +70,10 @@ namespace kfoundation {
     // Nothing;
   }
   
+  
+  /**
+   * Copy constructor.
+   */
   
   Range::Range(const Range& other)
   : _begin(other._begin),
@@ -64,20 +86,36 @@ namespace kfoundation {
   
 // --- METHODS --- //
   
+  /**
+   * Returns the number of dimensions.
+   */
+  
   kf_int8_t Range::getNDimensions() const {
     return _begin.getSize();
   }
   
+  
+  /**
+   * Returns the begining of this range.
+   */
   
   const Tuple& Range::getBegin() const {
     return _begin;
   }
   
   
+  /**
+   * Returns the end of this range.
+   */
+  
   const Tuple& Range::getEnd() const {
     return _end;
   }
   
+  
+  /**
+   * Returns a unique integer number for the given point in this range.
+   */
   
   kf_int64_t Range::indexToOrdinal(const Tuple& index) const {
     kf_octet_t s = _begin.getSize();
@@ -93,15 +131,29 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the translation of this range moved by the given tuple.
+   */
+  
   Range Range::translate(const Tuple &amount) const {
     return Range(_begin + amount, _end + amount);
   }
   
   
+  /**
+   * Returns the result of moving the boundaries of this range outwards by the
+   * given value.
+   */
+  
   Range Range::grow(const int s) const {
     return Range(_begin - s, _end + s);
   }
   
+  
+  /**
+   * Returns the result of moving the boundaries of this range inwards by the
+   * given value.
+   */
   
   Range Range::shrink(const int s) const {
     Range r(_begin + s, _end - s);
@@ -115,6 +167,14 @@ namespace kfoundation {
     return r;
   }
   
+  
+  /**
+   * Returns the range of elements on the border of this range with given
+   * thickness.
+   *
+   * @param d The direction of the desired broder.
+   * @param s The thickness of the desired border.
+   */
   
   Range Range::border(const Direction& d, const int s) const {
     if(d.getSize() != _begin.getSize()) {
@@ -148,6 +208,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the result of flipping this range to the given direction.
+   */
+  
   Range Range::flip(const Direction& d) const {
     Range result(_begin.getSize());
     
@@ -174,20 +238,38 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the result of intesection of this range and the given parameter.
+   */
+  
   Range Range::intersectWith(const Range& other) const {
     return Range(_begin.max(other._begin), _end.min(other._end));
   }
   
+  
+  /**
+   * Returns the smallest range containing both this range and the given
+   * parameter.
+   */
   
   Range Range::joinWith(const Range &other) const {
     return Range(_begin.min(other._begin), _end.max(other._end));
   }
   
   
+  /**
+   * Returns the smallest range containing both this range and the given point.
+   */
+  
   Range Range::joinWith(const Tuple& point) const {
     return Range(_begin.min(point), _end.max(point));
   }
   
+  
+  /**
+   * Divides this range to the given divisor and returns the one at the given
+   * index.
+   */
   
   Range Range::divide(const Tuple& divisor, const Tuple& selector) const {
     Tuple mSize = _size / divisor;
@@ -197,11 +279,19 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if this range is adgecent to the given one.
+   */
+  
   bool Range::isAdjecentTo(const Range &other) const {
     return intersectWith(other).isEmpty()
         && !intersectWith(other.grow(1)).isEmpty();
   }
   
+  
+  /**
+   * Checks of this range contains the given point.
+   */
   
   bool Range::contains(const Tuple& point) const {
     for(kf_int8_t i = _begin.getSize() - 1; i >=0; i--) {
@@ -213,10 +303,18 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks if this range contains the given range.
+   */
+  
   bool Range::contains(const Range& other) const {
     return contains(other._begin) && contains(other._end);
   }
   
+  
+  /**
+   * Returns the relative direction of this range to the given one.
+   */
   
   Direction Range::getRelativePositionTo(const Range &other) const {
     Direction result(_begin.getSize());
@@ -233,6 +331,10 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Checks of this range is empty, i.e. it's volume is zero.
+   */
+  
   bool Range::isEmpty() const {
     for(int i = _begin.getSize() - 1; i >= 0; i--) {
       if(_end.at(i) <= _begin.at(i)) {
@@ -244,35 +346,67 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the number of dimensions of this range.
+   */
+  
   const Tuple& Range::getSize() const {
     return _size;
   }
   
+  
+  /**
+   * Returns the volume of this range.
+   */
   
   kf_int64_t Range::getVolume() const {
     return getSize().productAll();
   }
   
   
+  /**
+   * Returns an iterator for this range.
+   */
+  
   RangeIterator Range::getIterator() const {
     return RangeIterator(*this);
   }
   
+  
+  /**
+   * Returns the result of adding the given scalar to all elements of this 
+   * range.
+   */
   
   Range Range::operator+ (const int n) const {
     return Range(_begin + n, _end + n);
   }
   
   
+  /**
+   * Returns the result of substracting the given scalar from all elements of
+   * this range.
+   */
+  
   Range Range::operator- (const int n) const {
     return Range(_begin - n, _end - n);
   }
   
   
+  /**
+   * Returns the result of multiplying the given scalar to all elements of this
+   * range.
+   */
+  
   Range Range::operator* (const int n) const {
     return Range(_begin * n, _end * n);
   }
   
+  
+  /**
+   * Returns the result of dividing each element of this range to the given
+   * scalar.
+   */
   
   Range Range::operator/ (const int n) const {
     return Range(_begin / n, _end / n);

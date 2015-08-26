@@ -13,6 +13,11 @@
 
 namespace kfoundation {
   
+  
+  /**
+   * Default constructor, sets all values to zero.
+   */
+  
   CodeLocation::CodeLocation()
   : _line(0),
     _col(0),
@@ -23,6 +28,10 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Setter, copies all the values from the given argument.
+   */
+  
   void CodeLocation::set(const CodeLocation& other) {
     _line = other._line;
     _col = other._col;
@@ -30,6 +39,16 @@ namespace kfoundation {
     _charIndex = other._charIndex;
   }
   
+  
+  /**
+   * Setter, sets all values except charIndex which will be set equal to 
+   * byteIndex.
+   *
+   * @param line Line number
+   * @param col Column number
+   * @param byteIndex Byte index from the begining of the file.
+   */
+   
   
   void CodeLocation::set(long int line, long int col, long int byteIndex)
   {
@@ -40,6 +59,15 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Setter, sets all values as given in arguments.
+   *
+   * @param line Line number
+   * @param col Column number
+   * @param charIndex Character index from the begining of the file.
+   * @param byteIndex Byte index from the begining of the file.
+   */
+  
   void CodeLocation::set(long int line, long int col, long int charIndex, long int byteIndex)
   {
     _line = line;
@@ -49,11 +77,25 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Setter, sets the line number.
+   *
+   * @param line Line number
+   * @return Reference to slef.
+   */
+  
   CodeLocation& CodeLocation::setLine(long int line) {
     _line = line;
     return *this;
   }
   
+  
+  /**
+   * Setter, sets the column number.
+   *
+   * @param col Column number
+   * @return Reference to self.
+   */
   
   CodeLocation& CodeLocation::setCol(long int col) {
     _col = col;
@@ -61,11 +103,25 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Setter, sets byte index.
+   *
+   * @param byteIndex Byte index from the begining of the file.
+   * @param Reference to self.
+   */
+  
   CodeLocation& CodeLocation::setByteIndex(long int byteIndex) {
     _byteIndex = byteIndex;
     return *this;
   }
   
+  
+  /**
+   * Setter, sets character index.
+   *
+   * @param charIndex Character index from the begining of the file.
+   * @return Reference to self.
+   */
   
   CodeLocation& CodeLocation::setCharIndex(long int charIndex) {
     _charIndex = charIndex;

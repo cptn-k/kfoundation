@@ -12,6 +12,14 @@
 
 namespace kfoundation {
   
+  
+  /**
+   * Constructor.
+   *
+   * @param begin The begining of the range (inclusive).
+   * @param end The end of the range (inclusive).
+   */
+  
   CodeRange::CodeRange(const CodeLocation& begin, const CodeLocation& end)
   : _begin(begin),
     _end(end)
@@ -20,10 +28,18 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Returns the begining of the range.
+   */
+  
   const CodeLocation& CodeRange::getBegin() const {
     return _begin;
   }
   
+  
+  /**
+   * Returns the end of the range.
+   */
   
   const CodeLocation& CodeRange::getEnd() const {
     return _end;

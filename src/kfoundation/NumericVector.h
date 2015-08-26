@@ -1,10 +1,18 @@
-//
-//  NumericArray.cpp
-//  KFoundation-XCode-Wrapper
-//
-//  Created by Hamed KHANDAN on 8/27/14.
-//  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
-//
+/*---[NumericVector.h]-----------------------------------------m(._.)m--------*\
+ |
+ |  Project   : KFoundation
+ |  Declares  : -
+ |  Implements: kfoundation::NumericVectorDecl::*
+ |
+ |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
+ |  Chemial Research) All rights reserved.
+ |
+ |  Author: Hamed KHANDAN (hamed.khandan@port.kobe-u.ac.jp)
+ |
+ |  This file is distributed under the KnoRBA Free Public License. See
+ |  LICENSE.TXT for details.
+ |
+ *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef KFOUNDATION_NUMERICVECTOR
 #define KFOUNDATION_NUMERICVECTOR
@@ -16,6 +24,11 @@
 
 namespace kfoundation {
 
+  
+  /**
+   * Default constructor, creates an empty array.
+   */
+  
   template<typename T>
   NumericVector<T>::NumericVector()
     : Array<T>()
@@ -24,6 +37,15 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Constructor, creats a new NumericVector copying the specified elements
+   * from a C-style array.
+   *
+   * @param values The begining of the C-style array containing values to be
+   *               copied.
+   * @param size The number of elements to be copied.
+   */
+  
   template<typename T>
   NumericVector<T>::NumericVector(T* values, kf_int32_t size)
   : Array<T>(values, size)
@@ -31,6 +53,11 @@ namespace kfoundation {
     // Nothing;
   }
 
+  
+  /**
+   * Returns the pointer to a new NumericVector whos elements are the negative
+   * of their corresponding elements in this object.
+   */
   
   template<typename T>
   Ptr< NumericVector<T> > NumericVector<T>::negate() const {
@@ -41,6 +68,13 @@ namespace kfoundation {
     return result.retain();
   }
 
+  
+  /**
+   * Returns the pointer to a new NumericVector representing the summation
+   * of this vector with the given one.
+   *
+   * @param other The vector to add this one to.
+   */
   
   template<typename T>
   Ptr< NumericVector<T> >
@@ -53,6 +87,13 @@ namespace kfoundation {
   }
   
 
+  /**
+   * Returns the pointer to a new NumericVector representing the substaction of
+   * the given vector from this one.
+   *
+   * @param other The vector to substract from this one.
+   */
+  
   template<typename T>
   Ptr< NumericVector<T> >
   NumericVector<T>::sub(const Ptr< NumericVector<T> >& other) const {
@@ -64,6 +105,13 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Resturns the pointer to a new NumericVector resulted from multiplying this
+   * vector to the given scalar value.
+   *
+   * @param coef The scalar value to multiply this vector to.
+   */
+  
   template<typename T>
   Ptr< NumericVector<T> > NumericVector<T>::mul(const T& coef) const {
     AutoPtr< NumericVector<T> > result(new NumericVector<T>());
@@ -73,6 +121,13 @@ namespace kfoundation {
     return result.retain();
   }
   
+  
+  /**
+   * Returns the pointer to a new NumericVector parsing the given string.
+   * A valid input string should have a format like "{1.1, 2.3, 4.2, 3}".
+   *
+   * @param str The string to parse.
+   */
   
   template<typename T>
   Ptr< NumericVector<T> > NumericVector<T>::parseInt(const string& str) {

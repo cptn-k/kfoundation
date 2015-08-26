@@ -10,6 +10,13 @@ using namespace std;
 
 namespace kfoundation {
   
+  /**
+   * Wrapper for `int` type.
+   *
+   * @ingroup containers
+   * @headerfile Int.h <kfoundation/Int.h>
+   */
+  
   class Int : public ManagedObject, public Streamer {
   private:
     int _value;
@@ -30,12 +37,20 @@ namespace kfoundation {
     string toString() const;
     
   };
-
-  bool operator== (Int& a, Int& b);
+  
+  
+  /**
+   * Getter method. Returns the internal value.
+   */
   
   inline int Int::get() const {
     return _value;
   }
+  
+  
+  /**
+   * Setter method. Sets the internal value to the given parameter.
+   */
   
   inline void Int::set(const int value) {
     _value = value;

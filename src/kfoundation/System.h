@@ -34,6 +34,7 @@ namespace kfoundation {
   /**
    * @brief Provides a cross-platform way to access sytsem features. It cannot
    *        be instantiated.
+   * @ingroup utils
    * @headerfile System.h <kfoundation/System.h>
    */
     

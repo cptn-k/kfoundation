@@ -10,6 +10,12 @@
 
 namespace kfoundation {
   
+  /**
+   * Constrcutor.
+   *
+   * @param message A message describing the error.
+   */
+  
   InvalidFormatException::InvalidFormatException(string message)
     : KFException(message)
   {
