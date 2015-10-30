@@ -1,0 +1,9 @@
+<map id="kfoundation::MemoryException" name="kfoundation::MemoryException">
+<area shape="rect" id="node5" href="$classkfoundation_1_1_index_out_of_bound_exception.html" title="Thrown to signal access to a nonexisting element in an array. " alt="" coords="889,5,1095,47"/>
+<area shape="rect" id="node6" href="$classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. " alt="" coords="903,71,1081,112"/>
+<area shape="rect" id="node8" href="$classkfoundation_1_1_out_of_memory_exception.html" title="Thrown on out of memory. " alt="" coords="901,136,1083,177"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_k_f_exception.html" title="Superclass for all exceptions in KFoundation. " alt="" coords="415,78,588,105"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="207,71,367,112"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="5,78,159,105"/>
+<area shape="rect" id="node7" href="$classkfoundation_1_1_null_pointer_exception.html" title="Thrown on attempt to access to a null pointer. " alt="" coords="1143,71,1307,112"/>
+</map>

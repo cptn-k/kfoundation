@@ -1,0 +1,5 @@
+<map id="kfoundation::PPtr&lt; T &gt;" name="kfoundation::PPtr&lt; T &gt;">
+<area shape="rect" id="node2" href="$classkfoundation_1_1_ptr.html" title="Managed pointer to a class of given template type. " alt="" coords="12,169,159,196"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="5,80,165,121"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="9,5,162,32"/>
+</map>

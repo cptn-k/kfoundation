@@ -1,0 +1,5 @@
+<map id="kfoundation::ObjectPoolMemoryManager&lt; T &gt;" name="kfoundation::ObjectPoolMemoryManager&lt; T &gt;">
+<area shape="rect" id="node2" href="$classkfoundation_1_1_memory_manager.html" title="Abstract interface to be implemented by all memory managers. " alt="" coords="5,87,204,114"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="229,80,389,121"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="232,5,385,32"/>
+</map>

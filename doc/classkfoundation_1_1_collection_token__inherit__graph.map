@@ -1,0 +1,5 @@
+<map id="kfoundation::CollectionToken" name="kfoundation::CollectionToken">
+<area shape="rect" id="node2" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="34,169,170,196"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_object_stream_reader.html" title="Generic interface for utility object used to read objets from an stream of a given format..." alt="" coords="12,80,192,121"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="6,5,198,32"/>
+</map>

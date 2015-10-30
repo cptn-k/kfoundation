@@ -1,0 +1,36 @@
+<map id="kfoundation::ManagedObject" name="kfoundation::ManagedObject">
+<area shape="rect" id="node2" href="$classkfoundation_1_1_array.html" title="A resizable, one&#45;dimensional indexed container. " alt="" coords="278,15,439,41"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_bool.html" title="Wrapper class for bool type. " alt="" coords="296,73,421,100"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_double.html" title="Wrapper class for double type. " alt="" coords="289,124,429,151"/>
+<area shape="rect" id="node6" href="$classkfoundation_1_1_input_stream.html" title="Abstract interface for all input streams. " alt="" coords="273,175,444,201"/>
+<area shape="rect" id="node12" href="$classkfoundation_1_1_int.html" title="Wrapper for int type. " alt="" coords="302,225,415,252"/>
+<area shape="rect" id="node13" href="$classkfoundation_1_1_long_int.html" title="Wrapper class for &#39;long int&#39; type. " alt="" coords="287,276,430,303"/>
+<area shape="rect" id="node14" href="$classkfoundation_1_1_managed_array.html" title="One&#45;dimentional indexed collection of ManagedObjects. " alt="" coords="250,327,467,353"/>
+<area shape="rect" id="node15" href="$classkfoundation_1_1_object_serializer.html" title="Provides APIs to serialize an object. " alt="" coords="263,377,455,404"/>
+<area shape="rect" id="node16" href="$classkfoundation_1_1_object_stream_reader.html" title="Generic interface for utility object used to read objets from an stream of a given format..." alt="" coords="269,429,449,470"/>
+<area shape="rect" id="node24" href="$classkfoundation_1_1_output_stream.html" title="Abstract inferface for all output streams. " alt="" coords="268,495,449,521"/>
+<area shape="rect" id="node29" href="$classkfoundation_1_1_path.html" title="Used to represent and manipulate file and directory pathnames. " alt="" coords="296,545,421,572"/>
+<area shape="rect" id="node30" href="$classkfoundation_1_1_pool_object.html" title="Superclass for all objects that are meant to be allocated by a pool memory manager. " alt="" coords="277,596,441,623"/>
+<area shape="rect" id="node31" href="$classkfoundation_1_1_predictive_parser_base.html" title="Packs ample of basic functionalities to implement any predictive parser. " alt="" coords="245,647,472,673"/>
+<area shape="rect" id="node32" href="$classkfoundation_1_1_thread.html" title="An object&#45;oriented, cross&#45;platform abstraction for thread. " alt="" coords="289,697,429,724"/>
+<area shape="rect" id="node33" href="$classkfoundation_1_1_timer.html" title="Utility class to measure execution time of a code fragment. " alt="" coords="293,748,425,775"/>
+<area shape="rect" id="node34" href="$classkfoundation_1_1_uni_char.html" title="Wrapper class for unicode character. " alt="" coords="285,799,432,825"/>
+<area shape="rect" id="node35" href="$classkfoundation_1_1_xml_object_stream_reader.html" title="ObjectStreamReader to deserialize XML streams. " alt="" coords="257,850,460,891"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_numeric_vector.html" title="A subclass of Array, adds numeric operations. " alt="" coords="520,5,737,32"/>
+<area shape="rect" id="node7" href="$classkfoundation_1_1_buffer_input_stream.html" title="Input stream to read from a buffer in memory. " alt="" coords="547,57,711,98"/>
+<area shape="rect" id="node8" href="$classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. " alt="" coords="533,123,725,149"/>
+<area shape="rect" id="node9" href="$classkfoundation_1_1_internet_input_stream.html" title="Input stream used to read from a TCP/IP port. " alt="" coords="542,174,715,215"/>
+<area shape="rect" id="node10" href="$classkfoundation_1_1_standard_input_stream_adapter.html" title="Wraps around the given istream (C++ standard libraries) to be read as a a KFoundation input stream..." alt="" coords="537,239,720,281"/>
+<area shape="rect" id="node11" href="$classkfoundation_1_1_string_input_stream.html" title="Input stream to read from string. " alt="" coords="547,305,710,346"/>
+<area shape="rect" id="node17" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="561,377,697,404"/>
+<area shape="rect" id="node18" href="$classkfoundation_1_1_attribute_token.html" title="Represents an attribute in the parsed stream. " alt="" coords="791,239,977,265"/>
+<area shape="rect" id="node19" href="$classkfoundation_1_1_collection_token.html" title="Represents begining of a collection in the parsed stream. " alt="" coords="787,289,981,316"/>
+<area shape="rect" id="node20" href="$classkfoundation_1_1_end_collection_token.html" title="Represents end of a collection in the parsed stream. " alt="" coords="794,341,974,382"/>
+<area shape="rect" id="node21" href="$classkfoundation_1_1_end_object_token.html" title="Represents end of an object in the parsed stream. " alt="" coords="785,407,983,433"/>
+<area shape="rect" id="node22" href="$classkfoundation_1_1_object_token.html" title="Represents begining of an object in the parsed stream. " alt="" coords="797,457,971,484"/>
+<area shape="rect" id="node23" href="$classkfoundation_1_1_text_token.html" title="Represents a text body (CDATA) in the parsed stream. " alt="" coords="803,508,965,535"/>
+<area shape="rect" id="node25" href="$classkfoundation_1_1_buffer_output_stream.html" title="Output stream used to write to a buffer in memory. " alt="" coords="542,429,715,470"/>
+<area shape="rect" id="node26" href="$classkfoundation_1_1_file_output_stream.html" title="Output stream used to write data on file. " alt="" coords="527,495,730,521"/>
+<area shape="rect" id="node27" href="$classkfoundation_1_1_internet_output_stream.html" title="Input stream used to write to TCP/IP socket. " alt="" coords="537,546,721,587"/>
+<area shape="rect" id="node28" href="$classkfoundation_1_1_standard_output_stream_adapter.html" title="KFoundation wrapper for C++ ostream. " alt="" coords="533,611,725,653"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="kfoundation::Ptr&lt; T &gt;" name="kfoundation::Ptr&lt; T &gt;">
+<area shape="rect" id="node4" href="$classkfoundation_1_1_p_ptr.html" title="Passive pointer, will not release and retain automatically. " alt="" coords="622,5,778,32"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_s_ptr.html" title="Static pointer, makes the pointed object immortal. " alt="" coords="622,56,778,83"/>
+<area shape="rect" id="node6" href="$classkfoundation_1_1_p_ptr.html" title="PPtr\&lt; kfoundation::\lXmlObjectStreamReader \&gt;" alt="" coords="609,107,791,149"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="207,49,367,90"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="5,56,159,83"/>
+</map>

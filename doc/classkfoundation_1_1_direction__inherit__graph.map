@@ -1,0 +1,4 @@
+<map id="kfoundation::Direction" name="kfoundation::Direction">
+<area shape="rect" id="node3" href="$classkfoundation_1_1_direction_iterator.html" title="Used to iterate all possible directions in an space of given dimensions. " alt="" coords="5,155,199,181"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="25,5,179,32"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="kfoundation::NullPointerException" name="kfoundation::NullPointerException">
+<area shape="rect" id="node2" href="$classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. " alt="" coords="19,319,197,360"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_memory_exception.html" title="Used to throw exeptions related to memory. " alt="" coords="5,244,211,271"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_k_f_exception.html" title="Superclass for all exceptions in KFoundation. " alt="" coords="21,169,195,196"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="28,80,188,121"/>
+<area shape="rect" id="node6" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="31,5,185,32"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="kfoundation::IOException" name="kfoundation::IOException">
+<area shape="rect" id="node2" href="$classkfoundation_1_1_k_f_exception.html" title="Superclass for all exceptions in KFoundation. " alt="" coords="5,169,179,196"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="12,80,172,121"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="15,5,169,32"/>
+</map>
