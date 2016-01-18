@@ -17,6 +17,10 @@
 #ifndef __KFoundation__BufferInputStream__
 #define __KFoundation__BufferInputStream__
 
+// Internal
+#include "definitions.h"
+
+// Super
 #include "InputStream.h"
 
 namespace kfoundation {
@@ -52,19 +56,18 @@ namespace kfoundation {
     public: kf_int32_t getSize() const;
     
     // From InputStream
-    kf_int32_t read(kf_octet_t* buffer, kf_int32_t nBytes);
-    int read();
-    int peek();
-    kf_int32_t skip(kf_int32_t bytes);
-    bool isEof();
-    bool isMarkSupported();
-    void mark();
-    void reset();
-    bool isBigEndian();
+    public: kf_int32_t read(kf_octet_t* buffer, kf_int32_t nBytes);
+    public: kf_int16_t read();
+    public: kf_int16_t peek();
+    public: kf_int32_t skip(kf_int32_t bytes);
+    public: bool isEof();
+    public: bool isMarkSupported();
+    public: void mark();
+    public: void reset();
+    public: bool isBigEndian();
     
   };
   
-}
-
+} // namespace kfoundation
 
 #endif /* defined(__KFoundation__BufferInputStream__) */

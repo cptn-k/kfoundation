@@ -18,9 +18,7 @@
 #define ORG_KNORBA_COMMON_SYSTEM_H
 
 // Internal
-#include "PtrDecl.h"
-
-using namespace std;
+#include "RefDecl.h"
 
 namespace kfoundation {
 
@@ -30,6 +28,8 @@ namespace kfoundation {
   class Runnable;
   class InputStream;
   class OutputStream;
+  class PrintWriter;
+  class UString;
   
   /**
    * @brief Provides a cross-platform way to access sytsem features. It cannot
@@ -55,40 +55,40 @@ namespace kfoundation {
       UNSUPPORTED   ///< Other / Unsupported
     } operating_system_t;
     
-    typedef pthread_t thread_t;
-    
     
   // --- STATIC FIELDS --- //
-    
-    //public: static const SPtr<InputStream> IN;
-    //public: static const SPtr<OutputStream> OUT;
-    //public: static const SPtr<OutputStream> ERR;
+
+    private: static MasterMemoryManager* master;
+    private: static StaticRef<Logger> logger;
+    public: static const StaticRef<PrintWriter> VOID;
+    public: static const StaticRef<PrintWriter> OUT;
+    public: static const StaticRef<PrintWriter> ERR;
+    public: static const StaticRef<InputStream> IN;
     
     
   // --- STATIC METHODS --- //
 
-    private: static void* getSystem();
-    public: static PPtr<Path> getExePath();
-    public: static Ptr<Path> getCurrentWorkingDirectory();
-    public: static bool isBigEndian();
-    public: static string demangle(string str);
-    public: static string resolveSymbolName(void* ptr);
-    public: static string getLastSystemError();
+    public: static Ref<Path>    getExePath();
+    public: static Ref<Path>    getCurrentWorkingDirectory();
+    public: static bool         isBigEndian();
+    public: static Ref<UString> demangle(const char* symbol);
+    public: static Ref<UString> resolveSymbolName(void* ptr);
+    public: static Ref<UString> getLastSystemError();
     public: static operating_system_t getOperatingSystem();
-    public: static Logger& getLogger();
-    public: static void sleep(const int msecs);
-    public: static int exec(const char* command, char** args, int argc);
+    public: static Ref<Logger>  getLogger();
+    public: static void         sleep(const kf_int32_t msecs);
+    public: static int          exec(const char* command, char** args, kf_int32_t argc);
     public: static MasterMemoryManager& getMasterMemoryManager();
-    public: static void takeover(void* libHandle);
-    public: static kf_int64_t getCurrentTimeInMiliseconds();
-    public: static int getPid();
-    public: static int backtrace(void** addrList, int countLimit);
-    public: static char** backtraceSymbols(void** addrList, int count);
+    public: static void         takeover(void* libHandle);
+    public: static kf_int64_t   getCurrentTimeInMiliseconds();
+    public: static kf_int32_t   getPid();
+    public: static kf_int32_t   backtrace(void** addrList, kf_int32_t countLimit);
+    public: static char**       backtraceSymbols(void** addrList, kf_int32_t count);
     
   };
-
   
 } // namespace kfoundation
+
 
 extern "C" void __k_systemTakeOver(kfoundation::__SystemImpl*);
 

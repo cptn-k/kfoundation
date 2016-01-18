@@ -10,7 +10,9 @@
 #include <cstring>
 
 // Internal
-#include "Int.h"
+#include "OutputStream.h"
+#include "PrintWriter.h"
+#include "Ref.h"
 
 // Self
 #include "Direction.h"
@@ -89,29 +91,30 @@ namespace kfoundation {
   
   // Inherited from Streamer //
   
-  void Direction::printToStream(ostream& stream) const {
-    stream << '(';
+  void Direction::printToStream(Ref<OutputStream> os) const {
+    PrintWriter pw(os);
+    pw << '(';
     for(int i = 0; i < _size; i++) {
       switch (_components[i]) {
         case BACK:
-          stream << 'v';
+          pw << 'v';
           break;
           
         case FORTH:
-          stream << '^';
+          pw << '^';
           break;
           
         case NEUTRAL:
-          stream << 'O';
+          pw << 'O';
           break;
       }
       
       if(i < _size - 1) {
-        stream << ", ";
+        pw << ", ";
       }
     }
     
-    stream << ')';
+    pw << ')';
   }
   
 } // namespace kfoundaiton

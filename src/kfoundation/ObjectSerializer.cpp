@@ -1,10 +1,16 @@
-
-// Std
-#include <stack>
-
 // Internal
-#include "UniString.h"
-#include "Ptr.h"
+#include "UString.h"
+#include "Ref.h"
+#include "OutputStream.h"
+#include "PrintWriter.h"
+#include "StringPrintWriter.h"
+#include "Array.h"
+#include "UChar.h"
+#include "Int.h"
+#include "LongInt.h"
+#include "Double.h"
+#include "Bool.h"
+#include "Array.h"
 
 // Self
 #include "ObjectSerializer.h"
@@ -12,133 +18,41 @@
 
 namespace kfoundation {
 
-  // --- ObjectDumpBuilderException -------------------------------------------
+//\/ ObjectDumpBuilderException /\/////////////////////////////////////////////
 
-  
   /**
    * Constructor.
    *
    * @param message A message describing the problem.
    */
   
-  ObjectDumpBuilderException::ObjectDumpBuilderException(string message)
-    : KFException(message)
+  ObjectDumpBuilderException::ObjectDumpBuilderException(RefConst<UString> message)
+  : KFException(message)
   {
-    setName("ObjectSerializerException");
+    setName(K"ObjectSerializerException");
   }
   
-  
-  // --- ObjectSerializer (private) ------------------------------------------
-  
-  Ptr<ObjectSerializer> ObjectSerializer::attribute(const string& name,
-      const string& value, value_type_t type)
+
+//\/ ObjectSerializer::StackItem /\////////////////////////////////////////////
+
+  void ObjectSerializer::StackItem::set(state_t state, RefConst<UString> name,
+      bool isLead)
   {
-    if(_state != OBJECT) {
-      throw ObjectDumpBuilderException("Attribute is only allowed inside an "
-          "object, before decleration of any member. Path: " + stackToString());
-    }
-    
-    switch(_outputType) {
-      case DUMP:
-        if(!_isLead)
-          _stream << ", ";
-        
-        // printIndent();
-        
-        _stream << name;
-        
-        if(type != NONE)
-          _stream << ": ";
-        
-        if(type == NUMBER || type == BOOL)
-          _stream << value;
-        else if(type == CHAR)
-          _stream << '\'' << value << '\'';
-        else if(type == STRING)
-          _stream << '\"' << value << '\"';
-        
-        break;
-        
-      case XML:
-        _stream << ' ' << name;
-        
-        if(type != NONE)
-          _stream << "=\"" << value << '\"';
-        
-        break;
-        
-      case JSON:
-        if(!_isLead)
-          _stream << ", ";
-        
-        printIndent();
-        
-        _stream << '\"' << name << "\" : ";
-        if(type == NONE)
-          _stream << "null";
-        else if(type == NUMBER || type == BOOL)
-          _stream << value;
-        else if(type == CHAR)
-          _stream << '\'' << value << '\'';
-        else if(type == STRING)
-          _stream << '\"' << value << '\"';
-        
-        break;
-    }
-    
-    _isLead = false;
-    
-    return getPtr().AS(ObjectSerializer);
-  } // attribute(const string&, const string&, value_type_t)
+    _state = state;
+    _name = name;
+    _isLead = isLead;
+  }
 
-  
-  string ObjectSerializer::stateToString(state_t type) {
-    switch(type) {
-      case ROOT       : return "root";
-      case MEMBER     : return "member";
-      case OBJECT     : return "object";
-      case OBJECT_BODY: return "object-body";
-      case PROPERTY   : return "property";
-      case VALUE      : return "value";
-      case COLLECTION : return "collection";
-    }
-    return "unknown";
-  } // stateToString(state_t)
-  
-  
-  string ObjectSerializer::stackToString() {
-    if(_stack.empty())
-      return "/";
-    
-    string res;
-    size_t s = _stack.size();
-    for(int i = 0; i < s; i++)
-    {
-      StackItem it = _stack[i];
-      res += it._name + " (" + stateToString(it._state) + ") --> ";
-    }
-    res += '(' + stateToString(_state) + ')';
-    
-    return res;
-  } // stackToString()
-  
-  
-  void ObjectSerializer::printIndent() {
-    if(_indentUnit != -1) {
-      _stream.put('\n');
-      for(int i = 0; i < _indent * _indentUnit; i++) {
-        _stream.put(' ');
-      }
-    }
-  } // printIndent()
-  
 
-  // --- ObjectSerializer ----------------------------------------------------
-  
-  const string ObjectSerializer::ID_ATTRIB_NAME("_id");
-  const string ObjectSerializer::COLLECTION_CLASS_NAME("_collection");
-  
-  
+//\/ ObjectSerializer /\///////////////////////////////////////////////////////
+
+// --- STATIC FIELDS --- //
+
+  const StaticRefConst<UChar> ObjectSerializer::SPACE = new UChar(' ');
+
+
+// --- CONSTRUCTORS --- //
+
   /**
    * Constructor, sets output stream, type, and indent units.
    *
@@ -146,38 +60,77 @@ namespace kfoundation {
    * @param outputType The output format.
    * @param indentUnit Number of spaces for each indention level.
    */
-  
-  ObjectSerializer::ObjectSerializer(ostream& stream,
-                                       output_type_t outputType,
-                                       int indentUnit)
-    : _outputType(outputType),
-      _state(ROOT),
-      _stream(stream),
-      _indentUnit(indentUnit),
-      _indent(0)
+
+  ObjectSerializer::ObjectSerializer(Ref<OutputStream> stream,
+      kf_int8_t indentUnit)
+  : _state(ROOT),
+    _indentUnit(indentUnit),
+    _indent(0),
+    _isLead(true),
+    _writer(new PrintWriter(stream)),
+    _stack(new Array<StackItem>())
   {
-    if(outputType == XML) {
-      stream << "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-    }
+    // Nothing
   }
 
+
+// --- METHODS --- //
   
-  /**
-   * Constructor, sets the output stream and type, and sets indent units to 4.
-   *
-   * @param stream The stream to print the output to.
-   * @param outputType The output format.
-   */
-  
-  ObjectSerializer::ObjectSerializer(ostream& stream, output_type_t outputType)
-    : _outputType(outputType),
-      _state(ROOT),
-      _stream(stream),
-      _indentUnit(4),
-      _indent(0)
+  Ref<ObjectSerializer> ObjectSerializer::attribute(RefConst<UString> name,
+      const Streamer& value, value_type_t type)
   {
-    if(outputType == XML) {
-      stream << "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+    if(_state != OBJECT) {
+      throw ObjectDumpBuilderException(K"Attribute is only allowed inside an "
+          "object, before decleration of any member. Path: " + stackToString());
+    }
+
+    printAttribute(name, value, type, _isLead);
+
+    _isLead = false;
+    
+    return this;
+  } // attribute(const string&, const string&, value_type_t)
+
+  
+  RefConst<UString> ObjectSerializer::stateToString(state_t type) const {
+    switch(type) {
+      case ROOT       : return K"root";
+      case MEMBER     : return K"member";
+      case OBJECT     : return K"object";
+      case OBJECT_BODY: return K"object-body";
+      case PROPERTY   : return K"property";
+      case VALUE      : return K"value";
+      case COLLECTION : return K"collection";
+    }
+    return K"unknown";
+  } // stateToString(state_t)
+  
+
+  RefConst<UString> ObjectSerializer::stackToString() const {
+    if(_stack->isEmpty()) {
+      return K"/";
+    }
+
+    StringPrintWriter writer;
+    size_t s = _stack->getSize();
+    for(int i = 0; i < s; i++) {
+      StackItem& it = _stack->at(i);
+      if(it._name.isNull()) {
+        writer << "__NULL__";
+      } else {
+        writer << it._name;
+      }
+      writer << " (" << stateToString(it._state) << ") --> ";
+    }
+    writer << '(' << stateToString(_state) << ')';
+
+    return writer.toString();
+  } // stackToString()
+  
+  
+  void ObjectSerializer::printIndent() {
+    if(_indentUnit != -1 && _state != ROOT) {
+      _writer->newLine()->print(*SPACE, _indent * _indentUnit);
     }
   }
 
@@ -190,49 +143,22 @@ namespace kfoundation {
    * @return Pointer to self.
    */
   
-  PPtr<ObjectSerializer> ObjectSerializer::member(const string& name) {
+  Ref<ObjectSerializer> ObjectSerializer::member(RefConst<UString> name) {
     if(_state != OBJECT && _state != OBJECT_BODY) {
-      throw ObjectDumpBuilderException("Error adding member \"" + name
-                + "\". Members are only allowed within objects. Path: " + 
-                stackToString());
+      throw ObjectDumpBuilderException(K"Error adding member \"" + name
+          + "\". Members are only allowed within objects. Path: "
+          + stackToString());
     }
 
-    switch(_outputType) {
-      case DUMP:
-        if(!_isLead)
-          _stream << ", ";
-        printIndent();
-        _stream << name << ": ";
-        break;
+    _stack->push().set(_state, name, false);
 
-      case XML:
-        if(_state == OBJECT)
-          _stream << '>';
-        _name = name;
-        break;
-
-      case JSON:
-        if(!_isLead)
-          _stream << ", ";
-        printIndent();
-        _stream << '\"' << name << "\" : ";
-        break;
-    }
-
-    _state = OBJECT_BODY;
-
-    if(_isLead)
-      _isLead = false;
-
-    _stack.push_back(StackItem(_state, name, _isLead));
-
+    _name = name;
     _state = MEMBER;
-    _isLead = true;
 
-    return getPtr().AS(ObjectSerializer);
+    return this;
   } // member(const string&)
 
-  
+
   /**
    * Used to output an object. Allowed in the begining or after member().
    * 
@@ -240,373 +166,233 @@ namespace kfoundation {
    * @return Pointer to self.
    */
   
-  PPtr<ObjectSerializer> ObjectSerializer::object(const string& className) {
+  Ref<ObjectSerializer> ObjectSerializer::object(RefConst<UString> className)
+  {
     if(_state != ROOT && _state != MEMBER && _state != COLLECTION) {
-      throw ObjectDumpBuilderException("Error adding object \'" + className 
-                + "\". Adding object is allowed only at root, in colelction, "
-                  "or after member. Path: " + stackToString());
+      throw ObjectDumpBuilderException(K"Error adding object \'"
+          + className
+          + "\". Adding object is allowed only at root, in colelction, "
+            "or after member. Path: "
+          + stackToString());
     }
 
-    switch(_outputType) {
-      case DUMP:
-        if(_state == COLLECTION) {
-          if(!_isLead)
-            _stream << ", ";
-          printIndent();
-        }
-        _stream << className << '[';
-        break;
-
-      case XML:
-        printIndent();
-        _stream << '<' << className;
-        
-        if(_state == MEMBER)
-          _stream << " _id=\"" << _name << '\"';
-        
-        break;
-
-      case JSON:
-        if(_state == COLLECTION) {
-          if(!_isLead)
-            _stream << ", ";
-          printIndent();
-        }
-        if(_state == ROOT) {
-          _stream << "\n";
-        }
-        _stream << '{';
-        break;
+    if(_state == ROOT) {
+      printHeader();
     }
 
-    if(_isLead) {
-      _isLead = false;
-    }
+    printObjectBegin(className, _name, _isLead);
 
-    _stack.push_back(StackItem(_state, className, _isLead));
+    _stack->push().set(_state, className, false);
 
     _state = OBJECT;
     _isLead = true;
+    _name = NULL;
 
     _indent++;
     
-    return getPtr().AS(ObjectSerializer);
+    return this;
   } // object(const string&)
   
-  
-  /**
-   * Used to output a field which already has SerializingStreamer interface 
-   * implemented. Allowed only after member(). endObject() should NOT be called
-   * for this method.
-   *
-   * @param ref The field to be printed.
-   * @return Pointer to self.
-   */
-  
-  PPtr<ObjectSerializer> ObjectSerializer::object(const SerializingStreamer& ref)
+
+  Ref<ObjectSerializer> ObjectSerializer::object(const SerializingStreamer &obj)
   {
-    ref.serialize(getPtr().AS(ObjectSerializer));
-    return getPtr().AS(ObjectSerializer);
+    obj.serialize(this);
+    return this;
   }
-  
-  
+
+
+  /**
+   * Serializes a `char` attribute.
+   */
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name, const wchar_t value) {
+    return attribute(name, UChar(value), CHAR);
+  }
+
+
+  /**
+   * Serializes an `int` attribute.
+   */
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name, const kf_int32_t value) {
+    return attribute(name, Int(value), NUMBER);
+  }
+
+
+  /**
+   * Serializes an `unsigned int` attribute.
+   */
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name, const kf_int64_t value) {
+    return attribute(name, LongInt(value), NUMBER);
+  }
+
+
+  /**
+   * Serializes a `double` attribuet.
+   */
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name, const double value) {
+    return attribute(name, Double(value), NUMBER);
+  }
+
+
+  /**
+   * Serializes a `bool` attribute.
+   */
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name, const bool value) {
+    return attribute(name, Bool(value), BOOL);
+  }
+
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name, const Streamer& value) {
+    return attribute(name, value, STRING);
+  }
+
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name, RefConst<UString> value) {
+    return attribute(name, *value, STRING);
+  }
+
+
+  /**
+   * Serializes an attribute with no value.
+   */
+
+  Ref<ObjectSerializer>
+  ObjectSerializer::attribute(RefConst<UString> name) {
+    return attribute(name, *name, NONE);
+  }
+
+
+  /**
+   * Used to print a field that is `NULL`. Only allowed after member().
+   */
+
+  Ref<ObjectSerializer> ObjectSerializer::null() {
+    if(_state != MEMBER || _state != COLLECTION) {
+      throw ObjectDumpBuilderException(K"null is only allowed after member or"
+          " in collection. Path: " + stackToString());
+    }
+
+    if(_state == MEMBER) {
+      printNull(_name, _isLead);
+      StackItem item = _stack->pop();
+      _state = item._state;
+      _isLead = item._isLead;
+      _name = NULL;
+    } else /*if(_state == COLLECTION)*/ {
+      printNull(NULL, _isLead);
+    }
+
+    return this;
+  } // null()
+
+
   /**
    * Marks the end of an object started by the latest call of object() method.
    * @return Pointer to self.
    */
   
-  PPtr<ObjectSerializer> ObjectSerializer::endObject() {
+  Ref<ObjectSerializer> ObjectSerializer::endObject() {
     if(_state != OBJECT && _state != OBJECT_BODY) {
-      throw ObjectDumpBuilderException("Error attemp to end object"
-                                       " doesn't match any prior object decleration. Path: "
-                                       + stackToString());
+      throw ObjectDumpBuilderException(K"Error attemp to end object"
+          " doesn't match any prior object decleration. Path: "
+          + stackToString());
     }
-    
-    StackItem item = _stack.back();
-    _stack.pop_back();
-    
-    _indent--;
-    
-    switch(_outputType) {
-      case DUMP:
-        _stream << ']';
-        break;
-        
-      case XML:
-        if(_state == OBJECT)
-          _stream << " />";
-        else {
-          printIndent();
-          _stream << "</" << item._name << '>';
-        }
-        break;
-        
-      case JSON:
-        if(!_isLead)
-          printIndent();
-        _stream << '}';
-        break;
-    }
-    
+
+    StackItem item = _stack->pop();
     _state = item._state;
     _isLead = item._isLead;
+
+    _indent--;
+
+    printObjectEnd(item._name, _isLead);
     
     if(_state ==  MEMBER) {
-      item = _stack.back();
-      _stack.pop_back();
+      item = _stack->pop();
       _state = item._state;
       _isLead = item._isLead;
     }
     
-    return getPtr().AS(ObjectSerializer);
+    return this;
   } // endObject();
-  
-  
-  PPtr<ObjectSerializer> ObjectSerializer::text(const string& value) {
-    if(_state != OBJECT) {
-      throw ObjectDumpBuilderException("String is only allowed immidiately after"
-                                       " member declerations. Path: " + stackToString());
-    }
-    
-    switch(_outputType) {
-      case DUMP:
-        attribute("_cdata", value);
-        break;
-        
-      case XML:
-        _stream << '>' << value;
-        break;
-        
-      case JSON:
-        attribute("_cdata", value);
-        break;
-    }
-    
-    endObject();
-    
-    return getPtr().AS(ObjectSerializer);
-  } // text(const string&)
-  
 
-  /**
-   * Used to print a field that is `NULL`. Only allowed after member().
-   */
-  
-  PPtr<ObjectSerializer> ObjectSerializer::null() {
-    if(_state != MEMBER) {
-      throw ObjectDumpBuilderException("null is only allowed immidiately after"
-                  " member declerations. Path: " + stackToString());
-    }
-    
-    StackItem item = _stack.back();
-    _stack.pop_back();
 
-    switch(_outputType) {
-      case DUMP:
-        _stream << "null";
-        break;
-
-      case XML:
-        printIndent();
-        _stream << '<' << item._name << "/>";
-        break;
-
-      case JSON:
-        _stream << "null";
-        break;
-    }
-
-    _state = item._state;
-    _isLead = item._isLead;
-
-    return getPtr().AS(ObjectSerializer);
-  } // null()
-
-  
   /**
    * Used to print a collection. Allowed only after member().
    * @return Pointer to self.
    */
   
-  PPtr<ObjectSerializer> ObjectSerializer::collection() {
+  Ref<ObjectSerializer> ObjectSerializer::collection() {
     if(_state != ROOT && _state != MEMBER) {
-      throw ObjectDumpBuilderException("Collection is only allowed as root or member."
-                " Path: " + stackToString());
+      throw ObjectDumpBuilderException(
+          K"Collection is only allowed as root or member. Path: "
+          + stackToString());
     }
 
-    switch(_outputType) {
-      case DUMP:
-        if(!_isLead)
-          _stream << ", ";
-        _stream << "{";
-        break;
-      
-      case XML:
-        printIndent();
-        _stream << '<' << COLLECTION_CLASS_NAME;
-        if(_state == MEMBER) {
-          _stream << " _id=\"" << _name << "\">";
-        }
-        break;
-
-      case JSON:
-        if(!_isLead)
-          _stream << ", ";
-        _stream << "[";
-        break;
-    }
+    printCollectionBegin(_name, _isLead);
 
     _isLead = false;
 
-    _stack.push_back(StackItem(_state, "", _isLead));
+    _stack->push().set(_state, NULL, _isLead);
 
     _isLead = true;
     _state = COLLECTION;
+    _name = NULL;
 
     _indent++;
 
-    return getPtr().AS(ObjectSerializer);
+    return this;
   } // collection(const string&)
 
-  
+
+  PrintWriter& ObjectSerializer::getWriter() {
+    return *_writer;
+  }
+
+
   /**
    * Marks end of a collection started by the latest unclosed call to 
    * collection().
    * @return Pointer to self.
    */
   
-  PPtr<ObjectSerializer> ObjectSerializer::endCollection() {
+  Ref<ObjectSerializer> ObjectSerializer::endCollection() {
     if(_state != COLLECTION) {
-      throw ObjectDumpBuilderException("End collection doesn't match the opening"
-                 " of any collection. Path: " + stackToString());
+      throw ObjectDumpBuilderException(
+          K"End collection doesn't match the opening of any collection. Path: "
+          + stackToString());
     }
 
-    StackItem item = _stack.back();
-    _stack.pop_back();
+    StackItem item = _stack->pop();
 
     _indent--;
 
-    switch(_outputType) {
-      case DUMP:
-        _stream << '}';
-        break;
-
-      case XML:
-        printIndent();
-        _stream << "</" << COLLECTION_CLASS_NAME << '>';
-        break;
-
-      case JSON:
-        printIndent();
-        _stream << "]";
-        break;
-    }
-
     _state = item._state;
     _isLead = item._isLead;
-    
+
+    printCollectionEnd(_isLead);
+
     if(_state ==  MEMBER) {
-      item = _stack.back();
-      _stack.pop_back();
+      item = _stack->pop();
       _state = item._state;
       _isLead = item._isLead;
     }
     
-    if(_stack.empty()) {
-      _stream << '\n';
+    if(_stack->isEmpty()) {
+      _writer->newLine();
     }
 
-    return getPtr().AS(ObjectSerializer);
-  }
-  
-  
-  /**
-   * Serializes a `string` attribute.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name, const string& value) {
-    return attribute(name, value, STRING);
-  }
-  
-  
-  /**
-   * Serializes a `char` attribute.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name, char value) {
-    return attribute(name, UniChar(value).toString(), CHAR);
-  }
-  
-  
-  /**
-   * Serializes an `int` attribute.
-   */
-  
-  PPtr<ObjectSerializer> ObjectSerializer::attribute(const string& name, int value) {
-    return attribute(name, Int(value).toString(), NUMBER);
-  }
-  
-  
-  /**
-   * Serializes an `unsigned int` attribute.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name, unsigned int value) {
-    return attribute(name, Int(value).toString(), NUMBER);
-  }
-  
-  
-  /**
-   * Serializes a `long int` attribute.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name, long int value) {
-    return attribute(name, LongInt::toString(value), NUMBER);
-  }
-  
-  
-  /**
-   * Serializes an `unsigned long int` attribute.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name, unsigned long int value) {
-    return attribute(name, LongInt::toString(value), NUMBER);
-  }
-  
-  
-  /**
-   * Serializes a `double` attribuet.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name, double value) {
-    return attribute(name, Double(value).toString(), NUMBER);
-  }
-  
-  
-  /**
-   * Serializes a `bool` attribute.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name, bool value) {
-    return attribute(name, Bool::toString(value), BOOL);
+    return this;
   }
 
-  
-  /**
-   * Serializes an attribute with no value.
-   */
-  
-  PPtr<ObjectSerializer>
-  ObjectSerializer::attribute(const string& name) {
-    return attribute(name, "", NONE);
-  }
-  
-  
 } // namespace kfoundation

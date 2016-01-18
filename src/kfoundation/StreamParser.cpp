@@ -1,27 +1,35 @@
 //
-//  PredictiveParserBase.cpp
+//  StreamParser.cpp
 //  KFoundation-XCode-Wrapper
 //
 //  Created by Hamed KHANDAN on 8/15/14.
 //  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
 //
 
+// Std
 #include <cmath>
 #include <cstring>
 
-#include "UniChar.h"
-#include "PredictiveParserBase.h"
+// Internal
+#include "UChar.h"
+#include "UString.h"
+#include "BufferOutputStream.h"
+#include "StringPrintWriter.h"
 
-#define KF_DOT_CHAR '.'
-#define KF_E_ALLCASES (const wchar_t[2]){L'e', L'E'}
-#define KF_PLUS_MINUS (const wchar_t[2]){L'+', L'-'}
-#define KF_NEWLINE_CARRIAGERETURN (const wchar_t[2]){L'\n', L'\r'}
+// Self
+#include "StreamParser.h"
+
 
 namespace kfoundation {
 
-  using namespace std;
-  
-  
+  const UChar StreamParser::NEW_LINE_CHAR = '\n';
+  const UChar StreamParser::RETURN_CHAR   = '\r';
+  const UChar StreamParser::PLUS_CHAR     = '+';
+  const UChar StreamParser::MINUS_CHAR    = '-';
+  const UChar StreamParser::DOT_CHAR      = '.';
+  const UChar StreamParser::LOWERCASE_E_CHAR = 'e';
+
+
   /**
    * Checks if the given argument is a valid begining of an identifier name.
    * Override to customize the parser based on your particular needs.
@@ -30,7 +38,7 @@ namespace kfoundation {
    * @param ch The character to be tested.
    */
   
-  bool PredictiveParserBase::isValidIdentifierBeginChar(const wchar_t& ch) const {
+  bool StreamParser::isValidIdentifierBeginChar(const wchar_t& ch) const {
     return isAlphabet(ch) || ch == '_';
   }
   
@@ -44,7 +52,7 @@ namespace kfoundation {
    * @param ch The character to be checked.
    */
   
-  bool PredictiveParserBase::isValidIdentifierChar(const wchar_t &ch) const {
+  bool StreamParser::isValidIdentifierChar(const wchar_t &ch) const {
     return isAlphanumeric(ch) || ch == '_';
   }
   
@@ -57,28 +65,25 @@ namespace kfoundation {
    * @param ch The character to be checked.
    */
   
-  bool PredictiveParserBase::isSpace(const wchar_t &ch) const {
+  bool StreamParser::isSpace(const wchar_t &ch) const {
     return ch == L' ';
   }
 
-  
-  unsigned short int PredictiveParserBase::read(wchar_t& ch, kf_octet_t* readOctets) {
+
+  kf_int8_t StreamParser::read(UChar& ch) {
     if(_bufferPos < _bufferSize) {
-      unsigned short int n = UniChar::readUtf8(_buffer + _bufferPos, ch);
+      unsigned short int n = ch.read(_buffer + _bufferPos);
       
       if(_bufferPos + n > BUFFER_CAPACITY) {
-        throw new KFException("Buffer overload");
+        throw new KFException(K"Buffer overload");
       }
       
-      if(readOctets != NULL) {
-        memcpy(readOctets, _buffer + _bufferPos, n);
-      }
       _bufferPos += n;
       
-      if(ch == '\n') {
+      if(ch.equals(NEW_LINE_CHAR)) {
         _tmpLine++;
         _tmpCol = 1;
-      } else if(ch != '\r') {
+      } else if(!ch.equals(RETURN_CHAR)) {
         _tmpCol++;
       }
       _tmpByteIndex += n;
@@ -87,24 +92,23 @@ namespace kfoundation {
       return n;
     }
     
-    if(_stream->isEof()) {
+    if(_stream.isEof()) {
       _eof = true;
       return 0;
     }
     
-    unsigned short int n = UniChar::readUtf8(_stream, ch, _buffer + _bufferPos);
-    if(readOctets != NULL) {
-      memcpy(readOctets, _buffer + _bufferPos, n);
-    }
-    _bufferSize += n;
+    unsigned short int n = ch.read(_streamRetainer);
+
+    _bufferSize += ch.write(_buffer + _bufferPos);
     _bufferPos = _bufferSize;
     
-    if(ch == '\n') {
+    if(ch.equals(NEW_LINE_CHAR)) {
       _tmpLine++;
       _tmpCol = 1;
-    } else if(ch != '\r') {
+    } else if(ch.equals(RETURN_CHAR)) {
       _tmpCol++;
     }
+
     _tmpByteIndex += n;
     _tmpCharIndex += 1;
     
@@ -112,7 +116,7 @@ namespace kfoundation {
   }
   
   
-  void PredictiveParserBase::commit(const unsigned short int& n) {
+  void StreamParser::commit(const kf_int8_t n) {
     _location.set(_tmpLine, _tmpCol, _tmpByteIndex, _tmpCharIndex);
     
     if(n < _bufferSize) {
@@ -126,7 +130,7 @@ namespace kfoundation {
   }
   
   
-  void PredictiveParserBase::rollback(const unsigned short int& n) {
+  void StreamParser::rollback(const kf_int8_t n) {
     _tmpLine = _location.getLine();
     _tmpCol = _location.getCol();
     _tmpByteIndex = _location.getByteIndex();
@@ -136,15 +140,15 @@ namespace kfoundation {
   }
   
   
-  unsigned short int PredictiveParserBase::read(kf_octet_t* buffer) {
-    wchar_t ch = 0;
-    return read(ch, buffer);
+  kf_int8_t StreamParser::read(kf_octet_t* buffer) {
+    UChar ch;
+    return read(ch);
   }
   
   
-  wchar_t PredictiveParserBase::readAndRollback() {
-    wchar_t ch = 0;
-    rollback(read(ch, NULL));
+  UChar StreamParser::readAndRollback() {
+    UChar ch;
+    rollback(read(ch));
     return ch;
   }
   
@@ -155,28 +159,20 @@ namespace kfoundation {
    * @param input The stream to parse.
    */
   
-  PredictiveParserBase::PredictiveParserBase(PPtr<InputStream> input)
+  StreamParser::StreamParser(Ref<InputStream> input)
     : _bufferSize(0),
       _bufferPos(0),
       _eof(input->isEof()),
       _tmpLine(1),
       _tmpCol(1),
       _tmpByteIndex(0),
-      _tmpCharIndex(0)
+      _tmpCharIndex(0),
+      _stream(*input)
   {
-    _stream = input;
+    _streamRetainer = input;
     _location.setLine(1);
   }
-  
-  
-  /**
-   * Deconstructor.
-   */
-  
-  PredictiveParserBase::~PredictiveParserBase() {
-    // Nothing;
-  }
-  
+
   
   /**
    * Tests if the given character is next in the stream.
@@ -184,8 +180,8 @@ namespace kfoundation {
    * @param ch The character to test.
    */
   
-  bool PredictiveParserBase::testChar(const wchar_t& ch) {
-    return ch == readAndRollback() && !_eof;
+  bool StreamParser::testChar(const UChar ch) {
+    return ch.equals(readAndRollback()) && !_eof;
   }
   
   
@@ -196,29 +192,29 @@ namespace kfoundation {
    * @param n The number of characters in the given list.
    */
   
-  bool PredictiveParserBase::testChar(const wchar_t* chars, const int& n) {
-    wchar_t readChar = readAndRollback();
-    
-    if(_eof) {
-      return false;
-    }
-    
-    for(int i = 0; i < n; i++) {
-      if(readChar == chars[i]) {
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
+//  bool StreamParser::testChar(const wchar_t* chars, const int& n) {
+//    wchar_t readChar = readAndRollback();
+//    
+//    if(_eof) {
+//      return false;
+//    }
+//    
+//    for(int i = 0; i < n; i++) {
+//      if(readChar == chars[i]) {
+//        return true;
+//      }
+//    }
+//    
+//    return false;
+//  }
+
   
   /**
    * Thest if the next character is alphabet.
    */
   
-  bool PredictiveParserBase::testAlphabet() {
-    return isAlphabet(readAndRollback()) && !_eof;
+  bool StreamParser::testAlphabet() {
+    return isAlphabet(readAndRollback().toWChar()) && !_eof;
   }
   
   
@@ -226,8 +222,8 @@ namespace kfoundation {
    * Tests if the next character is alphanumeric.
    */
   
-  bool PredictiveParserBase::testAlphanumeric() {
-    return isAlphanumeric(readAndRollback()) && !_eof;
+  bool StreamParser::testAlphanumeric() {
+    return isAlphanumeric(readAndRollback().toWChar()) && !_eof;
   }
   
   
@@ -236,8 +232,8 @@ namespace kfoundation {
    * Override isSpace() to customize the behavior of this function.
    */
   
-  bool PredictiveParserBase::testSpace() {
-    return isSpace(readAndRollback()) && !_eof;
+  bool StreamParser::testSpace() {
+    return isSpace(readAndRollback().toWChar()) && !_eof;
   }
   
   
@@ -245,8 +241,8 @@ namespace kfoundation {
    * Test if the next character is a newline character '`\n`'.
    */
   
-  bool PredictiveParserBase::testNewLine() {
-    return readAndRollback() == '\n' && !_eof;
+  bool StreamParser::testNewLine() {
+    return readAndRollback().equals(NEW_LINE_CHAR) && !_eof;
   }
   
   
@@ -254,8 +250,8 @@ namespace kfoundation {
    * Checks if the end of stream is reached.
    */
   
-  bool PredictiveParserBase::testEndOfStream() {
-    return _stream->isEof();
+  bool StreamParser::testEndOfStream() {
+    return _stream.isEof();
   }
   
   
@@ -264,20 +260,19 @@ namespace kfoundation {
    * @param str The sequence of characters to check against.
    */
   
-  bool PredictiveParserBase::testSequence(const wstring& str) {
-    wchar_t ch = 0;
-    size_t l = str.length();
-    unsigned short int total = 0;
-    
-    for(int i = 0; i < l; i++) {
-      total += read(ch, NULL);
-      if(ch != str[i] || _eof) {
-        rollback(total);
+  bool StreamParser::testSequence(RefConst<UString> str) {
+    unsigned short int pos = 0;
+    UChar ch;
+
+    for(UCharIterator it = str->getUCharIterator(); it.hasMore(); it.next()) {
+      pos += read(ch);
+      if(!ch.equals(it) || _eof) {
+        rollback(pos);
         return false;
       }
     }
-    
-    rollback(total);
+
+    rollback(pos);
     return true;
   }
   
@@ -291,11 +286,11 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  unsigned short int PredictiveParserBase::readChar(const wchar_t& t, kf_octet_t* octets) {
-    wchar_t ch = 0;
-    unsigned short int s = read(ch, octets);
+  kf_int8_t StreamParser::readChar(const UChar ch) {
+    UChar readCh;
+    unsigned short int s = read(readCh);
     
-    if(ch == t) {
+    if(ch.equals(readCh)) {
       commit(s);
       return s;
     }
@@ -316,21 +311,21 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  unsigned short int PredictiveParserBase::readChar(const wchar_t* chars, const int& n, kf_octet_t* octets) {
-    wchar_t ch = 0;
-    unsigned short int s = read(ch, octets);
-    
-    for(int i = 0; i < n; i++) {
-      if(chars[i] == ch) {
-        commit(s);
-        return s;
-      }
-    }
-    
-    rollback(s);
-    return 0;
-  }
-  
+//  unsigned short int StreamParser::readChar(const wchar_t* chars, const int& n, kf_octet_t* octets) {
+//    wchar_t ch = 0;
+//    unsigned short int s = read(ch, octets);
+//    
+//    for(int i = 0; i < n; i++) {
+//      if(chars[i] == ch) {
+//        commit(s);
+//        return s;
+//      }
+//    }
+//    
+//    rollback(s);
+//    return 0;
+//  }
+
   
   /**
    * Checks if the next character in the stream is an alphabet, and reads it
@@ -342,10 +337,10 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  unsigned short int PredictiveParserBase::readAlphabet(wchar_t& ch, kf_octet_t* octets) {
-    unsigned short int s = read(ch, octets);
+  kf_int8_t StreamParser::readAlphabet(UChar& ch) {
+    kf_int8_t s = read(ch);
     
-    if(isAlphabet(ch)) {
+    if(isAlphabet(ch.toWChar())) {
       commit(s);
       return s;
     }
@@ -364,10 +359,10 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  unsigned short int PredictiveParserBase::readNumeric(wchar_t& ch, kf_octet_t* octets) {
-    unsigned short int s = read(ch, octets);
+  kf_int8_t StreamParser::readNumeric(UChar& ch) {
+    kf_int8_t s = read(ch);
     
-    if(isNumeric(ch)) {
+    if(isNumeric(ch.toWChar())) {
       commit(s);
       return s;
     }
@@ -386,16 +381,34 @@ namespace kfoundation {
    * @return The number of read octets.
    */
 
-  unsigned short int
-  PredictiveParserBase::readNumeric(unsigned short int& digit) {
-    wchar_t ch = 0;
-    unsigned short int n = readNumeric(ch, NULL);
-    if(n == 0) {
+  kf_int8_t StreamParser::readNumeric(kf_int8_t& digit) {
+    UChar ch;
+    kf_int8_t s = read(ch);
+    wchar_t wch = ch.toWChar();
+    if(!isNumeric(wch)) {
       return 0;
     }
-    
-    digit = getNumericalValueOf(ch);
-    return n;
+    digit = getNumericalValueOf(wch);
+    return s;
+  }
+
+
+  kf_int8_t StreamParser::readHexNumeric(kf_int8_t& n) {
+    UChar ch;
+    read(ch);
+
+    wchar_t wch = ch.toWChar();
+    if(wch >= '0' && wch <= '9') {
+      n = wch - '0';
+      return 1;
+    } else if(wch >= 'a' && wch <= 'f') {
+      n = wch - 'a' + 10;
+      return 1;
+    } else if(wch >= 'A' && wch <= 'F') {
+      n = wch - 'A' + 10;
+      return 1;
+    }
+    return 0;
   }
   
   
@@ -409,11 +422,10 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  unsigned short int
-  PredictiveParserBase::readAlphanumeric(wchar_t& ch, kf_octet_t* octets) {
-    unsigned short int s = read(ch, octets);
+  kf_int8_t StreamParser::readAlphanumeric(UChar& ch) {
+    kf_int8_t s = read(ch);
     
-    if(isAlphanumeric(ch)) {
+    if(isAlphanumeric(ch.toWChar())) {
       commit(s);
       return s;
     }
@@ -435,12 +447,11 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  unsigned short int 
-  PredictiveParserBase::readIdentifierBeginChar(wchar_t& ch, kf_octet_t* octets)
+  kf_int8_t StreamParser::readIdentifierBeginChar(UChar& ch)
   {
-    unsigned short int s = read(ch, octets);
+    kf_int8_t s = read(ch);
     
-    if(isValidIdentifierBeginChar(ch)) {
+    if(isValidIdentifierBeginChar(ch.toWChar())) {
       commit(s);
       return s;
     }
@@ -462,11 +473,10 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  unsigned short int
-  PredictiveParserBase::readIdentifierChar(wchar_t& ch, kf_octet_t* octets) {
-    unsigned short int s = read(ch, octets);
+  kf_int8_t StreamParser::readIdentifierChar(UChar& ch) {
+    unsigned short int s = read(ch);
     
-    if(isValidIdentifierChar(ch)) {
+    if(isValidIdentifierChar(ch.toWChar())) {
       commit(s);
       return s;
     }
@@ -483,10 +493,11 @@ namespace kfoundation {
    * @return The number of read octers.
    */
   
-  unsigned short int PredictiveParserBase::readSpace() {
-    wchar_t ch = 0;
-    unsigned short int s = read(ch, NULL);
-    if(isSpace(ch)) {
+  kf_int8_t StreamParser::readSpace() {
+    UChar ch;
+    kf_int8_t s = read(ch);
+
+    if(isSpace(ch.toWChar())) {
       commit(s);
       return s;
     }
@@ -503,15 +514,15 @@ namespace kfoundation {
    * @return The number of read character.
    */
   
-  unsigned short int PredictiveParserBase::readNewLine() {
-    wchar_t ch = 0;
-    unsigned short int s = read(ch, NULL);
+  kf_int8_t StreamParser::readNewLine() {
+    UChar ch;
+    kf_int8_t s = read(ch);
     
-    if(ch == '\n') {
+    if(ch.equals(NEW_LINE_CHAR)) {
       commit(s);
       
-      unsigned short int s2 = read(ch, NULL);
-      if(ch == '\r') {
+      kf_int8_t s2 = read(ch);
+      if(ch.equals(RETURN_CHAR)) {
         commit(s2);
         return s + s2;
       }
@@ -534,8 +545,8 @@ namespace kfoundation {
    * @return The number of octets read.
    */
   
-  unsigned short int PredictiveParserBase::readAny(wchar_t& ch, kf_octet_t* octets) {
-    unsigned short int n = read(ch, octets);
+  kf_int8_t StreamParser::readAny(UChar& ch) {
+    kf_int8_t n = read(ch);
     commit(n);
     return n;
   }
@@ -549,21 +560,20 @@ namespace kfoundation {
    * @return The number of octets read.
    */
   
-  unsigned short int PredictiveParserBase::readSequence(const wstring& str) {
-    wchar_t ch = 0;
-    unsigned short int s = 0;
-    
-    size_t l = str.length();
-    for(int i = 0; i < l; i++) {
-      s += read(ch, NULL);
-      if(ch != str[i]) {
-        rollback(s);
+  kf_int8_t StreamParser::readSequence(RefConst<UString> str) {
+    UChar ch;
+    kf_int64_t pos = 0;
+
+    for(UCharIterator it = str->getUCharIterator(); it.hasMore(); it.next()) {
+      pos += read(ch);
+      if(!ch.equals(it)) {
+        rollback(pos);
         return false;
       }
     }
-    
-    commit(s);
-    return s;
+
+    commit(pos);
+    return pos;
   }
   
   
@@ -575,17 +585,15 @@ namespace kfoundation {
    * @return The number of octets read.
    */
   
-  size_t PredictiveParserBase::readAllAlphabet(string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch = 0;
-    
-    while((n = readAlphabet(ch, buffer)) != 0) {
-      storage.append((char*)buffer, n);
-      total += n;
+  kf_int64_t StreamParser::readAllAlphabet(Ref<OutputStream> storage) {
+    UChar ch;
+    kf_int64_t total = 0;
+
+    while(could(readAlphabet(ch))) {
+      total += ch.getOctetCount();
+      ch.printToStream(storage);
     }
-    
+
     return total;
   }
   
@@ -598,17 +606,15 @@ namespace kfoundation {
    * @return The number of octets read.
    */
   
-  size_t PredictiveParserBase::readAllAlphanumeric(string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch = 0;
+  kf_int64_t StreamParser::readAllAlphanumeric(Ref<OutputStream> storage) {
+    UChar ch;
+    kf_int64_t total = 0;
 
-    while((n = readAlphanumeric(ch, buffer)) != 0) {
-      storage.append((char*)buffer, n);
-      total += n;
+    while(could(readAlphanumeric(ch))) {
+      total += ch.getOctetCount();
+      ch.printToStream(storage);
     }
-    
+
     return total;
   }
   
@@ -621,21 +627,17 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t PredictiveParserBase::readAllNumeric(string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch = 0;
-    
-    while((n = readNumeric(ch, buffer)) != 0) {
-      storage.append((char*)buffer, n);
-      total += n;
+  kf_int64_t StreamParser::readAllNumeric(Ref<OutputStream> storage) {
+    UChar ch;
+    kf_int64_t total = 0;
+
+    while(could(readNumeric(ch), total)) {
+      ch.printToStream(storage);
     }
-    
+
     return total;
   }
-  
-  
+
   
   /**
    * Checks if the next character(s) represent a number (+|-)?[0..9]+(.[0..9]*)?,
@@ -645,28 +647,23 @@ namespace kfoundation {
    * @return The number of octets read.
    */
   
-  size_t PredictiveParserBase::readNumber(string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
+  kf_int64_t StreamParser::readNumber(Ref<OutputStream> storage) {
+    UChar ch;
+    kf_int64_t total = 0;
+
+    if(could(readChar(PLUS_CHAR), total)) {
+      PLUS_CHAR.printToStream(storage);
+    } else if(could(readChar(MINUS_CHAR), total)) {
+      MINUS_CHAR.printToStream(storage);
+    }
+
+    total += readAllNumeric(storage);
     
-    if((n = readChar(KF_PLUS_MINUS, 2, buffer)) != 0) {
-      storage.append((char*)buffer, n);
+    if(could(readChar(DOT_CHAR), total)) {
+      DOT_CHAR.printToStream(storage);
     }
     
     total += readAllNumeric(storage);
-    
-    if((n =readChar('.', buffer)) != 0) {
-      storage.append((char*)buffer, n);
-      total += 1;
-    }
-    
-    total += readAllNumeric(storage);
-    
-    if((n = readChar(KF_E_ALLCASES, 2, buffer)) != 0) {
-      storage.append((char*)buffer, n);
-      total += readAllNumeric(storage);
-    }
 
     return total;
   }
@@ -680,29 +677,59 @@ namespace kfoundation {
    * @return The number of octets read.
    */
   
-  size_t PredictiveParserBase::readNumber(long int& output) {
-    size_t total = 0;
-    unsigned short int n = 0;
-    unsigned short int digit = 0;
+  kf_int64_t StreamParser::readNumber(kf_int64_t& output) {
+    kf_int64_t total = 0;
+    kf_int8_t digit = 0;
     
     output = 0;
     long int factor = 1;
     
-    if((n = readChar('-', NULL)) != 0) {
+    if(could(readChar(MINUS_CHAR), total)) {
       factor = -1;
-      total += n;
     } else {
-      total += readChar('+', NULL);
+      total += readChar(PLUS_CHAR);
     }
     
-    while((n = readNumeric(digit)) != 0) {
+    while(could(readNumeric(digit), total)) {
       output += digit;
       output *= 10;
-      total += n;
     }
     
     output = output * factor / 10;
     
+    return total;
+  }
+
+
+  kf_int64_t StreamParser::readNumber(kf_int32_t& output) {
+    kf_int64_t n;
+    size_t s = readNumber(n);
+    output = (kf_int32_t)n;
+    return s;
+  }
+
+
+  kf_int64_t StreamParser::readHexNumber(kf_int32_t &output) {
+    kf_int64_t n;
+    size_t s = readHexNumber(n);
+    output = (kf_int32_t)n;
+    return s;
+  }
+
+
+  kf_int64_t StreamParser::readHexNumber(kf_int64_t& output) {
+    kf_int64_t total = 0;
+    kf_int8_t digit = 0;
+
+    output = 0;
+
+    while(could(readHexNumeric(digit), total)) {
+      output += digit;
+      output <<= 4;
+    }
+
+    output >>= 4;
+
     return total;
   }
   
@@ -715,42 +742,35 @@ namespace kfoundation {
    * @return The number of octets read.
    */
   
-  size_t PredictiveParserBase::readNumber(double& output) {
-    size_t total = 0;
-    unsigned short int n = 0;
-    unsigned short int digit = 0;
+  kf_int64_t StreamParser::readNumber(double& output) {
+    kf_int64_t total = 0;
+    kf_int8_t digit = 0;
     
     output = 0;
     double factor = 1;
     
-    if((n = readChar('-', NULL)) != 0) {
+    if(could(readChar(MINUS_CHAR), total)) {
       factor = -1;
-      total += n;
     } else {
-      total += readChar('+', NULL);
+      total += readChar(PLUS_CHAR);
     }
     
-    while ((n = readNumeric(digit)) != 0) {
-      total += n;
+    while (could(readNumeric(digit), total)) {
       output += digit;
       output *= 10;
     }
     
     output = output * factor / 10;
     
-    if((n = readChar('.', NULL)) != 0) {
-      total += n;
+    if(could(readChar(DOT_CHAR), total)) {
       factor = 0.1;
-      while((n = readNumeric(digit)) != 0) {
-        total += n;
+      while(could(readNumeric(digit), total)) {
         output += factor * digit;
         factor *= 0.1;
       }
     }
     
-    if((n = readChar(KF_E_ALLCASES, 2, NULL)) != 0) {
-      total += n;
-      
+    if(could(readChar(LOWERCASE_E_CHAR), total)) {
       long int power = 0;
       total += readNumber(power);
       
@@ -773,24 +793,20 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t PredictiveParserBase::readIdentifier(string& storage) {
-    size_t total = 0;
-    unsigned short int n = 0;
-    kf_octet_t buffer[6];
-    wchar_t ch = 0;
-    
-    if((n = readIdentifierBeginChar(ch, buffer)) != 0) {
-      storage.append((char*)buffer, n);
-      total += n;
+  kf_int64_t StreamParser::readIdentifier(Ref<OutputStream> storage) {
+    kf_int64_t total = 0;
+    UChar ch;
+
+    if(could(readIdentifierBeginChar(ch), total)) {
+      ch.printToStream(storage);
     } else {
       return 0;
     }
     
-    while((n = readIdentifierChar(ch, buffer)) != 0) {
-      storage.append((char*)buffer, n);
-      total += n;
+    while(could(readIdentifierChar(ch), total)) {
+      ch.printToStream(storage);
     }
-    
+
     return total;
   }
   
@@ -802,16 +818,13 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t PredictiveParserBase::readAllBeforeSpace(string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch;
-    
+  kf_int64_t StreamParser::readAllBeforeSpace(Ref<OutputStream> storage) {
+    UChar ch;
+    kf_int64_t total = 0;
+
     while(!testSpace() && !_eof) {
-      n = readAny(ch, buffer);
-      storage.append((char*)buffer, n);
-      total += n;
+      total += readAny(ch);
+      ch.printToStream(storage);
     }
     
     return total;
@@ -825,16 +838,13 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t PredictiveParserBase::readAllBeforeNewLine(string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch;
-    
+  kf_int64_t StreamParser::readAllBeforeNewLine(Ref<OutputStream> storage) {
+    kf_int64_t total = 0;
+    UChar ch;
+
     while(!testNewLine() && !_eof) {
-      n = readAny(ch, buffer);
-      storage.append((char*)buffer, n);
-      total += n;
+      total += readAny(ch);
+      ch.printToStream(storage);
     }
     
     return total;
@@ -849,16 +859,13 @@ namespace kfoundation {
    * @return The number of read octets.
    */
 
-  size_t PredictiveParserBase::readAllBeforeSpaceOrNewLine(string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch;
-    
+  kf_int64_t StreamParser::readAllBeforeSpaceOrNewLine(Ref<OutputStream> storage) {
+    kf_int64_t total = 0;
+    UChar ch;
+
     while(!testNewLine() && !testSpace() && !_eof) {
-      n = readAny(ch, buffer);
-      storage.append((char*)buffer, n);
-      total += n;
+      total += readAny(ch);
+      ch.printToStream(storage);
     }
     
     return total;
@@ -874,17 +881,14 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t
-  PredictiveParserBase::readAllBeforeChar(const wchar_t t, string& storage) {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch;
-    
-    while(!testChar(t) && !_eof) {
-      n = readAny(ch, buffer);
-      storage.append((char*)buffer, n);
-      total += n;
+  kf_int64_t
+  StreamParser::readAllBeforeChar(const UChar ch, Ref<OutputStream> storage) {
+    UChar readCh;
+    kf_int64_t total = 0;
+
+    while(!testChar(ch) && !_eof) {
+      total += readAny(readCh);
+      readCh.printToStream(storage);
     }
     
     return total;
@@ -901,27 +905,24 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t
-  PredictiveParserBase::readAllBeforeCharSkipEscaped(const wchar_t t,
-      const wchar_t escape, string &storage)
+  kf_int64_t
+  StreamParser::readAllBeforeCharSkipEscaped(const UChar ch,
+      const UChar escape, Ref<OutputStream> storage)
   {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch;
+    UChar readCh;
+    kf_int64_t total = 0;
     bool escapeFlag = false;
     
-    while((!testChar(t) || escapeFlag) && !_eof) {
-      n = readAny(ch, buffer);
+    while((!testChar(ch) || escapeFlag) && !_eof) {
+      total += readAny(readCh);
       
       if(escapeFlag) {
         escapeFlag = false;
       } else {
-        escapeFlag = (ch == escape);
+        escapeFlag = (readCh.equals(escape));
       }
-      
-      storage.append((char*)buffer, n);
-      total += n;
+
+      readCh.printToStream(storage);
     }
     
     return total;
@@ -936,19 +937,15 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t
-  PredictiveParserBase::readAllBeforeSequence(const wstring &str,
-      string &storage)
+  kf_int64_t StreamParser::readAllBeforeSequence(RefConst<UString> str,
+      Ref<OutputStream> storage)
   {
-    size_t total = 0;
-    kf_octet_t buffer[6];
-    unsigned short int n = 0;
-    wchar_t ch;
-    
+    kf_int64_t total = 0;
+    UChar ch;
+
     while(!testSequence(str) && !_eof) {
-      n = readAny(ch, buffer);
-      storage.append((char*)buffer, n);
-      total += n;
+      total += readAny(ch);
+      ch.printToStream(storage);
     }
     
     return total;
@@ -961,12 +958,11 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t PredictiveParserBase::skipSpaces() {
-    size_t total = 0;
-    unsigned short int n = 0;
-    
-    while((n = readSpace()) != 0) {
-      total += n;
+  kf_int64_t StreamParser::skipSpaces() {
+    kf_int64_t total = 0;
+
+    while(could(readSpace(), total)) {
+      // Nothing;
     }
     
     return total;
@@ -979,12 +975,11 @@ namespace kfoundation {
    * @return The number of read octets.
    */
   
-  size_t PredictiveParserBase::skipSpacesAndNewLines() {
-    size_t total = 0;
-    size_t s = 0;
-    
-    while((s = skipSpaces() + readNewLine()) != 0) {
-      total += s;
+  kf_int64_t StreamParser::skipSpacesAndNewLines() {
+    kf_int64_t total = 0;
+
+    while(could(readSpace(), total) || could(readNewLine(), total)) {
+      // Nothing;
     }
     
     return total;
@@ -996,7 +991,7 @@ namespace kfoundation {
    * in the stream.
    */
   
-  const CodeLocation& PredictiveParserBase::getCodeLocation() const {
+  const CodeLocation& StreamParser::getCodeLocation() const {
     return _location;
   }
   

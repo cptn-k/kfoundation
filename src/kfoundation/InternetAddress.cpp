@@ -14,9 +14,15 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+// Std
+#include <cstring>
+
 // Internal
-#include "PredictiveParserBase.h"
+#include "StreamParser.h"
 #include "StringInputStream.h"
+#include "OutputStream.h"
+#include "PrintWriter.h"
+#include "UString.h"
 
 // Self
 #include "InternetAddress.h"
@@ -32,8 +38,7 @@ namespace kfoundation {
 
   
 // --- (DE)CONSTRUCTORS --- //
-  
-  
+
   /**
    * Constructs and address with value of 0.0.0.0:0
    */
@@ -65,7 +70,7 @@ namespace kfoundation {
    *            present, the port number will be assumed 0.
    */
   
-  InternetAddress::InternetAddress(const string& str) {
+  InternetAddress::InternetAddress(RefConst<UString> str) {
     _port = -1;
     parseString(str);
   }
@@ -80,7 +85,7 @@ namespace kfoundation {
    * @param port A port number.
    */
   
-  InternetAddress::InternetAddress(const string& str, kf_int32_t port)
+  InternetAddress::InternetAddress(RefConst<UString> str, kf_int32_t port)
   {
     parseString(str);
     _port = port;
@@ -91,19 +96,19 @@ namespace kfoundation {
    * Copy constructor.
    */
   
-  InternetAddress::InternetAddress(const InternetAddress& other) {
-    _port = other._port;
-    memcpy(_ip, other._ip, sizeof(_ip));
+  InternetAddress::InternetAddress(RefConst<InternetAddress> other) {
+    _port = other->_port;
+    memcpy(_ip, other->_ip, sizeof(_ip));
   }
   
   
 // --- METHODS --- //
   
-  void InternetAddress::parseString(const string& str) {
+  void InternetAddress::parseString(RefConst<UString> str) {
     memset(_ip, 0, sizeof(_ip));
     
-    Ptr<StringInputStream> stringInput = new StringInputStream(str);
-    Ptr<PredictiveParserBase> parser = new PredictiveParserBase(stringInput.AS(InputStream));
+    Ref<StringInputStream> stringInput = new StringInputStream(str);
+    Ref<StreamParser> parser = new StreamParser(stringInput.AS(InputStream));
     
     long int n = 0;
     
@@ -154,8 +159,8 @@ namespace kfoundation {
    * @param port The port number for the new object.
    */
   
-  InternetAddress InternetAddress::copyWithPort(kf_int32_t port) const {
-    return InternetAddress(_ip, port);
+  Ref<InternetAddress> InternetAddress::copyWithPort(kf_int32_t port) const {
+    return new InternetAddress(_ip, port);
   }
   
   
@@ -163,12 +168,12 @@ namespace kfoundation {
    * Checks if two instance of this class are equal.
    */
   
-  bool InternetAddress::equals(const InternetAddress& other) const {
-    if(_port != other._port) {
+  bool InternetAddress::equals(RefConst<InternetAddress> other) const {
+    if(_port != other->_port) {
       return false;
     }
     
-    return memcmp(_ip, other._ip, sizeof(_ip)) == 0;
+    return memcmp(_ip, other->_ip, sizeof(_ip)) == 0;
   }
   
   
@@ -195,13 +200,13 @@ namespace kfoundation {
    * Returns the address used to broad cast to the corresponding subnet.
    */
   
-  InternetAddress InternetAddress::getBroadcastAddress() const {
-    InternetAddress mask = getSubnetMask();
+  Ref<InternetAddress> InternetAddress::getBroadcastAddress() const {
+    Ref<InternetAddress> mask = getSubnetMask();
     kf_octet_t masked[4];
     for(int i = 0; i < 4; i++) {
-      masked[i] = _ip[i] | mask._ip[i];
+      masked[i] = _ip[i] | mask->_ip[i];
     }
-    return InternetAddress(masked, -1);
+    return new InternetAddress(masked, -1);
   }
   
   
@@ -209,28 +214,30 @@ namespace kfoundation {
    * Returns the corresponding subnet mask.
    */
   
-  InternetAddress InternetAddress::getSubnetMask() const {
+  Ref<InternetAddress> InternetAddress::getSubnetMask() const {
     switch (getClass()) {
       case A:
-        return InternetAddress(CLASS_A_MASK, -1);
+        return new InternetAddress(CLASS_A_MASK, -1);
         
       case B:
-        return InternetAddress(CLASS_B_MASK, -1);
+        return new InternetAddress(CLASS_B_MASK, -1);
         
       case C:
-        return InternetAddress(CLASS_C_MASK, -1);
+        return new InternetAddress(CLASS_C_MASK, -1);
         
       default:
-        return InternetAddress(DEFAULT_MASK, -1);
+        return new InternetAddress(DEFAULT_MASK, -1);
     }
   }
   
   
-  void InternetAddress::printToStream(ostream& stream) const {
-    stream << (int)_ip[0] << "." << (int)_ip[1] << "." << (int)_ip[2]
-        << "." << (int)_ip[3];
+  void InternetAddress::printToStream(Ref<OutputStream> stream) const {
+    PrintWriter wr(stream);
+
+    wr << (int)_ip[0] << '.' << (int)_ip[1] << '.' << (int)_ip[2]
+        << '.' << (int)_ip[3];
     if(_port >= 0) {
-        stream << ":" << _port;
+        wr << ":" << _port;
     }
   }
   

@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Kay Khandan. All rights reserved.
 //
 
+#include "Ref.h"
 #include "KFException.h"
-#include "Int.h"
+#include "UString.h"
 
 #include "ProximityIterator.h"
 
@@ -25,7 +26,7 @@ namespace kfoundation {
   : _radius(radius)
   {
     if(radius <= 0) {
-      throw KFException("Invalid radius: " + Int::toString(radius));
+      throw KFException(K"Invalid radius: " + radius);
     }
     _hasMore = false;
   }
@@ -41,7 +42,7 @@ namespace kfoundation {
   : _radius(radius)
   {
     if(radius <= 0) {
-      throw KFException("Invalid radius: " + Int::toString(radius));
+      throw KFException(K"Invalid radius: " + radius);
     }
     centerAt(center);
   }

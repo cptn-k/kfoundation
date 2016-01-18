@@ -16,6 +16,7 @@
 
 // Std
 #include <cstring>
+#include <algorithm>
 
 // Internal
 #include "System.h"
@@ -66,16 +67,17 @@ namespace kfoundation {
   }
   
   
-  kf_int32_t BufferInputStream::read(kf_octet_t* buffer, const kf_int32_t nBytes)
+  kf_int32_t BufferInputStream::read(kf_octet_t* buffer,
+      const kf_int32_t nBytes)
   {
-    kf_int32_t nReadableBytes = min(nBytes, _size - _position);
+    kf_int32_t nReadableBytes = std::min(nBytes, _size - _position);
     memcpy(buffer, _buffer + _position, nReadableBytes);
     _position += nBytes;
     return nReadableBytes;
   }
   
   
-  int BufferInputStream::read() {
+  kf_int16_t BufferInputStream::read() {
     if(_position == _size) {
       return -1;
     }
@@ -84,7 +86,7 @@ namespace kfoundation {
   }
   
   
-  int BufferInputStream::peek() {
+  kf_int16_t BufferInputStream::peek() {
     if(_position == _size) {
       return -1;
     }
@@ -94,7 +96,7 @@ namespace kfoundation {
   
   
   kf_int32_t BufferInputStream::skip(kf_int32_t bytes) {
-    bytes = min(bytes, _size - _position);
+    bytes = std::min(bytes, _size - _position);
     _position += bytes;
     return bytes;
   }
@@ -123,6 +125,5 @@ namespace kfoundation {
   bool BufferInputStream::isBigEndian() {
     return System::isBigEndian();
   }
-  
-  
+
 } // namespace kfoundation

@@ -12,17 +12,17 @@
  * @mainpage Overview
  *
  * KFoundation is a collection of C++ APIs that are essential to every
- * programmer. Some of them like Logger have been missing in C++ standard
- * libraries, and some of the like managed pointers (Ptr) replace existing C++
- * standard APIs like auto_ptr, etc. with better fucntionality.
+ * program. Some of them like Logger have been missing in C++ standard
+ * libraries, and some of the like managed pointers (`Ref`) replace existing C++
+ * standard APIs like `auto_ptr`, etc. with better fucntionality.
  *
- * Most classes in KFoundation implement kfoundation::Streamer interface.
- * This interface provides a toString() funtion and also overloads << operator
- * for both ostream and logger stream. For example, if myObject is a Streamer,
- * you can do the following:
+ * Most classes in KFoundation implement Streamer interface.
+ * This interface provides a `toString()` funtion and also overloads `<<`
+ * operator for both ostream and logger stream. For example, if `myObject` is a
+ * `Streamer`, you can do any of the following:
  *
  *     cout << myObject << endl;
- *     LOG << myObject << EL;
+ *     LOG << myObject << ENDS;
  *     string str = myObject.toString();
  *
  * The KFoundation APIs can be divided into the following categories (modules):
@@ -42,17 +42,22 @@
  * Types and Macros
  * ================
  *
- * KFoundation defines a set of portable types. These are, kf_octet_t,
- * kf_int8_t, kf_int16_t, kf_int32_t, and kf_int64_t.
+ * KFoundation defines a set of portable types. These are, `kf_octet_t`,
+ * `kf_int8_t`, `kf_int16_t`, `kf_int32_t`, and `kf_int64_t`.
  *
  * There are a serries of macros helping to detect the operating system.
- * Thesre are, KF_LINUX, KF_MAC, KF_MACH, KF_SOLARIS, and KF_FREE_BSD. If
- * the target machine or operating system is supported by KFoundation,
- * KF_SUPPORTED will be defined.
+ * Thesre are, `KF_LINUX`, `KF_MAC`, `KF_MACH`, `KF_SOLARIS`, and `KF_FREE_BSD`.
+ * If the target machine or operating system is supported by KFoundation,
+ * `KF_SUPPORTED` will be defined.
  *
- * Use IS_NULL(X) and NOT_NULL(X) macros to make your code more readable. There
- * are other macros like ISA(X), and AS(X) that are related to memory
- * management module.
+ * `IS_NULL(X)` and `NOT_NULL(X)` macros are provided to help creating more
+ * readable codes.
+ *
+ * `ISA(X)`, and `AS(X)` that are related to memory management module. Usage:
+ *
+ *     if(myObject.ISA(MyClass)) {
+ *         myObject.AS(MyClass)->methodSpecificToMyClass();
+ *     }
  *
  * @ref defs "See all APIs here."
  *
@@ -61,11 +66,11 @@
  * =================
  *
  * KFoundation provides an automatic memory management solution with several
- * advantages. Every and only subclasses of ManagedObject can take advantage of
- * this feature. Thus ManagedObject is the root class in KFoundation inheritance
- * hierarchy. To create a pointer to a managed object use Ptr<T>, PPtr<T>, or
+ * advantages. Only subclasses of KFObject can take advantage of
+ * this feature. Thus KFObject is the root class in KFoundation inheritance
+ * hierarchy. To create a pointer to a managed object use Ref<T>, Ref<T>, or
  * SPtr<T> instead a standard one. See documentation for
- * kfoundation::Ptr for more details.
+ * kfoundation::Ref for more details.
  *
  * KFoundation memory management protects you from getting segmentation fault,
  * and instread throws NullPointerException or InvalidPointerException as
@@ -73,8 +78,8 @@
  * just keep it running without a crash.
  *
  * If ever needed, you may interact with running memory managers by invoking
- * @ref kfoundation::System::getMasterMemoryManager() "System::getMasterMemoryManager()".
- * You may create and register
+ * @ref kfoundation::System::getMasterMemoryManager()
+ * "System::getMasterMemoryManager()". You may create and register
  * your own managers as well. A memory manager should be a subclass of
  * @ref kfoundation::MemoryManager "MemoryManager".
  *
@@ -86,15 +91,15 @@
  *
  * Languages like Java offer type-wrapper classes corresponding to primitive
  * types.
- * Thesre are good when you need to use a variable of primitive type like an
- * object. KFoundation offers Bool, Int, LongInt, Double, and UniChar for the
- * same purpose. Specially UniChar contains a set of very useful functions to
+ * These are useful when you need to use a variable of primitive type like an
+ * object. KFoundation offers Bool, Int, LongInt, Double, and UChar for the
+ * same purpose. Specially UChar contains a set of very useful functions to
  * deal with Unicode and UTF-8 encoding.
  *
  * At the moment, there are only two container classes, namely Array<T> and
- * ManagedArray<T>. ManagedArray<T> is a container for ManagedObjects, and
+ * RefArray<T>. RefArray<T> is a container for ManagedObjects, and
  * Array<T> is a container for everything else. However Array<T> is a
- * ManagedObject itself. NummericVector<T> is a subclass of Array<T> that
+ * KFObject itself. NummericVector<T> is a subclass of Array<T> that
  * implements primary mathematical operations and implements Streamer interface
  * i.e. it has a toString() method.
  *
@@ -104,14 +109,14 @@
  * I/O
  * ===
  *
- * KFoundation offers InputStream and OutputStream classes that are minimalist
- * equivalant of ostream and istream. Thanks to their minimalist design, an
- * extensive set of stream types could by provided by KFoundation. Thesre are,
+ * KFoundation offers InputStream and OutputStream classes as minimalist
+ * equivalant of standard ostream and istream. Thanks to their minimalist
+ * design, an extensive set of stream types could by provided by KFoundation.
+ * Thesre are,
  * BufferInputStream, BufferOutputStream, FileInputStream, FileOutputStream,
  * InternetInputStream, InternetOutputStream, and StringInputStream. If you
  * need to use a standard istream or ostream object withing KFoundation
- * StandardInputStreamAdapter and StandardOutputStreamAdapter are provided
- * for that purpose.
+ * simply use StandardInputStreamAdapter and StandardOutputStreamAdapter.
  *
  * @ref io "See all APIs here."
  *
@@ -121,9 +126,9 @@
  *
  * KFoundation offers a powerful and intuitive way for objects to implement
  * serialization
- * and deserialization capabilities. Objects that can be serialized are needed
- * to implement SerializingStreamer interface. And those that can be
- * deserialized should implement StreamDeserializer interface. When implemented,
+ * and deserialization capabilities. To be serializable, objects need
+ * to implement SerializingStreamer interface. And to be deserializable they
+ * should implement StreamDeserializer interface. When implemented,
  * these interfaces allow those object to be serialized/deserialized to and from
  * every format that is supported by KFoundation, including XML, JSON, and KFOR.
  *
@@ -146,7 +151,7 @@
  *   class provides a set of cross-platform APIs to access system features.
  * * @ref kfoundation::Timer "Timer"
  *   is used to measure performance of a code fragment.
- * * @ref kfoundation::PredictiveParserBase "PredictiveParserBase"
+ * * @ref kfoundation::StreamParser "StreamParser"
  *   is a utility to write parsers. It is used internally to implement obejct
  *   deserialization in KFoundation.
  *
@@ -186,4 +191,3 @@
  * @ref exceptions "See all APIs here."
  *
  */
-

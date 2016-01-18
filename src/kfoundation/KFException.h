@@ -18,14 +18,15 @@
 #define ORG_KNORBA_COMMON_EXCEPTION_H
 
 #include <exception>
-#include <string>
 
+#include "RefDecl.h"
 #include "definitions.h"
 #include "SerializingStreamer.h"
 
 namespace kfoundation {
 
-using namespace std;
+  class UString;
+  template<typename T> class Array;
 
 /**
  * Superclass for all exceptions in KFoundation.
@@ -36,51 +37,54 @@ using namespace std;
  *     try {
  *       ... something ...
  *     } catch(KFException& e) {
- *       LOG << e << EL;
+ *       LOG << e << ENDS;
  *     }
  *.
  * @ingroup exceptions
  * @headerfile KFException.h <kfoundation/KFException.h>
  */
   
-class KFException : public SerializingStreamer, public exception {
-  
+class KFException : public SerializingStreamer, public std::exception {
+
 // --- NESTED TYPES --- //
   
   public: class StackTraceItem : public SerializingStreamer {
-    private: int      _index;
-    private: string   _exeName;
-    private: long int _address;
-    private: string   _symbol;
-    private: int      _offset;
-    
-    private: static char* readWhiteSpace(char* str);
-    private: static char* readText(char* str);
-    private: static char* readChar(char* str, char ch);
-    public: static string demangle(string str);
-    public: static StackTraceItem fromStackTraceString(char* str);
-    
-    public: int getIndex() const {
+
+  // --- FIELDS --- //
+
+    private: kf_int32_t _index;
+    private: kf_int32_t _offset;
+    private: RefConst<UString> _exeName;
+    private: RefConst<UString> _address;
+    private: RefConst<UString> _symbol;
+
+
+  // --- METHODS --- //
+
+    public: void set(char* str);
+
+    public: kf_int32_t getIndex() const {
       return _index;
     }
     
-    public: string getExeName() const {
+    public: RefConst<UString> getExeName() const {
       return _exeName;
     }
     
-    public: long int getAddress() const {
+    public: RefConst<UString> getAddress() const {
       return _address;
     }
     
-    public: string getSymbol() const {
+    public: RefConst<UString> getSymbol() const {
       return _symbol;
     }
     
-    public: int getOffset() const {
+    public: kf_int32_t getOffset() const {
       return _offset;
     }
-    
-    public: void serialize(PPtr<ObjectSerializer> os) const;
+
+    // From SerializingStreamer
+    public: void serialize(Ref<ObjectSerializer> os) const;
   };
   
   
@@ -91,16 +95,17 @@ class KFException : public SerializingStreamer, public exception {
   
 // --- FIELDS --- //
   
-  private: string _name;
-  private: string _message;
-  private: int    _nHiddenFrames;
-  private: StackTraceItem* _stackTrace;
+  private: int _nHiddenFrames;
   private: int _nFrames;
-  
-  
+  private: RefConst<UString> _name;
+  private: RefConst<UString> _message;
+  private: RefConst<UString> _what;
+  private: Ref< Array<StackTraceItem> > _stackTrace;
+
+
 // --- (DE)CONSTRUCTORS --- //
-  
-  public: KFException(string message);
+
+  public: KFException(RefConst<UString> message);
   public: KFException(const KFException& other);
   public: ~KFException() throw();
   
@@ -108,14 +113,14 @@ class KFException : public SerializingStreamer, public exception {
 // --- METHODS --- //
   
   private: void createStackTrace();
-  protected: void setName(string name);
+  protected: void setName(RefConst<UString> name);
   protected: void incrementNumberOfHiddenFrames();
-  public: const string& getMessage() const;
+  public: RefConst<UString> getMessage() const;
   public: int getNStackItems();
   public: const StackTraceItem& getStackItem() const;
   
   // Inherited from SerializingStreamer //
-  public: void serialize(PPtr<ObjectSerializer> os) const;
+  public: void serialize(Ref<ObjectSerializer> os) const;
   
   // Inherited from exception //
   public: virtual const char* what() const throw();

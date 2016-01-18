@@ -7,7 +7,11 @@
 //
 
 #include "ObjectStreamReader.h"
-#include "Ptr.h"
+#include "Ref.h"
+#include "Int.h"
+#include "LongInt.h"
+#include "Double.h"
+#include "Bool.h"
 
 namespace kfoundation {
   
@@ -24,31 +28,31 @@ namespace kfoundation {
    * Returns a string corresponding the given parameter.
    */
   
-  string Token::toString(const type_t &t) {
+  RefConst<UString> Token::toString(const type_t t) {
     switch (t) {
       case OBJECT:
-        return "object";
+        return K"object";
         
       case ATTRIBUTE:
-        return "attribute";
+        return K"attribute";
         
       case TEXT:
-        return "text";
+        return K"text";
         
       case COLLECTION:
-        return "collection";
+        return K"collection";
         
       case END_COLLECTION:
-        return "end collection";
+        return K"end collection";
         
       case END_OBJECT:
-        return "end object";
+        return K"end object";
         
       case END_STREAM:
-        return "end stream";
+        return K"end stream";
     }
     
-    return "unknown";
+    return K"unknown";
   }
   
   
@@ -82,7 +86,7 @@ namespace kfoundation {
   
   void Token::validateType(const type_t& t) const {
     if(t != getType()) {
-      throw ParseException("Expected token of type " + toString(t) + " but "
+      throw ParseException(K"Expected token of type " + toString(t) + " but "
           + toString(getType()) + " found.", codeRange);
     }
   }
@@ -96,9 +100,9 @@ namespace kfoundation {
    * @throw ParseException if the type of this token is not ObjectToken.
    */
   
-  PPtr<ObjectToken> Token::asObject() {
+  Ref<ObjectToken> Token::asObject() {
     validateType(OBJECT);
-    return getPtr().AS(ObjectToken);
+    return Ref<Token>(getRef()).AS(ObjectToken);
   }
   
   
@@ -110,9 +114,9 @@ namespace kfoundation {
    * @throw ParseException if the type of this token is not EndObjectToken.
    */
 
-  PPtr<EndObjectToken> Token::asEndObject() {
+  Ref<EndObjectToken> Token::asEndObject() {
     validateType(END_OBJECT);
-    return getPtr().AS(EndObjectToken);
+    return Ref<Token>(getRef()).AS(EndObjectToken);
   }
 
   
@@ -124,9 +128,9 @@ namespace kfoundation {
    * @throw ParseException if the type of this token is not AttributeToken.
    */
   
-  PPtr<AttributeToken> Token::asAttribute() {
+  Ref<AttributeToken> Token::asAttribute() {
     validateType(ATTRIBUTE);
-    return getPtr().AS(AttributeToken);
+    return Ref<Token>(getRef()).AS(AttributeToken);
   }
   
   
@@ -138,9 +142,9 @@ namespace kfoundation {
    * @throw ParseException if the type of this token is not CollectionToken.
    */
 
-  PPtr<CollectionToken> Token::asCollection() {
+  Ref<CollectionToken> Token::asCollection() {
     validateType(COLLECTION);
-    return getPtr().AS(CollectionToken);
+    return Ref<Token>(getRef()).AS(CollectionToken);
   }
   
   
@@ -152,17 +156,11 @@ namespace kfoundation {
    * @throw ParseException if the type of this token is not EndCollectionToken.
    */
   
-  PPtr<EndCollectionToken> Token::asEndCollection() {
+  Ref<EndCollectionToken> Token::asEndCollection() {
     validateType(END_COLLECTION);
-    return getPtr().AS(EndCollectionToken);
+    return Ref<Token>(getRef()).AS(EndCollectionToken);
   }
-  
-  
-  /**
-   * @fn kfoundation::Token::getType()
-   * Returns the type of this token.
-   */
-  
+
     
 //\/ ObjectToken /\////////////////////////////////////////////////////////////
   
@@ -188,8 +186,8 @@ namespace kfoundation {
    * Checks if the class name for the parsed object equals the given argument.
    */
   
-  bool ObjectToken::checkClass(const string& name) const {
-    return getClassName() == name;
+  bool ObjectToken::checkClass(RefConst<UString> name) const {
+    return getClassName()->equals(name);
   }
   
   
@@ -200,9 +198,9 @@ namespace kfoundation {
    * @param name The name to check against.
    */
   
-  void ObjectToken::validateClass(const string& name) const {
-    if(getClassName() != name) {
-      throw ParseException("Excepted class name \"" + name + "\" but \""
+  void ObjectToken::validateClass(RefConst<UString> name) const {
+    if(!getClassName()->equals(name)) {
+      throw ParseException(K"Excepted class name \"" + name + "\" but \""
           + getClassName() + "\" found.", codeRange);
     }
   }
@@ -212,8 +210,8 @@ namespace kfoundation {
    * Throws an exception explaining an attribute with the given name is missing.
    */
 
-  void ObjectToken::throwMissingAttribute(const string& name) const {
-    throw ParseException("Missing required attribute \"" + name + "\"",
+  void ObjectToken::throwMissingAttribute(RefConst<UString> name) const {
+    throw ParseException(K"Missing required attribute \"" + name + "\"",
         codeRange);
   }
   
@@ -223,7 +221,7 @@ namespace kfoundation {
    */
   
   void ObjectToken::throwInvlaidClass() const {
-    throw ParseException("Invalid class name \"" + getClassName() + "\"",
+    throw ParseException(K"Invalid class name \"" + getClassName() + "\"",
         codeRange);
   }
   
@@ -252,8 +250,8 @@ namespace kfoundation {
    * Checks if this token represents the end of object with the given name.
    */
   
-  bool EndObjectToken::checkClass(const string& name) const {
-    return getClassName() == name;
+  bool EndObjectToken::checkClass(RefConst<UString> name) const {
+    return getClassName()->equals(name);
   }
 
   
@@ -262,9 +260,9 @@ namespace kfoundation {
    * not throws a ParseException.
    */
   
-  void EndObjectToken::validateClass(const string& name) const {
-    if(getClassName() != name) {
-      throw ParseException("Excepted class name \"" + name + "\" but \""
+  void EndObjectToken::validateClass(RefConst<UString> name) const {
+    if(getClassName()->equals(name)) {
+      throw ParseException(K"Excepted class name \"" + name + "\" but \""
           + getClassName() + "\" found.", codeRange);
     }
   }
@@ -294,8 +292,8 @@ namespace kfoundation {
    * Checks if the name of this attribute equals the given parameter.
    */
   
-  bool AttributeToken::checkName(const string& name) const {
-    return name == getName();
+  bool AttributeToken::checkName(RefConst<UString> name) const {
+    return name->equals(getName());
   }
   
   
@@ -304,12 +302,14 @@ namespace kfoundation {
    * throws a ParseException.
    */
   
-  PPtr<AttributeToken> AttributeToken::validateName(const string& name) const {
+  Ref<AttributeToken> AttributeToken::validateName(RefConst<UString> name)
+  const
+  {
     if(getName() != name) {
-      throw ParseException("Expected attribtue name \"" + name + "\" but \""
+      throw ParseException(K"Expected attribtue name \"" + name + "\" but \""
           + getName() + "\" found.", codeRange);
     }
-    return getPtr().AS(AttributeToken);
+    return this;
   }
   
   
@@ -318,8 +318,34 @@ namespace kfoundation {
    */
   
   void AttributeToken::throwInvliadName() const {
-    throw ParseException("Invalid attribute name \"" + getName() + "\""
+    throw ParseException(K"Invalid attribute name \"" + getName() + "\""
         , codeRange);
+  }
+
+
+  bool AttributeToken::getBoolValue() const {
+    if(getValue()->equals(Bool::TRUE_STR)) {
+      return true;
+    } else if(getValue()->Comparable<UString>::equals(Bool::FALSE_STR)) {
+      return false;
+    }
+    throw ParseException(K"Unable to parse value as bool \"" + getValue()
+        + "\"", Token::codeRange);
+  }
+
+
+  kf_int32_t AttributeToken::getInt32Value() const {
+    return Int::parse(getValue());
+  }
+
+
+  kf_int64_t AttributeToken::getInt64Value() const {
+    return LongInt::parse(getValue());
+  }
+
+
+  double AttributeToken::getDoubleValue() const {
+    return Double::parse(getValue());
   }
   
   
@@ -381,42 +407,25 @@ namespace kfoundation {
   {
     // Nothing;
   }
-  
-  
-//\/ EndStreamItem /\//////////////////////////////////////////////////////////
-  
-  class EndStreamItem : public Token {
-  public:
-    EndStreamItem();
-    
-    type_t getType() const;
-    
-    Ptr<Token> next() throw(ParseException);
-  };
-  
-  EndStreamItem::EndStreamItem()
+
+
+//\/ EndStreamToken /\/////////////////////////////////////////////////////////
+
+  EndStreamToken::EndStreamToken()
   : Token(CodeRange(CodeLocation(), CodeLocation()))
   {
     // Nothing;
   }
-  
-  Token::type_t EndStreamItem::getType() const {
+
+  Token::type_t EndStreamToken::getType() const {
     return END_STREAM;
   }
-  
-  Ptr<Token> EndStreamItem::next() throw(ParseException) {
-    throw ParseException("Aleady reached the end of stream.");
+
+  Ref<Token> EndStreamToken::next() throw(ParseException) {
+    throw ParseException(K"Aleady reached the end of stream.");
   }
-  
-  
-//\/ ObjectStreamToken /\//////////////////////////////////////////////////////
-  
-  /**
-   * End stream token.
-   */
-  
-  const SPtr<Token> Token::END_STREAM_TOKEN = new EndStreamItem();
-  
+
+
   
 //\/ END /\////////////////////////////////////////////////////////////////////
   

@@ -14,6 +14,8 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+#include "Ref.h"
+#include "UString.h"
 #include "InvalidPointerException.h"
 
 namespace kfoundation {
@@ -22,10 +24,10 @@ namespace kfoundation {
    * Constructor.
    */
   
-  InvalidPointerException::InvalidPointerException(string message)
-    : MemoryException(message)
+  InvalidPointerException::InvalidPointerException(RefConst<UString> message)
+  : MemoryException(message)
   {
-    setName("InvalidPointerException");
+    setName(K"InvalidPointerException");
   }
   
 } // namespace kfoundation

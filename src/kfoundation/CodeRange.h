@@ -12,8 +12,7 @@
 #include "CodeLocation.h"
 
 namespace kfoundation {
-  
-  
+
   /**
    * Encodes the location of the begining and end of a text file fragment.
    *
@@ -33,9 +32,13 @@ namespace kfoundation {
   // --- (DE)CONSTRUCTORS --- //
     
     public: CodeRange(const CodeLocation& begin, const CodeLocation& end);
+
+
+  // --- METHODS --- //
+
     public: const CodeLocation& getBegin() const;
     public: const CodeLocation& getEnd() const;
-    public: void serialize(PPtr<ObjectSerializer> serializer) const;
+    public: void serialize(Ref<ObjectSerializer> serializer) const;
     
   };
   

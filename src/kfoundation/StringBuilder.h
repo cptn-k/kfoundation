@@ -16,42 +16,42 @@
 #define ORG_KNORBA_CXXPREPROCESSOR_SOURCETRANSFORMATION_H
 
 #include "definitions.h"
-#include "PtrDecl.h"
-#include "ManagedObject.h"
-#include "ManagedArray.h"
+#include "RefDecl.h"
+#include "KFObject.h"
+#include "RefArray.h"
 #include "SerializingStreamer.h"
 #include "ObjectSerializer.h"
 #include "UniString.h"
 
 namespace kfoundation {
 
-  class StringBuilder : public ManagedObject, public SerializingStreamer {
+  class StringBuilder : public KFObject, public SerializingStreamer {
   public:
-    class Insertion : public ManagedObject, public SerializingStreamer {
+    class Insertion : public KFObject, public SerializingStreamer {
     private:
-      Ptr<Insertion> _next;
+      Ref<Insertion> _next;
       
     protected:
-      const Ptr<Insertion>& getNext() const;
-      Ptr<Insertion>& setNext(Insertion* const& next);
+      const Ref<Insertion>& getNext() const;
+      Ref<Insertion>& setNext(Insertion* const& next);
       
     public:
       Insertion();
       ~Insertion();
       
-      virtual Ptr<Insertion>& ch(const wchar_t& ch);
-      virtual Ptr<Insertion>& str(Ptr<UniString>& str);
-      virtual Ptr<Insertion>& str(Ptr<StringBuilder>& builder);
-      virtual Ptr<Insertion>& number(const long int& n);
+      virtual Ref<Insertion>& ch(const wchar_t& ch);
+      virtual Ref<Insertion>& str(Ref<UniString>& str);
+      virtual Ref<Insertion>& str(Ref<StringBuilder>& builder);
+      virtual Ref<Insertion>& number(const long int& n);
     
       // From SerializingStreamer::Streamer
       virtual void printToStream(ostream& os) const;
       
       // From SerializingStreamer
-      virtual void serialize(Ptr<ObjectSerializer> builder) const = 0;
+      virtual void serialize(Ref<ObjectSerializer> builder) const = 0;
     };
     
-    class Removal : public ManagedObject, public SerializingStreamer {
+    class Removal : public KFObject, public SerializingStreamer {
     private:
       kf_int64_t _begin;
       kf_int64_t _end;
@@ -63,22 +63,22 @@ namespace kfoundation {
       bool isInRange(const kf_int64_t& pos);
       
       // From SerializingStreamer
-      void serialize(Ptr<ObjectSerializer> builder) const;
+      void serialize(Ref<ObjectSerializer> builder) const;
     };
     
   private:
     kf_int64_t     _begin;
     kf_int64_t     _end;
-    Ptr<UniString> _str;
-    Ptr< ManagedArray<Insertion> > _insertions;
-    Ptr< ManagedArray<Removal> >   _removals;
+    Ref<UniString> _str;
+    Ref< RefArray<Insertion> > _insertions;
+    Ref< RefArray<Removal> >   _removals;
     
-    void insertIntoInsertions(Ptr<Insertion> insertion);
+    void insertIntoInsertions(Ref<Insertion> insertion);
     
   public:
     StringBuilder();
-    StringBuilder(Ptr<UniString> str);
-    StringBuilder(Ptr<UniString> str, const kf_int64_t& begin,
+    StringBuilder(Ref<UniString> str);
+    StringBuilder(Ref<UniString> str, const kf_int64_t& begin,
                   const kf_int64_t& end);
     
     ~StringBuilder();
@@ -92,7 +92,7 @@ namespace kfoundation {
     public: virtual void printToStream(ostream& os) const;
     
     // From SerializingStreamer
-    public: void serialize(Ptr<ObjectSerializer> builder) const;
+    public: void serialize(Ref<ObjectSerializer> builder) const;
   };
   
 } // kfoundation

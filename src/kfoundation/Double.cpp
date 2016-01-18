@@ -6,24 +6,52 @@
 //  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
 //
 
-#include <cstdlib>
+// Std
+#include <cstdio>
 
+// Internal
+#include "Ref.h"
+#include "StreamParser.h"
+#include "StringInputStream.h"
+#include "UString.h"
+#include "OutputStream.h"
+
+// Self
 #include "Double.h"
 
 namespace kfoundation {
 
-  using namespace std;
-  
+// --- CONSTRUCTOR --- //
+
   /**
    * Constructor. Sets the internal value to the given parameter.
    */
   
   Double::Double(const double value)
-    : _value(value)
+  : _value(value)
   {
     // Nothing
   }
-  
+
+
+  Double::Double(RefConst<UString> str)
+  : _value(parse(str))
+  {
+    // Nothing;
+  }
+
+
+// --- STATIC METHODS --- //
+
+  double Double::parse(RefConst<UString> str) {
+    StreamParser parser(new StringInputStream(str));
+    double v;
+    parser.readNumber(v);
+    return v;
+  }
+
+
+// --- METHODS --- //
   
   /**
    * Getter method. Returns the internal value.
@@ -43,19 +71,19 @@ namespace kfoundation {
   }
   
   
-  /**
-   * Parses the given string to the corresponding `double` value.
-   *
-   * @param str The string to be parsed.
-   * @return The numerical value parsed from the given string.
-   */
-  
-  double Double::parse(const string& str) {
-    return atof(str.c_str());
+  void Double::printToStream(Ref<OutputStream> stream) const {
+    char buffer[50];
+    int n = sprintf(buffer, "%f", _value);
+    if(n > 0) {
+      stream->write((kf_octet_t*)buffer, n);
+    }
   }
 
-  void Double::printToStream(ostream& os) const {
-    os << _value;
+
+  RefConst<UString> Double::toString() const {
+    char buffer[50];
+    int n = sprintf(buffer, "%f", _value);
+    return new UString((kf_octet_t*)buffer, n);
   }
 
 } // namespace kfoundation

@@ -12,8 +12,8 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
-#include "Ptr.h"
-#include "UniChar.h"
+#include "Ref.h"
+#include "UChar.h"
 #include "StringBuilder.h"
 
 namespace kfoundation {
@@ -30,7 +30,7 @@ namespace kfoundation {
       InsertionHead(const kf_int64_t pos);
       kf_int64_t getPos() const;
       
-      void serialize(Ptr<ObjectSerializer> builder) const;
+      void serialize(Ref<ObjectSerializer> builder) const;
     };
     
     InsertionHead::InsertionHead(const kf_int64_t pos)
@@ -43,7 +43,7 @@ namespace kfoundation {
       return _pos;
     }
     
-    void InsertionHead::serialize(Ptr<ObjectSerializer> builder) const {
+    void InsertionHead::serialize(Ref<ObjectSerializer> builder) const {
       builder->object("InsertionHead")
              ->attribute("pos", _pos)
              ->member("next")->object<StringBuilder::Insertion>(getNext())
@@ -57,14 +57,14 @@ namespace kfoundation {
     private:
       wchar_t _buffer[32];
       short int _length;
-      Ptr<StringBuilder::Insertion> _thisPtr;
+      Ref<StringBuilder::Insertion> _thisPtr;
       
     public:
       CharInsertion(const wchar_t& ch);
       
-      Ptr<StringBuilder::Insertion>& ch(const wchar_t& ch);
+      Ref<StringBuilder::Insertion>& ch(const wchar_t& ch);
       void printToStream(ostream& os) const;
-      void serialize(Ptr<ObjectSerializer> builder) const;
+      void serialize(Ref<ObjectSerializer> builder) const;
     };
     
     CharInsertion::CharInsertion(const wchar_t& ch)
@@ -74,7 +74,7 @@ namespace kfoundation {
       _buffer[0] = ch;
     }
     
-    Ptr<StringBuilder::Insertion>& CharInsertion::ch(const wchar_t &ch) {
+    Ref<StringBuilder::Insertion>& CharInsertion::ch(const wchar_t &ch) {
       if(_length == 32) {
         return Insertion::setNext(new CharInsertion(ch));
       }
@@ -90,21 +90,21 @@ namespace kfoundation {
       short int n;
       
       for(int i = 0; i < _length; i++) {
-        n = UniChar::writeUtf8(_buffer[i], utf8);
+        n = UChar::writeUtf8(_buffer[i], utf8);
         os.write((char*)utf8, n);
       }
       
       Insertion::printToStream(os);
     }
     
-    void CharInsertion::serialize(Ptr<ObjectSerializer> builder) const {
+    void CharInsertion::serialize(Ref<ObjectSerializer> builder) const {
       string str;
       
       kf_octet_t utf8[6];
       short int n;
       
       for(int i = 0; i < _length; i++) {
-        n = UniChar::writeUtf8(_buffer[i], utf8);
+        n = UChar::writeUtf8(_buffer[i], utf8);
         str.append((char*)utf8, n);
       }
       
@@ -120,17 +120,17 @@ namespace kfoundation {
     
     class UniStringInsertion : public StringBuilder::Insertion {
     private:
-      Ptr<UniString> _str;
+      Ref<UniString> _str;
       
     public:
-      UniStringInsertion(Ptr<UniString>& str);
+      UniStringInsertion(Ref<UniString>& str);
       ~UniStringInsertion();
       
       void printToStream(ostream& os) const;
-      void serialize(Ptr<ObjectSerializer> builder) const;
+      void serialize(Ref<ObjectSerializer> builder) const;
     };
     
-    UniStringInsertion::UniStringInsertion(Ptr<UniString>& str)
+    UniStringInsertion::UniStringInsertion(Ref<UniString>& str)
       : _str(str.retain())
     {
       // Nothing;
@@ -145,7 +145,7 @@ namespace kfoundation {
       Insertion::printToStream(os);
     }
     
-    void UniStringInsertion::serialize(Ptr<ObjectSerializer> builder) const {
+    void UniStringInsertion::serialize(Ref<ObjectSerializer> builder) const {
       builder->object("UniStringInsertion")
              ->member("content")->object<UniString>(_str)
              ->member("next")->object<StringBuilder::Insertion>(getNext())
@@ -157,17 +157,17 @@ namespace kfoundation {
     
     class StringBuilderInsertion : public StringBuilder::Insertion {
     private:
-      Ptr<StringBuilder> _str;
+      Ref<StringBuilder> _str;
       
     public:
-      StringBuilderInsertion(Ptr<StringBuilder>& _str);
+      StringBuilderInsertion(Ref<StringBuilder>& _str);
       ~StringBuilderInsertion();
       
       void printToStream(ostream& os) const;
-      void serialize(Ptr<ObjectSerializer> builder) const;
+      void serialize(Ref<ObjectSerializer> builder) const;
     };
     
-    StringBuilderInsertion::StringBuilderInsertion(Ptr<StringBuilder>& str)
+    StringBuilderInsertion::StringBuilderInsertion(Ref<StringBuilder>& str)
       : _str(str.retain())
     {
       // Nothing
@@ -182,7 +182,7 @@ namespace kfoundation {
       Insertion::printToStream(os);
     }
     
-    void StringBuilderInsertion::serialize(Ptr<ObjectSerializer> builder) const
+    void StringBuilderInsertion::serialize(Ref<ObjectSerializer> builder) const
     {
       builder->object("StringBuilderInsertion")
              ->member("content")->object<StringBuilder>(_str)
@@ -201,7 +201,7 @@ namespace kfoundation {
       NumberInsertion(const long int& value);
       
       void printToStream(ostream& os) const;
-      void serialize(Ptr<ObjectSerializer> buidler) const;
+      void serialize(Ref<ObjectSerializer> buidler) const;
     };
     
     NumberInsertion::NumberInsertion(const long int& value)
@@ -215,7 +215,7 @@ namespace kfoundation {
       Insertion::printToStream(os);
     }
     
-    void NumberInsertion::serialize(Ptr<ObjectSerializer> builder) const {
+    void NumberInsertion::serialize(Ref<ObjectSerializer> builder) const {
       builder->object("NumberInsertion")
             ->attribute("value", _value)
             ->member("next")->object<StringBuilder::Insertion>(getNext())
@@ -239,34 +239,34 @@ namespace kfoundation {
     }
   }
   
-  Ptr<StringBuilder::Insertion>&
+  Ref<StringBuilder::Insertion>&
   StringBuilder::Insertion::setNext(StringBuilder::Insertion* const& next)
   {
     _next = next;
     return _next;
   }
   
-  const Ptr<StringBuilder::Insertion>& StringBuilder::Insertion::getNext() const
+  const Ref<StringBuilder::Insertion>& StringBuilder::Insertion::getNext() const
   {
     return _next;
   }
   
-  Ptr<StringBuilder::Insertion>& StringBuilder::Insertion::ch(const wchar_t &ch)
+  Ref<StringBuilder::Insertion>& StringBuilder::Insertion::ch(const wchar_t &ch)
   {
     return setNext(new CharInsertion(ch));
   }
   
-  Ptr<StringBuilder::Insertion>&
-  StringBuilder::Insertion::str(Ptr<UniString>& str) {
+  Ref<StringBuilder::Insertion>&
+  StringBuilder::Insertion::str(Ref<UniString>& str) {
     return setNext(new UniStringInsertion(str));
   }
   
-  Ptr<StringBuilder::Insertion>&
-  StringBuilder::Insertion::str(Ptr<StringBuilder>& str) {
+  Ref<StringBuilder::Insertion>&
+  StringBuilder::Insertion::str(Ref<StringBuilder>& str) {
     return setNext(new StringBuilderInsertion(str));
   }
   
-  Ptr<StringBuilder::Insertion>&
+  Ref<StringBuilder::Insertion>&
   StringBuilder::Insertion::number(const long& n) {
     return setNext(new NumberInsertion(n));
   }
@@ -299,7 +299,7 @@ namespace kfoundation {
     return pos >= _begin && pos <= _end;
   }
   
-  void StringBuilder::Removal::serialize(Ptr<ObjectSerializer> builder) const
+  void StringBuilder::Removal::serialize(Ref<ObjectSerializer> builder) const
   {
     builder->object("Removal")
       ->attribute("begin", _begin)
@@ -314,31 +314,31 @@ namespace kfoundation {
     : _str(NULL),
       _begin(0),
       _end(0),
-      _insertions(new ManagedArray<Insertion>()),
-      _removals(new ManagedArray<Removal>())
+      _insertions(new RefArray<Insertion>()),
+      _removals(new RefArray<Removal>())
   {
     _insertions.retain();
     _removals.retain();
   }
 
-  StringBuilder::StringBuilder(Ptr<UniString> str)
+  StringBuilder::StringBuilder(Ref<UniString> str)
     : _str(str.retain()),
       _begin(0),
       _end(str->getLength() - 1),
-      _insertions(new ManagedArray<Insertion>()),
-      _removals(new ManagedArray<Removal>())
+      _insertions(new RefArray<Insertion>()),
+      _removals(new RefArray<Removal>())
   {
     _insertions.retain();
     _removals.retain();
   }
   
-  StringBuilder::StringBuilder(Ptr<UniString> str, const kf_int64_t& begin,
+  StringBuilder::StringBuilder(Ref<UniString> str, const kf_int64_t& begin,
                                const kf_int64_t& end)
     : _str(str.retain()),
       _begin(begin),
       _end(end),
-      _insertions(new ManagedArray<Insertion>()),
-      _removals(new ManagedArray<Removal>)
+      _insertions(new RefArray<Insertion>()),
+      _removals(new RefArray<Removal>)
   {
     if(_end >= str->getLength())
       _end = str->getLength() - 1;
@@ -356,7 +356,7 @@ namespace kfoundation {
   }
   
   void StringBuilder::insertIntoInsertions(
-      Ptr<StringBuilder::Insertion> insertion)
+      Ref<StringBuilder::Insertion> insertion)
   {
     int insertionIndex = _insertions->getSize();
     kf_int64_t pos = insertion.AS(InsertionHead)->getPos();
@@ -371,19 +371,19 @@ namespace kfoundation {
     _insertions->insert(insertionIndex, insertion);
   }
 
-  Ptr<StringBuilder::Insertion>
+  Ref<StringBuilder::Insertion>
   StringBuilder::insertAfter(const kf_int64_t& pos) {
     if(_end == 0)
       return insertBefore(pos);
     
-    Ptr<Insertion> insertion(new InsertionHead(pos + 1));
+    Ref<Insertion> insertion(new InsertionHead(pos + 1));
     insertIntoInsertions(insertion);
     return insertion.retain();
   }
   
   AutoPtr<StringBuilder::Insertion>
   StringBuilder::insertBefore(const kf_int64_t& pos) {
-    Ptr<Insertion> insertion(new InsertionHead(pos));
+    Ref<Insertion> insertion(new InsertionHead(pos));
     insertIntoInsertions(insertion);
     return insertion.retain();
   }
@@ -395,7 +395,7 @@ namespace kfoundation {
   AutoPtr<StringBuilder::Removal> StringBuilder::remove(long begin,
       long end)
   {
-    Ptr<Removal> removal(new Removal(begin, end));
+    Ref<Removal> removal(new Removal(begin, end));
 
     int insertionIndex = _removals->getSize();
     
@@ -424,7 +424,7 @@ namespace kfoundation {
       }
       
       if(activeRemovalIndex < _removals->getSize()) {
-        Ptr<Removal> r = _removals->get(activeRemovalIndex);
+        Ref<Removal> r = _removals->get(activeRemovalIndex);
         
         if(r->getEnd() < i) {
           while(r->getEnd() < i)
@@ -448,12 +448,12 @@ namespace kfoundation {
     }
   }
   
-  void StringBuilder::serialize(Ptr<ObjectSerializer> builder) const {
+  void StringBuilder::serialize(Ref<ObjectSerializer> builder) const {
     builder->object("StringBuilder")
       ->attribute("begin", _begin)
       ->attribute("end", _end)
-      ->member("insertions")->object< ManagedArray<Insertion> >(_insertions)
-      ->member("removals")->object< ManagedArray<Removal> >(_removals)
+      ->member("insertions")->object< RefArray<Insertion> >(_insertions)
+      ->member("removals")->object< RefArray<Removal> >(_removals)
       ->endObject();
   }
   

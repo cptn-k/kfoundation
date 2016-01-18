@@ -41,7 +41,7 @@ namespace kfoundation {
   class InternetInputStream : public InputStream, public SerializingStreamer {
     
   // --- FIELDS --- //
-    
+
     private: InternetAddress _address;
     private: sockaddr_in _sockaddr;
     private: int _hostSocket;
@@ -71,8 +71,8 @@ namespace kfoundation {
     
     // Inherited from InputStream //
     public: kf_int32_t read(kf_octet_t* buffer, const kf_int32_t nBytes);
-    public: int read();
-    public: int peek();
+    public: kf_int16_t read();
+    public: kf_int16_t peek();
     public: kf_int32_t skip(kf_int32_t bytes);
     public: bool isEof();
     public: bool isMarkSupported();
@@ -81,10 +81,10 @@ namespace kfoundation {
     public: bool isBigEndian();
     
     // Inherited from SerializingSTream //
-    public: void serialize(PPtr<ObjectSerializer> serializer) const;
+    public: void serialize(Ref<ObjectSerializer> serializer) const;
     
   };
   
-}
+} // namespace kfoundation
 
 #endif /* defined(__KFoundation__InternetInputStream__) */

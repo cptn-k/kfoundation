@@ -14,6 +14,8 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+#include "Ref.h"
+#include "UString.h"
 #include "IndexOutOfBoundException.h"
 
 namespace kfoundation {
@@ -24,10 +26,10 @@ namespace kfoundation {
    * @param message A message describing the cause of the exception.
    */
   
-  IndexOutOfBoundException::IndexOutOfBoundException(string message)
-    : MemoryException(message)
+  IndexOutOfBoundException::IndexOutOfBoundException(RefConst<UString> message)
+  : MemoryException(message)
   {
-    setName("IndexOutOfBoundException");
+    setName(K"IndexOutOfBoundException");
   }
   
 } // namespace kfoundation

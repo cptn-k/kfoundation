@@ -6,21 +6,29 @@
 //  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
 //
 
-#include <cstdlib>
+// Std
 #include <cstdio>
 
+// Internal
+#include "UString.h"
+#include "OutputStream.h"
+#include "StringInputStream.h"
+#include "StreamParser.h"
+#include "InputStream.h"
+
+// Self
 #include "LongInt.h"
 
 namespace kfoundation {
 
-  using namespace std;
-  
+// --- CONSTRUCTORS --- //
+
   /**
    * Constructor. Assigns the internal value to the given paramaeter.
    */
   
-  LongInt::LongInt(long int value)
-    : _value(value)
+  LongInt::LongInt(kf_int64_t value)
+  : _value(value)
   {
     // Nothing;
   }
@@ -34,18 +42,30 @@ namespace kfoundation {
    * @param encoding The encoding of the given string. Default value is DECIMAL.
    */
 
-  LongInt::LongInt(const string& str, const encoding_t& encoding)
-    : _value(parse(str, encoding))
+  LongInt::LongInt(RefConst<UString> str)
+  : _value(parse(str))
   {
     // Nothing
   }
-  
-  
+
+
+// --- STATIC METHODS --- //
+
+  kf_int64_t LongInt::parse(RefConst<UString> str) {
+    StreamParser parser(new StringInputStream(str));
+    kf_int64_t value;
+    parser.readNumber(value);
+    return value;
+  }
+
+
+// --- METHODS --- //
+
   /**
    * Getter method. Returns the internal value.
    */
   
-  inline long int LongInt::get() const {
+  kf_int64_t LongInt::get() const {
     return _value;
   }
   
@@ -56,63 +76,42 @@ namespace kfoundation {
    * @param v The value to be set.
    */
   
-  inline void LongInt::set(const long int v) {
+  void LongInt::set(const kf_int64_t v) {
     _value = v;
   }
 
   
   /**
-   * Parses the given string according the given encoding and returns the
-   * extracted value. 
+   * Returns the hexadecimal representation of the given value as a string.
    *
-   * @param str The string to parse
-   * @param encoding The encoding of the given string. Default value is DECIMAL.
+   * @param v The value to convert to hexadecimal.
+   * @return The hexadecimal representation of the given value.
    */
-  
-  long int LongInt::parse(const string& str, const encoding_t encoding) {
-    if(encoding == DECIMAL) {
-      return atol(str.c_str());
+
+  Ref<UString> LongInt::toHexString() const {
+    char buffer[50];
+    int n = sprintf(buffer, "%lX", _value);
+    return new UString((kf_octet_t*)buffer, n);
+  }
+
+
+  /**
+   * Converts the given integer value to string.
+   */
+
+  void LongInt::printToStream(Ref<OutputStream> stream) const {
+    char buffer[50];
+    int n = sprintf(buffer, "%ld", _value);
+    if(n > 0) {
+      stream->write((kf_octet_t*)buffer, n);
     }
-    return strtol(str.c_str(), NULL, 0);
   }
-  
-  
-  /**
-   * Converts the given value to hexadecimal string representation.
-   */
-  
-  string LongInt::toHexString(const long int v) {
-    char buffer[16];
-    sprintf(buffer, "%lx", v);
-    return string(buffer);
+
+
+  RefConst<UString> LongInt::toString() const {
+    char buffer[50];
+    int n = sprintf(buffer, "%ld", _value);
+    return new UString((kf_octet_t*)buffer, n);
   }
-  
-  
-  /**
-   * Converts the value of the given pointer (not the value it is pointing at)
-   * to hexadecimal string.
-   */
-  
-  string LongInt::toHexString(void* ptr) {
-    char buffer[16];
-    sprintf(buffer, "%p", ptr);
-    return string(buffer);
-  }
-  
-  
-  /**
-   * Converts the given value to string.
-   */
-  
-  string LongInt::toString(const long int v) {
-    char buffer[16];
-    sprintf(buffer, "%ld", v);
-    return string(buffer);
-  }
-  
-  
-  void LongInt::printToStream(ostream &os) const {
-    os << _value;
-  }
-  
+
 } // namespace kfoundation

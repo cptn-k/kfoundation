@@ -12,7 +12,29 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
+#include "definitions.h"
+
+// Std
+#include <ctime>
+#include <cmath>
+
+// POSIX
+#ifdef KF_UNIX
+#  include <sys/time.h>
+#else
+#  error "Platform is not supported"
+#endif
+
+// Internal
+#include "Ref.h"
+#include "OutputStream.h"
+#include "ObjectSerializer.h"
+#include "UString.h"
+
+// Self
 #include "Timer.h"
+
+#define MICRO 1000000.0
 
 namespace kfoundation {
 
@@ -20,9 +42,9 @@ namespace kfoundation {
    * Default constructor.
    */
     
-  Timer::Timer()
-  {
-    Timer("");
+  Timer::Timer() {
+    _clockBase = 0;
+    _timeBase = 0;
   }
     
     
@@ -30,9 +52,10 @@ namespace kfoundation {
    * Constructor, creates a named timer.
    */
 
-  Timer::Timer(string name) {
+  Timer::Timer(RefConst<UString> name) {
     _name = name;
     _clockBase = 0;
+    _timeBase = 0;
   }
   
   
@@ -42,7 +65,9 @@ namespace kfoundation {
 
   void Timer::start() {
     _clockBase = clock();
-    gettimeofday(&_timeBase, NULL);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    _timeBase = tv.tv_sec + tv.tv_usec / MICRO;
   }
   
   
@@ -59,15 +84,14 @@ namespace kfoundation {
    * Returns the elapsed time since start() is called.
    */
 
-  double Timer::get() const {
-    if(!isStarted())
-      return NAN;
+  double Timer::getRealTime() const {
+    if(_clockBase == 0) {
+      return 0;
+    }
 
     struct timeval now;
     gettimeofday(&now, NULL);
-    double diff = now.tv_sec - _timeBase.tv_sec 
-                + (now.tv_usec - _timeBase.tv_usec) / 1000000.0;
-    return diff;
+    return _timeBase;
   }
   
   
@@ -77,20 +101,17 @@ namespace kfoundation {
    * time and number of cores specified by OS to execute the process.
    */
 
-  double Timer::getCpuTime() const {
-    return (clock() - _clockBase) / (double)CLOCKS_PER_SEC; 
+  double Timer::get() const {
+    return (_clockBase == 0)?0:(clock() - _clockBase) / (double)CLOCKS_PER_SEC;
   }
 
   
-  void Timer::printToStream(ostream& os) const {
-    os << "Timer[";
-    if(_name.size() != 0)
-      os << "name: \"" << _name << "\", ";
-    if(!isStarted())
-      os << "NOT_STARTED]";
-    else
-      os << "elapsed: " << get() << ", cpuTime: " << getCpuTime() << "]";
+  void Timer::serialize(Ref<ObjectSerializer> stream) const {
+    stream->object(K"Timer")
+      ->attribute(K"name", _name)
+      ->attribute(K"elapsedCpuTime", get())
+      ->attribute(K"elapsedRealTime", getRealTime())
+      ->endObject();
   }
 
-  
 } // namespace kfoundation

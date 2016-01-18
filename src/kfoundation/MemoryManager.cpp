@@ -14,25 +14,29 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+#include "Ref.h"
 #include "System.h"
 #include "ObjectSerializer.h"
+#include "KFObject.h"
 
 #include "MemoryManager.h"
 
 namespace kfoundation {
-  
-  /**
-   * Deconstructor.
-   */
-  
+
   MemoryManager::~MemoryManager() {
-    // Nothing;
+    KF_NOP;
   }
-  
-}
+
+  void MemoryManager::setObjectRef(KFObject *const obj,
+      const kf_uref_t ref) const
+  {
+    obj->_ref = ref;
+  }
+
+} // namespace kfoundation
 
 /**
- * @fn kfoundation::MemoryManager::registerObject(ManagedObject*)
+ * @fn kfoundation::MemoryManager::registerObject(KFObject*)
  *
  * Creates a new entry for the object at the given memory location.
  */

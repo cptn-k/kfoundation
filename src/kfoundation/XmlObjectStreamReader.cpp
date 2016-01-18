@@ -6,33 +6,35 @@
 //  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
 //
 
-#include "XmlObjectStreamReader.h"
-#include "UniString.h"
-#include "UniChar.h"
+#include "RefArray.h"
+#include "UString.h"
+#include "UChar.h"
 #include "LongInt.h"
-#include "Ptr.h"
+#include "Ref.h"
 #include "Bool.h"
 #include "ObjectSerializer.h"
-#include "Logger.h"
+#include "StreamParser.h"
+#include "PrintWriter.h"
+#include "StringPrintWriter.h"
+
+// Self
+#include "XmlObjectStreamReader.h"
 
 namespace kfoundation {
   
-  // --- XmlCustomBasicParser -------------------------------------------------
+//\/ XmlCustomBasicParser /\///////////////////////////////////////////////////
   
-  class XmlCustomBasicParser : public PredictiveParserBase {
-  protected:
-    bool isValidIdentifierChar(const wchar_t& ch) const;
-    
-  public:
-    XmlCustomBasicParser(PPtr<InputStream> input);
+  class XmlCustomBasicParser : public StreamParser {
+    protected: bool isValidIdentifierChar(const wchar_t& ch) const;
+    public: XmlCustomBasicParser(Ref<InputStream> input);
   };
   
   bool XmlCustomBasicParser::isValidIdentifierChar(const wchar_t &ch) const {
     return isAlphanumeric(ch) || ch == '_' || ch == '-';
   }
   
-  XmlCustomBasicParser::XmlCustomBasicParser(PPtr<InputStream> input)
-    : PredictiveParserBase(input.retain())
+  XmlCustomBasicParser::XmlCustomBasicParser(Ref<InputStream> input)
+    : StreamParser(input)
   {
     // Nothing;
   }
@@ -41,35 +43,42 @@ namespace kfoundation {
 //\/ XmlElement /\/////////////////////////////////////////////////////////////
   
   class XmlElement : public ObjectToken, public Streamer {
-  private:
-    PPtr<XmlObjectStreamReader> _owner;
-    string       _className;
-    string       _id;
-    bool         _hasId;
+
+  // --- FIELDS --- //
+
+    private: Ref<XmlObjectStreamReader> _owner;
+    private: RefConst<UString> _className;
+    private: RefConst<UString> _id;
+    private: bool         _hasId;
+
+
+  // --- CONSTRUCTORS --- //
     
-  public:
-    XmlElement(PPtr<XmlObjectStreamReader> owner, const CodeRange& range,
-        const string& tagName, const string& id);
+    public: XmlElement(Ref<XmlObjectStreamReader> owner, const CodeRange& range,
+        RefConst<UString> tagName, RefConst<UString> id);
     
-    XmlElement(PPtr<XmlObjectStreamReader> owner, const CodeRange& range,
-        const string& tagName);
+    public: XmlElement(Ref<XmlObjectStreamReader> owner, const CodeRange& range,
+        RefConst<UString> tagName);
     
-    ~XmlElement();
-    
-    // From Object
-    const string& getClassName() const;
-    const string& getIdentifier() const;
-    bool hasIdentifier() const;
+
+  // --- METHODS --- //
+
+    // From ObjectToken
+    public: RefConst<UString> getClassName() const;
+    public: RefConst<UString> getIdentifier() const;
+    public: bool hasIdentifier() const;
     
     // From Object::ObjectStreamReader
-    Ptr<Token> next() throw(ParseException);
+    Ref<Token> next() throw(ParseException);
     
     // From Streamer
-    void printToStream(ostream& os) const;
+    public: void printToStream(Ref<OutputStream> os) const;
+
   };
-  
-  XmlElement::XmlElement(PPtr<XmlObjectStreamReader> owner,
-     const CodeRange& range, const string& tagName, const string& id)
+
+
+  XmlElement::XmlElement(Ref<XmlObjectStreamReader> owner,
+     const CodeRange& range, RefConst<UString> tagName, RefConst<UString> id)
   : ObjectToken(range),
     _className(tagName),
     _id(id),
@@ -77,164 +86,181 @@ namespace kfoundation {
   {
     _owner = owner;
   }
+
   
-  XmlElement::XmlElement(PPtr<XmlObjectStreamReader> owner,
-      const CodeRange& range, const string& tagName)
+  XmlElement::XmlElement(Ref<XmlObjectStreamReader> owner,
+      const CodeRange& range, RefConst<UString> tagName)
   : ObjectToken(range),
     _className(tagName),
     _hasId(false)
   {
     _owner = owner;
   }
+
   
-  XmlElement::~XmlElement() {
-    // Nothing;
-  }
-  
-  const string& XmlElement::getClassName() const {
+  RefConst<UString> XmlElement::getClassName() const {
     return _className;
   }
-  
-  const string& XmlElement::getIdentifier() const {
+
+
+  RefConst<UString> XmlElement::getIdentifier() const {
     return _id;
   }
+
   
   bool XmlElement::hasIdentifier() const {
     return _hasId;
   }
+
   
-  Ptr<Token> XmlElement::next() throw(ParseException) {
-    return _owner->next().retain();
+  Ref<Token> XmlElement::next() throw(ParseException) {
+    return _owner->next();
+  }
+
+  
+  void XmlElement::printToStream(Ref<OutputStream> os) const {
+    PrintWriter(os) << '<' << *_className << "/>";
   }
   
-  void XmlElement::printToStream(ostream &os) const {
-    os << '<' << _className << "/>";
-  }
   
-  
-// --- XmlEndElement --------------------------------------------------------
+//\/ XmlEndElement /\//////////////////////////////////////////////////////////
   
   class XmlEndElement : public EndObjectToken, public Streamer {
-  private:
-    CodeLocation _begin;
-    CodeLocation _end;
-    string _className;
-    PPtr<XmlObjectStreamReader> _owner;
+
+  // --- FIELDS --- //
+
+    private: CodeLocation _begin;
+    private: CodeLocation _end;
+    private: RefConst<UString> _className;
+    private: Ref<XmlObjectStreamReader> _owner;
+
+
+  // --- CONSTRUCTORS --- //
     
-  public:
-    XmlEndElement(PPtr<XmlObjectStreamReader> owner, const CodeRange& range,
-        const string& name);
-    
-    ~XmlEndElement();
-    
+    public: XmlEndElement(Ref<XmlObjectStreamReader> owner,
+        const CodeRange& range, RefConst<UString> className);
+
+
+  // --- METHODS --- //
+
     // From EndObject
-    const string& getClassName() const;
+    public: RefConst<UString> getClassName() const;
     
     // From EndObject::ObejctStreamItem
-    Ptr<Token> next() throw(ParseException);
+    public: Ref<Token> next() throw(ParseException);
     
     // From Streamer
-    void printToStream(ostream& os) const;
+    public: void printToStream(Ref<OutputStream> os) const;
+
   };
-  
-  XmlEndElement::XmlEndElement(PPtr<XmlObjectStreamReader> owner,
-      const CodeRange& range, const string& name)
+
+
+  XmlEndElement::XmlEndElement(Ref<XmlObjectStreamReader> owner,
+      const CodeRange& range, RefConst<UString> name)
   : EndObjectToken(range),
     _className(name)
   {
     _owner = owner;
   }
-  
-  XmlEndElement::~XmlEndElement() {
-    // Nothing;
-  }
-  
-  const string& XmlEndElement::getClassName() const {
+
+
+  RefConst<UString> XmlEndElement::getClassName() const {
     return _className;
   }
+
   
-  Ptr<Token> XmlEndElement::next() throw(ParseException) {
-    return _owner->next().retain();
+  Ref<Token> XmlEndElement::next() throw(ParseException) {
+    return _owner->next();
   }
   
-  void XmlEndElement::printToStream(ostream &os) const {
-    os << "</" << _className << '>';
+  void XmlEndElement::printToStream(Ref<OutputStream> os) const {
+    PrintWriter(os) << "</" << *_className << '>';
   }
   
   
 //\/ XmlAttribute /\///////////////////////////////////////////////////////////
   
   class XmlAttribute : public AttributeToken, public Streamer {
-  private:
-    string _name;
-    string _value;
-    bool _isEmpty;
-    PPtr<XmlObjectStreamReader> _owner;
+
+  // --- FIELDS -- //
+
+    private: RefConst<UString> _name;
+    private: RefConst<UString> _value;
+    private: bool _isEmpty;
+    private: Ref<XmlObjectStreamReader> _owner;
+
+
+  // --- CONSTRUCTORS --- //
     
-  public:
-    XmlAttribute(PPtr<XmlObjectStreamReader> owner, const CodeRange& range,
-        const string& name, const string& value);
+    public: XmlAttribute(Ref<XmlObjectStreamReader> owner,
+        const CodeRange& range, RefConst<UString> name, RefConst<UString> value);
     
-    XmlAttribute(PPtr<XmlObjectStreamReader> owner, const CodeRange& range,
-        const string& name);
+    public: XmlAttribute(Ref<XmlObjectStreamReader> owner,
+        const CodeRange& range, RefConst<UString> name);
     
-    ~XmlAttribute();
-    
+
+  // --- METHODS --- //
+
     // From Attribute
-    const string& getName() const;
-    const string& getValue() const;
-    bool isEmpty() const;
+    public: RefConst<UString> getName() const;
+    public: RefConst<UString> getValue() const;
+    public: bool isEmpty() const;
     
     // From Attribute::ObjectStreamReader
-    Ptr<Token> next() throw(ParseException);
+    public: Ref<Token> next() throw(ParseException);
     
     // From Streamer
-    void printToStream(ostream& os) const;
+    public: void printToStream(Ref<OutputStream> stream) const;
+
   };
+
   
-  XmlAttribute::XmlAttribute(PPtr<XmlObjectStreamReader> owner,
-      const CodeRange& range, const string& name, const string& value)
+  XmlAttribute::XmlAttribute(Ref<XmlObjectStreamReader> owner,
+      const CodeRange& range, RefConst<UString> name, RefConst<UString> value)
   : AttributeToken(range),
     _name(name),
     _value(value),
-    _isEmpty(false)
+    _isEmpty(false),
+    _owner(owner)
   {
-    _owner = owner;
+    // Nothing;
   }
-  
-  XmlAttribute::XmlAttribute(PPtr<XmlObjectStreamReader> owner,
-      const CodeRange& range, const string& name)
+
+
+  XmlAttribute::XmlAttribute(Ref<XmlObjectStreamReader> owner,
+      const CodeRange& range, RefConst<UString> name)
   : AttributeToken(range),
     _name(name),
     _isEmpty(true)
   {
     _owner = owner;
   }
-  
-  XmlAttribute::~XmlAttribute() {
-    // Nothing
-  }
-  
-  const string& XmlAttribute::getName() const {
+
+
+  RefConst<UString> XmlAttribute::getName() const {
     return _name;
   }
   
-  const string& XmlAttribute::getValue() const {
+  RefConst<UString> XmlAttribute::getValue() const {
     return _value;
   }
+
   
   bool XmlAttribute::isEmpty() const {
     return _isEmpty;
   }
-  
-  Ptr<Token> XmlAttribute::next() throw(ParseException) {
-    return _owner->next().retain();
+
+
+  Ref<Token> XmlAttribute::next() throw(ParseException) {
+    return _owner->next();
   }
-  
-  void XmlAttribute::printToStream(ostream &os) const {
-    os << _name;
+
+
+  void XmlAttribute::printToStream(Ref<OutputStream> os) const {
+    PrintWriter pw(os);
+    pw << *_name;
     if(!_isEmpty) {
-      os << "=\"" << _value << "\"";
+      pw << "=\"" << *_value << "\"";
     }
   }
   
@@ -242,138 +268,171 @@ namespace kfoundation {
 //\/ XmlText /\////////////////////////////////////////////////////////////////
   
   class XmlText : public TextToken {
-  private:
-    CodeLocation _begin;
-    CodeLocation _end;
-    PPtr<XmlObjectStreamReader> _owner;
-    string _value;
-    
-  public:
-    XmlText(PPtr<XmlObjectStreamReader> owner, const CodeRange& range,
-        string value);
-    
-    ~XmlText();
-    
+
+  // --- FIELDS --- //
+
+    private: CodeLocation _begin;
+    private: CodeLocation _end;
+    private: Ref<XmlObjectStreamReader> _owner;
+    private: RefConst<UString> _value;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public: XmlText(Ref<XmlObjectStreamReader> owner, const CodeRange& range,
+        RefConst<UString> value);
+
+
+  // --- METHODS --- //
+
     // From Text
-    const string& get() const;
+    RefConst<UString> get() const;
     
     // From Text::ObjectStreamReader
-    Ptr<Token> next() throw(ParseException);
+    Ref<Token> next() throw(ParseException);
+
   };
-  
-  XmlText::XmlText(PPtr<XmlObjectStreamReader> owner, const CodeRange& range,
-      string value)
+
+
+  XmlText::XmlText(Ref<XmlObjectStreamReader> owner, const CodeRange& range,
+      RefConst<UString> value)
   : TextToken(range),
     _value(value)
   {
     _owner = owner;
   }
-  
-  XmlText::~XmlText() {
-    // Nothing;
-  }
-  
-  const string& XmlText::get() const {
+
+
+  RefConst<UString> XmlText::get() const {
     return _value;
   }
-  
-  Ptr<Token> XmlText::next() throw(ParseException) {
-    return _owner->next().retain();
+
+
+  Ref<Token> XmlText::next() throw(ParseException) {
+    return _owner->next();
   }
   
   
-// --- XmlCollection --------------------------------------------------------
+//\/ XmlCollection /\//////////////////////////////////////////////////////////
   
   class XmlCollection : public CollectionToken {
-  private:
-    PPtr<XmlObjectStreamReader> _owner;
-    string _id;
-    bool _hasId;
+
+  // --- FIELDS --- //
+
+    private: Ref<XmlObjectStreamReader> _owner;
+    private: RefConst<UString> _id;
+    private: bool _hasId;
+
+
+  // --- CONSTRUCTORS --- //
     
-  public:
-    XmlCollection(Ptr<XmlObjectStreamReader> owner, const CodeRange& range,
-        const string& id);
+    public: XmlCollection(Ref<XmlObjectStreamReader> owner,
+        const CodeRange& range, RefConst<UString> id);
     
-    XmlCollection(Ptr<XmlObjectStreamReader> owner, const CodeRange& range);
+    XmlCollection(Ref<XmlObjectStreamReader> owner, const CodeRange& range);
     
-    ~XmlCollection();
-    
+
+  // --- METHODS --- //
+
     // From CollectionToken
-    const string& getIdentifier() const;
-    bool hasIdentifier() const;
-    
-    
+    public: RefConst<UString> getIdentifier() const;
+    public: bool hasIdentifier() const;
+
     // From CollectionToken::ObjectStreamReader
-    Ptr<Token> next() throw(ParseException);
+    Ref<Token> next() throw(ParseException);
+
   };
-  
-  XmlCollection::XmlCollection(Ptr<XmlObjectStreamReader> owner,
-      const CodeRange& range, const string& id)
+
+
+  XmlCollection::XmlCollection(Ref<XmlObjectStreamReader> owner,
+      const CodeRange& range, RefConst<UString> id)
   : CollectionToken(range),
     _id(id)
   {
     _owner = owner;
     _hasId = true;
   }
+
   
-  XmlCollection::XmlCollection(Ptr<XmlObjectStreamReader> owner,
+  XmlCollection::XmlCollection(Ref<XmlObjectStreamReader> owner,
       const CodeRange& range)
   : CollectionToken(range)
   {
     _hasId = false;
   }
   
-  XmlCollection::~XmlCollection() {
-    // Nothing;
-  }
-  
-  const string& XmlCollection::getIdentifier() const {
+
+  RefConst<UString> XmlCollection::getIdentifier() const {
     return _id;
   }
+
   
   bool XmlCollection::hasIdentifier() const {
     return !_hasId;
   }
+
   
-  Ptr<Token> XmlCollection::next() throw(ParseException) {
-    return _owner->next().retain();
+  Ref<Token> XmlCollection::next() throw(ParseException) {
+    return _owner->next();
   }
   
   
-// --- XmlEndCollection -----------------------------------------------------
+//\/ XmlEndCollection /\///////////////////////////////////////////////////////
   
   class XmlEndCollection : public EndCollectionToken {
-  private:
-    PPtr<XmlObjectStreamReader> _owner;
+
+  // --- FIELDS --- //
+
+    private: Ref<XmlObjectStreamReader> _owner;
+
+
+  // --- CONSTRUCTORS --- //
     
-  public:
-    XmlEndCollection(PPtr<XmlObjectStreamReader> owner, const CodeRange& range);
-    ~XmlEndCollection();
-    
+    public: XmlEndCollection(Ref<XmlObjectStreamReader> owner,
+        const CodeRange& range);
+
     // From EndCollectionToken::ObjectStreamReader
-    Ptr<Token> next() throw(ParseException);
+    public: Ref<Token> next() throw(ParseException);
+
   };
-  
-  XmlEndCollection::XmlEndCollection(PPtr<XmlObjectStreamReader> owner,
+
+
+  XmlEndCollection::XmlEndCollection(Ref<XmlObjectStreamReader> owner,
       const CodeRange& range)
   : EndCollectionToken(range)
   {
     _owner = owner;
   }
   
-  XmlEndCollection::~XmlEndCollection() {
-    // Nothing
-  }
-  
-  Ptr<Token> XmlEndCollection::next() throw(ParseException) {
-    return _owner->next().retain();
+
+  Ref<Token> XmlEndCollection::next() throw(ParseException) {
+    return _owner->next();
   }
   
   
-// --- XmlObjectStreamReader ------------------------------------------------------
-  
-  const string XmlObjectStreamReader::ID_ATTRIB_NAME = "_id";
-  
+//\/ XmlObjectStreamReader /\//////////////////////////////////////////////////
+
+  const StaticRefConst<UString> XmlObjectStreamReader::COLLECTION_TAG_NAME = new UString("_collection_");
+  const StaticRefConst<UString> XmlObjectStreamReader::ID_ATTRIB_NAME = new UString("_id");
+  const StaticRefConst<UString> XmlObjectStreamReader::HEADER_TAG_BEGIN = new UString("<?xml");
+  const StaticRefConst<UString> XmlObjectStreamReader::HEADER_TAG_END = new UString("?>");
+  const StaticRefConst<UString> XmlObjectStreamReader::END_TAG_BEGIN = new UString("</");
+  const StaticRefConst<UString> XmlObjectStreamReader::END_TAG_END = new UString("/>");
+  const StaticRefConst<UString> XmlObjectStreamReader::QOUT = new UString("qout");
+  const StaticRefConst<UString> XmlObjectStreamReader::AMP = new UString("amp");
+  const StaticRefConst<UString> XmlObjectStreamReader::APOS = new UString("apos");
+  const StaticRefConst<UString> XmlObjectStreamReader::LT = new UString("lt");
+  const StaticRefConst<UString> XmlObjectStreamReader::GT = new UString("gt");
+  const StaticRefConst<UString> XmlObjectStreamReader::CDATA_BEGIN = new UString("<!CDATA[[");
+  const StaticRefConst<UString> XmlObjectStreamReader::CDATA_END = new UString("]]>");
+  const UChar XmlObjectStreamReader::SINGLE_QOUTE = '\'';
+  const UChar XmlObjectStreamReader::DOUBLE_QOUTE = '"';
+  const UChar XmlObjectStreamReader::EQUAL_SIGN = '=';
+  const UChar XmlObjectStreamReader::AND_SIGN = '&';
+  const UChar XmlObjectStreamReader::NUMBER_SIGN = '#';
+  const UChar XmlObjectStreamReader::BEGIN_CHAR = '<';
+  const UChar XmlObjectStreamReader::END_CHAR = '>';
+
   
   /**
    * Constructor.
@@ -381,40 +440,33 @@ namespace kfoundation {
    * @param input A stream containing XML representation of an object.
    */
   
-  XmlObjectStreamReader::XmlObjectStreamReader(PPtr<InputStream> input) {
+  XmlObjectStreamReader::XmlObjectStreamReader(Ref<InputStream> input) {
     _state = INITIAL;
     _input = input;
-    _parser = new PredictiveParserBase(input);
+    _parser = new StreamParser(input);
     
     parseHeader();
   }
-  
-  
-  /**
-   * Deconstructor.
-   */
-  
-  XmlObjectStreamReader::~XmlObjectStreamReader() {
-    // Nothing;
-  }
-  
+
   
   bool XmlObjectStreamReader::parseHeader() throw(ParseException) {
-    if(!_parser->readSequence(L"<?xml")) {
+    if(!_parser->readSequence(HEADER_TAG_BEGIN)) {
       return false;
     }
     
     _parser->skipSpacesAndNewLines();
     
-    while(!_parser->readSequence(L"?>")) {
-      Ptr<XmlAttribute> attr = readAttribute();
+    while(!_parser->readSequence(HEADER_TAG_END)) {
+      Ref<XmlAttribute> attr = readAttribute();
       if(attr.isNull()) {
-        throw ParseException("Expected XML attribute", _parser->getCodeLocation());
+        throw ParseException(K"Expected XML attribute",
+            _parser->getCodeLocation());
       }
       
-      if(UniString::areEqualIgnoreCases(attr->getName(), "encoding")) {
-        if(!UniString::areEqualIgnoreCases(attr->getValue(), "utf-8")) {
-          throw ParseException("XML encoding is not utf-8", attr->codeRange.getBegin());
+      if(attr->getName()->equals(K"encoding")) {
+        if(!attr->getValue()->Comparable<UString>::equals(K"utf-8")) {
+          throw ParseException(K"XML encoding is not utf-8",
+              attr->codeRange.getBegin());
         }
       }
       
@@ -427,74 +479,87 @@ namespace kfoundation {
   }
   
   
-  Ptr<XmlAttribute> XmlObjectStreamReader::readAttribute() throw(ParseException) {
+  Ref<XmlAttribute> XmlObjectStreamReader::readAttribute()
+  throw(ParseException)
+  {
     _parser->skipSpacesAndNewLines();
     CodeLocation begin = _parser->getCodeLocation();
-    string name;
-    string value;
-    char strBeginChar = 0;
+
+    StringPrintWriter pw;
+    Ref<OutputStream> storage = pw.getStream();
+
+    UChar strBeginChar;
     bool hasValue = false;
     
-    if(_parser->readIdentifier(name) == 0) {
-      return Ptr<XmlAttribute>();
+    if(_parser->readIdentifier(storage) == 0) {
+      return Ref<XmlAttribute>();
     }
+
+    RefConst<UString> name = pw.toString();
+    pw.clear();
     
     _parser->skipSpaces();
     
-    if(_parser->readChar('=')) {
+    if(_parser->readChar(EQUAL_SIGN)) {
       hasValue = true;
       
       _parser->skipSpaces();
       
-      if(_parser->readChar('"')) {
-        strBeginChar = '"';
-      } else if(_parser->readChar('\'')) {
-        strBeginChar = '\'';
+      if(_parser->readChar(DOUBLE_QOUTE)) {
+        strBeginChar = DOUBLE_QOUTE;
+      } else if(_parser->readChar(SINGLE_QOUTE)) {
+        strBeginChar = SINGLE_QOUTE;
       } else {
-        throw ParseException("Double quot expected", begin);
+        throw ParseException(K"Double quot expected", begin);
       }
       
-      readStringUnescaped(value, strBeginChar);
+      readStringUnescaped(storage, strBeginChar);
       if(!_parser->readChar(strBeginChar)) {
-        throw ParseException("Closing '" + UniChar(strBeginChar) + "' could not be found", _parser->getCodeLocation());
+        throw ParseException(K"Closing '" + UChar(strBeginChar)
+            + "' could not be found", _parser->getCodeLocation());
       }
     }
     
     CodeLocation end = _parser->getCodeLocation();
     
     if(!hasValue) {
-      return new XmlAttribute(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end), name);
+      return new XmlAttribute(this, CodeRange(begin, end), name);
     }
     
-    Ptr<XmlAttribute> attrib = new XmlAttribute(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end), name, value);
-    return attrib.retain();
+    return new XmlAttribute(this, CodeRange(begin, end), name,
+        storage.toString());
   }
   
   
-  Ptr<XmlElement> XmlObjectStreamReader::readElement() throw(ParseException) {
-    string name;
-    string id;
+  Ref<XmlElement> XmlObjectStreamReader::readElement() throw(ParseException) {
+    StringPrintWriter pw;
+    Ref<OutputStream> storage = pw.getStream();
+    RefConst<UString> name;
+    RefConst<UString> id;
     bool hasId = false;
     
     _parser->skipSpacesAndNewLines();
     
     CodeLocation begin = _parser->getCodeLocation();
     
-    if(!_parser->readChar('<')) {
+    if(!_parser->readChar(BEGIN_CHAR)) {
       return NULL;
     }
     
-    if(!_parser->readIdentifier(name)) {
-      throw ParseException("Tag name expected", _parser->getCodeLocation());
+    if(!_parser->readIdentifier(storage)) {
+      throw ParseException(K"Tag name expected", _parser->getCodeLocation());
     }
     
     CodeLocation end = _parser->getCodeLocation();
-    
-    _elementStack.push_back(name);
-    
+
+    name = pw.toString();
+    pw.clear();
+
+    _elementStack->push(name);
+
     _nextAttrib = readAttribute();
     if(!_nextAttrib.isNull()) {
-      if(_nextAttrib->checkName("_id")) {
+      if(_nextAttrib->checkName(ID_ATTRIB_NAME)) {
         id = _nextAttrib->getValue();
         _nextAttrib = NULL;
         hasId = true;
@@ -504,136 +569,144 @@ namespace kfoundation {
     _state = ELEMENT_HEAD;
     
     if(hasId) {
-      return new XmlElement(getPtr().AS(XmlObjectStreamReader),
-          CodeRange(begin, end), name, id);
+      return new XmlElement(this, CodeRange(begin, end), name, id);
     }
  
-    return new XmlElement(getPtr().AS(XmlObjectStreamReader),
-        CodeRange(begin, end), name);
+    return new XmlElement(this, CodeRange(begin, end), name);
   }
   
   
-  Ptr<Token> XmlObjectStreamReader::readElementOrCollection()
+  Ref<Token> XmlObjectStreamReader::readElementOrCollection()
   throw(ParseException)
   {
-    Ptr<XmlElement> element = readElement();
+    Ref<XmlElement> element = readElement();
     
     if(element.isNull()) {
-      return Ptr<Token>();
+      return NULL;
     }
     
-    if(element->getClassName() == ObjectSerializer::COLLECTION_CLASS_NAME) {
-      Ptr<XmlCollection> collection;
+    if(element->getClassName()->equals(COLLECTION_TAG_NAME)) {
+      Ref<XmlCollection> collection;
       if(element->hasIdentifier()) {
-        collection = new XmlCollection(getPtr().AS(XmlObjectStreamReader), element->codeRange, element->getIdentifier());
+        collection = new XmlCollection(this, element->codeRange,
+            element->getIdentifier());
       } else {
-        collection = new XmlCollection(getPtr().AS(XmlObjectStreamReader), element->codeRange);
+        collection = new XmlCollection(this, element->codeRange);
       }
-      element.release();
-      return collection.AS(Token).retain();
+      return collection.AS(Token);
     }
     
-    return element.AS(Token).retain();
+    return element.AS(Token);
   }
-  
-  void XmlObjectStreamReader::readStringUnescaped(string& output, const wchar_t& endChar) {
+
+
+  void XmlObjectStreamReader::readStringUnescaped(Ref<OutputStream> storage,
+     const UChar endChar)
+  {
+    UChar ch;
+
     while(!_parser->testChar(endChar)) {
       if(_parser->testEndOfStream()) {
-        throw ParseException("Stream eneded while reading text section");
+        throw ParseException(K"Stream eneded while reading text section");
       }
       
-      if(_parser->readChar(L'&')) {
-        if(_parser->readChar(L'#')) {
-          if(_parser->readChar((const wchar_t[2]){'x', 'X'}, 2)) {
-            string str;
-            _parser->readNumber(str);
-            wchar_t code = (wchar_t)LongInt::parse(str, LongInt::HEXADECIMAL);
-            kf_octet_t buffer[6];
-            int s = UniChar::writeUtf8(code, buffer);
-            output.append((char*)buffer, s);
+      if(_parser->readChar(AND_SIGN)) {
+        if(_parser->readChar(NUMBER_SIGN)) {
+          if(_parser->readChar('x')) {
+            kf_int32_t code;
+            if(_parser->readHexNumber(code)) {
+              UChar((wchar_t)code).printToStream(storage);
+            } else {
+              throw ParseException(K"Could not parse hex character code",
+                  _parser->getCodeLocation());
+            }
           } else {
-            long int code = 0;
-            _parser->readNumber(code);
-            kf_octet_t buffer[6];
-            int s = UniChar::writeUtf8((wchar_t)code, buffer);
-            output.append((char*)buffer, s);
+            kf_int32_t code = 0;
+            if(_parser->readNumber(code)) {
+              UChar((wchar_t)code).printToStream(storage);
+            } else {
+              throw ParseException(K"Could not parse character code",
+                  _parser->getCodeLocation());
+            }
           }
-        } else if(_parser->readSequence(L"qout")) {
-          output.append("\"");
-        } else if(_parser->readSequence(L"amp")) {
-          output.append("&");
-        } else if(_parser->readSequence(L"apos")) {
-          output.append("'");
-        } else if(_parser->readSequence(L"lt")) {
-          output.append("<");
-        } else if(_parser->readSequence(L"gt")) {
-          output.append(">");
+        } else if(_parser->readSequence(QOUT)) {
+          storage->write('"');
+        } else if(_parser->readSequence(AMP)) {
+          storage->write('&');
+        } else if(_parser->readSequence(APOS)) {
+          storage->write('\'');
+        } else if(_parser->readSequence(LT)) {
+          storage->write('>');
+        } else if(_parser->readSequence(GT)) {
+          storage->write('<');
         } else {
-          throw ParseException("Unknown escape sequence", _parser->getCodeLocation());
+          throw ParseException(K"Unknown escape sequence",
+              _parser->getCodeLocation());
         }
         
-        if(!_parser->readChar(';')) {
-          throw ParseException("Semicolon expected", _parser->getCodeLocation());
+        if(!_parser->readChar(SEMICOLON)) {
+          throw ParseException(K"Semicolon expected",
+              _parser->getCodeLocation());
         }
       } else {
-        kf_octet_t buffer[6];
-        wchar_t ch = 0;
-        unsigned short int s = _parser->readAny(ch, buffer);
-        output.append((char*)buffer, s);
+        _parser->readAny(ch);
+        ch.printToStream(storage);
       }
     } // white()
   }
   
   
-  Ptr<XmlEndElement> XmlObjectStreamReader::readCloseTag() {
+  Ref<XmlEndElement> XmlObjectStreamReader::readCloseTag() {
     CodeLocation begin = _parser->getCodeLocation();
-    if(!_parser->readSequence(L"</")) {
-      return Ptr<XmlEndElement>();
+    if(!_parser->readSequence(END_TAG_BEGIN)) {
+      return Ref<XmlEndElement>();
     }
     
     _parser->skipSpaces();
-    
-    string name;
-    _parser->readIdentifier(name);
-    
+
+    StringPrintWriter pw;
+    _parser->readIdentifier(pw.getStream());
+    RefConst<UString> name = pw.toString();
+    pw.clear();
+
     _parser->skipSpaces();
     
-    if(!_parser->readChar('>')) {
-      throw ParseException("'>' expected", _parser->getCodeLocation());
+    if(!_parser->readChar(END_CHAR)) {
+      throw ParseException(K"'>' expected", _parser->getCodeLocation());
     }
     
     CodeLocation end = _parser->getCodeLocation();
     
-    if(name != *(_elementStack.end() - 1)) {
-      throw ParseException("Closing tag \"" + name + "\" does not match its"
-          " corresponding opening tag " + *(_elementStack.end()),
+    if(!name->equals(_elementStack->last())) {
+      throw ParseException(K"Closing tag \"" + name + "\" does not match its"
+          " corresponding opening tag " + *_elementStack->last(),
           CodeRange(begin, end));
     }
     
-    _elementStack.pop_back();
+    _elementStack->pop();
     
     _state = ELEMENT_END;
     
-    return new XmlEndElement(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end), name);
+    return new XmlEndElement(this, CodeRange(begin, end), name);
   }
   
   
-  Ptr<Token> XmlObjectStreamReader::readEndElementOrEndCollection()
+  Ref<Token> XmlObjectStreamReader::readEndElementOrEndCollection()
   throw(ParseException)
   {
-    Ptr<XmlEndElement> endElement = readCloseTag();
+    Ref<XmlEndElement> endElement = readCloseTag();
     
     if(endElement.isNull()) {
-      return Ptr<Token>();
+      return Ref<Token>();
     }
     
-    if(endElement->getClassName() == ObjectSerializer::COLLECTION_CLASS_NAME) {
-      Ptr<XmlEndCollection> endCollection(
-          new XmlEndCollection(getPtr().AS(XmlObjectStreamReader), endElement->codeRange));
-      return endCollection.AS(Token).retain();
+    if(endElement->getClassName()->equals(COLLECTION_TAG_NAME)) {
+      Ref<XmlEndCollection> endCollection(
+          new XmlEndCollection(this, endElement->codeRange));
+      return endCollection.AS(Token);
     }
     
-    return endElement.AS(Token).retain();
+    return endElement.AS(Token);
   }
   
   
@@ -641,135 +714,138 @@ namespace kfoundation {
    * Returns the next token in the stream.
    */
   
-  Ptr<Token> XmlObjectStreamReader::next() throw(ParseException) {
+  Ref<Token> XmlObjectStreamReader::next() throw(ParseException) {
     _parser->skipSpacesAndNewLines();
     
     if(_parser->testEndOfStream()) {
-      return Token::END_STREAM_TOKEN;
+      return new EndStreamToken();
     }
     
     switch (_state) {
       case INITIAL:
-        return readElement().AS(Token).retain();
+        return readElement().AS(Token);
       
       case ELEMENT_HEAD: {
         if(!_nextAttrib.isNull()) {
-          Ptr<Token> t = _nextAttrib.AS(Token);
+          Ref<Token> t = _nextAttrib.AS(Token);
           _nextAttrib = NULL;
-          return t.retain();
+          return t;
         }
         
         _parser->skipSpacesAndNewLines();
         
-        Ptr<XmlAttribute> attr = readAttribute();
+        Ref<XmlAttribute> attr = readAttribute();
         if(!attr.isNull()) {
-          return attr.AS(Token).retain();
+          return attr.AS(Token);
         }
         
-        if(_parser->testSequence(L"/>")) {
+        if(_parser->testSequence(END_TAG_END)) {
           CodeLocation begin = _parser->getCodeLocation();
-          _parser->readSequence(L"/>");
+          _parser->readSequence(END_TAG_END);
           CodeLocation end = _parser->getCodeLocation();
-          string name = *(_elementStack.end() - 1);
-          _elementStack.pop_back();
+          RefConst<UString> name = _elementStack->pop();
           _state = ELEMENT_END;
           
-          if(name == ObjectSerializer::COLLECTION_CLASS_NAME) {
-            return new XmlEndCollection(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end));
+          if(name->equals(COLLECTION_TAG_NAME)) {
+            return new XmlEndCollection(this, CodeRange(begin, end));
           }
           
-          return new XmlEndElement(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end), name);
+          return new XmlEndElement(this, CodeRange(begin, end), name);
         }
         
-        if(!_parser->readChar('>')) {
-          throw ParseException("'>' expected", _parser->getCodeLocation());
+        if(!_parser->readChar(END_CHAR)) {
+          throw ParseException(K"'>' expected", _parser->getCodeLocation());
         }
         
         _parser->skipSpacesAndNewLines();
         
-        if(_parser->readSequence(L"<!CDATA[[")) {
+        if(_parser->readSequence(CDATA_BEGIN)) {
           CodeLocation begin = _parser->getCodeLocation();
-          string cdata;
-          _parser->readAllBeforeSequence(L"]]>", cdata);
+          StringPrintWriter pw;
+          _parser->readAllBeforeSequence(CDATA_END, pw.getStream());
           CodeLocation end = _parser->getCodeLocation();
-          if(!_parser->readSequence(L"]]>")) {
-            throw ParseException("CDATA section is not properly closed with \"]]>\"", begin);
+          if(!_parser->readSequence(CDATA_END)) {
+            throw ParseException(K"CDATA section is not properly closed "
+                "with \"]]>\"", begin);
           }
           _state = TEXT;
-          return new XmlText(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end), cdata);
+          return new XmlText(this, CodeRange(begin, end), pw.toString());
         }
         
-        Ptr<Token> closeTag = readEndElementOrEndCollection();
+        Ref<Token> closeTag = readEndElementOrEndCollection();
         if(!closeTag.isNull()) {
-          return closeTag.retain();
+          return closeTag;
         }
         
-        Ptr<Token> child = readElementOrCollection();
+        Ref<Token> child = readElementOrCollection();
         if(!child.isNull()) {
-          return child.retain();
+          return child;
         }
         
         CodeLocation begin = _parser->getCodeLocation();
-        string text;
-        _parser->readAllBeforeChar('<', text);
-        if(text.length() == 0) {
-          throw ParseException("Error reading element body", begin);
+        StringPrintWriter pw;
+        kf_int64_t n = _parser->readAllBeforeChar(BEGIN_CHAR, pw.getStream());
+        if(n == 0) {
+          throw ParseException(K"Error reading element body", begin);
         }
         _state = TEXT;
         CodeLocation end = _parser->getCodeLocation();
-        return new XmlText(getPtr().AS(XmlObjectStreamReader), CodeRange(begin, end), text);
+        return new XmlText(this, CodeRange(begin, end), pw.toString());
       }
         
       case ELEMENT_END: {
         _parser->skipSpacesAndNewLines();
         if(_parser->testEndOfStream()) {
-          if(_elementStack.size() > 0) {
-            string str;
-            for(int i = 0; i < _elementStack.size(); i++) {
+          if(_elementStack->getSize() > 0) {
+            StringPrintWriter pw;
+            pw << "The following elements are not closed: ";
+            for(int i = 0; i < _elementStack->getSize(); i++) {
               if(i > 0) {
-                str += ", ";
+                pw << ", ";
               }
-              str += _elementStack[i];
+              pw << *_elementStack->at(i);
             }
-            throw ParseException("The following elements are not closed: " + str);
+            throw ParseException(pw.toString());
           }
           _state = END;
-          return Token::END_STREAM_TOKEN;
+          return new EndStreamToken();
         }
         
-        Ptr<Token> closeTag = readEndElementOrEndCollection();
+        Ref<Token> closeTag = readEndElementOrEndCollection();
         if(!closeTag.isNull()) {
-          return closeTag.retain();
+          return closeTag;
         }
         
-        Ptr<Token> nextElement = readElementOrCollection();
+        Ref<Token> nextElement = readElementOrCollection();
         if(!nextElement.isNull()) {
-          return nextElement.retain();
+          return nextElement;
         }
         
-        throw ParseException("Open or close tag expected", _parser->getCodeLocation());
+        throw ParseException(K"Open or close tag expected",
+            _parser->getCodeLocation());
       }
         
       case TEXT: {
-        Ptr<Token> closeTag = readEndElementOrEndCollection();
+        Ref<Token> closeTag = readEndElementOrEndCollection();
         if(!closeTag.isNull()) {
-          return closeTag.retain();
+          return closeTag;
         }
         
-        Ptr<Token> nextElement = readElementOrCollection();
+        Ref<Token> nextElement = readElementOrCollection();
         if(!nextElement.isNull()) {
-          return nextElement.retain();
+          return nextElement;
         }
         
-        throw ParseException("Open or close tag expected", _parser->getCodeLocation());
+        throw ParseException(K"Open or close tag expected",
+            _parser->getCodeLocation());
       }
         
       case END:
-        throw ParseException("Parse is already finished");
+        throw ParseException(K"Parse is already finished");
         
     } // case(_state)
     
-    throw ParseException("Invalid XML reader state");
+    throw ParseException(K"Invalid XML reader state");
     
   } // next()
   

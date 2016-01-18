@@ -7,6 +7,7 @@
 //
 
 // Internal
+#include "Ref.h"
 #include "InputStream.h"
 #include "XmlObjectStreamReader.h"
 
@@ -26,9 +27,9 @@ namespace kfoundation {
    * @param stream The XML stream to read the object from.
    */
   
-  void StreamDeserializer::readFromXmlStream(PPtr<InputStream> stream) {
-    Ptr<XmlObjectStreamReader> reader = new XmlObjectStreamReader(stream);
-    Ptr<Token> headToken = reader->next();
+  void StreamDeserializer::readFromXmlStream(Ref<InputStream> stream) {
+    Ref<XmlObjectStreamReader> reader = new XmlObjectStreamReader(stream);
+    Ref<Token> headToken = reader->next();
     headToken->validateType(Token::OBJECT);
     deserialize(headToken.AS(ObjectToken));
   }

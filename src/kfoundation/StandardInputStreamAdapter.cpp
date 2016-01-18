@@ -14,8 +14,6 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
-// Std
-#include <istream>
 
 // Internal
 #include "System.h"
@@ -32,7 +30,7 @@ namespace kfoundation {
    * Constructor, wraps the new instance around the given `istream` object.
    */
   
-  StandardInputStreamAdapter::StandardInputStreamAdapter(istream& stream)
+  StandardInputStreamAdapter::StandardInputStreamAdapter(std::istream& stream)
   : _is(stream)
   {
     // nothing
@@ -50,12 +48,12 @@ namespace kfoundation {
   }
   
   
-  int StandardInputStreamAdapter::read() {
+  kf_int16_t StandardInputStreamAdapter::read() {
     return _is.get();
   }
   
   
-  int StandardInputStreamAdapter::peek() {
+  kf_int16_t StandardInputStreamAdapter::peek() {
     return _is.peek();
   }
   

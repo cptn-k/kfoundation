@@ -17,11 +17,12 @@
 #ifndef KFOUNDATION_ARRAY
 #define KFOUNDATION_ARRAY
 
-#include <vector>
+// Std
 #include <cstring>
 
-#include "ManagedObject.h"
-#include "PtrDecl.h"
+// Internal
+#include "KFObject.h"
+#include "RefDecl.h"
 #include "SerializingStreamer.h"
 #include "IndexOutOfBoundException.h"
 #include "System.h"
@@ -29,6 +30,7 @@
 #include "Int.h"
 #include "ObjectSerializer.h"
 
+// Self
 #include "ArrayDecl.h"
 
 #define KF_ARRAY_INITIAL_CAPACITY 64
@@ -36,19 +38,54 @@
 
 
 namespace kfoundation {
-  
-  using namespace std;
-    
-// --- STATIC FIELDS --- //
-  
-  /**
-   * Flag returned by search methods when the desired item is not found.
-   */
-  
+
+//\/ ArrayIteratorImpl /\//////////////////////////////////////////////////////
+
   template<typename T>
-  const kf_int32_t Array<T>::NOT_FOUND = -1;
-  
-  
+  Array<T>::Iterator::Iterator(RefConst< Array<T> > source, T* begin)
+  : _source(source),
+    _begin(begin),
+    _end(begin + source->getSize()),
+    _p(begin)
+  {
+    // Nothing;
+  }
+
+
+  template<typename T>
+  T& Array<T>::Iterator::first() {
+    _p = _begin;
+    return *_p;
+  }
+
+
+  template<typename T>
+  T& Array<T>::Iterator::next() {
+    _p++;
+    return *_p;
+  }
+
+
+  template<typename T>
+  T& Array<T>::Iterator::get() const {
+    return *_p;
+  }
+
+
+  template<typename T>
+  kf_int32_t Array<T>::Iterator::getIndex() const {
+    return (kf_int32_t)(_p - _begin);
+  }
+
+
+  template<typename T>
+  bool Array<T>::Iterator::hasMore() const {
+    return _p < _end;
+  }
+
+
+//\/ Array /\//////////////////////////////////////////////////////////////////
+
 // --- (DE)CONSTRUCTORS --- //
   
   /**
@@ -61,6 +98,14 @@ namespace kfoundation {
     _capacity = KF_ARRAY_INITIAL_CAPACITY;
     _size = 0;
     _data = new T[_capacity];
+  }
+
+
+  template<typename T>
+  Array<T>::Array(const kf_int32_t size) {
+    _capacity = size;
+    _size = size;
+    _data = new T[size];
   }
   
   
@@ -97,9 +142,15 @@ namespace kfoundation {
   void Array<T>::grow(kf_int32_t newCapacity) {
     _capacity = newCapacity;
     T* newStorage = new T[_capacity];
-    memcpy(newStorage, _data, sizeof(T) * _size);
+    memcpy((void*)newStorage, (void*)_data, sizeof(T) * _size);
     delete[] _data;
     _data = newStorage;
+  }
+
+
+  template<typename T>
+  void Array<T>::consolidate() {
+    grow(_size);
   }
 
   
@@ -161,7 +212,7 @@ namespace kfoundation {
   template<typename T>
   T Array<T>::pop() {
     if(_size == 0) {
-      throw IndexOutOfBoundException("Can't pop because array is empty");
+      throw IndexOutOfBoundException(K"Can't pop because array is empty");
     }
     return _data[--_size];
   }
@@ -260,9 +311,8 @@ namespace kfoundation {
   template<typename T>
   inline T& Array<T>::at(const kf_int32_t index) {
     if(index >= _size) {
-      throw IndexOutOfBoundException("Attempt to access element "
-          + Int::toString(index) + " of an array of size "
-          + Int::toString(_size));
+      throw IndexOutOfBoundException(K"Attempt to access element "
+          + index + " of an array of size " + _size);
     }
     return _data[index];
   }
@@ -279,9 +329,8 @@ namespace kfoundation {
   template<typename T>
   inline const T& Array<T>::at(const kf_int32_t index) const {
     if(index >= _size) {
-      throw IndexOutOfBoundException("Attempt to access element "
-          + Int::toString(index) + " of an array of size "
-          + Int::toString(_size));
+      throw IndexOutOfBoundException(K"Attempt to access element "
+          + index + " of an array of size " + _size);
     }
     return _data[index];
   }
@@ -309,7 +358,7 @@ namespace kfoundation {
    *
    * @param value The value to search for.
    * @return If found, the index of the first occurance of the given value,
-   *         otherwise, NOT_FOUND.
+   *         otherwise, KF_NOT_FOUND.
    */
   
   template<typename T>
@@ -324,7 +373,7 @@ namespace kfoundation {
    * @param offset The index to start the search from.
    * @param value The value to search for.
    * @return If found, the index of the first occurance of the given value,
-   *         otherwise, NOT_FOUND.
+   *         otherwise, KF_NOT_FOUND.
    */
   
   template<typename T>
@@ -336,7 +385,13 @@ namespace kfoundation {
       }
     }
     
-    return NOT_FOUND;
+    return KF_NOT_FOUND;
+  }
+
+
+  template<typename T>
+  typename Array<T>::Iterator Array<T>::getIterator() const {
+    return Iterator(this, _data);
   }
   
 } // namespace kfoundation

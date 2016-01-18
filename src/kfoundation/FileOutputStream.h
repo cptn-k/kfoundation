@@ -17,14 +17,17 @@
 #ifndef __KFoundation__FileOutptuStream__
 #define __KFoundation__FileOutptuStream__
 
+// Internal
+#include "definitions.h"
+#include "RefDecl.h"
+
 // Super
 #include "OutputStream.h"
 
 namespace kfoundation {
   
-  using namespace std;
-  
   class Path;
+  class InputStream;
   
   /**
    * Output stream used to write data on file.
@@ -37,33 +40,36 @@ namespace kfoundation {
     
   // --- FIELDS ---- //
     
-    private: int _fileDescriptor;
-    private: Ptr<Path> _path;
-    
+    private: kf_int32_t _fileDescriptor;
+    private: RefConst<Path> _path;
+
     
   // --- (DE)CONSTRUCTORS --- //
     
-    public: FileOutputStream(PPtr<Path> path);
+    public: FileOutputStream(RefConst<Path> path);
+    public: FileOutputStream(RefConst<UString> path);
     public: ~FileOutputStream();
     
     
   // --- METHODS --- //
-    
+
+   private: void construct(RefConst<Path> path);
     public: bool isLocked() const;
     public: void lock() const;
     public: void unlock() const;
     public: void close();
-    public: PPtr<Path> getPath() const;
+    public: RefConst<Path> getPath() const;
     
     // Inhertied from OutputStream
     public: bool isBigEndian() const;
     public: void truncate() const;
     public: void write(const kf_octet_t* buffer, const kf_int32_t nBytes);
     public: void write(kf_octet_t byte);
-    public: void write(PPtr<InputStream> is);
+    public: void write(Ref<InputStream> is);
+    public: void flush();
     
   };
   
-}
+} // namespace kfoundation
 
 #endif /* defined(__KFoundation__FileOutptuStream__) */

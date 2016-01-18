@@ -17,14 +17,15 @@
 #ifndef KFOUNDATION_NUMERICVECTOR
 #define KFOUNDATION_NUMERICVECTOR
 
-#include "KFException.h"
 #include "NumericVectorDecl.h"
+#include "KFException.h"
+#include "OutputStream.h"
 #include "StringInputStream.h"
-#include "PredictiveParserBase.h"
+#include "StreamParser.h"
+#include "PrintWriter.h"
 
 namespace kfoundation {
 
-  
   /**
    * Default constructor, creates an empty array.
    */
@@ -60,7 +61,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  Ptr< NumericVector<T> > NumericVector<T>::negate() const {
+  Ref< NumericVector<T> > NumericVector<T>::negate() const {
     AutoPtr< NumericVector<T> > result(new NumericVector<T>());
     for(kf_int32_t i = Array<T>::getSize() - 1; i >= 0; i--) {
       result->set(- Array<T>::get(i));
@@ -77,9 +78,9 @@ namespace kfoundation {
    */
   
   template<typename T>
-  Ptr< NumericVector<T> >
-  NumericVector<T>::add(const Ptr< NumericVector<T> >& other) const {
-    Ptr< NumericVector<T> > result(new NumericVector<T>());
+  Ref< NumericVector<T> >
+  NumericVector<T>::add(const Ref< NumericVector<T> >& other) const {
+    Ref< NumericVector<T> > result(new NumericVector<T>());
     for(kf_int32_t i = Array<T>::getSize() - 1; i >= 0; i--) {
       result->set(Array<T>::get(i) + other->get(i));
     }
@@ -95,8 +96,8 @@ namespace kfoundation {
    */
   
   template<typename T>
-  Ptr< NumericVector<T> >
-  NumericVector<T>::sub(const Ptr< NumericVector<T> >& other) const {
+  Ref< NumericVector<T> >
+  NumericVector<T>::sub(const Ref< NumericVector<T> >& other) const {
     AutoPtr< NumericVector<T> > result(new NumericVector<T>());
     for(kf_int32_t i = Array<T>::getSize() - 1; i >= 0; i--) {
       result->set(Array<T>::get(i) - other->get(i));
@@ -113,7 +114,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  Ptr< NumericVector<T> > NumericVector<T>::mul(const T& coef) const {
+  Ref< NumericVector<T> > NumericVector<T>::mul(const T& coef) const {
     AutoPtr< NumericVector<T> > result(new NumericVector<T>());
     for(kf_int32_t i = Array<T>::getSize() - 1; i >= 0; i--) {
       result->set(Array<T>::get(i) * coef);
@@ -130,11 +131,11 @@ namespace kfoundation {
    */
   
   template<typename T>
-  Ptr< NumericVector<T> > NumericVector<T>::parseInt(const string& str) {
-    Ptr< NumericVector<T> > v(new NumericVector<T>());
+  Ref< NumericVector<kf_int32_t> > NumericVector<T>::parseInt(RefConst<UString> str) {
+    Ref< NumericVector<kf_int32_t> > v(new NumericVector<T>());
     
     AutoPtr<StringInputStream> input(new StringInputStream(str));
-    AutoPtr<PredictiveParserBase> parser(new PredictiveParserBase(input.AS(InputStream)));
+    AutoPtr<StreamParser> parser(new StreamParser(input.AS(InputStream)));
     parser->skipSpacesAndNewLines();
     parser->readChar('{');
     while(true) {
@@ -154,16 +155,19 @@ namespace kfoundation {
   
   
   template<typename T>
-  void NumericVector<T>::printToStream(ostream& os) const {
+  void NumericVector<T>::printToStream(Ref<OutputStream> stream) const {
+    PrintWriter writer(stream);
+
     kf_int32_t s = Array<T>::getSize();
     
-    os << "{";
-    for(int i = 0; i < s; i++) {
-      if(i > 0) {
-        os << ", ";
+    writer << "{";
+    Array<T>::Iterator it = getIterator();
+    for(T v = it.first(); it.hasMore(); v = it.next()) {
+      writer << v;
+
+      if(it.hasMore()) {
+        writer << ", ";
       }
-      
-      os << Array<T>::get(i);
     }
     os << "}";
   }

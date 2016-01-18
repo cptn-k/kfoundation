@@ -17,10 +17,16 @@
 #ifndef KFOUNDATION_NUMERICVECTOR_DECL
 #define KFOUNDATION_NUMERICVECTOR_DECL
 
+// Super
+#include "definitions.h"
+#include "RefDecl.h"
 #include "Array.h"
 #include "Streamer.h"
 
 namespace kfoundation {
+
+  class UString;
+  class OutputStream;
   
   /**
    * A subclass of Array, adds numeric operations. Can also convert the contents
@@ -32,19 +38,26 @@ namespace kfoundation {
   
   template<typename T>
   class NumericVector : public Array<T>, public Streamer {
-  public:
-    NumericVector();
-    NumericVector(T* values, kf_int32_t size);
-    
-    Ptr< NumericVector<T> > negate() const;
-    Ptr< NumericVector<T> > add(const Ptr< NumericVector<T> >& other) const;
-    Ptr< NumericVector<T> > sub(const Ptr< NumericVector<T> >& other) const;
-    Ptr< NumericVector<T> > mul(const T& coef) const;
 
-    static Ptr< NumericVector<T> > parseInt(const string& str);
+  // --- CONSTRUCTORS --- //
+
+    public: NumericVector();
+    public: NumericVector(T* values, kf_int32_t size);
+
+
+  // --- STATIC METHODS --- //
+
+    public: static Ref< NumericVector<kf_int32_t> > parseInt(RefConst<UString> str);
+
+  // --- METHODS --- //
     
+    public: Ref< NumericVector<T> > negate() const;
+    public: Ref< NumericVector<T> > add(RefConst< NumericVector<T> >& other) const;
+    public: Ref< NumericVector<T> > sub(RefConst< NumericVector<T> >& other) const;
+    public: Ref< NumericVector<T> > mul(const T coef) const;
+
     // From Streamer
-    void printToStream(ostream& os) const;
+    void printToStream(Ref<OutputStream> stream) const;
   };
   
 } // namespace kfoundation

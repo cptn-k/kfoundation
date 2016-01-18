@@ -18,14 +18,15 @@
 #define __KFoundation__InternetAddress__
 
 #include "definitions.h"
+#include "RefDecl.h"
 
 // Super
 #include "Streamer.h"
 
 namespace kfoundation {
-  
-  using namespace std;
-  
+
+  class OutputStream;
+  class UString;
   
   /**
    * Encodes an IP address and port number. This is an immutable object.
@@ -34,7 +35,9 @@ namespace kfoundation {
    * @headerfile InternetAddress.h <kfoundation/InternetAddress.h>
    */
   
-  class InternetAddress : public Streamer {
+  class InternetAddress
+      : public KFObject, public Streamer, public Comparable<InternetAddress>
+  {
     
   // --- NESTED TYPES --- //
     
@@ -49,6 +52,7 @@ namespace kfoundation {
       D, ///< Class D, reserved for multicast
       E, ///< Class E, experimental, used for research
     };
+
 
   // --- STATIC FIELDS --- //
     
@@ -68,24 +72,26 @@ namespace kfoundation {
     
     public: InternetAddress();
     public: InternetAddress(const kf_octet_t* ip, kf_int32_t port);
-    public: InternetAddress(const string& str);
-    public: InternetAddress(const string& str, kf_int32_t port);
-    public: InternetAddress(const InternetAddress& other);
+    public: InternetAddress(RefConst<UString> str);
+    public: InternetAddress(RefConst<UString> str, kf_int32_t port);
+    public: InternetAddress(RefConst<InternetAddress> other);
     
   
   // --- METHODS --- //
     
-    private: void parseString(const string& str);
+    private: void parseString(RefConst<UString> str);
     public: const kf_octet_t* getIp() const;
     public: kf_int32_t getPort() const;
-    public: InternetAddress copyWithPort(kf_int32_t port) const;
-    public: bool equals(const InternetAddress& other) const;
+    public: Ref<InternetAddress> copyWithPort(kf_int32_t port) const;
     public: class_t getClass() const;
-    public: InternetAddress getBroadcastAddress() const;
-    public: InternetAddress getSubnetMask() const;
+    public: Ref<InternetAddress> getBroadcastAddress() const;
+    public: Ref<InternetAddress> getSubnetMask() const;
+
+    // From Comparable<InternetAddress> //
+    public: bool equals(RefConst<InternetAddress> other) const;
     
     // Inherited from Streamer //
-    public: void printToStream(ostream& stream) const;
+    public: void printToStream(Ref<OutputStream> stream) const;
     
   };
   

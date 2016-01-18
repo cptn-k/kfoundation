@@ -30,7 +30,7 @@ namespace kfoundation {
    */
   
   class MemoryException : public KFException {
-    public: MemoryException(string message);
+    public: MemoryException(RefConst<UString> message);
   };
   
 } // namespace kfoundation

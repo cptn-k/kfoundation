@@ -14,6 +14,8 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+#include "Ref.h"
+#include "UString.h"
 #include "NullPointerException.h"
 
 namespace kfoundation {
@@ -23,9 +25,9 @@ namespace kfoundation {
    */
   
   NullPointerException::NullPointerException()
-  : InvalidPointerException("")
+  : InvalidPointerException(UString::EMPTY)
   {
-    setName("NullPointerException");
+    setName(K"NullPointerException");
   }
   
   
@@ -33,10 +35,10 @@ namespace kfoundation {
    * Message constructor.
    */
   
-  NullPointerException::NullPointerException(string message)
-    : InvalidPointerException(message)
+  NullPointerException::NullPointerException(RefConst<UString> message)
+  : InvalidPointerException(message)
   {
-    setName("NullPointerException");
+    setName(K"NullPointerException");
   }
   
 } // namespace kfoundation;

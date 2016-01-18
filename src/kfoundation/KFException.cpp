@@ -14,116 +14,79 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
-#include "KFException.h"
-
+// Std
 #include <ostream>
 #include <exception>
 #include <typeinfo>
 #include <vector>
 #include <string>
-
-#include <execinfo.h>
-#include <unistd.h>
-#include <cxxabi.h>
 #include <cstdlib>
-#include <iostream>
 
-#include "Ptr.h"
-#include "Int.h"
-#include "LongInt.h"
+// Ext
+#include <execinfo.h>
+#include <cxxabi.h>
+
+// POSIX
+#include <unistd.h>
+
+// Internal
+#include "Ref.h"
+#include "UString.h"
 #include "ObjectSerializer.h"
 #include "Thread.h"
+#include "BufferInputStream.h"
+#include "StreamParser.h"
+#include "UString.h"
+#include "Array.h"
+#include "InputStream.h"
+#include "StringPrintWriter.h"
+
+// Self
+#include "KFException.h"
 
 namespace kfoundation {
 
-using namespace std;
-
 //\/ KSystemException::StackTraceItem /\///////////////////////////////////////
 
-  KFException::StackTraceItem
-  KFException::StackTraceItem::fromStackTraceString(char* str)
-  {
-    char* begin;
-    char* end;
-    
-    begin = readWhiteSpace(str);
-    end = readText(begin);
-    int index = Int::parse(string(begin, end));
-    
-    begin = readWhiteSpace(end);
-    end = readText(begin);
-    string exeName(begin, end);
-    
-    begin = readWhiteSpace(end);
-    end = readText(begin);
-    long int address = LongInt::parse(string(begin, end), LongInt::HEXADECIMAL);
-    
-    begin = readWhiteSpace(end);
-    end = readText(begin);
-    string symbol = demangle(string(begin, end));
-    
-    begin = readWhiteSpace(end);
-    begin = readChar(begin, '+');
-    begin = readWhiteSpace(begin);
-    end = readText(begin);
-    int offset = Int::parse(string(begin, end));
-    
-    StackTraceItem item;
+  void KFException::StackTraceItem::set(char* str) {
+    Ref<BufferInputStream> input = new BufferInputStream((kf_octet_t*)str,
+        (kf_int32_t)strlen(str), false);
 
-    item._index = index;
-    item._exeName = exeName;
-    item._address = address;
-    item._symbol = symbol;
-    item._offset = offset;
-    
-    return item;
+    StreamParser parser(input.AS(InputStream));
+
+    parser.skipSpaces();
+    parser.readNumber(_index);
+
+    StringPrintWriter pw;
+
+    parser.skipSpaces();
+    parser.readAllBeforeSpace(pw.getStream());
+    _exeName = pw.toString();
+    pw.clear();
+
+    parser.skipSpaces();
+    parser.readAllAlphanumeric(pw.getStream());
+    _address = pw.toString();
+    pw.clear();
+
+    parser.skipSpaces();
+    parser.readAllBeforeSpace(pw.getStream());
+    _symbol = System::demangle(pw.toString()->getCString());
+
+    parser.skipSpaces();
+    parser.readChar('+');
+    parser.skipSpaces();
+    parser.readNumber(_offset);
   }
   
   
-  char* KFException::StackTraceItem::readWhiteSpace(char* str) {
-    while(*str == ' ')
-      str++;
-    return str;
-  }
-  
-  
-  char* KFException::StackTraceItem::readText(char* str) {
-    while(*str != ' ' && *str != 0)
-      str++;
-    return str;
-  }
-  
-  
-  char* KFException::StackTraceItem::readChar(char* str, char ch) {
-    if(*str == ch)
-      str++;
-    return str;
-  }
-  
-  
-  string KFException::StackTraceItem::demangle(string str) {
-    size_t len = 200;
-    char* output = (char*)malloc(len);
-    int status;
-    output = abi::__cxa_demangle(str.c_str(), output, &len, &status);
-    
-    if(output != NULL) {
-      string outstr(output);
-      free(output);
-      return outstr;
-    }
-    
-    return str;
-  }
-  
-  
-  void KFException::StackTraceItem::serialize(PPtr<ObjectSerializer> os) const
+  void KFException::StackTraceItem::serialize(Ref<ObjectSerializer> os) const
   {
-    os->object("StackTraceItem")
-      ->attribute("function", _symbol)
-      ->attribute("exeName", _exeName)
-      ->attribute("address", LongInt::toHexString(_address))
-      ->attribute("offset", _offset)
+    os->object(K"StackTraceItem")
+      ->attribute(K"function", _symbol)
+      ->attribute(K"exeName" , _exeName)
+      ->attribute(K"address" , _address)
+      ->attribute(K"offset"  , _offset)
       ->endObject();
   }
 
@@ -139,12 +102,13 @@ using namespace std;
    * @param message The error message describing the exception.
    */
   
-  KFException::KFException(string message)
-  : _name("KFException"), _message(message)
+  KFException::KFException(RefConst<UString> msg)
+  : _name(K"KFException"), _message(msg)
   {
     _stackTrace = NULL;
     createStackTrace();
     _nHiddenFrames = 3;
+    _what = toString();
   }
   
   
@@ -158,21 +122,15 @@ using namespace std;
     _message = other._message;
     _nHiddenFrames = other._nHiddenFrames;
     _nFrames = other._nFrames;
-    _stackTrace = new StackTraceItem[_nFrames];
-    for(int i = 0; i < _nFrames; i++) {
-      _stackTrace[i] = other._stackTrace[i];
-    }
+    _stackTrace = other._stackTrace;
+    _what = other._what;
   }
   
   
   /** Deconstructor */
   
   KFException::~KFException() throw() {
-    if(NOT_NULL(_stackTrace)) {
-      delete[] _stackTrace;
-      _stackTrace = NULL;
-      _nFrames = 0;
-    }
+    // Nothing
   }
   
   
@@ -187,10 +145,10 @@ using namespace std;
     }
     char** symbolList = backtrace_symbols(addrList, _nFrames);
     
-    _stackTrace = new StackTraceItem[_nFrames];
-    
+    _stackTrace = new Array<StackTraceItem>(_nFrames);
+
     for(int i = 0; i < _nFrames; i++) {
-      _stackTrace[i] = StackTraceItem::fromStackTraceString(symbolList[i]);
+      _stackTrace->at(i).set(symbolList[i]);
     }
     
     free(symbolList);
@@ -209,7 +167,7 @@ using namespace std;
    * @param name The name of the exception class.
    */
   
-  void KFException::setName(string name) {
+  void KFException::setName(RefConst<UString> name) {
     _name = name;
     _nHiddenFrames++;
   }
@@ -223,7 +181,7 @@ using namespace std;
   /**
    * @return The message assigned to this exception.
    */
-  const string& KFException::getMessage() const {
+  RefConst<UString> KFException::getMessage() const {
     return _message;
   }
 
@@ -236,14 +194,14 @@ using namespace std;
    * @param builder The ObjectSerializer used to build the output.
    */
   
-  void KFException::serialize(PPtr<ObjectSerializer> builder) const {
+  void KFException::serialize(Ref<ObjectSerializer> builder) const {
     builder->object(_name)
-      ->attribute("message", getMessage())
-      ->attribute("thread", Thread::getNameOfCurrentThread())
-      ->member("stackTrace")->collection();
+      ->attribute(K"message", _message)
+      ->attribute(K"thread", Thread::getNameOfCurrentThread())
+      ->member(K"stackTrace")->collection();
     
     for(int i = _nHiddenFrames; i < _nFrames; i++) {
-      _stackTrace[i].serialize(builder);
+      builder->object(_stackTrace->at(i));
     }
     
     builder->endCollection();
@@ -259,8 +217,7 @@ using namespace std;
    */
   
   const char* KFException::what() const throw() {
-    const char* str = toString().c_str();
-    return str;
+    return (char*)_what->getOctets();
   }
   
 } // namespace kfoundation

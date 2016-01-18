@@ -70,7 +70,7 @@ namespace kfoundation {
     public: bool operator== (const Tuple& other) const;
     
     // From Streamer
-    public: void printToStream(ostream& os) const;
+    public: void printToStream(Ref<OutputStream> os) const;
     
   };
   

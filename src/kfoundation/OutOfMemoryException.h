@@ -30,8 +30,7 @@ namespace kfoundation {
    */
   
   class OutOfMemoryException : public MemoryException {
-  public:
-    OutOfMemoryException(string message);
+    public: OutOfMemoryException(RefConst<UString> message);
   };
   
 } // namespace kfoundation

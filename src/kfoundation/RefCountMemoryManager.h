@@ -21,10 +21,12 @@
 
 #include "MemoryManager.h"
 #include "SerializingStreamer.h"
-#include "ManagedObject.h"
+#include "KFObject.h"
 
 namespace kfoundation {
-  
+
+  class UString;
+
   /**
    * Reference counting memory manager.
    *
@@ -33,16 +35,17 @@ namespace kfoundation {
    */
   
   class RefCountMemoryManager
-  : public MemoryManager, public SerializingStreamer {
+  : public MemoryManager, public SerializingStreamer
+  {
     
   // --- STATIC FIELDS --- //
     
     private: const static int INITIAL_SIZE;
     private: const static int GROWTH_RATE;
-    
+
     
   // --- FIELDS --- //
-    
+
     private: int _size;
     private: int _count;
     private: int _id;
@@ -54,38 +57,33 @@ namespace kfoundation {
     private: MasterMemoryManager* _master;
     private: bool _trace;
     private: bool _isClosed;
-    
+    private: bool _isStatic;
+
+
   // --- (DE)CONSTRUCOTRS --- //
     
-    public: RefCountMemoryManager(MasterMemoryManager* master);
+    public: RefCountMemoryManager(MasterMemoryManager* master, bool isStatic = false);
     public: ~RefCountMemoryManager();
     
     
   // --- METHODS --- //
     
     private: void grow();
-    private: string toString(int index);
-    public: int migrate(MasterMemoryManager& other);
-    
+
     // Inherited from MemoryManager
-    public: const ObjectRecord& registerObject(ManagedObject* obj);
-    public: void retain(kf_int32_t index, kf_int16_t key);
-    public: void release(kf_int32_t index, kf_int16_t key);
-    public: void remove(kf_int32_t index, kf_int16_t key);
-    public: ObjectRecord* getTable();
-    public: kf_int32_t getTableSize() const;
-    public: void trace(const pthread_t threadId);
-    public: void untrace();
-    public: Statistics getStats() const;
-    public: kf_int16_t update(kf_int16_t index, kf_int16_t key);
-    public: void finalize();
+    public: kf_uref_t  add(KFObject* obj, bool retain);
+    public: void*      alloc(kf_int64_t s);
+    public: void       retain(const kf_int32_t index, const kf_int16_t key);
+    public: void       release(const kf_int32_t index, const kf_int16_t key);
+    public: KFObject*  getObject(const kf_int32_t index, const kf_int16_t key);
+    public: kf_int16_t getRetainCount(const kf_uref_t ref) const;
+    public: kf_int32_t getObjectCount() const;
 
     // Inherited from Serializing Streamer
-    public: void serialize(PPtr<ObjectSerializer> seralizer) const;
+    public: void serialize(Ref<ObjectSerializer> seralizer) const;
     
   };
-  
-}
 
+} // namespace kfoundation
 
 #endif /* defined(KFOUNDATION_REFCOUNTMEMORYMANAGER) */

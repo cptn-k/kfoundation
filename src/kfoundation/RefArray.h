@@ -1,8 +1,8 @@
-/*---[ManagedArray.h]------------------------------------------m(._.)m--------*\
+/*---[RefArray.h]------------------------------------------m(._.)m--------*\
  |
  |  Project   : KFoundation
  |  Declares  : -
- |  Implements: kfoundation::ManagedArray::*
+ |  Implements: kfoundation::RefArray::*
  |
  |  Copyright (c) 2013, 2014, 2015, RIKEN (The Institute of Physical and
  |  Chemial Research) All rights reserved.
@@ -18,8 +18,8 @@
 #define KFOUNDATION_MANAGED_ARRAY
 
 // Internal
-#include "ManagedObject.h"
-#include "PtrDecl.h"
+#include "KFObject.h"
+#include "Ref.h"
 #include "SerializingStreamer.h"
 #include "IndexOutOfBoundException.h"
 #include "System.h"
@@ -27,9 +27,10 @@
 #include "Int.h"
 #include "ObjectSerializer.h"
 #include "Logger.h"
+#include "UString.h"
 
 // Self
-#include "ManagedArrayDecl.h"
+#include "RefArrayDecl.h"
 
 #define KF_MAAGEDARRAY_INITIAL_CAPACITY 64
 #define KF_MANAGEDARRAY_GROWTH_RATE 4
@@ -37,16 +38,42 @@
 
 namespace kfoundation {
   
-  using namespace std;
+//\/ ManagedArrayIterator /\///////////////////////////////////////////////////
 
-  /**
-   * Flag returned by search methods when the desired item is not found.
-   */
-  
   template<typename T>
-  const kf_int32_t ManagedArray<T>::NOT_FOUND = -1;
-  
-  
+  RefArrayBase<T>::Iterator::Iterator(RefConst< RefArrayBase<T> > source,
+      T* first, kf_int32_t size)
+  : _source(source),
+    _first(first),
+    _last(first + size),
+    _pos(first)
+  {
+    // Nothing;
+  }
+
+
+  template<typename T>
+  T RefArrayBase<T>::Iterator::first() {
+    _pos = _first;
+    return *_pos;
+  }
+
+
+  template<typename T>
+  T RefArrayBase<T>::Iterator::next() {
+    _pos++;
+    return *_pos;
+  }
+
+
+  template<typename T>
+  bool RefArrayBase<T>::Iterator::hasMore() const {
+    return _pos < _last;
+  }
+
+
+//\/ RefArrayBase /\///////////////////////////////////////////////////////////
+
 // --- (DE)CONSTRUCTORS --- //
   
   /**
@@ -57,10 +84,10 @@ namespace kfoundation {
    */
   
   template<typename T>
-  ManagedArray<T>::ManagedArray(kf_int32_t initialCapacity) {
+  RefArrayBase<T>::RefArrayBase(kf_int32_t initialCapacity) {
     _size = 0;
     _capacity = initialCapacity;
-    _data = new Ptr<T>[_capacity];
+    _data = new T[_capacity];
   }
   
   
@@ -70,10 +97,10 @@ namespace kfoundation {
    */
   
   template<typename T>
-  ManagedArray<T>::ManagedArray() {
+  RefArrayBase<T>::RefArrayBase() {
     _size = 0;
     _capacity = KF_MAAGEDARRAY_INITIAL_CAPACITY;
-    _data = new Ptr<T>[_capacity];
+    _data = new T[_capacity];
   }
   
   
@@ -82,7 +109,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  ManagedArray<T>::~ManagedArray() {
+  RefArrayBase<T>::~RefArrayBase() {
     delete[] _data;
   }
   
@@ -90,13 +117,12 @@ namespace kfoundation {
 // --- METHODS --- //
   
   template<typename T>
-  void ManagedArray<T>::grow(kf_int32_t newCapacity) {
+  void RefArrayBase<T>::grow(kf_int32_t newCapacity) {
     _capacity = newCapacity;
-    Ptr<T>* newData = new Ptr<T>[_capacity];
+    T* newData = new T[_capacity];
     for(int i = 0; i < _size; i++) {
       newData[i] = _data[i];
     }
-    LOG << "ManagedArray resized to " << _capacity << EL;
     delete[] _data;
     _data = newData;
   }
@@ -109,7 +135,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  void ManagedArray<T>::remove(kf_int32_t index) {
+  void RefArrayBase<T>::remove(kf_int32_t index) {
     if(index < _size - 1) {
       for(int i = index; i < _size - 1; i++) {
         _data[i] = _data[i + 1];
@@ -127,7 +153,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  void ManagedArray<T>::push(PPtr<T> value) {
+  void RefArrayBase<T>::push(T value) {
     if(_size == _capacity) {
       grow(_capacity * KF_MANAGEDARRAY_GROWTH_RATE);
     }
@@ -139,18 +165,20 @@ namespace kfoundation {
   /**
    * Returns the pointer at highest index of the array, and decreases its size
    * by one. The pointer will not be released internally, it will be released
-   * by the Ptr object returned.
+   * by the Ref object returned.
    *
    * @return The popped pointer.
    * @throw Throws IndexOutOfBoundException if the array is empty.
    */
   
   template<typename T>
-  Ptr<T> ManagedArray<T>::pop() {
+  T RefArrayBase<T>::pop() {
     if(_size == 0) {
-      throw IndexOutOfBoundException("Can't pop because array is empty");
+      throw IndexOutOfBoundException(K"Can't pop because array is empty");
     }
-    return _data[--_size] /* will be released by receiver */;
+    T d = last();
+    last() = NULL;
+    return d;
   }
   
   
@@ -163,7 +191,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  void ManagedArray<T>::insert(kf_int32_t index, Ptr<T> value) {
+  void RefArrayBase<T>::insert(kf_int32_t index, T value) {
     if(_size == _capacity) {
       grow(_capacity * KF_MANAGEDARRAY_GROWTH_RATE);
     }
@@ -183,7 +211,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  void ManagedArray<T>::clear() {
+  void RefArrayBase<T>::clear() {
     for(int i = 0; i < _size; i++) {
       _data[i] = NULL;
     }
@@ -196,7 +224,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  bool ManagedArray<T>::isEmpty() const {
+  bool RefArrayBase<T>::isEmpty() const {
     return _size == 0;
   }
   
@@ -211,7 +239,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  void ManagedArray<T>::setSize(kf_int32_t size) {
+  void RefArrayBase<T>::setSize(kf_int32_t size) {
     if(size > _capacity) {
       grow(size);
     }
@@ -233,7 +261,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  inline kf_int32_t ManagedArray<T>::getSize() const {
+  inline kf_int32_t RefArrayBase<T>::getSize() const {
     return _size;
   }
   
@@ -247,13 +275,35 @@ namespace kfoundation {
    */
   
   template<typename T>
-  inline Ptr<T>& ManagedArray<T>::at(const kf_int32_t index) {
+  inline T& RefArrayBase<T>::at(const kf_int32_t index) const {
     if(index >= _size || index < 0) {
-      throw IndexOutOfBoundException("Attempt to access element "
-          + Int::toString(index) + " of an array of size "
-          + Int::toString(_size));
+      throw IndexOutOfBoundException(K"Attempt to access element "
+          + index + " of an array of size "
+          + _size);
     }
     return _data[index];
+  }
+
+
+  template<typename T>
+  inline T& RefArrayBase<T>::first() {
+    if(_size == 0) {
+      throw IndexOutOfBoundException(K"Attempt to acees the first element of"
+          " an empty array.");
+    }
+
+    return _data[0];
+  }
+
+
+  template<typename T>
+  inline T& RefArrayBase<T>::last() {
+    if(_size == 0) {
+      throw IndexOutOfBoundException(K"Attempt to access the last element of"
+          " an empty array.");
+    }
+
+    return _data[_size - 1];
   }
   
   
@@ -262,11 +312,11 @@ namespace kfoundation {
    *
    * @note This method only compares pointers not the pointed values.
    * @param value The pointer to search for.
-   * @return The index of the first occurance of the given pointer, or NOT_FOUND.
+   * @return The index of the first occurance of the given pointer, or KF_NOT_FOUND.
    */
   
   template<typename T>
-  kf_int32_t ManagedArray<T>::indexOf(PPtr<T> value) const {
+  kf_int32_t RefArrayBase<T>::indexOf(T value) const {
     return indexOf(0, value);
   }
   
@@ -277,11 +327,11 @@ namespace kfoundation {
    * 
    * @note This method only compares pointers not the pointed values.
    * @param value The pointer to search for.
-   * @return The index of the desired element, or NOT_FOUND.
+   * @return The index of the desired element, or KF_NOT_FOUND.
    */
   
   template<typename T>
-  kf_int32_t ManagedArray<T>::indexOf(const kf_int32_t offset, PPtr<T> value)
+  kf_int32_t RefArrayBase<T>::indexOf(const kf_int32_t offset, T value)
   const
   {
     for(kf_int32_t i = offset; i < _size; i++) {
@@ -290,31 +340,74 @@ namespace kfoundation {
       }
     }
     
-    return NOT_FOUND;
+    return KF_NOT_FOUND;
+  }
+
+
+  template<typename T>
+  typename RefArrayBase<T>::Iterator RefArrayBase<T>::getIterator() const {
+    return Iterator(this, _data, _size);
   }
   
   
   template<typename T>
-  void ManagedArray<T>::serialize(PPtr<ObjectSerializer> builder) const {
+  void RefArrayBase<T>::serialize(Ref<ObjectSerializer> builder) const {
     builder->collection();
     size_t s = _size;
     for(int i = 0; i < s; i++) {
-      ManagedObject* obj = _data[i].toPurePtr();
-      if(INSTANCEOF(obj, SerializingStreamer)) {
-        dynamic_cast<SerializingStreamer*>(obj)->serialize(builder);
-      } else if(INSTANCEOF(obj, Streamer)) {
-        builder->object("Item")
-               ->attribute("value", dynamic_cast<Streamer*>(obj)->toString())
-               ->endObject();
-      } else if(obj == NULL) {
-        builder->null()->endObject();
+      T d = _data[i];
+      if(d.isNull()) {
+        builder->null();
+      } else if(d.template ISA(SerializingStreamer)) {
+        builder->object(*d.template AS(SerializingStreamer));
+      } else if(d.template ISA(Streamer)) {
+        builder->object(System::demangle(typeid(T).name()))
+          ->attribute(K"toString", d.template AS(Streamer)->toString())
+          ->endObject();
       } else {
         builder->object(System::demangle(typeid(T).name()))->endObject();
       }
     }
     builder->endCollection();
   }
-  
+
+
+//\/ RefArray /\///////////////////////////////////////////////////////////////
+
+  template<typename T>
+  RefArray<T>::RefArray(kf_int32_t capacity)
+  : RefArrayBase< Ref<T> >(capacity)
+  {
+    // Nothing;
+  }
+
+
+  template<typename T>
+  RefArray<T>::RefArray()
+  : RefArrayBase< Ref<T> >()
+  {
+    // Nothing;
+  }
+
+
+
+//\/ RefConstArray /\//////////////////////////////////////////////////////////
+
+  template<typename T>
+  RefConstArray<T>::RefConstArray(kf_int32_t capacity)
+  :RefArrayBase< RefConst<T> >(capacity)
+  {
+    // Nothing
+  }
+
+
+  template<typename T>
+  RefConstArray<T>::RefConstArray()
+  :RefArrayBase< RefConst<T> >()
+  {
+    // Nothing
+  }
+
 } // namespace kfoundation
 
 #endif /* defined(KFOUNDATION_MANAGED_ARRAY) */

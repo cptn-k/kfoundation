@@ -31,7 +31,7 @@ namespace kfoundation {
   
   class IndexOutOfBoundException : public MemoryException {
   public:
-    IndexOutOfBoundException(string message);
+    IndexOutOfBoundException(RefConst<UString> message);
   };
 
 } // namespace kfoundation

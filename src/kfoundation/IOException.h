@@ -17,10 +17,16 @@
 #ifndef __KFoundation__IOException__
 #define __KFoundation__IOException__
 
+//Internal
+#include "RefDecl.h"
+
+// Super
 #include "KFException.h"
 
 namespace kfoundation {
-  
+
+  class UString;
+
   /**
    * Thrown to signal an IO-related exception.
    *
@@ -30,7 +36,7 @@ namespace kfoundation {
    */
   
   class IOException : public KFException {
-    public: IOException(const string& message);
+    public: IOException(RefConst<UString> message);
   };
   
 }

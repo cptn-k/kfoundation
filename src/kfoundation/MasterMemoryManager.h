@@ -17,14 +17,13 @@
 #ifndef KFOUNDATION_MASTERMEMORYMANAGER
 #define KFOUNDATION_MASTERMEMORYMANAGER
 
+#include "definitions.h"
 #include "MemoryManager.h"
-#include "PtrDecl.h"
 
 namespace kfoundation {
   
-  class ManagedObject;
-  
-  
+  class KFObject;
+
   /**
    * Manages all the memory managers used in a process.
    * Only once instance of this class exists per process.
@@ -41,37 +40,55 @@ namespace kfoundation {
     
   // --- FIELDS --- //
     
-    private: ObjectRecord** _recordTable;
+    private: MemoryManager::ObjectRecord**  _recordTable;
     private: MemoryManager** _managers;
-    private: int _nManagers;
-    
-    private: PtrBase* _statics[100];
-    private: int _nStatics;
-    
+    private: MemoryManager*  _staticManager;
+    private: MemoryManager*  _defaultManager;
+    private: kf_int8_t _nManagers;
+
   
   // --- (DE)CONSTRUCTORS --- //
     
     public: MasterMemoryManager();
     public: ~MasterMemoryManager();
-    
+
     
   // --- METHODS --- //
-    
-    public: const ObjectRecord& registerObject(ManagedObject* ptr);
-    public: int registerManager(MemoryManager* manager);
-    public: void unregisterManager(int index);
-    public: kf_octet_t getNManagers();
-    public: MemoryManager* getManagerAtIndex(int index);
-    public: ObjectRecord** getTable();
-    public: void updataTable(int index);
+
+    public: inline KFObject* refToPtr(kf_uref_t ref);
+    public: inline MemoryManager& getDefaultManager() const;
+    public: inline MemoryManager& getStaticManager() const;
+    public: inline MemoryManager::ObjectRecord** getMasterTable();
+    public: int addManager(MemoryManager* manager, MemoryManager::ObjectRecord* table, kf_int32_t size);
+    public: void updateManager(int index, MemoryManager::ObjectRecord* table, kf_int32_t size);
+    public: void removeManager(int index);
+    public: kf_int8_t getManagerCount() const;
+    public: MemoryManager& getManagerAtIndex(int index) const;
     public: void migrate(MasterMemoryManager& other);
-    public: void registerSPtr(PtrBase* p);
-    public: int update(kf_int16_t index, kf_int16_t key);
-    public: void dump() const;
     public: void printStats() const;
-    public: void finalize();
+
   };
-  
-}
+
+
+  inline KFObject* MasterMemoryManager::refToPtr(kf_uref_t ref) {
+    return getManagerAtIndex(ref.manager).getObject(ref.index, ref.key);
+  }
+
+
+  inline MemoryManager& MasterMemoryManager::getDefaultManager() const {
+    return *_defaultManager;
+  }
+
+
+  inline MemoryManager& MasterMemoryManager::getStaticManager() const {
+    return *_staticManager;
+  }
+
+
+  inline MemoryManager::ObjectRecord** MasterMemoryManager::getMasterTable() {
+    return _recordTable;
+  }
+
+} // namespace kfoundation
 
 #endif /* defined(KFOUNDATION_MASTERMEMORYMANAGER) */

@@ -73,7 +73,7 @@ namespace kfoundation {
     public: Range operator/ (const int n) const;
     
     // Inherited from Streamer //
-    public: void printToStream(ostream& os) const;
+    public: void printToStream(Ref<OutputStream> os) const;
     
   };
   

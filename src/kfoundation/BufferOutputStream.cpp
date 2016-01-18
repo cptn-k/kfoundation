@@ -15,13 +15,14 @@
  *//////////////////////////////////////////////////////////////////////////////
 
 // Std
-#include <cstdio>
 #include <cstring>
 
 // Internal
+#include "Ref.h"
 #include "System.h"
-#include "Ptr.h"
 #include "InputStream.h"
+#include "UString.h"
+#include "PrintWriter.h"
 
 // Self
 #include "BufferOutputStream.h"
@@ -29,20 +30,57 @@
 #define BUFFER_GROWTH_RATE 2
 
 namespace kfoundation {
-  
-  string BufferOutputStream::toBinaryString(const kf_octet_t *data, int size) {
-    using namespace std;
-    char* chars = new char[size*3 + 3];
-    char* p = chars;
-    for(int i = 0; i < size; i++) {
-      p += sprintf(p, "%02X ", (int)data[i]);
-    }
-    string str(chars);
-    delete[] chars;
-    return str;
+
+//\/ BufferOutputStreamString /\///////////////////////////////////////////////
+
+  class BufferOutputStreamString : public UString {
+
+  // --- FIELDS --- //
+
+    private: mutable RefConst<BufferOutputStream> _bufferOwner;
+
+
+  // --- CONSTRUCTOR --- //
+
+    public: BufferOutputStreamString(RefConst<BufferOutputStream> owner);
+
+
+  // --- METHODS --- //
+
+    // From UString
+    private: void releaseOwner() const;
+    public: inline const kf_octet_t* getOctets() const;
+    public: inline kf_int32_t getOctetCount() const;
+
+  };
+
+
+  BufferOutputStreamString::BufferOutputStreamString(
+      RefConst<BufferOutputStream> owner)
+  {
+    _bufferOwner = owner;
   }
-  
-  
+
+
+  void BufferOutputStreamString::releaseOwner() const {
+    _bufferOwner = NULL;
+  }
+
+
+  inline const kf_octet_t* BufferOutputStreamString::getOctets() const {
+    return _bufferOwner->getData();
+  }
+
+
+  inline kf_int32_t BufferOutputStreamString::getOctetCount() const {
+    return _bufferOwner->getSize();
+  }
+
+
+//\/ BufferOutputStream /\/////////////////////////////////////////////////////
+
+// --- (DE)CONSTRUCTORS --- //
+
   /**
    * Constructor, creates a new stream with an internal buffer of given
    * capacity. If more octets than the given capacity is written to it, the
@@ -63,15 +101,16 @@ namespace kfoundation {
    */
   
   BufferOutputStream::~BufferOutputStream() {
-    delete[] _data;
+    free(_data);
   }
-  
+
+
+// --- METHODS --- //
   
   void BufferOutputStream::grow() {
     kf_int32_t newCapacity = _capacity * BUFFER_GROWTH_RATE;
-    kf_octet_t* newData = new kf_octet_t[newCapacity];
-    memcpy(newData, _data, _size);
-    delete[] _data;
+    kf_octet_t* newData = alloc(_data, _size, newCapacity);
+    free(_data);
     _data = newData;
     _capacity = newCapacity;
   }
@@ -94,8 +133,18 @@ namespace kfoundation {
   kf_int32_t BufferOutputStream::getSize() const {
     return _size;
   }
-  
-  
+
+
+  Ref<UString> BufferOutputStream::getString() const {
+    return new BufferOutputStreamString(this);
+  }
+
+
+  void BufferOutputStream::clear() {
+    _size = 0;
+  }
+
+
   // Inherited from InputStream
   
   bool BufferOutputStream::isBigEndian() const {
@@ -125,7 +174,7 @@ namespace kfoundation {
   }
   
   
-  void BufferOutputStream::write(PPtr<InputStream> is) {
+  void BufferOutputStream::write(Ref<InputStream> is) {
     kf_octet_t tmp[1024];
     
     while(!is->isEof()) {
@@ -138,6 +187,10 @@ namespace kfoundation {
   void BufferOutputStream::close() {
     // Nothing
   }
+
+
+  void BufferOutputStream::flush() {
+    // Nothing;
+  }
   
 } // namespace kfoundation
-

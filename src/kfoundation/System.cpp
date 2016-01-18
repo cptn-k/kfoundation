@@ -19,6 +19,7 @@
 
 // Std
 #include <cstdlib>
+#include <iostream>
 
 // Unix
 #ifdef KF_UNIX
@@ -28,7 +29,9 @@
 #  include <dlfcn.h>
 #  include <sys/types.h>
 #  include <sys/wait.h>
+#  include <sys/time.h>
 #  include <execinfo.h>
+#  include <syslog.h>
 #endif
 
 // Mac
@@ -40,7 +43,7 @@
 #include <cxxabi.h>
 
 // Internal
-#include "Ptr.h"
+#include "Ref.h"
 #include "MemoryManager.h"
 #include "Logger.h"
 #include "Path.h"
@@ -48,142 +51,144 @@
 #include "KFException.h"
 #include "StandardInputStreamAdapter.h"
 #include "StandardOutputStreamAdapter.h"
+#include "BufferOutputStream.h"
+#include "OutputStream.h"
+#include "PrintWriter.h"
+#include "UString.h"
 
 // Self
 #include "System.h"
 
 #define __KF_BUFFER_SIZE 400
 
-using namespace std;
 
 kfoundation::__SystemImpl* __k_system = NULL;
 typedef void (*__k_takeoverfunction_t)(kfoundation::__SystemImpl*);
 
 
 namespace kfoundation {
-  
-//\/ __SystemImpl /\///////////////////////////////////////////////////////////
-  
-  class __SystemImpl {
-    
-  // --- FIELDS --- //
-    
-    private: Logger _logger;
-    private: Ptr<Path> _exePath;
-    private: MasterMemoryManager _memoryManager;
-    
-    
-  // --- (DE)CONSTRUCTORS --- //
-    
-    public: __SystemImpl();
-    
 
-  // --- STATIC METHODS --- //
-    
-    public: static string resolveSymlink(const string&);
-    
-    
+//\/ VoidOutputStream /\///////////////////////////////////////////////////////
+
+  class VoidOutputStream : public OutputStream {
+
+  // --- CONSTRUCTORS --- //
+
+    public: VoidOutputStream();
+
+
   // --- METHODS --- //
-    
-    public: PPtr<Path> getExePath();
-    public: inline Logger& getLogger();
-    public: inline MasterMemoryManager& getMasterMemoryManager();
-    
+
+    public: void write(const kf_octet_t* buffer, const kf_int32_t nOctets);
+    public: void write(const kf_octet_t);
+    public: void write(Ref<InputStream> is);
+    public: void close();
+    public: bool isBigEndian() const;
+    public: void flush();
+
   };
-  
-  __SystemImpl::__SystemImpl()
-  : _logger()
-  {
-    _logger.addChannel("default", &cout);
-  }
-  
-  
-#ifdef KF_MAC
-  PPtr<Path> __SystemImpl::getExePath() {
-    if(_exePath.isNull()) {
-      uint32_t size = 1;
-      char shortBuffer[10];
-      char* buffer;
-      _NSGetExecutablePath(shortBuffer, &size);
-      buffer = new char[size + 1];
-      _NSGetExecutablePath(buffer, &size);
-      _exePath = new Path(string(buffer, size - 1));
-      delete[] buffer;
-    }
-    
-    return _exePath;
-  }
-#elif defined(KF_LINUX)
-  PPtr<Path> __SystemImpl::getExePath() {
-    if(_exePath.isNull()) {
-      string linkPath = "/proc/self/exe";
-      char buffer[__KF_BUFFER_SIZE];
-      ssize_t nBytes = readlink(linkPath.c_str(), buffer, __KF_BUFFER_SIZE);
-      if(nBytes == -1) {
-        throw KFException("Internal error resolving symbolik link "
-            + linkPath + ". Reason: " + System::getLastSystemError());
-      }
-      _exePath = new Path(string(buffer, nBytes));
-    }
-    
-    return _exePath;
-  }
-#endif
-  
 
-  inline Logger& __SystemImpl::getLogger() {
-    return _logger;
-  }
-  
-  
-  inline MasterMemoryManager& __SystemImpl::getMasterMemoryManager() {
-    return _memoryManager;
-  }
-  
-} // namespace kfoundation
 
-inline kfoundation::__SystemImpl* __k_getSystem() {
-  if(__k_system == NULL) {
-    timeval tv;
-    gettimeofday(&tv, NULL);
-    srand((unsigned int)tv.tv_usec);
-    __k_system = new kfoundation::__SystemImpl();
+  VoidOutputStream::VoidOutputStream() {
+    // Nothing;
   }
-  return __k_system;
-}
 
-namespace kfoundation {
+
+  void VoidOutputStream::write(const kf_octet_t*, const kf_int32_t) {
+    // Nothing;
+  }
+
+
+  void VoidOutputStream::write(const kf_octet_t) {
+    // Nothing
+  }
+
+
+  void VoidOutputStream::write(Ref<InputStream> is) {
+    // Nothing
+  }
+
+
+  void VoidOutputStream::close() {
+    // Nothing
+  }
+
+
+  bool VoidOutputStream::isBigEndian() const {
+    return System::isBigEndian();
+  }
+
+
+  void VoidOutputStream::flush() {
+    // Nothing;
+  }
+
 
 //\/ System /\/////////////////////////////////////////////////////////////////
   
-  
-  //const SPtr<InputStream> System::IN = new StandardInputStreamAdapter(cin);
-  //const SPtr<OutputStream> System::OUT = new StandardOutputStreamAdapter(cout);
-  //const SPtr<OutputStream> System::ERR = new StandardOutputStreamAdapter(cerr);
-  
-  void* System::getSystem() {
-    return __k_getSystem();
-  }
+// --- STATIC FIELDS --- //
 
-  
+  MasterMemoryManager* System::master = NULL;
+  StaticRef<Logger> System::logger = NULL;
+
+  const StaticRef<PrintWriter> System::VOID = new PrintWriter(
+      StaticRef<OutputStream>(new VoidOutputStream()));
+
+  const StaticRef<PrintWriter> System::OUT = new PrintWriter(
+      StaticRef<OutputStream>(new StandardOutputStreamAdapter(std::cout)));
+
+  const StaticRef<PrintWriter> System::ERR = new PrintWriter(
+      StaticRef<OutputStream>(new StandardOutputStreamAdapter(std::cerr)));
+
+  const StaticRef<InputStream> System::IN = new StandardInputStreamAdapter(std::cin);
+
+
+// --- STATIC METHODS --- //
+
   /**
    * Returns executable path for the current process. Symlinks are resolved
    * internally.
    */
 
-  PPtr<Path> System::getExePath() {
-    return __k_getSystem()->getExePath();
-  }
+#ifdef KF_MAC
+  Ref<Path> System::getExePath() {
+    uint32_t size = 1;
+    char shortBuffer[10];
+    char* buffer;
+    _NSGetExecutablePath(shortBuffer, &size);
+    buffer = new char[size + 1];
+    _NSGetExecutablePath(buffer, &size);
+    Path* res = new Path(new UString((kf_octet_t*)buffer, size - 1));
+    delete[] buffer;
 
-  
+    return res;
+  }
+#elif defined(KF_LINUX)
+  Ref<Path> __SystemImpl::getExePath() {
+    if(_exePath.isNull()) {
+      string linkPath = "/proc/self/exe";
+      char buffer[__KF_BUFFER_SIZE];
+      ssize_t nBytes = readlink(linkPath.c_str(), buffer, __KF_BUFFER_SIZE);
+      if(nBytes == -1) {
+        throw KFException(K"Internal error resolving symbolik link "
+                          + linkPath + ". Reason: " + System::getLastSystemError());
+      }
+
+      Path* _exePath = new Path(new UString((kf_octet_t*)buffer, nBytes));
+    }
+
+    return _exePath;
+  }
+#endif
+
   /**
    * Returns the current working directory.
    */
 
-  Ptr<Path> System::getCurrentWorkingDirectory() {
+  Ref<Path> System::getCurrentWorkingDirectory() {
     char buffer[1024];
     if(getcwd(buffer, 1024) != NULL) {
-      return new Path(string(buffer));
+      return new Path(new UString(buffer));
     }
     return NULL;
   }
@@ -202,19 +207,19 @@ namespace kfoundation {
    * Demangles a C++ ABI symbol into a human readable one.
    */
   
-  string System::demangle(string str) {
+  Ref<UString> System::demangle(const char* symbol) {
     size_t len = __KF_BUFFER_SIZE;
     char* output = (char*)malloc(len);
     int status;
-    output = abi::__cxa_demangle(str.c_str(), output, &len, &status);
+    output = abi::__cxa_demangle(symbol, output, &len, &status);
     
     if(output != NULL) {
-      string outstr(output);
+      Ref<UString> outstr = new UString(output);
       free(output);
       return outstr;
     }
     
-    return str;
+    return new UString(symbol);
   }
 
   
@@ -222,14 +227,14 @@ namespace kfoundation {
    * Given pointer to a symbol, returns its name.
    */
   
-  string System::resolveSymbolName(void *ptr) {
+  Ref<UString> System::resolveSymbolName(void *ptr) {
   #if defined(KF_UNIX)
     Dl_info info;
     int code = dladdr(ptr, &info);
     if(code != 0) {
-      return string(info.dli_sname);
+      return new UString(info.dli_sname);
     }
-    return "";
+    return new UString();
   #else
   #  error "Platform not supported"
   #endif
@@ -241,10 +246,10 @@ namespace kfoundation {
    * indicated by errno variable.
    */
 
-  string System::getLastSystemError() {
+  Ref<UString> System::getLastSystemError() {
     char buffer[200];
     strerror_r(errno, buffer, 200);
-    return string(buffer);
+    return new UString(buffer);
   }
 
 
@@ -273,8 +278,12 @@ namespace kfoundation {
    * Returns the default system logger.
    */
 
-  Logger& System::getLogger() {
-    return __k_getSystem()->getLogger();
+  Ref<Logger> System::getLogger() {
+    if(logger.isNull()) {
+      logger = new Logger();
+      logger->addChannel(K"default", ERR->getStream());
+    }
+    return logger;
   }
 
   
@@ -304,7 +313,7 @@ namespace kfoundation {
    */
   
   int System::exec(const char* command, char **args, int argc) {
-    throw KFException("Not implemented");
+    throw KFException(K"Not implemented");
   }
 
   
@@ -313,14 +322,15 @@ namespace kfoundation {
    */
 
   MasterMemoryManager& System::getMasterMemoryManager() {
-    return __k_getSystem()->getMasterMemoryManager();
+    if(IS_NULL(master)) {
+      master = new MasterMemoryManager();
+    }
+    return *master;
   }
 
 
   void System::takeover(void* libHandle) {
-    void* ptr = dlsym(libHandle, "__k_systemTakeOver");
-    __k_takeoverfunction_t fn = (__k_takeoverfunction_t)ptr;
-    fn(__k_getSystem());
+    throw KFException(K"Not implemented");
   }
   
   
@@ -359,13 +369,7 @@ namespace kfoundation {
 
 KF_EXPORT
 void __k_systemTakeOver(kfoundation::__SystemImpl* impl) {
-  using namespace kfoundation;
-  if(__k_system != NULL) {
-    __k_system->getMasterMemoryManager().migrate(impl->getMasterMemoryManager());
-    delete __k_system;
-  }
-  __k_system = impl;
+  throw "Not implemented";
 }
-
 
 #undef __KF_BUFFER_SIZE

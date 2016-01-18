@@ -1,12 +1,10 @@
 #ifndef ORG_KNORBA_COMMON_TYPE_INTEGER_H
 #define ORG_KNORBA_COMMON_TYPE_INTEGER_H 
 
-#include <ostream>
-
+#include "definitions.h"
+#include "RefDecl.h"
 #include "Streamer.h"
-#include "ManagedObject.h"
-
-using namespace std;
+#include "KFObject.h"
 
 namespace kfoundation {
   
@@ -17,44 +15,36 @@ namespace kfoundation {
    * @headerfile Int.h <kfoundation/Int.h>
    */
   
-  class Int : public ManagedObject, public Streamer {
-  private:
-    int _value;
+  class Int : public KFObject, public Streamer {
 
-  public:
-    Int(int _value);
-    Int(const string& str);
-    
-    inline int get() const;
-    inline void set(const int value);
-    
-    static int parse(const string& str);
-    static string toHexString(const int v);
-    static string toString(const int v);
-    
+  // --- FIELDS --- //
+
+    private: kf_int32_t _value;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public: Int(kf_int32_t value);
+    public: Int(RefConst<UString> str);
+
+
+  // --- STATIC METHODS --- //
+
+    public: static kf_int32_t parse(RefConst<UString> str);
+
+
+  // --- METHODS --- //
+
+    public: kf_int32_t get() const;
+    public: void set(const kf_int32_t value);
+
+    public: Ref<UString> toHexString() const;
+
     // From Streamer
-    void printToStream(ostream& os) const;
-    string toString() const;
+    public: void printToStream(Ref<OutputStream> os) const;
+    public: RefConst<UString> toString() const;
     
   };
-  
-  
-  /**
-   * Getter method. Returns the internal value.
-   */
-  
-  inline int Int::get() const {
-    return _value;
-  }
-  
-  
-  /**
-   * Setter method. Sets the internal value to the given parameter.
-   */
-  
-  inline void Int::set(const int value) {
-    _value = value;
-  }
 
 } // namespace kfoundation
 

@@ -30,8 +30,7 @@ namespace kfoundation {
    */
   
   class InvalidPointerException : public MemoryException {
-  public:
-    InvalidPointerException(string message);
+    public: InvalidPointerException(RefConst<UString> message);
   };
   
 } // namespace kfoundation

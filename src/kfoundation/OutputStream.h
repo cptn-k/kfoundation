@@ -18,10 +18,8 @@
 #define KFoundation_OutputStream_h
 
 #include "definitions.h"
-#include "ManagedObject.h"
-#include "PtrDecl.h"
-
-using namespace std;
+#include "KFObject.h"
+#include "RefDecl.h"
 
 namespace kfoundation {
   
@@ -34,7 +32,7 @@ namespace kfoundation {
    * @headerfile OutputStream.h <kfoundation/OutputStream.h>
    */
   
-  class OutputStream : public ManagedObject {
+  class OutputStream : public KFObject {
     
     
     /**
@@ -63,7 +61,7 @@ namespace kfoundation {
      * @param is The stream to read from.
      */
     
-    public: virtual void write(PPtr<InputStream> is) = 0;
+    public: virtual void write(Ref<InputStream> is) = 0;
     
     
     /**
@@ -71,6 +69,13 @@ namespace kfoundation {
      */
     
     public: virtual void close() = 0;
+
+
+    /**
+     * Flushes the output.
+     */
+
+    public: virtual void flush() = 0;
     
     
     /**

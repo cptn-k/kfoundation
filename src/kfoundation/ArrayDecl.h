@@ -17,38 +17,50 @@
 #ifndef KFOUNDATION_ARRAY_DECL
 #define KFOUNDATION_ARRAY_DECL
 
-#include <vector>
-
-#include "ManagedObject.h"
+#include "KFObject.h"
 #include "SerializingStreamer.h"
 
 namespace kfoundation {
 
-  using namespace std;
-  
-  
   /**
    * A resizable, one-dimensional indexed container. This class is not designed
    * to contain
-   * managed objects. For managed objects, use ManagedArray.
+   * managed objects. For managed objects, use RefArray.
    *
    * @ingroup containers
-   * @see ManagedArray
+   * @see RefArray
    * @headerfile Array.h <kfoundation/Array.h>
    */
   
   template<typename T>
-  class Array : public ManagedObject {
+  class Array : public KFObject {
     
   // --- NESTED TYPES --- //
     
-    public: typedef Ptr< Array<T> > Ptr_t;
-    public: typedef PPtr< Array<T> > PPtr_t;
-    
-    
-  // --- STATIC FIELDS --- //
-    
-    public: static const kf_int32_t NOT_FOUND;
+    public: typedef Ref< Array<T> > Ref_t;
+    public: typedef RefConst< Array<T> > RefConst_t;
+
+    public: class Iterator {
+
+    // --- FIELDS --- //
+
+      private: RefConst< Array<T> > _source;
+      private: T* _begin;
+      private: T* _end;
+      private: T* _p;
+
+
+    // --- CONSTRUCTOR --- //
+
+      public: Iterator(RefConst< Array<T> > owner, T* begin);
+
+      public: T& first();
+      public: T& next();
+      public: T& get() const;
+      public: kf_int32_t getIndex() const;
+      public: bool hasMore() const;
+      
+    };
     
     
   // --- FIELDS --- //
@@ -61,6 +73,7 @@ namespace kfoundation {
   // --- (DE)CONSTRUCTORS --- //
     
     public: Array();
+    public: Array(const kf_int32_t size);
     public: Array(T*, kf_int32_t size);
     public: ~Array();
     
@@ -68,6 +81,7 @@ namespace kfoundation {
   // --- METHODS --- //
     
     private: void grow(kf_int32_t newCapacity);
+    public:  void consolidate();
     public:  void remove(const kf_int32_t index);
     public:  void push(const T& value);
     public:  T& push();
@@ -83,6 +97,7 @@ namespace kfoundation {
     public:  bool contains(const T& value) const;
     public:  kf_int32_t indexOf(const T& value) const;
     public:  kf_int32_t indexOf(const kf_int32_t offset, const T& value) const;
+    public:  Iterator getIterator() const;
     
   }; // class Array
   

@@ -19,37 +19,12 @@
 #ifndef KFOUNDATION_MEMORYMANAGER
 #define KFOUNDATION_MEMORYMANAGER
 
-#include <pthread.h>
-
 #include "definitions.h"
-#include "ManagedObject.h"
-#include "SerializingStreamer.h"
 
 namespace kfoundation {
-  
-  /**
-   * Structure of memory manager's table records.
-   * @headerfile MemoryManager.h <kfoundation/MemoryManager.h>
-   */
-  
-  struct ObjectRecord  {
-    ManagedObject* ptr;        ///< Memory location of the target object
-    kf_int16_t retainCount;    ///< Retain count
-    kf_int16_t key;            ///< Key
-    kf_int8_t  manager;        ///< The ID of the manager owning this table
-    kf_int16_t index;          ///< Index of this record
-    kf_int32_t serialNumber;   ///< Unique serial number for this object
-    bool       isStatic;       ///< `true' if the object is static
-    bool       isBeingDeleted; ///< Flag for internal use
-  };
-  
-  
-  struct Statistics {
-    kf_int32_t nObjects;
-    kf_int32_t nStaticObjects;
-  };
 
-  
+  class KFObject;
+
   /**
    * Abstract interface to be implemented by all memory managers.
    *
@@ -58,19 +33,25 @@ namespace kfoundation {
    */
   
   class MemoryManager {
+    public: struct ObjectRecord  {
+      kf_uref_t      ref;
+      KFObject*      ptr;            ///< Memory location of the target object
+      kf_uref_t      owner;          ///< Owner
+      kf_int16_t     retainCount;    ///< Retain count
+      kf_int64_t     size;           ///< Size
+    };
+
+    protected: void setObjectRef(KFObject* const obj, const kf_uref_t ref) const;
     public: virtual ~MemoryManager();
-    public: virtual const ObjectRecord& registerObject(ManagedObject* obj) = 0;
-    public: virtual void retain(kf_int32_t index, kf_int16_t key) = 0;
-    public: virtual void release(kf_int32_t index, kf_int16_t key) = 0;
-    public: virtual void remove(kf_int32_t index, kf_int16_t key) = 0;
-    public: virtual ObjectRecord* getTable() = 0;
-    public: virtual kf_int32_t getTableSize() const = 0;
-    public: virtual void trace(const pthread_t theadId) = 0;
-    public: virtual void untrace() = 0;
-    public: virtual Statistics getStats() const = 0;
+    public: virtual kf_uref_t  add(KFObject* obj, bool retain) = 0;
+    public: virtual void*      alloc(kf_int64_t s) = 0;
+    public: virtual void       retain(const kf_int32_t index, const kf_int16_t key) = 0;
+    public: virtual void       release(const kf_int32_t index, const kf_int16_t key) = 0;
+    public: virtual KFObject*  getObject(const kf_int32_t index, const kf_int16_t key) = 0;
+    public: virtual kf_int16_t getRetainCount(const kf_uref_t ref) const = 0;
+    public: virtual kf_int32_t getObjectCount() const = 0;
   };
-  
+
 } // namespace kfoundation
 
 #endif
-

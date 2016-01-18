@@ -15,19 +15,19 @@
  *//////////////////////////////////////////////////////////////////////////////
 
 // Std
-#include <string>
 #include <cstring>
 
 // Internal
 #include "System.h"
+#include "Ref.h"
+#include "UString.h"
 
 // Self
 #include "StringInputStream.h"
 
 namespace kfoundation {
   
-  using namespace std;
-  
+// --- CONSTRUCTORS --- //
   
   /**
    * Constructor, uses the given string as input.
@@ -35,79 +35,67 @@ namespace kfoundation {
    * @param str The string to read.
    */
   
-  StringInputStream::StringInputStream(const string& str)
-  : _mark(0),
-    _pos(0),
-    _str(str),
-    _eof(str.size() == 0)
+  StringInputStream::StringInputStream(RefConst<UString> str)
+  : _str(str),
+    _pos(str->getOctets()),
+    _end(str->getOctets() + str->getOctetCount()),
+    _mark(_pos)
   {
     // Nothing;
   }
   
   
-  /**
-   * Deconstructor.
-   */
+// --- METHODS --- //
   
-  StringInputStream::~StringInputStream() {
-    // Nothing;
-  }
-  
-  
-  kf_int32_t StringInputStream::read(kf_octet_t* buffer, const kf_int32_t nBytes)
+  kf_int32_t StringInputStream::read(kf_octet_t* buffer,
+      const kf_int32_t nBytes)
   {
-    kf_int32_t remainder = (kf_int32_t)_str.size() - _pos;
+    kf_int32_t remainder = (kf_int32_t)(_end - _pos);
     kf_int32_t nReadableBytes = nBytes;
     if(remainder < nBytes) {
       nReadableBytes = remainder;
-      _eof = true;
     }
     
-    _pos += nBytes;
-    
-    memcpy(buffer, _str.c_str(), nReadableBytes);
-    return nBytes;
+    memcpy(buffer, _pos, nReadableBytes);
+
+    _pos += nReadableBytes;
+    return nReadableBytes;
   }
   
   
-  int StringInputStream::read() {
-    if(_eof) {
-      return -1;
+  kf_int16_t StringInputStream::read() {
+    if(_pos < _end) {
+      kf_int16_t value = *_pos;
+      _pos++;
+      return value;
     }
-    
-    if(_pos >= _str.length() - 1) {
-      _eof = true;
-    }
-    
-    return (int)_str[_pos++];
+    return -1;
   }
   
   
-  int StringInputStream::peek() {
-    if(_pos >= _str.length()) {
-      _eof = true;
-      return -1;
+  kf_int16_t StringInputStream::peek() {
+    if(_pos < _end) {
+      return *_pos;
     }
-    
-    return _str[_pos];
+    return -1;
   }
   
   
   kf_int32_t StringInputStream::skip(kf_int32_t nBytes) {
-    kf_int32_t remainder = (kf_int32_t)_str.size() - _pos;
+    kf_int32_t remainder = (kf_int32_t)(_end - _pos);
+    kf_int32_t nReadableBytes = nBytes;
     if(remainder < nBytes) {
-      nBytes = remainder;
-      _eof = true;
+      nReadableBytes = remainder;
     }
+
+    _pos += nReadableBytes;
     
-    _pos += nBytes;
-    
-    return nBytes;
+    return nReadableBytes;
   }
   
   
   bool StringInputStream::isEof() {
-    return _eof;
+    return _pos >= _end;
   }
   
   

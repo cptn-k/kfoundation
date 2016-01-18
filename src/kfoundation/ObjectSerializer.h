@@ -1,28 +1,20 @@
 #ifndef ORG_KNORBA_COMMON_OBJECTDUMPBUILDER_H
 #define ORG_KNORBA_COMMON_OBJECTDUMPBUILDER_H
 
-// Std
-#include <string>
-#include <ostream>
-#include <vector>
-
 // Internal
-#include "ManagedObject.h"
+#include "definitions.h"
+#include "KFObject.h"
 #include "KFException.h"
-#include "PtrDecl.h"
-#include "Bool.h"
-#include "UniChar.h"
-#include "Int.h"
-#include "LongInt.h"
-#include "Double.h"
-
-using namespace std;
+#include "RefDecl.h"
+#include "ArrayDecl.h"
 
 namespace kfoundation {
   
-  class UniString;
-  
-  
+  class UString;
+  class OutputStream;
+  class PrintWriter;
+  class UChar;
+
   /**
    * Thrown when ObjectSerializer is used in an invalid way.
    *
@@ -32,8 +24,7 @@ namespace kfoundation {
    */
   
   class ObjectDumpBuilderException : public KFException {
-  public:
-    ObjectDumpBuilderException(string message);
+    public: ObjectDumpBuilderException(RefConst<UString> message);
   };
   
   
@@ -53,12 +44,12 @@ namespace kfoundation {
    *   endCollection() corresponding to each collection().
    *
    * An expception is when using object(const SerializingStreamer&) 
-   * or object(const PPtr<T>) it is not needed to call endObject() because it
+   * or object(const Ref<T>) it is not needed to call endObject() because it
    * is already called in the serializer() method of the given argument.
    *
    * All of these methods can be used chained sytax. Example:
    *
-   *     void serialize(PPtr<ObjectSerializer> os) const {
+   *     void serialize(Ref<ObjectSerializer> os) const {
    *         os->object("MyClass")
    *           ->attribute("counter", _counter)
    *           ->attribute("name", _name)
@@ -70,21 +61,11 @@ namespace kfoundation {
    * @headerfile ObjectSerializer.h <kfoundation/ObjectSerializer.h>
    */
 
-  class ObjectSerializer : public ManagedObject {
-  public:
-    
-    /**
-     * Output format.
-     */
-    
-    typedef enum {
-      DUMP, ///< KFOR (KFoundation Format)
-      XML,  ///< XML
-      JSON  ///< JSON
-    } output_type_t;
+  class ObjectSerializer : public KFObject {
 
-  private:
-    typedef enum {
+  // --- NESTED TYPES --- //
+
+    private: typedef enum {
       ROOT,
       MEMBER,
       OBJECT,
@@ -94,7 +75,8 @@ namespace kfoundation {
       COLLECTION
     } state_t;
 
-    typedef enum {
+
+    public: typedef enum {
       NUMBER,
       CHAR,
       STRING,
@@ -102,81 +84,110 @@ namespace kfoundation {
       NONE
     } value_type_t;
 
-    class StackItem {
-    public:
-      state_t _state;
-      string  _name;
-      bool    _isLead;
-      StackItem(state_t state, string name, bool isLead)
-        : _state(state), _name(name), _isLead(isLead)
-      { 
-        // Nothing
+
+    private: class StackItem {
+      public: state_t _state;
+      public: bool    _isLead;
+      public: RefConst<UString> _name;
+
+      public: StackItem()
+      : _state(ROOT),
+        _isLead(false),
+        _name()
+      {
+        // Nothing;
       }
+
+      public: void set(state_t state, RefConst<UString> name, bool isLead);
     };
 
-    output_type_t _outputType;
-    state_t       _state;
-    ostream&      _stream;
-    bool          _isLead;
-    int           _indentUnit;
-    int           _indent;
-    string        _name;
-    vector<StackItem> _stack;
 
-    Ptr<ObjectSerializer> attribute(const string& name, const string& value,
-        value_type_t type);
-    
-    string stackToString();
-    string stateToString(state_t state);
-    void   printIndent();
+  // --- STATIC FIELDS --- //
 
-  public:
-    static const string ID_ATTRIB_NAME;
-    static const string COLLECTION_CLASS_NAME;
-    
-    ObjectSerializer(ostream& stream, output_type_t outputType, int indentUnit);
-    ObjectSerializer(ostream& stream, output_type_t outputType);
-    
-    PPtr<ObjectSerializer> member(const string& name);
-    PPtr<ObjectSerializer> object(const string& className);
-    PPtr<ObjectSerializer> object(const SerializingStreamer& ref);
-    
-    template<typename T>
-    PPtr<ObjectSerializer> object(const PPtr<T> ptr);
-        
-    PPtr<ObjectSerializer> endObject();
-    PPtr<ObjectSerializer> text(const string& value);
-    PPtr<ObjectSerializer> null();
+    private: const static StaticRefConst<UChar> SPACE;
 
-    PPtr<ObjectSerializer> attribute(const string& name, const string& value);
-    PPtr<ObjectSerializer> attribute(const string& name, char value);
-    PPtr<ObjectSerializer> attribute(const string& name, int value);
-    PPtr<ObjectSerializer> attribute(const string& name, unsigned int value);
-    PPtr<ObjectSerializer> attribute(const string& name, long int value);
-    PPtr<ObjectSerializer> attribute(const string& name, unsigned long int value);
-    PPtr<ObjectSerializer> attribute(const string& name, double value);
-    PPtr<ObjectSerializer> attribute(const string& name, bool value);
-    PPtr<ObjectSerializer> attribute(const string& name);
 
-    PPtr<ObjectSerializer> collection();
-    PPtr<ObjectSerializer> endCollection();
+  // --- FIELDS --- //
+
+    private: state_t    _state;
+    private: bool       _isLead;
+    private: kf_int8_t  _indentUnit;
+    private: kf_int16_t _indent;
+    private: kf_int32_t _index;
+    private: RefConst<UString> _name;
+    private: Ref<PrintWriter> _writer;
+    private: Ref< Array<StackItem> > _stack;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public: ObjectSerializer(Ref<OutputStream> stream, kf_int8_t indentUnit = 4);
+
+
+  // --- ABSTRACT METHODS --- //
+
+    protected: virtual void printHeader() = 0;
+
+    protected: virtual void printAttribute(RefConst<UString> name,
+        const Streamer& value, value_type_t valueType, bool isLead) = 0;
+
+    protected: virtual void printObjectBegin(RefConst<UString> className,
+        RefConst<UString> name, bool isLead) = 0;
+
+    protected: virtual void printObjectEnd(RefConst<UString> className,
+         bool isLead) = 0;
+    
+    protected: virtual void printNull(RefConst<UString> name, bool isLead) = 0;
+
+    protected: virtual void printCollectionBegin(RefConst<UString> name,
+        bool isLead) = 0;
+
+    protected: virtual void printCollectionEnd(bool isLead) = 0;
+
+
+  // --- METHODS --- //
+
+    private: Ref<ObjectSerializer> attribute(RefConst<UString> name,
+        const Streamer& value, value_type_t type);
+    
+    private: RefConst<UString> stackToString() const;
+    private: RefConst<UString> stateToString(state_t state) const;
+
+    protected: void printIndent();
+    protected: PrintWriter& getWriter();
+
+    public: Ref<ObjectSerializer> member(RefConst<UString> name);
+    public: Ref<ObjectSerializer> object(RefConst<UString> className);
+    public: Ref<ObjectSerializer> object(const SerializingStreamer& obj);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name, const wchar_t value);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name, const kf_int32_t value);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name, const kf_int64_t value);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name, const double value);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name, const bool value);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name, const Streamer& value);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name, RefConst<UString> value);
+    public: Ref<ObjectSerializer> attribute(RefConst<UString> name);
+    public: Ref<ObjectSerializer> null();
+    public: Ref<ObjectSerializer> endObject();
+    public: Ref<ObjectSerializer> collection();
+    public: Ref<ObjectSerializer> endCollection();
+
+    public: template<typename T>
+    Ref<ObjectSerializer> object(RefConst<T> ptr);
+
   };
 
-  
+
   template<typename T>
-  PPtr<ObjectSerializer> ObjectSerializer::object(const PPtr<T> obj) {
-    if(obj.template ISA(SerializingStreamer)) {
-      ((SerializingStreamer*)obj.toPurePtr())->serialize(getPtr().AS(ObjectSerializer));
-    } else if(obj.template ISA(Streamer)) {
-      this->text(((Streamer*)obj.toPurePtr())->toString());
+  Ref<ObjectSerializer> ObjectSerializer::object(RefConst<T> obj) {
+    if(obj.isNull()) {
+      null();
     } else {
-      this->null();
+      obj->serialize(this);
     }
-    
-    return getPtr().AS(ObjectSerializer);
-  } // object(const Ptr<T>&)
-  
-  
+    return this;
+  }
+
 } // namespace kfoundation
 
 #endif

@@ -9,7 +9,8 @@
 #ifndef KFOUNDATION_OBJECTSTREAM_READER
 #define KFOUNDATION_OBJECTSTREAM_READER
 
-#include "ManagedObject.h"
+#include "definitions.h"
+#include "KFObject.h"
 #include "InputStream.h"
 #include "ParseException.h"
 #include "CodeRange.h"
@@ -35,14 +36,13 @@ namespace kfoundation {
    * @headerfile ObjectStreamReader.h <kfoundation/ObjectStreamReader.h>
    */
   
-  class ObjectStreamReader : public ManagedObject {
-    public: virtual Ptr<Token> next() throw(ParseException) = 0;
+  class ObjectStreamReader : public KFObject {
+    public: virtual Ref<Token> next() throw(ParseException) = 0;
   };
   
   
 //\/ ObjectStreamToken /\//////////////////////////////////////////////////////
-  
-  
+
   /**
    * Represents a token in a stream. This is an abstract class. The actual
    * object might be of any of the following types:
@@ -58,9 +58,9 @@ namespace kfoundation {
    * Most often this object is used in predictive parsing manner. For
    * example:
    *
-   *      void deserialize(PPtr<ObjectToken> headToken) {
+   *      void deserialize(Ref<ObjectToken> headToken) {
    *          headToken->validateClass("MyClass");
-   *          Ptr<Token> token = headToken->next();
+   *          Ref<Token> token = headToken->next();
    *          token->validateType(Token::ATTRIBUTE);
    *          _name = token.AS(AttributeToken)->validateName("name")->getValue();
    *          token->next()->validateType(END_OBJECT);
@@ -68,11 +68,11 @@ namespace kfoundation {
    *
    * Conditional statements can be added if desired:
    *
-   *      void deserialize(PPtr<ObjectToken> headToken) {
+   *      void deserialize(Ref<ObjectToken> headToken) {
    *          headToken->validateClass("MyClass");
-   *          Ptr<Token> token = headToken->next();
+   *          Ref<Token> token = headToken->next();
    *          if(token.is(Token::ATTRIBUTE)) {
-   *              PPtr<AttributeToken> attrib = token.AS(Attribute);
+   *              Ref<AttributeToken> attrib = token.AS(Attribute);
    *              if(attrib->checkName("attrib1")) {
    *                  _attrib1 = attrib->getValue();
    *              } else if(attrib->checkName("attrib2") {
@@ -97,8 +97,10 @@ namespace kfoundation {
    */
   
   class Token : public ObjectStreamReader {
-  public:
-    typedef enum {
+
+  // --- NESTED TYPES --- //
+
+    public: typedef enum {
       OBJECT,
       ATTRIBUTE,
       TEXT,
@@ -107,30 +109,38 @@ namespace kfoundation {
       END_OBJECT,
       END_STREAM
     } type_t;
+
+
+  // --- CONSTRUCTOR --- //
+
+    public: Token(const CodeRange& cr);
+
+
+  // --- STATIC METHODS --- //
+
+    public: static RefConst<UString> toString(const type_t t);
+
+    /** CodeRange marking begining and end of this token */
+    public: const CodeRange codeRange;
+
+
+  // --- METHODS --- //
+
+    public: virtual type_t getType() const = 0;
+    public: bool is(const type_t& t) const;
+    public: void validateType(const type_t& t) const;
     
-    static const SPtr<Token> END_STREAM_TOKEN;
-    static string toString(const type_t& t);
-    const CodeRange codeRange; ///< CodeRange marking begining and end of this
-                               ///  token.
-    
-  public:
-    Token(const CodeRange& cr);
-    virtual type_t getType() const = 0;
-    bool is(const type_t& t) const;
-    void validateType(const type_t& t) const;
-    
-    PPtr<ObjectToken> asObject();
-    PPtr<EndObjectToken> asEndObject();
-    PPtr<AttributeToken> asAttribute();
-    PPtr<CollectionToken> asCollection();
-    PPtr<EndCollectionToken> asEndCollection();
+    public: Ref<ObjectToken> asObject();
+    public: Ref<EndObjectToken> asEndObject();
+    public: Ref<AttributeToken> asAttribute();
+    public: Ref<CollectionToken> asCollection();
+    public: Ref<EndCollectionToken> asEndCollection();
     
   };
 
   
 //\/ ObjectToken /\////////////////////////////////////////////////////////////
-  
-  
+
   /**
    * Represents begining of an object in the parsed stream.
    *
@@ -141,24 +151,36 @@ namespace kfoundation {
    */
   
   class ObjectToken : public Token {
-  public:
-    static const type_t TYPE;
+
+  // --- STATIC FIELDS --- //
+
+    public: static const type_t TYPE;
+
+
+  // --- CONSTRUCTORS --- //
     
-    ObjectToken(const CodeRange& range);
+    public: ObjectToken(const CodeRange& range);
+
+
+  // --- ABSTRACT METHODS --- //
+
+    public: virtual RefConst<UString> getClassName() const = 0;
+    public: virtual RefConst<UString> getIdentifier() const = 0;
+    public: virtual bool hasIdentifier() const = 0;
+
+
+  // --- METHODS --- //
     
-    bool checkClass(const string& name) const;
-    void validateClass(const string& name) const;
-    void throwMissingAttribute(const string& name) const;
-    void throwInvlaidClass() const;
-    
-    virtual const string& getClassName() const = 0;
-    virtual const string& getIdentifier() const = 0;
-    virtual bool hasIdentifier() const = 0;
-    
+    public: bool checkClass(RefConst<UString> name) const;
+    public: void validateClass(RefConst<UString> name) const;
+    public: void throwMissingAttribute(RefConst<UString> name) const;
+    public: void throwInvlaidClass() const;
+
     // From ObjectStreamToken
-    inline type_t getType() const {
+    public: inline type_t getType() const {
       return OBJECT;
     }
+
   };
 
   
@@ -174,19 +196,32 @@ namespace kfoundation {
    */
 
   class EndObjectToken : public Token {
-  public:
-    static const type_t TYPE;
+
+  // --- STATIC FIELDS --- //
+
+    public: static const type_t TYPE;
+
+
+  // --- CONSTRUCTORS --- //
     
-    EndObjectToken(const CodeRange& range);
+    public: EndObjectToken(const CodeRange& range);
+
+
+  // --- ABSTRACT METHODS --- //
+
+    public: virtual RefConst<UString> getClassName() const = 0;
+
+
+  // --- METHODS --- //
     
-    virtual const string& getClassName() const = 0;
-    bool checkClass(const string& name) const;
-    void validateClass(const string& name) const;
+    public: bool checkClass(RefConst<UString> name) const;
+    public: void validateClass(RefConst<UString> name) const;
     
     // From ObjectStreamToken
-    inline type_t getType() const {
+    public: inline type_t getType() const {
       return END_OBJECT;
     }
+
   };
   
   
@@ -202,23 +237,39 @@ namespace kfoundation {
    */
   
   class AttributeToken : public Token {
-  public:
-    static const type_t TYPE;
+
+  // --- STATIC FIELDS --- //
+
+    public: static const type_t TYPE;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public: AttributeToken(const CodeRange& range);
+
+
+  // --- ABSTRACT METHODS --- //
+
+    public: virtual RefConst<UString> getName() const = 0;
+    public: virtual RefConst<UString> getValue() const = 0;
+    public: virtual bool isEmpty() const = 0;
+
+
+  // --- METHODS --- //
     
-    AttributeToken(const CodeRange& range);
-    
-    bool checkName(const string& name) const;
-    PPtr<AttributeToken> validateName(const string& name) const;
-    void throwInvliadName() const;
-    
-    virtual const string& getName() const = 0;
-    virtual const string& getValue() const = 0;
-    virtual bool isEmpty() const = 0;
-    
+    public: bool checkName(RefConst<UString> name) const;
+    public: Ref<AttributeToken> validateName(RefConst<UString> name) const;
+    public: void throwInvliadName() const;
+    public: bool getBoolValue() const;
+    public: kf_int32_t getInt32Value() const;
+    public: kf_int64_t getInt64Value() const;
+    public: double getDoubleValue() const;
+
     // From ObjectStreamToken
-    inline type_t getType() const {
+    public: inline type_t getType() const {
       return ATTRIBUTE;
     }
+
   };
 
   
@@ -234,17 +285,26 @@ namespace kfoundation {
    */
 
   class TextToken : public Token {
-  public:
-    static const type_t TYPE;
+
+  // --- STATIC FIELDS --- //
+
+    public: static const type_t TYPE;
+
+
+  // --- CONSTRUCTORS --- //
     
-    TextToken(const CodeRange& range);
+    public: TextToken(const CodeRange& range);
+
+
+  // --- METHODS --- //
     
-    virtual const string& get() const = 0;
+    public: virtual RefConst<UString> get() const = 0;
     
     // From ObjectStreamToken
-    inline type_t getType() const {
+    public: inline type_t getType() const {
       return TEXT;
     }
+
   };
 
   
@@ -260,18 +320,30 @@ namespace kfoundation {
    */
   
   class CollectionToken : public Token {
-  public:
-    static type_t TYPE;
+
+  // --- STATIC FIELDS --- //
+
+    public: static type_t TYPE;
+
+
+  // --- CONSTRUCTORS --- //
     
-    CollectionToken(const CodeRange& range);
-    
-    virtual const string& getIdentifier() const = 0;
-    virtual bool hasIdentifier() const = 0;
+    public: CollectionToken(const CodeRange& range);
+
+
+  // --- VIRTUAL METHODS --- //
+
+    public: virtual RefConst<UString> getIdentifier() const = 0;
+    public: virtual bool hasIdentifier() const = 0;
+
+
+  // --- METHODS --- //
     
     // From ObjectStreamToken
     inline type_t getType() const {
       return COLLECTION;
     }
+
   };
 
   
@@ -287,17 +359,43 @@ namespace kfoundation {
    */
   
   class EndCollectionToken : public Token {
-  public:
-    static type_t TYPE;
+
+  // --- STATIC FIELDS --- //
+
+    public: static type_t TYPE;
+
+
+  // --- CONSTRUCTORS --- //
     
-    EndCollectionToken(const CodeRange& range);
+    public: EndCollectionToken(const CodeRange& range);
+
+
+  // --- METHODS --- //
     
     // From ObjectStreamToken
     inline type_t getType() const {
       return END_COLLECTION;
     }
+
   };
-  
+
+
+//\/ EndStreamToken /\/////////////////////////////////////////////////////////
+
+  class EndStreamToken : public Token {
+
+  // --- CONSTRUCTOR --- //
+    public: EndStreamToken();
+
+
+  // --- METHODS --- //
+
+    // From Token
+    type_t getType() const;
+    Ref<Token> next() throw(ParseException);
+
+  };
+
   
 //\/ END /\////////////////////////////////////////////////////////////////////
   

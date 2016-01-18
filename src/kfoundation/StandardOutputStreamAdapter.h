@@ -17,16 +17,20 @@
 #ifndef __KFoundation__StandardOutputStreamAdapter__
 #define __KFoundation__StandardOutputStreamAdapter__
 
+// Std
+#include <ostream>
+
 // Internal
 #include "definitions.h"
+#include "RefDecl.h"
 
 // Super
 #include "OutputStream.h"
 
 namespace kfoundation {
-  
-  using namespace std;
-  
+
+  class InputStream;
+
   /**
    * KFoundation wrapper for C++ `ostream`.
    *
@@ -38,12 +42,12 @@ namespace kfoundation {
     
   // --- FIELDS --- //
     
-      private: ostream& _os;
+      private: std::ostream& _os;
 
     
   // --- (DE)CONSTRUCTORS --- //
     
-    public: StandardOutputStreamAdapter(ostream& os);
+    public: StandardOutputStreamAdapter(std::ostream& os);
     
     
   // --- METHODS --- //
@@ -52,8 +56,9 @@ namespace kfoundation {
     public: bool isBigEndian() const;
     public: void write(const kf_octet_t* buffer, const kf_int32_t nBytes);
     public: void write(kf_octet_t byte);
-    public: void write(PPtr<InputStream> os);
+    public: void write(Ref<InputStream> os);
     public: void close();
+    public: void flush();
     
   };
   

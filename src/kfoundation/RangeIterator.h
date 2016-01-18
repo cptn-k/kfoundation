@@ -13,7 +13,7 @@
 #include "Tuple.h"
 
 // Super
-#include "ManagedObject.h"
+#include "KFObject.h"
 
 namespace kfoundation {
   

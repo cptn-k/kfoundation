@@ -14,6 +14,8 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+#include "Ref.h"
+#include "UString.h"
 #include "MemoryException.h"
 
 namespace kfoundation {
@@ -22,10 +24,10 @@ namespace kfoundation {
    * Constructor.
    */
   
-  MemoryException::MemoryException(string message)
-    : KFException(message)
+  MemoryException::MemoryException(RefConst<UString> message)
+  : KFException(message)
   {
-    setName("MemoryException");
+    setName(K"MemoryException");
   }
 
 } // namespace kfoundation

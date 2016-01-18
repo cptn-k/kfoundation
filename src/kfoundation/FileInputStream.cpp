@@ -14,26 +14,33 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+// Unix
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <errno.h>
+
+// Internal
+#include "UString.h"
 #include "Path.h"
+#include "Ref.h"
+#include "IOException.h"
+
+// Self
 #include "FileInputStream.h"
-#include "Ptr.h"
 
 namespace kfoundation {
   
-  
+// --- (DE)CONSTRUCTORS --- //
+
   /**
    * Constructor, opens the file pointed by the given Path object.
    *
    * @param path The path to the file to open.
    */
   
-  FileInputStream::FileInputStream(PPtr<Path> path)
-  : _ifs( new ifstream(path->getString().c_str()) )
-  {
-    mark();
-    _ifs->seekg(0, ios_base::end);
-    _size = _ifs->tellg();
-    _ifs->seekg(0);
+  FileInputStream::FileInputStream(RefConst<Path> path) {
+    construct(path);
   }
 
   
@@ -43,13 +50,8 @@ namespace kfoundation {
    * @param fileName The path to the file to open.
    */
   
-  FileInputStream::FileInputStream(const string& fileName)
-  : _ifs(new ifstream(fileName.c_str()))
-  {
-    mark();
-    _ifs->seekg(0, ios_base::end);
-    _size = _ifs->tellg();
-    _ifs->seekg(0);
+  FileInputStream::FileInputStream(RefConst<UString> path) {
+    construct(new Path(path));
   }
   
   
@@ -58,26 +60,37 @@ namespace kfoundation {
    */
   
   FileInputStream::~FileInputStream() {
-    _ifs->close();
-    delete _ifs;
+    if(isOpen()) {
+      close();
+    }
   }
-  
-  
-  /**
-   * Returns the size of the openned file.
-   */
-  
-  kf_int64_t FileInputStream::getSize() const {
-    return _size;
+
+
+// --- METHODS --- //
+
+  void FileInputStream::construct(RefConst<Path> path) {
+    _fileDescriptor = ::open(path->toString()->getCString(), O_RDONLY);
+    if(_fileDescriptor == -1) {
+      throw IOException(K"Unable to open " + *path + ". Reason: "
+          + System::getLastSystemError());
+    }
+
+    mark();
+
+    if(read() == 0) {
+      _mark = -1;
+    } else {
+      reset();
+    }
   }
-  
-  
+
+
   /**
    * Checks if the file is open.
    */
   
   bool FileInputStream::isOpen() const {
-    return _ifs->is_open();
+    return _fileDescriptor == KF_NOT_FOUND;
   }
   
   
@@ -86,35 +99,85 @@ namespace kfoundation {
    */
   
   void FileInputStream::close() {
-    _ifs->close();
+    ::close(_fileDescriptor);
+  }
+
+
+  bool FileInputStream::isLocked() const {
+    if(flock(_fileDescriptor, LOCK_EX | LOCK_NB) == -1) {
+      if(errno == EWOULDBLOCK) {
+        return true;
+      } else {
+        throw IOException(K"Error checking lock for file " + *_path
+            + ". Cause: " + System::getLastSystemError());
+      }
+    }
+    unlock();
+    return false;
+  }
+
+
+  void FileInputStream::lock() const {
+    if(flock(_fileDescriptor, LOCK_EX) == -1) {
+      throw IOException(K"Error locking for file " + *_path
+          + ". Cause: " + System::getLastSystemError());
+    }
+  }
+
+
+  void FileInputStream::unlock() const {
+    if(flock(_fileDescriptor, LOCK_UN) == -1) {
+      throw IOException(K"Error locking file " + *_path + ". Cause: "
+          + System::getLastSystemError());
+    }
   }
   
   
-  kf_int32_t FileInputStream::read(kf_octet_t *buffer, const kf_int32_t nBytes)
+  kf_int32_t FileInputStream::read(kf_octet_t *buffer, const kf_int32_t nOctets)
   {
-    _ifs->read((istream::char_type*)buffer, nBytes);
-    return (kf_int32_t)_ifs->gcount();
+    kf_int32_t nRead = (kf_int32_t)::read(_fileDescriptor, buffer, nOctets);
+
+    if(nRead == -1) {
+      throw IOException(K"Error reading from file " + *_path + ". Reason: "
+          + System::getLastSystemError());
+    } else if(nRead < nOctets) {
+      _mark = -1;
+    }
+
+    return nRead;
   }
   
   
-  int FileInputStream::read() {
-    return _ifs->get();
+  kf_int16_t FileInputStream::read() {
+    kf_octet_t value;
+    if(read(&value, 1) == 0) {
+      return -1;
+    }
+    return value;
   }
   
   
-  int FileInputStream::peek() {
-    return _ifs->peek();
+  kf_int16_t FileInputStream::peek() {
+    kf_octet_t value;
+    if(read(&value, 1) == 0) {
+      return -1;
+    };
+    lseek(_fileDescriptor, -1, SEEK_CUR);
+    return value;
   }
   
   
   kf_int32_t FileInputStream::skip(kf_int32_t nBytes) {
-    _ifs->ignore(nBytes);
-    return (kf_int32_t)_ifs->gcount();
+    kf_int32_t nSkipped = (kf_int32_t)lseek(_fileDescriptor, nBytes, SEEK_CUR);
+    if(nSkipped < nBytes) {
+      _mark = -1;
+    }
+    return nSkipped;
   }
   
   
   bool FileInputStream::isEof() {
-    return _ifs->eof();
+    return _mark == -1;
   }
   
   
@@ -124,12 +187,12 @@ namespace kfoundation {
   
   
   void FileInputStream::mark() {
-    _mark = _ifs->tellg();
+    _mark = lseek(_fileDescriptor, 0, SEEK_CUR);
   }
   
   
   void FileInputStream::reset() {
-    _ifs->seekg(_mark);
+    lseek(_fileDescriptor, _mark, SEEK_SET);
   }
   
   

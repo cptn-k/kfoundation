@@ -6,10 +6,16 @@
 //  Copyright (c) 2015 Kay Khandan. All rights reserved.
 //
 
+// Std
+#include <algorithm>
+
 // Internal
+#include "Ref.h"
 #include "KFException.h"
-#include "Int.h"
 #include "RangeIterator.h"
+#include "OutputStream.h"
+#include "PrintWriter.h"
+#include "UString.h"
 
 // Self
 #include "Range.h"
@@ -51,8 +57,8 @@ namespace kfoundation {
     _size(end - begin)
   {
     if(begin.getSize() != end.getSize()) {
-      throw KFException("Supplied argument do not have the same size: "
-        + begin + ", " + end);
+      throw KFException(K"Supplied argument do not have the same size: "
+          + begin + ", " + end);
     }
   }
   
@@ -178,9 +184,8 @@ namespace kfoundation {
   
   Range Range::border(const Direction& d, const int s) const {
     if(d.getSize() != _begin.getSize()) {
-      throw KFException("Size mismatch. Expected an Direction of size "
-          + Int::toString(_begin.getSize()) + ", Provided: "
-          + Int::toString(d.getSize()));
+      throw KFException(K"Size mismatch. Expected an Direction of size "
+          + _begin.getSize() + ", Provided: " + d.getSize());
     }
     
     Range result(_begin.getSize());
@@ -189,11 +194,11 @@ namespace kfoundation {
       switch (d.get(i)) {
         case Direction::BACK:
           result._begin.at(i) = _begin.at(i);
-          result._end.at(i) = min(_begin.at(i) + s, _end.at(i));
+          result._end.at(i) = std::min<int>(_begin.at(i) + s, _end.at(i));
           break;
           
         case Direction::FORTH:
-          result._begin.at(i) = max(_begin.at(i), _end.at(i) - s);
+          result._begin.at(i) = std::max<int>(_begin.at(i), _end.at(i) - s);
           result._end.at(i) = _end.at(i);
           break;
           
@@ -415,8 +420,8 @@ namespace kfoundation {
   
   // Inherited from Streamer //
   
-  void Range::printToStream(ostream& os) const {
-    os << '(' << _begin << ", " << _end << ')';
+  void Range::printToStream(Ref<OutputStream> os) const {
+    PrintWriter(os) << '(' << _begin << ", " << _end << ')';
   }
   
 } // namespace kfoundation

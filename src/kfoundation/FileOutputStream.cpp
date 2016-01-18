@@ -14,9 +14,6 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
-// Std
-#include <fstream>
-
 // Unix
 #include <fcntl.h>
 #include <unistd.h>
@@ -24,18 +21,19 @@
 #include <sys/file.h>
 
 // Internal
-#include "Ptr.h"
+#include "Ref.h"
 #include "Path.h"
 #include "System.h"
 #include "IOException.h"
+#include "InputStream.h"
 
 // Self
 #include "FileOutputStream.h"
 
 namespace kfoundation {
-  
+
 // --- (DE)CONSTRUCTORS --- //
-  
+
   /**
    * Constructor, opens the file pointed by the given path object to write. 
    * If the file
@@ -46,14 +44,13 @@ namespace kfoundation {
    * @see truncate()
    */
   
-  FileOutputStream::FileOutputStream(PPtr<Path> path) {
-    _fileDescriptor = open(path->getString().c_str(), O_WRONLY | O_CREAT,
-                           S_IWUSR | S_IRUSR);
-    _path = path;
-    if(_fileDescriptor == -1) {
-      throw IOException("Failed to open file: " + path->getString()
-                        + ". Reason: " + System::getLastSystemError());
-    }
+  FileOutputStream::FileOutputStream(RefConst<Path> path) {
+    construct(path);
+  }
+
+
+  FileOutputStream::FileOutputStream(RefConst<UString> path) {
+    construct(new Path(path));
   }
   
   
@@ -67,7 +64,17 @@ namespace kfoundation {
   
   
 // --- METHODS --- //
-  
+
+  void FileOutputStream::construct(RefConst<Path> path) {
+    _fileDescriptor = open(path->toString()->getCString(), O_WRONLY | O_CREAT, S_IWUSR | S_IRUSR);
+    if(_fileDescriptor == -1) {
+      throw IOException(K"Failed to open file: " + *path
+          + ". Reason: " + System::getLastSystemError());
+    }
+    _path = path;
+  }
+
+
   bool FileOutputStream::isBigEndian() const {
     return System::isBigEndian();
   }
@@ -82,7 +89,7 @@ namespace kfoundation {
   
   void FileOutputStream::truncate() const {
     if(ftruncate(_fileDescriptor, 0) == -1) {
-      throw IOException("Error truncating file " + _path->getString());
+      throw IOException(K"Error truncating file " + *_path);
     }
   }
   
@@ -98,7 +105,7 @@ namespace kfoundation {
   }
   
   
-  void FileOutputStream::write(PPtr<InputStream> is) {
+  void FileOutputStream::write(Ref<InputStream> is) {
     kf_octet_t tmp[1024];
     while(!is->isEof()) {
       kf_int32_t s = is->read(tmp, 1024);
@@ -121,8 +128,8 @@ namespace kfoundation {
       if(errno == EWOULDBLOCK) {
         return true;
       } else {
-        throw IOException("Error checking lock for file " + _path->getString()
-                          + ". Cause: " + System::getLastSystemError());
+        throw IOException(K"Error checking lock for file " + *_path
+            + ". Cause: " + System::getLastSystemError());
       }
     }
     unlock();
@@ -141,8 +148,8 @@ namespace kfoundation {
 
   void FileOutputStream::lock() const {
     if(flock(_fileDescriptor, LOCK_EX) == -1) {
-      throw IOException("Error locking for file " + _path->getString()
-                        + ". Cause: " + System::getLastSystemError());
+      throw IOException(K"Error locking for file " + *_path
+          + ". Cause: " + System::getLastSystemError());
     }
   }
 
@@ -158,8 +165,8 @@ namespace kfoundation {
   
   void FileOutputStream::unlock() const {
     if(flock(_fileDescriptor, LOCK_UN) == -1) {
-      throw IOException("Error locking for file " + _path->getString()
-                        + ". Cause: " + System::getLastSystemError());
+      throw IOException(K"Error locking file " + *_path + ". Cause: "
+          + System::getLastSystemError());
     }
   }
   
@@ -173,8 +180,13 @@ namespace kfoundation {
    * Returns the path of the file being written by this stream.
    */
   
-  PPtr<Path> FileOutputStream::getPath() const {
+  RefConst<Path> FileOutputStream::getPath() const {
     return _path;
+  }
+
+
+  void FileOutputStream::flush() {
+    // Nothing;
   }
   
   

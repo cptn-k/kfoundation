@@ -17,15 +17,16 @@
 #ifndef __KFoundation_XCode_Wrapper__FileInputStream__
 #define __KFoundation_XCode_Wrapper__FileInputStream__
 
-#include <fstream>
+// Internal
+#include "RefDecl.h"
 
+// Super
 #include "InputStream.h"
-
-using namespace std;
 
 namespace kfoundation {
   
   class Path;
+  class UString;
 
   /**
    * Input stream to read from file.
@@ -35,34 +36,43 @@ namespace kfoundation {
    */
   
   class FileInputStream : public InputStream {
-  private:
-    ifstream* _ifs;
-    streampos _mark;
-    kf_int64_t _size;
-    
-  public:
-    FileInputStream(PPtr<Path> path);
-    FileInputStream(const string& fileName);
-    virtual ~FileInputStream();
-    
-    kf_int64_t getSize() const;
-    bool isOpen() const;
-    void close();
+
+  // --- FIELDS --- //
+
+    private: Ref<Path>  _path;
+    private: kf_int32_t _fileDescriptor;
+    private: kf_int64_t _mark;
+
+
+  // --- (DE)CONSTRUCTORS --- //
+
+    public: FileInputStream(RefConst<Path> path);
+    public: FileInputStream(RefConst<UString> path);
+    public: ~FileInputStream();
+
+
+  // --- METHODS --- //
+
+   private: void construct(RefConst<Path> path);
+    public: bool isOpen() const;
+    public: void close();
+    public: bool isLocked() const;
+    public: void lock() const;
+    public: void unlock() const;
     
     // From InputStream
-    kf_int32_t read(kf_octet_t* buffer, const kf_int32_t nBytes);
-    int read();
-    int peek();
-    kf_int32_t skip(kf_int32_t bytes);
-    bool isEof();
-    bool isMarkSupported();
-    void mark();
-    void reset();
-    bool isBigEndian();
+    public: kf_int32_t read(kf_octet_t* buffer, const kf_int32_t nOctets);
+    public: kf_int16_t read();
+    public: kf_int16_t peek();
+    public: kf_int32_t skip(kf_int32_t nOctets);
+    public: bool isEof();
+    public: bool isMarkSupported();
+    public: void mark();
+    public: void reset();
+    public: bool isBigEndian();
     
   };
   
 } // namespace kfoundation
-
 
 #endif /* defined(__KFoundation_XCode_Wrapper__FileInputStream__) */

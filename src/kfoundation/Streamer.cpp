@@ -12,12 +12,11 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
-// Std
-#include <sstream>
 
 // Internal
-#include "System.h"
-#include "LongInt.h"
+#include "Ref.h"
+#include "BufferOutputStream.h"
+#include "UString.h"
 
 // Self
 #include "Streamer.h"
@@ -29,10 +28,10 @@ namespace kfoundation {
    * `std::string` object.
    */
 
-  string Streamer::toString() const {
-    stringstream stream;
-    this->printToStream(stream);
-    return stream.str();
+  RefConst<UString> Streamer::toString() const {
+    Ref<BufferOutputStream> bos = new BufferOutputStream();
+    printToStream(bos.AS(OutputStream));
+    return new UString(bos->getData(), bos->getSize());
   }
   
 } // namespace kfoundation

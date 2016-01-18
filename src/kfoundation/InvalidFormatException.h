@@ -12,7 +12,7 @@
 #include "KFException.h"
 
 namespace kfoundation {
-  
+
   /**
    * Thrown when an input with an invalid format is encountered.
    *
@@ -21,8 +21,7 @@ namespace kfoundation {
    */
   
   class InvalidFormatException : public KFException {
-  public:
-    InvalidFormatException(string message);
+    public: InvalidFormatException(RefConst<UString> message);
   };
   
 } // namespace kfoundation

@@ -143,6 +143,9 @@
 
 #define IS_NULL(X) !(X)
 
+#define IS_ON(X) X
+#define IS_OFF(X) !(X)
+
 
 /**
  * Checks object A is an instance of class B.
@@ -182,7 +185,13 @@ namespace kfoundation {
     GREATER = 1   ///< Greater
   } kf_comparison_t;
 
-  
+
+  typedef enum {
+    ON = true,
+    OFF = false
+  } kf_onoff_t;
+
+
   /**
    * @brief 8-bit unsigned numeric type.
    * @ingroup defs
@@ -213,14 +222,34 @@ namespace kfoundation {
    */
   
   typedef int kf_int32_t;
-  
-  
+
+
   /**
    * @brief 64-bit signed numeric type.
    * @ingroup defs
    */
   
   typedef long int kf_int64_t;
+
+
+  /**
+   * Unique Entry Reference.
+   * @ingroup defs
+   */
+
+  struct kf_uref_t {
+    public: kf_octet_t reserved;
+    public: kf_octet_t manager;
+    public: kf_int32_t index;
+    public: kf_int16_t key;
+  };
+
+
+  /**
+   * Constant representing "not found" result for search.
+   */
+
+  const kf_int32_t KF_NOT_FOUND = -1;
   
 } // namespace kfoundation
 

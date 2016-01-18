@@ -13,319 +13,121 @@
 |
 *//////////////////////////////////////////////////////////////////////////////
 
-#include <unistd.h>
-#include <cstdlib>
+// Unix
+#include <syslog.h>
 
-#include "Logger.h"
+namespace {
+  const int SYS_LOG_ERR = LOG_ERR;
+}
+
+// Internal
 #include "definitions.h"
+#include "BufferOutputStream.h"
+#include "Ref.h"
+#include "System.h"
+#include "RefDictionary.h"
 #include "Path.h"
-#include "Bool.h"
+
+// Self
+#include "Logger.h"
 
 namespace kfoundation {
 
-  using namespace std;
+//\/ Logger::Writer /\/////////////////////////////////////////////////////////
 
-//\/ Logger::Channel /\////////////////////////////////////////////////////////
+// --- CONSTRUCTOR --- //
 
-// --- (DE)CONSTRUCTORS --- //
-  
-  /**
-   * Constructor, do not use directly. Instead, use Logger::addChannel().
-   */
-  
-  Logger::Channel::Channel(const string& name, const string& fileName)
-  : _name(name),
-    _closeOnDeconstruct(true)
-  {
-    init();
-    ofstream* ofs = new ofstream();
-    ofs->open(fileName.c_str(), ofstream::out | ofstream::app);
-    _os = ofs;
-  }
-
-  
-  /**
-   * Constructor, do not use directly. Instread, use Logger::addChannel().
-   */
-  
-  Logger::Channel::Channel(const string& name, ostream* os)
-  : _name(name),
-    _closeOnDeconstruct(false)
-  {
-    init();
-    _os = os;
-  }
-
-  
-  /**
-   * Deconstructor.
-   */
-  
-  Logger::Channel::~Channel() {
-    pthread_mutex_destroy(&_mutex);
-    
-    if(_closeOnDeconstruct) {
-      ((ofstream*)_os)->close();
-      delete _os;
-    }
-  }
-  
-  
-// --- METHODS --- //
-  
-  void Logger::Channel::init() {
-    pthread_mutex_init(&_mutex, NULL);
-    _isSilent = false;
-    _level = L3;
-    _printHourAndMinute = true;
-    _printSecondAndMilisecond = true;
-    _printLocation = false;
-  }
-  
-  
-  void Logger::Channel::print(const stringstream &sstream,
-      const kfoundation::Logger::Meta &meta)
-  {
-    if(!checkLevel(meta.level)) {
-      return;
-    }
-   
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    struct tm* timeInfo = localtime(&tv.tv_sec);
-    
-    
-    const int BUFFER_SIZE = 20;
-    char timeStr[BUFFER_SIZE];
-    char* p = timeStr;
-    *p = 0;
-    
-    if(_printHourAndMinute && _printSecondAndMilisecond) {
-      p += strftime(p, BUFFER_SIZE, "%H:%M:%S.", timeInfo);
-    } else if(_printHourAndMinute && !_printSecondAndMilisecond) {
-      p += strftime(p, BUFFER_SIZE, "%H:%M", timeInfo);
-    } else if(!_printHourAndMinute && _printSecondAndMilisecond) {
-      p += strftime(p, BUFFER_SIZE, "%S.", timeInfo);
-    }
-    
-    if(_printSecondAndMilisecond) {
-      p += sprintf(p, "%d", tv.tv_usec);
-    }
-    
-    // synchronized {
-    pthread_mutex_lock(&_mutex);
-    
-    if(_printHourAndMinute || _printSecondAndMilisecond) {
-      *_os << timeStr << ' ';
-    }
-    
-    if(_printLocation && meta.fileName.length() > 0) {
-      *_os << '[' << meta.functionName << '@' << meta.fileName << ':'
-           << meta.lineNumber << "] ";
-    }
-    
-    if(meta.level == ERR) {
-      *_os << "!!! ";
-    } else if(meta.level == WRN) {
-      *_os << "! ";
-    }
-    
-    *_os << sstream.str();
-    _os->flush();
-    
-    pthread_mutex_unlock(&_mutex);
-    // } synchronized
-  }
-
-  
-  /**
-   * Sets the filtering level. All messages with equal or higher level than
-   * the given level will be passed and the rest will be filtered.
-   *
-   * @param level Filtering level
-   */
-
-  Logger::Channel& Logger::Channel::setLevel(level_t level) {
-    _level = level;
-    return *this;
-  }
-  
-  
-  /**
-   * Returns the current filtering level.
-   */
-  
-  Logger::level_t Logger::Channel::getLevel() const {
-    return _level;
-  }
-  
-  
-  /**
-   * Checks if the current filtering level equals the given parameter.
-   *
-   * @param lvl The level to check against.
-   * @return The result of comparison.
-   */
-  
-  bool Logger::Channel::checkLevel(level_t lvl) const {
-    if(_isSilent) {
-      return false;
-    }
-    
-    return lvl <= _level;
-  }
-  
-  
-  /**
-   * If the given parameter is `true`, this channel will no longer produce any
-   * output. Otherwise, output will be produced with the given filtering level
-   * applied.
-   *
-   * @param isSilent If set `true` this channel will be silenced, otherwise
-   *        it will resume producing output.
-   */
-  
-  void Logger::Channel::setSilent(bool isSilent) {
-    _isSilent = isSilent;
-  }
-  
-  
-  /**
-   * Checks if this channel is set to silent.
-   *
-   * @see setSilent()
-   */
-  
-  bool Logger::Channel::isSilent() const {
-    return _isSilent;
-  }
-  
-  
-  /**
-   * Returns the name of this channel.
-   */
-  
-  const string& Logger::Channel::getName() const {
-    return _name;
-  }
-  
-  
-  /**
-   * Checks if the name of this channel is the same as the given parameter.
-   *
-   * @param name The name to check against.
-   * @return The result of comparison.
-   */
-  
-  bool Logger::Channel::checkName(const string& name) const {
-    return name == _name;
-  }
-  
-  
-  /**
-   * The heading of each log entry can be customized using this function.
-   *
-   * @param printHourAndMinutes If set `true` the hour and minute will be 
-   *        printed in HH:MM format.
-   * @param printSecondAndMilisecond If set `true` second and milisecond
-   *        will be printed in SS.m format. If printHourAndMinutes is already set to `true`
-   *        the output will be in HH:MM:SS.m format.
-   * @param printLocation If set `true` the location of the code is printed
-   *        in [function_name\@file_name:line_number] format.
-   */
-  
-  Logger::Channel& Logger::Channel::setFormat(bool printHourAndMinutes,
-      bool printSecondAndMilisecond, bool printLocation)
-  {
-    _printHourAndMinute = printHourAndMinutes;
-    _printSecondAndMilisecond = printSecondAndMilisecond;
-    _printLocation = printLocation;
-    return *this;
-  }
-
-  
-//\/ Logger::Stream /\/////////////////////////////////////////////////////////
-  
-// --- (DE)CONSTRUCTORS --- //
-  
-  
-  /**
-   * Constructor, do not use directly. Use Logger::log() instread.
-   */
-  
-  Logger::Stream::Stream(const Logger::Meta& meta,
-      vector<Logger::Channel*>& channels)
-  : _meta(meta),
+  Logger::Writer::Writer(Ref<Dic> channels, Mutex& mutex, level_t sysLogLevel)
+  : PrintWriter(new BufferOutputStream()),
     _channels(channels),
-    _isOpen(false)
+    _mutex(mutex),
+    _sysLogLevel(sysLogLevel)
   {
-    for(int i = (int)_channels.size() - 1; i >= 0; i--) {
-      _isOpen = _isOpen || _channels[i]->checkLevel(meta.level);
-    }
+    _buffer = getStream().AS(BufferOutputStream);
   }
-  
-  
+
+
 // --- METHODS --- //
-  
-  #define __K_ENUMERAND(X) Logger::Stream& Logger::Stream::operator<<(X a) {\
-    if(_isOpen) {\
-      _sstream << a;\
-    }\
-    return *this;\
-  }
-  __K_ENUMERATE_OVER_TYPES
-  #undef __K_ENUMERAND
 
-  
-  Logger::Stream& Logger::Stream::operator<<(bool a) {
-    if(_isOpen) {
-      _sstream << Bool::toString(a);
+  void Logger::Writer::over() {
+    newLine();
+    _buffer->write(0);
+
+    const kf_octet_t* buffer = _buffer->getData();
+    const kf_int32_t size = _buffer->getSize();
+
+    Dic::Iterator it = _channels->getIterator();
+    _mutex.lock();
+    for(it.first(); it.hasMore(); it.next()) {
+      it.getValue()->write(buffer, size);
     }
-    return *this;
+    _mutex.unlock();
+
+    switch (_sysLogLevel) {
+      case ERR:
+        syslog(SYS_LOG_ERR, "%s", (char*)buffer);
+        break;
+
+      case WRN:
+        syslog(SYS_LOG_ERR, "%s", (char*)buffer);
+        break;
+
+
+      case L1:
+        syslog(SYS_LOG_ERR, "%s", (char*)buffer);
+        break;
+
+      case L2:
+        syslog(SYS_LOG_ERR, "%s", (char*)buffer);
+        break;
+
+      case L3:
+        syslog(SYS_LOG_ERR, "%s\n", (char*)buffer);
+
+      default:
+        break;
+    }
   }
 
-  
-  void Logger::Stream::operator<<(logger_flag_t f) {
-    _sstream << endl;
-    
-    for(int i = (int)_channels.size() - 1; i >= 0; i--) {
-      _channels[i]->print(_sstream, _meta);
-    }
-    
-    if(f == EL_CON) {
-      cout << _sstream.str();
-      cout.flush();
-    }
-    
-    delete this;
-  }
-  
 
 //\/ Logger /\/////////////////////////////////////////////////////////////////
 
 // --- (DE)CONSTRUCTORS --- //
-  
-  
+
   /**
    * Default constructor.
    */
   
-  Logger::Logger() {
+  Logger::Logger()
+  : _channels(new Dic()),
+    _mutex(),
+    _shortTime(ON),
+    _printLocation(ON),
+    _systemLog(ON),
+    _level(L3)
+  {
     // Nothing
-  }
-
-  
-  /**
-   * Deconstructor.
-   */
-  
-  Logger::~Logger() {
-    removeAllChannels();
   }
 
 
 // --- METHODS --- //
-  
+
+  PrintWriter& Logger::printTime(PrintWriter& writer) {
+    kf_int64_t time = System::getCurrentTimeInMiliseconds();
+    kf_int32_t millis = time%1000;
+
+    if(IS_ON(_shortTime)) {
+      writer.printTime(K"%S.", time);
+    } else {
+      writer.printTime(K"%H:%M:%S.", time);
+    }
+
+    writer << millis;
+
+    return writer;
+  }
+
+
   /**
    * Adds a channel that outputs to the given ostream object. Since
    * ostream is not a ManagedObejct it needs to be deleted by user if necessary.
@@ -333,45 +135,20 @@ namespace kfoundation {
    * @param name A name for the new channel.
    * @param os The output stream to print to.
    */
-  
-  Logger::Channel& Logger::addChannel(const string& name, ostream* os) {
-    Channel* ch = new Channel(name, os);
-    _channels.push_back(ch);
-    return *ch;
-  }
-  
-  
-  /**
-   * Adds a channel that outputs to the given file. The new logs will be
-   * appended to the existing contents of the file.
-   *
-   * @param name A name for the new channel.
-   * @param fileName Path to the file to write to.
-   */
 
-  Logger::Channel& Logger::addChannel(const string& name, const string& fileName)
-  {
-    Channel* ch = new Channel(name, fileName);
-    _channels.push_back(ch);
-    return *ch;
+  void Logger::addChannel(RefConst<UString> name, Ref<OutputStream> stream) {
+    _channels->set(name, stream);
   }
-  
-  
+
+
   /**
    * Returns refernce to the channel with the given name.
    *
    * @throw An exception if there is no channel with the given name.
    */
   
-  Logger::Channel& Logger::getChannelByName(const string &name) const {
-    for(int i = (int)_channels.size() - 1; i >= 0; i--) {
-      if(_channels[i]->checkName(name)) {
-        return *_channels[i];
-      }
-    }
-    
-    throw "Logger " + name + " does not have a channel with name \"" + name
-        + "\"";
+  Ref<OutputStream> Logger::getChannelByName(RefConst<UString> name) const {
+    return _channels->get(name);
   }
   
   
@@ -380,14 +157,7 @@ namespace kfoundation {
    */
   
   void Logger::removeAllChannels() {
-    for(vector<Channel*>::iterator it = _channels.begin();
-        it != _channels.end(); it++)
-    {
-      Channel* ch = *it;
-      delete ch;
-    }
-    
-    _channels.clear();
+    _channels->clear();
   }
 
   
@@ -396,17 +166,33 @@ namespace kfoundation {
    * create a new Logger::Stream.
    */
   
-  Logger::Stream& Logger::log(level_t level, const char fileName[],
-                      int lineNumber, const char functionName[])
+  Ref<PrintWriter> Logger::log(level_t level, const char* fileName,
+      kf_int32_t lineNumber, const char* functionName)
   {
-    Meta meta;
-    meta.fileName = fileName;
-    meta.lineNumber = lineNumber;
-    meta.functionName = functionName;
-    meta.level = level;
-    
-    Stream* stream = new Stream(meta, _channels);
-    return *stream;
+    if(level > _level || _level == MUTE) {
+      return System::VOID;
+    }
+
+    Ref<PrintWriter> writer
+        = new Writer(_channels, _mutex, IS_ON(_systemLog)?_level:MUTE);
+
+    printTime(*writer) << " [" << UString(functionName) << L'@'
+        << Path(K fileName).getFileNameWithExtension()
+        << L':' << lineNumber << "] ";
+
+    switch(level) {
+      case ERR:
+        writer->print("!!! ");
+        break;
+
+      case WRN:
+        writer->print("! ");
+
+      default:
+        break;
+    }
+
+    return writer;
   }
   
   
@@ -417,13 +203,29 @@ namespace kfoundation {
    * @return Reference to a new Logger::Stream.
    */
 
-  Logger::Stream& Logger::log(level_t level) {
-    Meta meta;
-    meta.level = level;
+  Ref<PrintWriter> Logger::log(level_t level) {
+    if(level > _level || _level == MUTE) {
+      return System::VOID;
+    }
+
+    Ref<PrintWriter> writer
+        = new Writer(_channels, _mutex, IS_ON(_systemLog)?_level:MUTE);
+
+    printTime(*writer);
+
+    switch(level) {
+      case ERR:
+        writer->print("!!! ");
+        break;
+
+      case WRN:
+        writer->print("! ");
+
+      default:
+        break;
+    }
     
-    // usleep(rand()%1000 + 200);
-    Stream* stream = new Stream(meta, _channels);
-    return *stream;
+    return writer;
   }
   
   
@@ -434,34 +236,24 @@ namespace kfoundation {
    */
     
   void Logger::setLevel(level_t level) {
-    for(int i = (int)_channels.size() - 1; i >= 0; i--) {
-      _channels.at(i)->setLevel(level);
-    }
+    _level = level;
   }
 
-  
-  /**
-   * Sets all channels to silent.
-   */
 
-  void Logger::mute() {
-    for(int i = (int)_channels.size() - 1; i >= 0; i--) {
-      _channels.at(i)->setSilent(true);
-    }
+  void Logger::setPrintLocation(kf_onoff_t state) {
+    _printLocation = state;
   }
 
-  
-  /**
-   * Removes silence flag from all channels.
-   */
 
-  void Logger::unmute() {
-    for(int i = (int)_channels.size() - 1; i >= 0; i--) {
-      _channels.at(i)->setSilent(false);
-    }
+  void Logger::setPrintShortTime(kf_onoff_t state) {
+    _shortTime = state;
+  }
+
+
+  void Logger::setSystemLoggerOutput(kf_onoff_t state) {
+    _systemLog = state;
   }
 
 #undef __K_ENUMERATE_OVER_TYEPS
-
   
 } // namespace kfoundation

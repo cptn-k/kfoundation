@@ -1,18 +1,15 @@
 #ifndef ORG_KNORBA_COMMON_SERIALIZINGSTREAMER_H
 #define ORG_KNORBA_COMMON_SERIALIZINGSTREAMER_H
 
-#include <ostream>
-
+// Super
 #include "Streamer.h"
-
-using namespace std;
 
 namespace kfoundation {
 
-  template<typename T>
-  class PPtr;
-
+  template<typename T> class Ref;
+  template<typename T> class RefConst;
   class ObjectSerializer;
+  class UString;
   
   /**
    * Objects implementing this class can be serialized into any format
@@ -24,19 +21,11 @@ namespace kfoundation {
    */
 
   class SerializingStreamer : public Streamer {
-  private:
-    void printToStream(int otype, ostream& os) const;
-    string toString(int otype) const;
-    
   public:
     virtual ~SerializingStreamer();
-    virtual string toString() const;
-    virtual void serialize(PPtr<ObjectSerializer> builder) const = 0;
-    virtual void printToStream(ostream& os) const;
-    void printToJsonStream(ostream& os) const;
-    void printToXmlStream(ostream& os) const;
-    string toJsonString() const;
-    string toXmlString() const;
+    virtual void serialize(Ref<ObjectSerializer> builder) const = 0;
+    virtual RefConst<UString> toString() const;
+    virtual void printToStream(Ref<OutputStream> os) const;
   };
   
 } // namespace kfoundation

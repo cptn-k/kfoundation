@@ -22,7 +22,7 @@
 
 // Internal
 #include "SerializingStreamer.h"
-#include "ManagedObject.h"
+#include "KFObject.h"
 
 // Super
 #include "MemoryManager.h"
@@ -30,7 +30,7 @@
 namespace kfoundation {
   
   template<typename T>
-  class PPtr;
+  class Ref;
   
   /**
    * Reuses the objects in a preallocated pool whenever a new instance is
@@ -76,10 +76,10 @@ namespace kfoundation {
     
     private: void grow();
     private: string toString(int index);
-    public: Ptr<T> get();
+    public: Ref<T> get();
     
     // Inherited from MemoryManager
-    public: const ObjectRecord& registerObject(ManagedObject* obj);
+    public: const ObjectRecord& registerObject(KFObject* obj);
     public: void retain(kf_int32_t index, kf_int16_t key);
     public: void release(kf_int32_t index, kf_int16_t key);
     public: void remove(kf_int32_t index, kf_int16_t key);
@@ -90,7 +90,7 @@ namespace kfoundation {
     public: void untrace();
     
     // Inherited from Serializing Streamer
-    public: void serialize(PPtr<ObjectSerializer> seralizer) const;
+    public: void serialize(Ref<ObjectSerializer> seralizer) const;
     
   };
 } // kfoundation

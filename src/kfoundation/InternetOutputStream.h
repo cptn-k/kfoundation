@@ -37,8 +37,7 @@ namespace kfoundation {
    * @headerfile InternetOutputStream.h <kfoundation/InternetOutputStream.h>
    */
   
-  class InternetOutputStream : public OutputStream, public SerializingStreamer
-  {
+  class InternetOutputStream : public OutputStream, public SerializingStreamer {
     
   // --- FIELDS --- //
     
@@ -66,11 +65,12 @@ namespace kfoundation {
     public: bool isBigEndian() const;
     public: void write(const kf_octet_t* buffer, const kf_int32_t nBytes);
     public: void write(kf_octet_t byte);
-    public: void write(PPtr<InputStream> os);
+    public: void write(Ref<InputStream> os);
     public: void close();
+    public: void flush();
     
     // Inherited from SerializingStreamer //
-    public: void serialize(PPtr<ObjectSerializer> serializer) const;
+    public: void serialize(Ref<ObjectSerializer> serializer) const;
     
   };
   

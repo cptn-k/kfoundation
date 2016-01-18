@@ -15,7 +15,7 @@
  *//////////////////////////////////////////////////////////////////////////////
 
 #ifndef ORG_KNORBA_COMMON_NULLPOINTEREXCEPTION_H
-#define ORG_KNORBA_COMMON_NULLPOINTEREXCEPTION_H   
+#define ORG_KNORBA_COMMON_NULLPOINTEREXCEPTION_H
 
 #include "InvalidPointerException.h"
 
@@ -30,9 +30,8 @@ namespace kfoundation {
    */
   
   class NullPointerException : public InvalidPointerException {
-  public:
-    NullPointerException();
-    NullPointerException(string message);
+    public: NullPointerException();
+    public: NullPointerException(RefConst<UString> message);
   };
   
 } // namespace kfoundation

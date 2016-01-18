@@ -9,16 +9,15 @@
 #ifndef KFOUNDATION_CODEPOINT
 #define KFOUNDATION_CODEPOINT
 
-#include "ManagedObject.h"
+#include "KFObject.h"
 #include "SerializingStreamer.h"
-#include "PtrDecl.h"
+#include "RefDecl.h"
 
 namespace kfoundation {
-  
-  
+
   /**
    * Encodes location of a character in a text file. The location is expressed
-   * as line, column. Character index and byte index from the begining of the
+   * as line, column. UChar index and byte index from the begining of the
    * file are also available. These two may be different in UTF encoded
    * files.
    *
@@ -27,30 +26,39 @@ namespace kfoundation {
    */
 
   class CodeLocation : public SerializingStreamer {
-  private:
-    long int _line;
-    long int _col;
-    long int _charIndex;
-    long int _byteIndex;
+
+  // --- FIELDS --- //
+
+    private: long int _line;
+    private: long int _col;
+    private: long int _charIndex;
+    private: long int _byteIndex;
+
+
+  // --- (DE)CONSTRUCTORS --- //
     
-  public:
-    CodeLocation();
-    void set(const CodeLocation& other);
-    void set(long int line, long int col, long int byteIndex);
-    void set(long int line, long int col, long int charIndex, long int byteIndex);
+    public: CodeLocation();
+
+
+  // --- METHODS --- //
+
+    public: void set(const CodeLocation& other);
+    public: void set(long int line, long int col, long int byteIndex);
+    public: void set(long int line, long int col, long int charIndex, long int byteIndex);
     
-    CodeLocation& setLine(long int line);
-    CodeLocation& setCol(long int col);
-    CodeLocation& setByteIndex(long int byteIndex);
-    CodeLocation& setCharIndex(long int charIndex);
+    public: CodeLocation& setLine(long int line);
+    public: CodeLocation& setCol(long int col);
+    public: CodeLocation& setByteIndex(long int byteIndex);
+    public: CodeLocation& setCharIndex(long int charIndex);
     
-    inline long int getLine() const;
-    inline long int getCol() const;
-    inline long int getByteIndex() const;
-    inline long int getCharIndex() const;
+    public: inline long int getLine() const;
+    public: inline long int getCol() const;
+    public: inline long int getByteIndex() const;
+    public: inline long int getCharIndex() const;
     
     // From SrializingStreamer
-    void serialize(PPtr<ObjectSerializer> builder) const;
+    public: void serialize(Ref<ObjectSerializer> builder) const;
+
   };
   
   

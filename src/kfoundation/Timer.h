@@ -17,21 +17,13 @@
 
 #include "definitions.h"
 
-#include <ctime>
-#include <cmath>
-
-#ifdef KF_UNIX
-#  include <sys/time.h>
-#else
-#  error "Only UNIX/Linux is supported"
-#endif
-
-#include "Streamer.h"
-#include "ManagedObject.h"
-
-using namespace std;
+// Super
+#include "KFObject.h"
+#include "SerializingStreamer.h"
 
 namespace kfoundation {
+
+  class UString;
 
   /**
    * Utility class to measure execution time of a code fragment. It keeps elapsed
@@ -40,7 +32,7 @@ namespace kfoundation {
    *     Timer t;
    *     t.start();
    *     ... do whatever you want to measure here ...
-   *     LOG << t << EL;
+   *     LOG << t << ENDS;
    *
    * If you want to store the elapsed time to use it later, use get() method.
    *
@@ -52,21 +44,31 @@ namespace kfoundation {
    * @headerfile Timer.h <kfoundation/Timer.h>
    */
 
-  class Timer : public ManagedObject, public Streamer {
-  private:
-    clock_t        _clockBase;
-    struct timeval _timeBase;
-    string         _name;
+  class Timer : public KFObject, public SerializingStreamer {
 
-  public:
-    Timer();
-    Timer(string name);
+  // --- FIELDS --- //
 
-    void start();
-    bool isStarted() const;
-    double get() const;
-    double getCpuTime() const;
-    virtual void printToStream(ostream& os) const;
+    private: kf_int64_t _clockBase;
+    private: double     _timeBase;
+    private: RefConst<UString> _name;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public: Timer();
+    public: Timer(RefConst<UString> name);
+
+
+  // --- METHODS --- //
+
+    public: void start();
+    public: bool isStarted() const;
+    public: double getRealTime() const;
+    public: double get() const;
+
+    // From SerializingStreamer
+    public: void serialize(Ref<ObjectSerializer> stream) const;
+
   };
   
 } // namespace kfoundation

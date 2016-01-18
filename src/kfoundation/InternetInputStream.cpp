@@ -15,13 +15,17 @@
  *//////////////////////////////////////////////////////////////////////////////
 
 // Std
+#include <cstring>
+
+// Unix
 #include <unistd.h>
 
 // Internal
-#include "Ptr.h"
+#include "Ref.h"
 #include "Int.h"
 #include "System.h"
 #include "ObjectSerializer.h"
+#include "UString.h"
 
 // Self
 #include "InternetInputStream.h"
@@ -41,7 +45,7 @@ namespace kfoundation {
    * The following is the common pattern to use this
    * class:
    *
-   *     Ptr<InternetInputStream> iis = new InternetInputStream();
+   *     Ref<InternetInputStream> iis = new InternetInputStream();
    *     iis.bind(InternetAddress("1.2.3.4:5678"));
    *     iis.listen();
    *     while(!iis.isEof()) {
@@ -112,10 +116,10 @@ namespace kfoundation {
     int err = ::bind(_hostSocket, (sockaddr*)&_sockaddr, sizeof(_sockaddr));
 
     if(err != 0) {
-      throw IOException("Could not bind to host "
-        + string(inet_ntoa(_sockaddr.sin_addr)) + ":"
-        + Int::toString(ntohs(_sockaddr.sin_port))
-        + ". Reason: " + System::getLastSystemError());
+      throw IOException(K"Could not bind to host "
+        + UString((kf_octet_t*)inet_ntoa(_sockaddr.sin_addr)) + ':'
+        + ntohs(_sockaddr.sin_port) + ". Reason: "
+        + System::getLastSystemError());
     }
     
     _isBound = true;
@@ -165,7 +169,7 @@ namespace kfoundation {
     
     int err = ::listen(_hostSocket, MAX_QUEUE_SIZE);
     if(err != 0) {
-      throw IOException("Could not initiate listening (Address: " + _address
+      throw IOException(K"Could not initiate listening (Address: " + _address
           + "). Reason: " + System::getLastSystemError());
     }
     
@@ -215,13 +219,15 @@ namespace kfoundation {
   
   kf_int32_t InternetInputStream::read(kf_octet_t* buffer, const kf_int32_t nBytes) {
     if(!_isOpen) {
-      throw IOException("Attemp to read a closed socket (Address: " + _address + ")");
+      throw IOException(K"Attemp to read a closed socket (Address: "
+          + _address + ")");
     }
     
     kf_int32_t totalRead = 0;
     
     while(totalRead < nBytes) {
-      kf_int32_t s = (kf_int32_t)::read(_readSocket, buffer + totalRead, nBytes - totalRead);
+      kf_int32_t s = (kf_int32_t)::read(_readSocket, buffer + totalRead,
+          nBytes - totalRead);
       
       if(s == 0) {
         _isEof = true;
@@ -237,9 +243,10 @@ namespace kfoundation {
   }
   
   
-  int InternetInputStream::read() {
+  kf_int16_t InternetInputStream::read() {
     if(!_isOpen) {
-      throw IOException("Attemp to read a closed socket (Address: " + _address + ")");
+      throw IOException(K"Attemp to read a closed socket (Address: "
+          + _address + ")");
     }
     
     kf_octet_t v;
@@ -256,13 +263,13 @@ namespace kfoundation {
   }
   
   
-  int InternetInputStream::peek() {
-    throw KFException("peek() is not supported.");
+  kf_int16_t InternetInputStream::peek() {
+    throw KFException(K"peek() is not supported.");
   }
   
   
   kf_int32_t InternetInputStream::skip(kf_int32_t bytes) {
-    throw KFException("skip() is not supported.");
+    throw KFException(K"skip() is not supported.");
   }
   
   
@@ -277,12 +284,12 @@ namespace kfoundation {
   
   
   void InternetInputStream::mark() {
-    throw KFException("mark() is not supported.");
+    throw KFException(K"mark() is not supported.");
   }
   
   
   void InternetInputStream::reset() {
-    throw KFException("reset() is not supported.");
+    throw KFException(K"reset() is not supported.");
   }
   
   
@@ -293,13 +300,12 @@ namespace kfoundation {
   
 // Inherited from Serializing Stream //
   
-  void InternetInputStream::serialize(PPtr<ObjectSerializer> serializer) const {
-    serializer->object("InternetInputStream")
-        ->attribute("address", _address.toString())
-        ->attribute("isOpen", _isOpen)
-        ->attribute("isBound", _isBound)
+  void InternetInputStream::serialize(Ref<ObjectSerializer> serializer) const {
+    serializer->object(K"InternetInputStream")
+        ->attribute(K"address", _address.toString())
+        ->attribute(K"isOpen", _isOpen)
+        ->attribute(K"isBound", _isBound)
         ->endObject();
   }
-  
-  
+
 } // namespace kfoundation

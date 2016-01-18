@@ -9,7 +9,7 @@
 #ifndef __KFoundation__StreamDeserializer__
 #define __KFoundation__StreamDeserializer__
 
-#include "PtrDecl.h"
+#include "RefDecl.h"
 
 namespace kfoundation {
   
@@ -26,8 +26,8 @@ namespace kfoundation {
    */
   
   class StreamDeserializer {
-    public: virtual void deserialize(PPtr<ObjectToken> headToken) = 0;
-    public: void readFromXmlStream(PPtr<InputStream> stream);
+    public: virtual void deserialize(Ref<ObjectToken> headToken) = 0;
+    public: void readFromXmlStream(Ref<InputStream> stream);
   };
   
 } // namespace kfoundation

@@ -16,6 +16,7 @@
 
 // std
 #include <cstdlib>
+#include <cstring>
 #include <cassert>
 
 // Internal
@@ -24,7 +25,9 @@
 #include "MasterMemoryManager.h"
 #include "Logger.h"
 #include "ObjectSerializer.h"
-#include "Ptr.h"
+#include "Ref.h"
+#include "UString.h"
+#include "StringPrintWriter.h"
 
 // Self
 #include "RefCountMemoryManager.h"
@@ -44,21 +47,25 @@ namespace kfoundation {
    * Constructor.
    */
   
-  RefCountMemoryManager::RefCountMemoryManager(MasterMemoryManager* master) {
+  RefCountMemoryManager::RefCountMemoryManager(MasterMemoryManager* master,
+      bool isStatic)
+  {
     pthread_mutexattr_init(&_attribs);
     pthread_mutexattr_setpshared(&_attribs, PTHREAD_PROCESS_SHARED);
     pthread_mutex_init(&_mutex, &_attribs);
+
     _size  = INITIAL_SIZE;
     _count = 0;
     _next  = 0;
     _counter = 0;
+    _isStatic = isStatic;
     
     _table = new ObjectRecord[_size];
     for(int i = 0; i < _size; i++) {
       _table[i].ptr = 0;
     }
-    
-    _id    = master->registerManager(this);
+
+    _id = master->addManager(this, _table, _size);
     _master = master;
     _trace = false;
     _isClosed = false;
@@ -73,12 +80,20 @@ namespace kfoundation {
     pthread_mutex_destroy(&_mutex);
     pthread_mutexattr_destroy(&_attribs);
     
-    Statistics stats = getStats();
-    LOG << "Terminating memory manager " << _id << ". Orphan Objects: "
-        << stats.nObjects << " of which " << stats.nStaticObjects
-        << " are static." << EL;
-    
-    _master->unregisterManager(_id);
+    LOG << "Terminating memory manager " << _id << ". Alive objects: "
+      << getObjectCount() << OVER;
+
+    if(_isStatic) {
+      for(int i = _size - 1; i >= 0; i--) {
+        if(NOT_NULL(_table[i].ptr)) {
+          delete _table[i].ptr;
+          _table[i].ptr = NULL;
+          _count--;
+        }
+      }
+    }
+
+    _master->removeManager(_id);
     delete[] _table;
   }
   
@@ -92,59 +107,38 @@ namespace kfoundation {
     memcpy((void*)newTable, (void*)_table, sizeof(ObjectRecord) * _size);
     delete[] _table;
     
-    LOG << "RefCountMemoryManager " << _id << " resized from " << _size
-        << " to " << newSize << EL;
-    
+//    LOG << "RefCountMemoryManager " << _id << " resized from " << _size
+//        << " to " << newSize << ENDS;
+
     _size = newSize;
     _table = newTable;
-    _master->updataTable(_id);
+    _master->updateManager(_id, _table, _size);
   }
   
   
-  string RefCountMemoryManager::toString(int index) {
-    const ObjectRecord& rec = _table[index];
-    string typeName = "(deleted)";
-    if(rec.ptr != NULL) {
-      typeName = System::demangle(typeid(*rec.ptr).name());
-    }
-    
-    char buffer[400];
-    sprintf(buffer, "[manager: %d, index: %d, type: %s, "
-                    "retainCount: %d, isStatic: %d, key: %d, serial: %d]",
-            rec.manager, rec.index, typeName.c_str(), rec.retainCount,
-            rec.isStatic, rec.key, rec.serialNumber);
-    return string(buffer);
+  void* RefCountMemoryManager::alloc(kf_int64_t s) {
+    return malloc(s);
   }
-  
-  
-  const ObjectRecord& RefCountMemoryManager::registerObject(ManagedObject* obj)
-  {
+
+
+  kf_uref_t RefCountMemoryManager::add(KFObject* obj, bool retain) {
     if(_isClosed) {
-      throw MemoryException("Cannot register new object to a closed manager");
+      throw MemoryException(K"Cannot register new object to a closed manager");
     }
-    
+
     pthread_mutex_lock(&_mutex);
-    
+
     int index = _next;
-    
-    ObjectRecord& record = _table[index];
-    record.retainCount = 1;
-    record.index = index;
-    record.serialNumber = _counter;
-    record.ptr = obj;
-    record.key = rand() % 65530 - 32760;
-    record.manager = _id;
-    record.isStatic = false;
-    record.isBeingDeleted = false;
+    kf_uref_t ref = (kf_uref_t){0, _id, index, rand() % 65530 - 32760};
+    *(_table + index) = (ObjectRecord){ref, obj, RefBase::NULL_REF, retain?1:0, 0};
 
     _count++;
-    
+
     if(_count == _size) {
       grow();
-      record = _table[index];
     }
-    
-    while(_table[_next].ptr) {
+
+    while(NOT_NULL(_table[_next].ptr)) {
       _next++;
       if(_next == _size) {
         _next = 0;
@@ -152,222 +146,120 @@ namespace kfoundation {
     }
 
     pthread_mutex_unlock(&_mutex);
-    
-    if(_trace) {
-      LOG << "Registered: " << toString(_next) << " Next: " << _next
-          << EL;
-    }
-    
-    return record;
+
+    return ref;
   }
+
   
-  
-  void RefCountMemoryManager::retain(kf_int32_t index, kf_int16_t key) {
+  void RefCountMemoryManager::retain(const kf_int32_t index,
+      const kf_int16_t key)
+  {
+    if(_isStatic) {
+      return;
+    }
+
     pthread_mutex_lock(&_mutex);
-    ObjectRecord& record = _table[index];
-    if(record.key != key) {
+    ObjectRecord* record = _table + index;
+    if(record->ref.key != key) {
       pthread_mutex_unlock(&_mutex);
-      untrace();
-      throw InvalidPointerException("The pointer being retained is invalid: "
-                                    + Int(_id) + ":" + Int(index));
+      throw InvalidPointerException(K"The pointer being retained is invalid: "
+          + (kf_int32_t)_id + ':' + index);
     }
-    if(!record.isStatic) {
-      record.retainCount++;
-    }
+
+    record->retainCount++;
     pthread_mutex_unlock(&_mutex);
-    
-    if(_trace) {
-      LOG << "Retained: " << toString(record.index) << EL;
-    }
   }
   
   
-  void RefCountMemoryManager::release(kf_int32_t index, kf_int16_t key) {
+  void RefCountMemoryManager::release(const kf_int32_t index,
+      const kf_int16_t key)
+  {
+    if(_isStatic) {
+      return;
+    }
+
     bool doDelete = false;
     
-    #ifdef DEBUG
-    string recStr;
-    if(_trace) {
-      recStr = toString(index);
-    }
-    #endif
+    pthread_mutex_lock(&_mutex); // synchronized {
+    ObjectRecord* record = _table + index;
     
-    // synchronized {
-    pthread_mutex_lock(&_mutex);
-    ObjectRecord* tbl = _table;
-    ObjectRecord* record = _table +index;
-    
-    if(record->key != key) {
+    if(record->ref.key != key) {
       pthread_mutex_unlock(&_mutex);
-      untrace();
-      throw InvalidPointerException("The pointer being released is invalid: "
-                                    + Int(_id) + ":" + Int(index));
+      throw InvalidPointerException(K"The pointer being released is invalid: "
+          + (kf_int32_t)_id + ':' + index);
     }
     
-    if(!record->isStatic) {
-      record->retainCount--;
-      if(record->retainCount == 0 && !record->isBeingDeleted) {
-        doDelete = true;
-        record->isBeingDeleted = true;
-      } else if(record->retainCount < 0) {
-        pthread_mutex_unlock(&_mutex);
-        throw InvalidPointerException("Object is released too many times: "
-                                      + Int(_id) + ":" + Int(index));
-      }
+    record->retainCount--;
+
+    if(record->retainCount == 0) {
+      doDelete = true;
+    } else if(record->retainCount < 0) {
+      pthread_mutex_unlock(&_mutex);
+      throw InvalidPointerException(K"Object is released too many times: "
+          + (kf_int32_t)_id + ':' + index);
     }
-    assert(tbl == _table);
-    pthread_mutex_unlock(&_mutex);
-    // } synchronized
-    
-    #ifdef DEBUG
-    if(_trace) {
-      LOG << "Released: " << recStr << " --> " << record->retainCount << EL;
-    }
-    #endif
-    
+    pthread_mutex_unlock(&_mutex); // } synchronized
+
     if(doDelete) {
+      _count--;
       delete record->ptr;
       record->ptr = NULL;
     }
   }
-  
-  
-  void RefCountMemoryManager::remove(kf_int32_t index, kf_int16_t key) {
-    ObjectRecord& record = _table[index];
-    if(record.key != key) {
-      throw InvalidPointerException("The pointer being removed is invalid: "
-          + Int(_id) + ":" + Int(index));
-    }
-    
-    if(record.ptr != NULL) {
-      pthread_mutex_lock(&_mutex);
-      record.ptr = NULL;
-      record.retainCount = 0;
+
+
+  KFObject* RefCountMemoryManager::getObject(const kf_int32_t index,
+      const kf_int16_t key)
+  {
+    ObjectRecord* record = _table + index;
+
+    if(record->ref.key != key) {
       pthread_mutex_unlock(&_mutex);
+      throw InvalidPointerException(K"Invalid object reference "
+          + (kf_int32_t)_id + ':' + index);
     }
-    
-    _count--;
-    
-    if(!record.isStatic) {
-      record.key = rand() % 65530 - 32760;
-    }
-    
-    if(_trace) {
-      LOG << "Removed: " << toString(record.index) << EL;
-    }
+
+    return record->ptr;
+  }
+
+
+  kf_int16_t RefCountMemoryManager::getRetainCount(const kf_uref_t ref) const {
+    return _table[ref.index].retainCount;
+  }
+
+
+  kf_int32_t RefCountMemoryManager::getObjectCount() const {
+    return _count;
   }
   
-  
-  ObjectRecord* RefCountMemoryManager::getTable() {
-    return _table;
-  }
-  
-  
-  kf_int32_t RefCountMemoryManager::getTableSize() const {
-    return _size;
-  }
-  
-  
-  void RefCountMemoryManager::trace(const pthread_t threadId) {
-    _trace = true;
-  }
-  
-  
-  void RefCountMemoryManager::untrace() {
-    _trace = false;
-  }
-  
-  
-  Statistics RefCountMemoryManager::getStats() const {
-    Statistics stats;
-    stats.nObjects = 0;
-    stats.nStaticObjects = 0;
-    for(int i = 0; i < _size; i++) {
-      if(_table[i].ptr != NULL) {
-        if(_table[i].isStatic) {
-          stats.nStaticObjects++;
-        }
-        stats.nObjects++;
-      }
-    }
-    return stats;
-  }
-  
-  
-  kf_int16_t RefCountMemoryManager::update(kf_int16_t index, kf_int16_t key) {
-    for(int i = 0; i < _size; i++) {
-      if(_table[i].index == index && _table[i].key == key) {
-        return i;
-      }
-    }
-    return -1;
-  }
-  
-  
-  int RefCountMemoryManager::migrate(MasterMemoryManager& master) {
-    int size = 0;
-    for(int i = 0; i < _size; i++) {
-      if(_table[i].ptr != NULL) {
-        size = i + 1;
-      }
-    }
-    
-    _id = master.registerManager(this);
-    
-    ObjectRecord* newTable = new ObjectRecord[size];
-    for(int i = 0; i < size; i++) {
-      newTable[i] = _table[i];
-      newTable[i].manager = _id;
-    }
-    
-    _size = size;
-    _table = newTable;
-    _master = &master;
-    _master->updataTable(_id);
-    
-    return _id;
-  }
-  
-  
-  void RefCountMemoryManager::finalize() {
-    for(int i = 0; i < _size; i++) {
-      ObjectRecord& record = _table[i];
-      if(record.ptr != NULL && record.isStatic) {
-        delete record.ptr;
-        record.ptr = NULL;
-        record.retainCount = 0;
-      }
-    }
-  }
-  
-  
+
   /**
    * Serializing method.
    */
   
-  void RefCountMemoryManager::serialize(PPtr<ObjectSerializer> seralizer) const
+  void RefCountMemoryManager::serialize(Ref<ObjectSerializer> seralizer) const
   {
-    seralizer->object("RefCountMemoryManager")
-             ->attribute("id", _id)
-             ->attribute("count", _count);
-    
+    seralizer->object(K"RefCountMemoryManager")
+        ->attribute(K"id", _id)
+        ->attribute(K"count", _count);
+
+    seralizer->member(K"records")->collection();
+
     int c = _size;
-    
     for(int i = 0; i < c; i++) {
       const ObjectRecord& rec = _table[i];
       if(rec.ptr != NULL) {
-        seralizer->member("[" + Int(i) + "]")->object("ObjectRecord")
-                 ->attribute("type", System::demangle(typeid(*rec.ptr).name()))
-                 ->attribute("retainCount", rec.retainCount)
-                 ->attribute("isStatic", rec.isStatic)
-                 ->attribute("index", rec.index)
-                 ->attribute("key", rec.key)
-                 ->endObject();
+        seralizer->object(K"ObjectRecord")
+            ->attribute(K"type", System::demangle(typeid(*rec.ptr).name()))
+            ->attribute(K"index", rec.ref.index)
+            ->attribute(K"key", rec.ref.key)
+            ->attribute(K"retainCount", rec.retainCount)
+            ->endObject();
       }
     }
-    
+
+    seralizer->endCollection();
     seralizer->endObject();
   }
-  
   
 } // namespace kfoundation

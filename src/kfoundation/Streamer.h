@@ -15,14 +15,14 @@
 #ifndef ORG_KNORBA_COMMON_STRINGSTREAMER
 #define ORG_KNORBA_COMMON_STRINGSTREAMER
 
-#include <ostream>
-#include <string>
-
-
 namespace kfoundation {
 
-  using namespace std;
-  
+  template<typename T> class RefConst;
+  template<typename T> class Ref;
+
+  class OutputStream;
+  class UString;
+
   /**
    * Base class for all classes that can print information about themeselves
    * to a `std::ostream`. Subclasses should implement `printToStream(ostream&)`
@@ -43,37 +43,10 @@ namespace kfoundation {
     * Implements compatibility with Streamer interface.
     */
     
-    public: virtual void printToStream(ostream& stream) const = 0;
-    public: virtual string toString() const;
+    public: virtual void printToStream(Ref<OutputStream> writer) const = 0;
+    public: virtual RefConst<UString> toString() const;
+
   };
-
-  
-  /**
-   * Overloads `<<` operator so that any `Streamer` object can be directly
-   * used within standard `ostream` object like `cout`.
-   */
-  inline ostream& operator<<(ostream& os, const Streamer& streamer) {
-    streamer.printToStream(os);
-    return os;
-  }
-
-  
-  /**
-   * Concatanation support between a string and a Streamer.
-   */
-  
-  inline string operator+(const string& lhs, const Streamer& rhs) {
-    return lhs + rhs.toString();
-  }
-
-  
-  /**
-   * Concatenation support between a streamer and a string.
-   */
-  
-  inline string operator+(const Streamer& lhs, const string& rhs) {
-    return lhs.toString().append(rhs);
-  }
 
 } // namespace kfoundation
 

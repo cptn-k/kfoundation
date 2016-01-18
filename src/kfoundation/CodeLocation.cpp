@@ -7,7 +7,7 @@
 //
 
 #include "ObjectSerializer.h"
-#include "Ptr.h"
+#include "Ref.h"
 
 #include "CodeLocation.h"
 
@@ -64,7 +64,7 @@ namespace kfoundation {
    *
    * @param line Line number
    * @param col Column number
-   * @param charIndex Character index from the begining of the file.
+   * @param charIndex UChar index from the begining of the file.
    * @param byteIndex Byte index from the begining of the file.
    */
   
@@ -119,7 +119,7 @@ namespace kfoundation {
   /**
    * Setter, sets character index.
    *
-   * @param charIndex Character index from the begining of the file.
+   * @param charIndex UChar index from the begining of the file.
    * @return Reference to self.
    */
   
@@ -129,10 +129,10 @@ namespace kfoundation {
   }
   
   
-  void CodeLocation::serialize(PPtr<ObjectSerializer> builder) const {
-    builder->object("CodeLocation")
-      ->attribute("line", _line)
-      ->attribute("col", _col)
+  void CodeLocation::serialize(Ref<ObjectSerializer> builder) const {
+    builder->object(K"CodeLocation")
+      ->attribute(K"line", _line)
+      ->attribute(K"col", _col)
       ->endObject();
   }
   

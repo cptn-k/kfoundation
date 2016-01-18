@@ -22,7 +22,8 @@
 #include "System.h"
 #include "Logger.h"
 #include "Int.h"
-#include "Ptr.h"
+#include "Ref.h"
+#include "UString.h"
 
 // Self
 #include "Thread.h"
@@ -43,27 +44,30 @@ namespace kfoundation {
     private: pthread_t _handle;
     private: Thread& _owner;
     private: bool _isRunning;
-    private: string _name;
+    private: RefConst<UString> _name;
     private: static void* runner(void* arg);
     public: __k_ThreadImplementation(Thread& owner);
     public: ~__k_ThreadImplementation();
     public: void start();
     public: bool isRunning() const;
-    public: void setName(const string& str);
-    public: const string& getName() const;
+    public: void setName(RefConst<UString> name);
+    public: RefConst<UString> getName() const;
     public: bool isTheCurrentThread() const;
   };
   
   
   void* __k_ThreadImplementation::runner(void* arg) {
     __k_ThreadImplementation* obj = (__k_ThreadImplementation*)arg;
-    
-    PPtr<Thread> thread = obj->_owner.getPtr().AS(Thread);
-    
+
+
+  /// TODO UString needs to be null-terminated.
+  /// TODO remove hash and code-point count overhead from UString
+
+
   #ifdef KF_MAC
-    pthread_setname_np(obj->_name.c_str());
+    pthread_setname_np((char*)obj->_name->getOctets());
   #elif defined(KF_LINUX)
-    pthread_setname_np(pthread_self(), obj->_name.c_str());
+    pthread_setname_np(pthread_self(), (char*)obj->_name->getOctets());
   #else
     #error "platform not supported"
   #endif
@@ -71,11 +75,12 @@ namespace kfoundation {
     obj->_isRunning = true;
     obj->_owner.run();
     obj->_isRunning = false;
-    
-    if(thread.isValid()) {
-      thread.release();
-    }
-    
+
+    kf_uref_t ref = obj->_owner.getRef();
+
+    System::getMasterMemoryManager().getManagerAtIndex(ref.index)
+        .release(ref.index, ref.key);
+
     return 0;
   }
   
@@ -104,12 +109,12 @@ namespace kfoundation {
   }
   
   
-  void __k_ThreadImplementation::setName(const string& str) {
+  void __k_ThreadImplementation::setName(RefConst<UString> str) {
     _name = str;
   }
   
   
-  const string& __k_ThreadImplementation::getName() const {
+  RefConst<UString> __k_ThreadImplementation::getName() const {
     return _name;
   }
   
@@ -127,10 +132,10 @@ namespace kfoundation {
    * Returns the name of the thread that this method is invoked on.
    */
   
-  string Thread::getNameOfCurrentThread() {
+  Ref<UString> Thread::getNameOfCurrentThread() {
     char name[100];
     pthread_getname_np(pthread_self(), name, 100);
-    return string(name);
+    return new UString(name);
   }
   
   
@@ -150,7 +155,7 @@ namespace kfoundation {
   Thread::Thread() {
     _counter++;
     _implementation = new __k_ThreadImplementation(*this);
-    _implementation->setName("KFoundation Thread " + Int::toString(_counter));
+    _implementation->setName(K"KFoundation Thread " + _counter);
   }
   
   
@@ -161,7 +166,7 @@ namespace kfoundation {
    * @see getNameOfCurrentThread()
    */
   
-  Thread::Thread(const string& name) {
+  Thread::Thread(RefConst<UString> name) {
     _counter++;
     _implementation = new __k_ThreadImplementation(*this);
     _implementation->setName(name);
@@ -189,9 +194,12 @@ namespace kfoundation {
     if(isRunning()) {
       return;
     }
-    
-    getPtr().retain();
-    
+
+    kf_uref_t ref = getRef();
+
+    System::getMasterMemoryManager().getManagerAtIndex(ref.index)
+      .retain(ref.index, ref.key);
+
     _implementation->start();
   }
   
@@ -211,7 +219,7 @@ namespace kfoundation {
    * Returns the name of this thread.
    */
   
-  const string& Thread::getName() const {
+  RefConst<UString> Thread::getName() const {
     return _implementation->getName();
   }
   

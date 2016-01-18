@@ -6,11 +6,14 @@
 //  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
 //
 
-#include "Ptr.h"
+#include "Ref.h"
+#include "LongInt.h"
+#include "UString.h"
 
+// Self
 #include "ParseException.h"
 
-#define KF_PARSEEXCEPTION_NAME "ParseException"
+#define KF_PARSEEXCEPTION_NAME K"ParseException"
 
 namespace kfoundation {
   
@@ -22,7 +25,7 @@ namespace kfoundation {
    * @param message A message describing the error.
    */
   
-  ParseException::ParseException(const string& message)
+  ParseException::ParseException(RefConst<UString> message)
     : KFException(message)
   {
     setName(KF_PARSEEXCEPTION_NAME);
@@ -39,9 +42,10 @@ namespace kfoundation {
    * @param The location of the parsed stream in which the error is observed.
    */
   
-  ParseException::ParseException(const string& message, const CodeLocation& location)
-    : KFException(message + " (Line: " + LongInt::toString(location.getLine())
-                  + ", Col: " + LongInt::toString(location.getCol()) + ")")
+  ParseException::ParseException(RefConst<UString> message,
+      const CodeLocation& location)
+  : KFException(message + " (Line: " + location.getLine()
+        + ", Col: " + location.getCol() + ")")
   {
     setName(KF_PARSEEXCEPTION_NAME);
     _begin = location;
@@ -57,9 +61,9 @@ namespace kfoundation {
    * @param range The code range in which the error is observed.
    */
   
-  ParseException::ParseException(const string& message, const CodeRange& range)
-    : KFException(message + " (Line: " + LongInt::toString(range.getBegin().getLine())
-                + ", Col: " + LongInt::toString(range.getBegin().getCol()) + ")")
+  ParseException::ParseException(RefConst<UString> message, const CodeRange& range)
+  : KFException(message + " (Line: " + range.getBegin().getLine()
+      + ", Col: " + range.getBegin().getCol() + ")")
   {
     setName(KF_PARSEEXCEPTION_NAME);
     _begin = range.getBegin();

@@ -9,10 +9,13 @@
 #ifndef __KFoundation_XCode_Wrapper__ParseException__
 #define __KFoundation_XCode_Wrapper__ParseException__
 
-#include "KFException.h"
+// Internal
 #include "CodeLocation.h"
 #include "CodeRange.h"
-#include "PtrDecl.h"
+#include "RefDecl.h"
+
+// Super
+#include "KFException.h"
 
 namespace kfoundation {
   
@@ -27,25 +30,32 @@ namespace kfoundation {
    */
   
   class ParseException : public KFException {
-  private:
-    CodeLocation _begin;
-    CodeLocation _end;
-    bool _hasLocation;
-    bool _hasRange;
+
+  // --- FIELDS --- //
+
+    private: CodeLocation _begin;
+    private: CodeLocation _end;
+    private: bool _hasLocation;
+    private: bool _hasRange;
+
+
+  // --- (DE)CONSTRUCTORS --- //
     
-  public:
-    ParseException(const string& message);
-    ParseException(const string& message, const CodeLocation& location);
-    ParseException(const string& message, const CodeRange& range);
-    ~ParseException() throw();
-    
+    public: ParseException(RefConst<UString> message);
+    public: ParseException(RefConst<UString> message, const CodeLocation& location);
+    public: ParseException(RefConst<UString> message, const CodeRange& range);
+    public: ~ParseException() throw();
+
+
+  // --- METHODS --- //
+
     bool hasLocation() const;
     bool hasRange() const;
-    
     const CodeLocation& getBegin() const;
     const CodeLocation& getEnd() const;
+
   };
   
-}
+} // namespace kfoundation
 
 #endif /* defined(__KFoundation_XCode_Wrapper__ParseException__) */

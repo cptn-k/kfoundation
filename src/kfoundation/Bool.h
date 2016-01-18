@@ -1,12 +1,9 @@
 #ifndef ORG_KNORBA_COMMON_TYPE_BOOL_H
 #define ORG_KNORBA_COMMON_TYPE_BOOL_H 
 
-#include <ostream>
-
+#include "RefDecl.h"
 #include "Streamer.h"
-#include "ManagedObject.h"
-
-using namespace std;
+#include "KFObject.h"
 
 namespace kfoundation {
   
@@ -17,19 +14,33 @@ namespace kfoundation {
    * @headerfile Bool.h <kfoundation/Bool.h>
    */
   
-  class Bool : public ManagedObject, public Streamer {
-  private:
-    bool _value;
+  class Bool : public KFObject, public Streamer {
 
-  public:
-    Bool(bool value);
-    inline bool get() const;
-    inline void set(const bool value);
+  // --- STATIC FIELDS --- //
+
+    public: static const StaticRefConst<UString> TRUE_STR;
+    public: static const StaticRefConst<UString> FALSE_STR;
     
-    static string toString(const bool value);
-    
+
+  // --- FIELDS --- //
+
+    private: bool _value;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public : Bool(bool value);
+
+
+  // --- METHODS --- //
+
+    public: bool get() const;
+    public: void set(const bool value);
+
     // From Streamer
-    void printToStream(ostream& os) const;
+    public: void printToStream(Ref<OutputStream> stream) const;
+    public: RefConst<UString> toString() const;
+
   };
 
 } // namespace kfoundation

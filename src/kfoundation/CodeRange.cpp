@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Kay Khandan. All rights reserved.
 //
 
-#include "Ptr.h"
+#include "Ref.h"
 #include "ObjectSerializer.h"
 #include "CodeRange.h"
 
@@ -46,10 +46,10 @@ namespace kfoundation {
   }
   
   
-  void CodeRange::serialize(PPtr<ObjectSerializer> serializer) const {
-    serializer->object("CodeRange")
-      ->member("begin")->object(_begin)
-      ->member("end")->object(_end)
+  void CodeRange::serialize(Ref<ObjectSerializer> serializer) const {
+    serializer->object(K"CodeRange")
+      ->member(K"begin")->object(_begin)
+      ->member(K"end")->object(_end)
       ->endObject();
   }
   

@@ -14,6 +14,8 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+#include "Ref.h"
+#include "UString.h"
 #include "IOException.h"
 
 namespace kfoundation {
@@ -24,10 +26,10 @@ namespace kfoundation {
    * @param message A message explaining the cause of exception.
    */
   
-  IOException::IOException(const string& message)
+  IOException::IOException(RefConst<UString> message)
   : KFException(message)
   {
-    setName("IOException");
+    setName(K"IOException");
   }
   
 } // kfoundation

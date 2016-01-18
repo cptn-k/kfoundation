@@ -14,11 +14,14 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+// Std
+#include <cstring>
+
 // Unix
 #include <unistd.h>
 
 // Internal
-#include "Ptr.h"
+#include "Ref.h"
 #include "System.h"
 #include "InputStream.h"
 #include "ObjectSerializer.h"
@@ -80,7 +83,7 @@ namespace kfoundation {
   
   void InternetOutputStream::connect() throw(IOException){
     if(_isOpen) {
-      throw IOException("Attempt to reconnect a stream that is already "
+      throw IOException(K"Attempt to reconnect a stream that is already "
           "connected (Address: " + _address + ")");
     }
     
@@ -90,7 +93,7 @@ namespace kfoundation {
     int err = ::connect(_socket, (sockaddr*)&_target, sizeof(_target));
     
     if(err != 0) {
-      throw IOException("Connection faild  (Address: " + _address
+      throw IOException(K"Connection faild  (Address: " + _address
           + "). Reason: " + System::getLastSystemError());
     }
     
@@ -127,7 +130,7 @@ namespace kfoundation {
       const kf_int32_t nBytes)
   {
     if(!_isOpen) {
-      throw IOException("Attemp to write to a closed socket. " + toString());
+      throw IOException(K"Attemp to write to a closed socket. " + toString());
     }
     ssize_t octetsLeftToSend = nBytes;
     ssize_t totalSent = 0;
@@ -139,7 +142,7 @@ namespace kfoundation {
       ssize_t s = ::write(_socket, buffer + totalSent, octetsToSend);
       
       if(s < 0) {
-        throw IOException("Failed to write to output (Address: " + _address
+        throw IOException(K"Failed to write to output (Address: " + _address
             + "). Reason: " + System::getLastSystemError());
       }
       
@@ -154,16 +157,16 @@ namespace kfoundation {
   void InternetOutputStream::write(kf_octet_t byte) {
     ssize_t s = ::write(_socket, &byte, 1);
     if(s < 0) {
-      throw IOException("Failed to write to output (Address: " + _address
+      throw IOException(K"Failed to write to output (Address: " + _address
           + "). Reason: " + System::getLastSystemError());
     }
     _nSent++;
   }
   
   
-  void InternetOutputStream::write(PPtr<InputStream> os) {
+  void InternetOutputStream::write(Ref<InputStream> os) {
     if(!_isOpen) {
-      throw IOException("Attemp to write to a closed socket (Address: "
+      throw IOException(K"Attemp to write to a closed socket (Address: "
           + _address + ")");
     }
     
@@ -179,16 +182,20 @@ namespace kfoundation {
     ::close(_socket);
     _isOpen = false;
   }
+
+
+  void InternetOutputStream::flush() {
+    // Nothing;
+  }
   
   
 // Inherited from SerializingStreamer //
   
-  void InternetOutputStream::serialize(PPtr<ObjectSerializer> serializer) const {
-    serializer->object("InternetOutputStream")
-      ->attribute("targetAddress", _address.toString())
-      ->attribute("isOpen", _isOpen)
+  void InternetOutputStream::serialize(Ref<ObjectSerializer> serializer) const {
+    serializer->object(K"InternetOutputStream")
+      ->attribute(K"targetAddress", _address.toString())
+      ->attribute(K"isOpen", _isOpen)
       ->endObject();
   }
-  
   
 } // namespace kfoundation

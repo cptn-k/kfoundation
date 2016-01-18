@@ -19,10 +19,8 @@
 #define KFOUNDATION_INPUTSTREAM
 
 #include "definitions.h"
-#include "ManagedObject.h"
-#include "PtrDecl.h"
-
-using namespace std;
+#include "KFObject.h"
+#include "RefDecl.h"
 
 namespace kfoundation {
   
@@ -33,7 +31,7 @@ namespace kfoundation {
    * @headerfile InputStream.h <kfoundation/InputStream.h>
    */
   
-  class InputStream : public ManagedObject {
+  class InputStream : public KFObject {
     
     /**
      * Reads at most the given number of octets from the given buffer.
@@ -53,7 +51,7 @@ namespace kfoundation {
      * @return The value of read octet, or -1 if no data is available.
      */
     
-    public: virtual int read() = 0;
+    public: virtual kf_int16_t read() = 0;
     
     
     /**
@@ -62,7 +60,7 @@ namespace kfoundation {
      * @return The value of read octet, or -1 if no data is available.
      */
     
-    public: virtual int peek() = 0;
+    public: virtual kf_int16_t peek() = 0;
     
     
     /**

@@ -17,15 +17,17 @@
 #ifndef __KFoundation__StandardInputStreamAdapter__
 #define __KFoundation__StandardInputStreamAdapter__
 
+// Std
+#include <istream>
+
 // Internal
 #include "definitions.h"
 
 // Super
 #include "InputStream.h"
-#include "SerializingStreamer.h"
 
 namespace kfoundation {
-  
+
   /**
    * Wraps around the given `istream` (C++ standard libraries) to be read as a
    * a KFoundation input stream.
@@ -38,21 +40,21 @@ namespace kfoundation {
     
   // --- FIELDS --- //
   
-    private: istream& _is;
-    private: istream::pos_type _mark;
+    private: std::istream& _is;
+    private: std::istream::pos_type _mark;
     
     
   // --- (DE)CONSTRUCTORS --- //
     
-    public: StandardInputStreamAdapter(istream& stream);
+    public: StandardInputStreamAdapter(std::istream& stream);
     
     
   // --- METHODS --- //
   
     // Inherited from InputStream //
     public: kf_int32_t read(kf_octet_t* buffer, const kf_int32_t nBytes);
-    public: int read();
-    public: int peek();
+    public: kf_int16_t read();
+    public: kf_int16_t peek();
     public: kf_int32_t skip(kf_int32_t nBytes);
     public: bool isEof();
     public: bool isMarkSupported();
@@ -63,4 +65,5 @@ namespace kfoundation {
   };
   
 } // namespace kfoundation
+
 #endif /* defined(__KFoundation__StandardInputStreamAdapter__) */

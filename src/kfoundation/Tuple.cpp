@@ -3,18 +3,24 @@
 //  KFoundation
 //
 //  Created by Hamed KHANDAN on 10/17/14.
-//  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
+//  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team.
+//  All rights reserved.
 //
 
+// Std
 #include <cstring>
 
+// Internal
 #include "KFException.h"
-#include "Int.h"
+#include "UString.h"
+#include "Ref.h"
+#include "OutputStream.h"
+#include "PrintWriter.h"
+
+// Self
 #include "Tuple.h"
 
 namespace kfoundation {
-
-  using namespace std;
   
 //// Tuple ////////////////////////////////////////////////////////////////////
   
@@ -142,8 +148,8 @@ namespace kfoundation {
   
   Tuple Tuple::max(const Tuple &other) const {
     if(other._size != _size) {
-      throw KFException("Size mismatch. Given: " + Int(other._size)
-                        + ", Expected: " + _size);
+      throw KFException(K"Size mismatch. Given: " + other._size
+        + ", Expected: " + _size);
     }
     
     Tuple result(_size);
@@ -165,8 +171,8 @@ namespace kfoundation {
   
   Tuple Tuple::min(const Tuple &other) const {
     if(other._size != _size) {
-      throw KFException("Size mismatch. Given: " + Int(other._size)
-                        + ", Expected: " + _size);
+      throw KFException(K"Size mismatch. Given: " + other._size
+          + ", Expected: " + _size);
     }
     
     Tuple result(_size);
@@ -223,8 +229,8 @@ namespace kfoundation {
   
   Tuple Tuple::operator+(const Tuple &other) const {
     if(other._size != _size) {
-      throw KFException("Size mismatch. Given: " + Int(other._size)
-                        + ", Expected: " + _size);
+      throw KFException(K"Size mismatch. Given: " + other._size
+         + ", Expected: " + _size);
     }
     
     Tuple result(_size);
@@ -245,8 +251,8 @@ namespace kfoundation {
   
   Tuple Tuple::operator- (const Tuple &other) const {
     if(other._size != _size) {
-      throw KFException("Size mismatch. Given: " + Int(other._size)
-                        + ", Expected: " + Int::toString(_size));
+      throw KFException(K"Size mismatch. Given: " + other._size
+        + ", Expected: " + _size);
     }
     
     Tuple result(_size);
@@ -315,8 +321,8 @@ namespace kfoundation {
   
   Tuple Tuple::operator* (const Tuple& other) const {
     if(other._size != _size) {
-      throw KFException("Size mismatch. Given: " + Int(other._size)
-                        + ", Expected: " + _size);
+      throw KFException(K"Size mismatch. Given: " + other._size
+          + ", Expected: " + _size);
     }
     
     Tuple result(_size);
@@ -354,8 +360,8 @@ namespace kfoundation {
   
   Tuple Tuple::operator/(const Tuple& other) const {
     if(other._size != _size) {
-      throw KFException("Size mismatch. Given: " + Int(other._size)
-                        + ", Expected: " + _size);
+      throw KFException(K"Size mismatch. Given: " + other._size
+          + ", Expected: " + _size);
     }
     
     Tuple result(_size);
@@ -377,8 +383,8 @@ namespace kfoundation {
   
   Tuple Tuple::operator%(const Tuple& other) const {
     if(other._size != _size) {
-      throw KFException("Size mismatch. Given: " + Int(other._size)
-                        + ", Expected: " + _size);
+      throw KFException(K"Size mismatch. Given: " + other._size
+          + ", Expected: " + _size);
     }
     
     Tuple result(_size);
@@ -407,16 +413,18 @@ namespace kfoundation {
     
     return true;
   }
-    
-  void Tuple::printToStream(ostream& os) const {
-    os << "(";
+
+
+  void Tuple::printToStream(Ref<OutputStream> os) const {
+    PrintWriter pw(os);
+    pw << "(";
     for(kf_int8_t i = 0; i < _size; i++) {
       if(i > 0) {
-        os << ", ";
+        pw << ", ";
       }
-      os << _elements[i];
+      pw << _elements[i];
     }
-    os << ")";
+    pw << ")";
   }
   
   

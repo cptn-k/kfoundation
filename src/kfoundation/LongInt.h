@@ -1,14 +1,14 @@
 #ifndef ORG_KNORBA_COMMON_TYPE_LONGINTEGER_H
 #define ORG_KNORBA_COMMON_TYPE_LONGINTEGER_H 
 
-#include <ostream>
-
+// Super
 #include "Streamer.h"
-#include "ManagedObject.h"
-
-using namespace std;
+#include "KFObject.h"
 
 namespace kfoundation {
+
+  class OutputStream;
+  class UString;
 
   /**
    * Wrapper class for 'long int' type.
@@ -17,34 +17,34 @@ namespace kfoundation {
    * @headerfile LongInt.h <kfoundation/LongInt.h>
    */
   
-  class LongInt : public ManagedObject, public Streamer {
-  private:
-    long int _value;
+  class LongInt : public KFObject, public Streamer {
 
-  public:
+  // --- FIELDS --- //
+
+    private: kf_int64_t _value;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public: LongInt(const kf_int64_t value);
+    public: LongInt(RefConst<UString> str);
+
+
+  // --- STATIC METHODS --- //
+
+    public: static kf_int64_t parse(RefConst<UString> str);
+
+
+  // --- METHODS --- //
     
-    /**
-     * Numeral Base
-     */
-    
-    typedef enum {
-      DECIMAL,    ///< Base 10
-      HEXADECIMAL ///< Base 16
-    } encoding_t;
-    
-    LongInt(const long int value);
-    LongInt(const string& str, const encoding_t& encoding = DECIMAL);
-    
-    inline long int get() const;
-    inline void set(const long int v);
-    
-    static long int parse(const string& str, const encoding_t encoding = DECIMAL);
-    static string toHexString(const long int v);
-    static string toHexString(void* ptr);
-    static string toString(const long int v);
-    
+    public: kf_int64_t get() const;
+    public: void set(const kf_int64_t v);
+    public: Ref<UString> toHexString() const;
+
     // From Streamer
-    void printToStream(ostream& os) const;
+    public: void printToStream(Ref<OutputStream> stream) const;
+    public: RefConst<UString> toString() const;
+
   };
   
 } // namespace kfoundation

@@ -9,9 +9,6 @@
 #ifndef __KFoundation__Direction__
 #define __KFoundation__Direction__
 
-// Std
-#include <string>
-
 // Internal
 #include "definitions.h"
 
@@ -20,8 +17,6 @@
 
 
 namespace kfoundation {
-  
-  using namespace std;
   
   
   /**
@@ -68,7 +63,7 @@ namespace kfoundation {
     public: bool isCenter()  const;
     
     // Inherited from Streamer //
-    public: void printToStream(ostream& stream) const;
+    public: void printToStream(Ref<OutputStream> os) const;
     
   };
   

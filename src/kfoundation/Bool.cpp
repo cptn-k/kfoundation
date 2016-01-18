@@ -6,11 +6,23 @@
 //  Copyright (c) 2014 RIKEN AICS Advanced Visualization Research Team. All rights reserved.
 //
 
+// Internal
+#include "UString.h"
+#include "Ref.h"
+#include "OutputStream.h"
+
+// Self
 #include "Bool.h"
 
-using namespace std;
-
 namespace kfoundation {
+
+// --- STATIC FIELDS --- //
+
+  const StaticRefConst<UString> Bool::TRUE_STR = new UString("true");
+  const StaticRefConst<UString> Bool::FALSE_STR = new UString("false");
+
+
+// --- CONSTRUCTORS --- //
 
   /**
    * Constructor. Sets the internal value to the given parameter.
@@ -21,7 +33,9 @@ namespace kfoundation {
   {
     // Nothing
   }
-  
+
+
+// --- METHODS --- //
   
   /**
    * Getter method. Returns the internal value.
@@ -39,23 +53,25 @@ namespace kfoundation {
   inline void Bool::set(const bool value) {
     _value = value;
   }
-  
-  
+
+
+  void Bool::printToStream(Ref<OutputStream> stream) const {
+    return toString()->printToStream(stream);
+  }
+
+
   /**
    * Returns the string representation of the given argument.
    *
    * @param value The value to be converted to string.
    */
 
-  string Bool::toString(const bool value) {
-    if(value)
-      return "true";
-    return "false";
+  RefConst<UString> Bool::toString() const {
+    if(_value) {
+      return TRUE_STR;
+    } else {
+      return FALSE_STR;
+    }
   }
-  
-  void Bool::printToStream(ostream& os) const {
-    os << toString(_value);
-  }
-
 
 } // namespace kfoundation

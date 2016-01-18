@@ -1,4 +1,4 @@
-/*---[ManagedObject.h]-----------------------------------------m(._.)m--------*\
+/*---[KFObject.h]-----------------------------------------m(._.)m--------*\
  |
  |  Project   : KFoundation
  |  Declares  : -
@@ -25,7 +25,7 @@
 #include "MasterMemoryManager.h"
 #include "Logger.h"
 #include "ObjectSerializer.h"
-#include "Ptr.h"
+#include "Ref.h"
 #include "System.h"
 
 // Self
@@ -82,7 +82,7 @@ namespace kfoundation {
     Statistics stats = getStats();
     LOG << "Terminating memory manager " << _id << ". Orphan Objects: "
         << stats.nObjects << " of which " << stats.nStaticObjects
-        << " are static." << EL;
+        << " are static." << ENDS;
     
     for(int i = 0; i < _size; i++) {
       ((PoolObject*)_table[i].ptr)->finalize();
@@ -105,7 +105,7 @@ namespace kfoundation {
     _table = newTable;
     
     LOG << "ObjectPool " << _id << " resized from " << _size
-        << " to " << newSize << EL;
+        << " to " << newSize << ENDS;
     
     for(int i = _size; i < newSize; i++) {
       ObjectRecord& record = newTable[i];
@@ -140,7 +140,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  Ptr<T> ObjectPoolMemoryManager<T>::get() {
+  Ref<T> ObjectPoolMemoryManager<T>::get() {
     pthread_mutex_lock(&_mutex);
     int index = _next;
     ObjectRecord& rec = _table[index];
@@ -166,10 +166,10 @@ namespace kfoundation {
     
     
     if(_trace) {
-      LOG << "Get: (" << index << ") "<< toString(index) << " Next: " << _next << EL;
+      LOG << "Get: (" << index << ") "<< toString(index) << " Next: " << _next << ENDS;
     }
     
-    Ptr<T> ptr(_id, index);
+    Ref<T> ptr(_id, index);
     ptr.setAutorelease(true);
     return ptr;
   }
@@ -177,7 +177,7 @@ namespace kfoundation {
   
   template<typename T>
   const ObjectRecord&
-  ObjectPoolMemoryManager<T>::registerObject(ManagedObject* obj) {
+  ObjectPoolMemoryManager<T>::registerObject(KFObject* obj) {
     throw KFException("Operation not supported");
   }
   
@@ -200,7 +200,7 @@ namespace kfoundation {
     pthread_mutex_unlock(&_mutex);
     
     if(_trace) {
-      LOG << "Retained: " << toString(record.index) << EL;
+      LOG << "Retained: " << toString(record.index) << ENDS;
     }
   }
   
@@ -247,7 +247,7 @@ namespace kfoundation {
       if(record.retainCount == -1) {
         x = " X ";
       }
-      LOG << "Released: " << recStr << " --> " << record.retainCount << x << EL;
+      LOG << "Released: " << recStr << " --> " << record.retainCount << x << ENDS;
     }
 #endif
   }
@@ -261,9 +261,10 @@ namespace kfoundation {
       record.key = rand() % 65530 - 32760;
     }
     if(_trace) {
-      LOG << "Removed: " << toString(record.index) << EL;
+      LOG << "Removed: " << toString(record.index) << ENDS;
     }
   }
+
 
   template<typename T>
   ObjectRecord* ObjectPoolMemoryManager<T>::getTable() {
@@ -312,7 +313,7 @@ namespace kfoundation {
    */
   
   template<typename T>
-  void ObjectPoolMemoryManager<T>::serialize(PPtr<ObjectSerializer> seralizer)
+  void ObjectPoolMemoryManager<T>::serialize(Ref<ObjectSerializer> seralizer)
   const
   {
     seralizer->object("ObjectPoolMemoryManager")

@@ -17,12 +17,17 @@
 #ifndef __KFoundation__Runnable__
 #define __KFoundation__Runnable__
 
+// Internal
+#include "definitions.h"
+#include "RefDecl.h"
+
 // Super
-#include "ManagedObject.h"
+#include "KFObject.h"
 
 namespace kfoundation {
   
   class KFException;
+  class UString;
   
   
   /**
@@ -33,7 +38,7 @@ namespace kfoundation {
    * @headerfile Thread.h <kfoundation/Thread.h>
    */
   
-  class Thread : public ManagedObject {
+  class Thread : public KFObject {
 
   // --- NESTED TYPES --- //
     
@@ -41,20 +46,20 @@ namespace kfoundation {
       public: virtual ~ThreadImplementation();
       public: virtual void start() = 0;
       public: virtual bool isRunning() const = 0;
-      public: virtual void setName(const string& str) = 0;
-      public: virtual const string& getName() const = 0;
+      public: virtual void setName(RefConst<UString> name) = 0;
+      public: virtual RefConst<UString> getName() const = 0;
       public: virtual bool isTheCurrentThread() const = 0;
     };
 
     
   // --- STATIC METHODS --- //
     
-    public: static string getNameOfCurrentThread();
+    public: static Ref<UString> getNameOfCurrentThread();
     
     
   // --- STATIC FIELDS --- //
     
-    private: static int _counter;
+    private: static kf_int32_t _counter;
     
         
   // --- FIELDS --- //
@@ -65,7 +70,7 @@ namespace kfoundation {
   // --- CONSTRUCTOR --- //
     
     public: Thread();
-    public: Thread(const string& name);
+    public: Thread(RefConst<UString> name);
     public: ~Thread();
     
     
@@ -74,7 +79,7 @@ namespace kfoundation {
     public: virtual void run() = 0;
     public: void start();
     public: bool isRunning() const;
-    public: const string& getName() const;
+    public: RefConst<UString> getName() const;
     public: bool isTheCurrentThread() const;
     
   }; // class Thread

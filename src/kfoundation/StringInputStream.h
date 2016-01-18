@@ -17,10 +17,13 @@
 #ifndef __KFoundation__StringInputStream__
 #define __KFoundation__StringInputStream__
 
+#include "RefDecl.h"
 #include "InputStream.h"
 
 namespace kfoundation {
-  
+
+  class UString;
+
   /**
    * Input stream to read from string.
    *
@@ -29,26 +32,33 @@ namespace kfoundation {
    */
   
   class StringInputStream : public InputStream {
-  private:
-    string _str;
-    kf_int32_t _pos;
-    kf_int32_t _mark;
-    bool _eof;
+
+  // --- FIELDS --- //
+
+    private: RefConst<UString> _str;
+    private: const kf_octet_t* _pos;
+    private: const kf_octet_t* _end;
+    private: const kf_octet_t* _mark;
+
+
+  // --- (DE)CONSTRUCTORS --- //
     
-  public:
-    StringInputStream(const string& str);
-    ~StringInputStream();
-    
+    public: StringInputStream(RefConst<UString> str);
+
+
+  // --- METHODS --- //
+
     // From InputStream
-    kf_int32_t read(kf_octet_t* buffer, const kf_int32_t nBytes);
-    int read();
-    int peek();
-    kf_int32_t skip(kf_int32_t bytes);
-    bool isEof();
-    bool isMarkSupported();
-    void mark();
-    void reset();
-    bool isBigEndian();
+    public: kf_int32_t read(kf_octet_t* buffer, const kf_int32_t nBytes);
+    public: kf_int16_t read();
+    public: kf_int16_t peek();
+    public: kf_int32_t skip(kf_int32_t bytes);
+    public: bool isEof();
+    public: bool isMarkSupported();
+    public: void mark();
+    public: void reset();
+    public: bool isBigEndian();
+
   };
   
 } // namespace kfoundation
