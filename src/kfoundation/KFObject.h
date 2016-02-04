@@ -37,7 +37,12 @@ namespace kfoundation {
 
   // --- FIELDS --- //
     
-    public: kf_uref_t _ref = RefBase::NULL_REF;
+    public: kf_uref_t _ref;
+
+
+  // --- CONSTRUCTORS --- //
+
+    public: KFObject();
 
     
   // --- METHODS --- //

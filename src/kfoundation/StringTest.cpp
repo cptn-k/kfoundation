@@ -27,6 +27,8 @@ void testChar() {
 
 
 void testString() {
+  System::OUT << (K"日本語")->getOctetCount() << OVER;
+
   Ref<UString> str = new UString(K"日本語 English فارسی");
 
   System::OUT << *str << OVER;

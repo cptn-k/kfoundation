@@ -1,10 +1,10 @@
 cmake_minimum_required (VERSION 2.6)
 
 project (KFoundation)
-set(VERSION 1.0)
+set(VERSION 2.0)
 
 set(CMAKE_VERBOSE_MAKEFILE off)
-set(CMAKE_CXX_FLAGS "-fvisibility=hidden -rdynamic")
+set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
 
 add_subdirectory (Third-Party/CityHash     build-tmp/CityHash)
 add_subdirectory (Third-Party/GnuUnistring build-tmp/GnuUnistring)
@@ -14,56 +14,58 @@ include_directories(SYSTEM Third-Party/GnuUnistring/src)
 
 add_library (kfoundation STATIC
 # --- KFoundation --- #
+  src/kfoundation/KFObject.cpp
   src/kfoundation/KFException.cpp
   src/kfoundation/System.cpp
-  src/kfoundation/Thread.cpp
-  src/kfoundation/Mutex.cpp
-  src/kfoundation/Condition.cpp
 # --- Memory Management --- #
-  src/kfoundation/Ptr.cpp
-  src/kfoundation/ManagedObject.cpp
   src/kfoundation/MemoryManager.cpp
   src/kfoundation/MasterMemoryManager.cpp
   src/kfoundation/RefCountMemoryManager.cpp
+  src/kfoundation/Ref.cpp
   src/kfoundation/MemoryException.cpp
   src/kfoundation/NullPointerException.cpp
   src/kfoundation/InvalidPointerException.cpp
   src/kfoundation/OutOfMemoryException.cpp
 # --- IO --- #
-  src/kfoundation/File.cpp
   src/kfoundation/Path.cpp
   src/kfoundation/InternetAddress.cpp
   src/kfoundation/FileInputStream.cpp
   src/kfoundation/BufferInputStream.cpp
   src/kfoundation/StringInputStream.cpp
+  src/kfoundation/StandardInputStreamAdapter.cpp
+  src/kfoundation/InternetInputStream.cpp
   src/kfoundation/BufferOutputStream.cpp
   src/kfoundation/FileOutputStream.cpp
-  src/kfoundation/InternetInputStream.cpp
-  src/kfoundation/InternetOutputStream.cpp
-  src/kfoundation/StandardInputStreamAdapter.cpp
   src/kfoundation/StandardOutputStreamAdapter.cpp
+  src/kfoundation/InternetOutputStream.cpp
   src/kfoundation/IOException.cpp
+  src/kfoundation/PrintWriter.cpp
+  src/kfoundation/StringPrintWriter.cpp
+# --- Thread --- #
+  src/kfoundation/Thread.cpp
+  src/kfoundation/Mutex.cpp
+  src/kfoundation/Condition.cpp
 # --- Containers --- #
   src/kfoundation/IndexOutOfBoundException.cpp
-# --- Type Wrappers --- #
   src/kfoundation/Bool.cpp
   src/kfoundation/Double.cpp
   src/kfoundation/Int.cpp
   src/kfoundation/LongInt.cpp
-  src/kfoundation/UniChar.cpp
-  src/kfoundation/UniString.cpp
+  src/kfoundation/UChar.cpp
+  src/kfoundation/UString.cpp
 # --- Utils --- #
-  src/kfoundation/PredictiveParserBase.cpp
+  src/kfoundation/StreamParser.cpp
   src/kfoundation/CodeLocation.cpp
   src/kfoundation/CodeRange.cpp
   src/kfoundation/Timer.cpp
   src/kfoundation/Logger.cpp
   src/kfoundation/ParseException.cpp
-  src/kfoundation/InvalidFormatException.cpp
 # --- Serialization --- #
+  src/kfoundation/InvalidFormatException.cpp
   src/kfoundation/Streamer.cpp
-  src/kfoundation/ObjectSerializer.cpp
   src/kfoundation/SerializingStreamer.cpp
+  src/kfoundation/ObjectSerializer.cpp
+  src/kfoundation/KforObjectSerializer.cpp
   src/kfoundation/ObjectStreamReader.cpp
   src/kfoundation/StreamDeserializer.cpp
   src/kfoundation/XmlObjectStreamReader.cpp
@@ -91,57 +93,61 @@ install(TARGETS kfoundation
 install(FILES
     # --- KFoundation --- #
     src/kfoundation/definitions.h
+    src/kfoundation/KFObject.h
     src/kfoundation/KFException.h
     src/kfoundation/System.h
-    src/kfoundation/Thread.h
-    src/kfoundation/Mutex.h
-    src/kfoundation/Condition.h
+    src/kfoundation/Comparable.h
     # --- Memory Management --- #
-    src/kfoundation/ManagedObject.h
-    src/kfoundation/PtrDecl.h
-    src/kfoundation/Ptr.h
     src/kfoundation/MemoryManager.h
     src/kfoundation/MasterMemoryManager.h
     src/kfoundation/RefCountMemoryManager.h
     src/kfoundation/ObjectPoolMemoryManagerDecl.h
     src/kfoundation/ObjectPoolMemoryManager.h
+    src/kfoundation/RefDecl.h
+    src/kfoundation/Ref.h
     src/kfoundation/MemoryException.h
     src/kfoundation/NullPointerException.h
     src/kfoundation/InvalidPointerException.h
     src/kfoundation/OutOfMemoryException.h
     # --- IO --- #
-    src/kfoundation/File.h
     src/kfoundation/Path.h
     src/kfoundation/InternetAddress.h
     src/kfoundation/InputStream.h
+    src/kfoundation/OutputStream.h
     src/kfoundation/FileInputStream.h
     src/kfoundation/BufferInputStream.h
     src/kfoundation/StringInputStream.h
-    src/kfoundation/OutputStream.h
+    src/kfoundation/StandardInputStreamAdapter.h
+    src/kfoundation/InternetInputStream.h
     src/kfoundation/BufferOutputStream.h
     src/kfoundation/FileOutputStream.h
-    src/kfoundation/InternetInputStream.h
-    src/kfoundation/InternetOutputStream.h
-    src/kfoundation/StandardInputStreamAdapter.h
     src/kfoundation/StandardOutputStreamAdapter.h
+    src/kfoundation/InternetOutputStream.h
     src/kfoundation/IOException.h
+    # --- Thread --- #
+    src/kfoundation/Thread.h
+    src/kfoundation/Mutex.h
+    src/kfoundation/Condition.h
     # --- Containers ---- #
     src/kfoundation/ArrayDecl.h
     src/kfoundation/Array.h
     src/kfoundation/NumericVectorDecl.h
     src/kfoundation/NumericVector.h
-    src/kfoundation/ManagedArrayDecl.h
-    src/kfoundation/ManagedArray.h
+    src/kfoundation/RefArrayDecl.h
+    src/kfoundation/RefArray.h
+    src/kfoundation/RefDictionaryDecl.h
+    src/kfoundation/RefDictionary.h
+    src/kfoundation/DictionaryDecl.h
+    src/kfoundation/Dictionary.h
     src/kfoundation/IndexOutOfBoundException.h
-    # --- Type Wrappers --- #
     src/kfoundation/Bool.h
     src/kfoundation/Double.h
     src/kfoundation/Int.h
     src/kfoundation/LongInt.h
-    src/kfoundation/UniChar.h
-    src/kfoundation/UniString.h
+    src/kfoundation/UChar.h
+    src/kfoundation/UString.h
     # --- Utils --- #
-    src/kfoundation/PredictiveParserBase.h
+    src/kfoundation/StreamParser.h
     src/kfoundation/CodeLocation.h
     src/kfoundation/CodeRange.h
     src/kfoundation/Timer.h
@@ -149,11 +155,12 @@ install(FILES
     src/kfoundation/ParseException.h
     # --- Serialization --- #
     src/kfoundation/InvalidFormatException.h
-    src/kfoundation/ObjectSerializer.h
-    src/kfoundation/ObjectStreamReader.h
+    src/kfoundation/Streamer.h
     src/kfoundation/SerializingStreamer.h
     src/kfoundation/StreamDeserializer.h
-    src/kfoundation/Streamer.h
+    src/kfoundation/ObjectSerializer.h
+    src/kfoundation/KforObjectSerializer.h
+    src/kfoundation/ObjectStreamReader.h
     src/kfoundation/XmlObjectStreamReader.h
     # --- Region Arithmatics --- #
     src/kfoundation/Tuple.h
@@ -162,5 +169,4 @@ install(FILES
     src/kfoundation/RangeIterator.h
     src/kfoundation/DirectionIterator.h
     src/kfoundation/ProximityIterator.h
-    src/kfoundation/RangeMap.h
   DESTINATION include/kfoundation)

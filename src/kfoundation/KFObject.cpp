@@ -31,7 +31,15 @@ namespace kfoundation {
 
 //\/ KFObject /\///////////////////////////////////////////////////////////////
 
-// --- STATIC FIELDS --- //
+// --- CONSTRUCTORS --- //
+
+  KFObject::KFObject()
+  : _ref(RefBase::NULL_REF)
+  {
+    // Nothing;
+  }
+
+// --- METHODS --- //
 
   kf_uref_t KFObject::registerAndRetain(MemoryManager &manager) const {
     if(NOT_NULL_REF(_ref)) {

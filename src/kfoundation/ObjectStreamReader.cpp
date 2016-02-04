@@ -326,7 +326,7 @@ namespace kfoundation {
   bool AttributeToken::getBoolValue() const {
     if(getValue()->equals(Bool::TRUE_STR)) {
       return true;
-    } else if(getValue()->Comparable<UString>::equals(Bool::FALSE_STR)) {
+    } else if(getValue()->equals(Bool::FALSE_STR)) {
       return false;
     }
     throw ParseException(K"Unable to parse value as bool \"" + getValue()

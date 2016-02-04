@@ -135,7 +135,7 @@ namespace kfoundation {
   
   template<typename T>
   Ref<T>::~Ref() {
-    if(IS_NULL_REF(_ref)) {
+    if(NOT_NULL_REF(_ref)) {
       release();
     }
   }
@@ -205,7 +205,7 @@ namespace kfoundation {
   
   template<typename T>
   inline Ref<T>& Ref<T>::operator=(const Ref<T>& other) {
-    if(IS_NULL_REF(_ref)) {
+    if(NOT_NULL_REF(_ref)) {
       release();
     }
     assignRef(other._ref);
@@ -222,7 +222,7 @@ namespace kfoundation {
   
   template<typename T>
   inline Ref<T>& Ref<T>::operator=(const T* obj) {
-    if(IS_NULL_REF(_ref)) {
+    if(NOT_NULL_REF(_ref)) {
       release();
     }
     assignCptr(obj);
@@ -275,7 +275,7 @@ namespace kfoundation {
 
   template<typename T>
   RefConst<T>::~RefConst() {
-    if(IS_NULL_REF(_ref)) {
+    if(NOT_NULL_REF(_ref)) {
       release();
     }
   }
@@ -346,7 +346,7 @@ namespace kfoundation {
 
   template<typename T>
   inline RefConst<T>& RefConst<T>::operator=(const T* obj) {
-    if(IS_NULL_REF(_ref)) {
+    if(NOT_NULL_REF(_ref)) {
       release();
     }
     assignCptr(obj);
@@ -373,7 +373,7 @@ namespace kfoundation {
 
   template<typename T>
   inline RefConst<T>& RefConst<T>::operator=(const RefConst<T>& other) {
-    if(IS_NULL_REF(_ref)) {
+    if(NOT_NULL_REF(_ref)) {
       release();
     }
     assignRef(other._ref);

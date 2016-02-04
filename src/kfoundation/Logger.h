@@ -33,7 +33,7 @@
   #undef LOG_ERR
 #endif
 
-#define LOG_TO(LOGGER, LEVEL) *LOGGER->log(LEVEL, __FILE__, __LINE__, __func__)
+#define LOG_TO(LOGGER, LEVEL) LOGGER->log(LEVEL, __FILE__, __LINE__, __func__)
 #define _K__LOG(LEVEL) LOG_TO(System::getLogger(), LEVEL)
 #define LOG_ERR _K__LOG(::kfoundation::Logger::ERR)
 #define LOG_WRN _K__LOG(::kfoundation::Logger::WRN)

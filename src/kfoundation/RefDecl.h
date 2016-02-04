@@ -47,9 +47,9 @@
 
 #define AS(X) cast<X>()
 
-#define IS_NULL_REF(X) (X.index == -1)
-#define NOT_NULL_REF(X) (X.index != -1)
-#define SET_NULL_REF(X) (X.index = -1)
+#define IS_NULL_REF(X) ((X).index == -1)
+#define NOT_NULL_REF(X) ((X).index != -1)
+#define SET_NULL_REF(X) ((X).index = -1)
 
 namespace kfoundation {
   
