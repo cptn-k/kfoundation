@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Used to represent and manipulate file and directory pathnames.  
+<p>Represents a file path.  
  <a href="classkfoundation_1_1_path.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_path_8h_source.html">kfoundation/Path.h</a>&gt;</code></p>
@@ -106,18 +106,14 @@ Inheritance diagram for kfoundation::Path:</div>
 <div class="dyncontent">
 <div class="center"><img src="classkfoundation_1_1_path__inherit__graph.png" border="0" usemap="#kfoundation_1_1_path_inherit__map" alt="Inheritance graph"/></div>
 <map name="kfoundation_1_1_path_inherit__map" id="kfoundation_1_1_path_inherit__map">
-<area shape="rect" id="node2" href="classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,87,197,114"/><area shape="rect" id="node3" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="221,80,381,121"/><area shape="rect" id="node4" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="225,5,378,32"/></map>
+<area shape="rect" id="node2" href="classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="15,102,169,129"/><area shape="rect" id="node3" href="classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="5,5,176,47"/><area shape="rect" id="node4" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="196,95,356,136"/><area shape="rect" id="node5" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="201,13,354,39"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a24a831cadb8457b8d7bf0972d73f4e6f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a24a831cadb8457b8d7bf0972d73f4e6f">Path</a> (const string &amp;str)</td></tr>
-<tr class="memdesc:a24a831cadb8457b8d7bf0972d73f4e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a24a831cadb8457b8d7bf0972d73f4e6f">More...</a><br/></td></tr>
-<tr class="separator:a24a831cadb8457b8d7bf0972d73f4e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe6c638f890a72d129a6a84d48684d5c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe6c638f890a72d129a6a84d48684d5c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#afe6c638f890a72d129a6a84d48684d5c">~Path</a> ()</td></tr>
-<tr class="memdesc:afe6c638f890a72d129a6a84d48684d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor. <br/></td></tr>
-<tr class="separator:afe6c638f890a72d129a6a84d48684d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0734553468655cedc2a43d794d77801"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#aa0734553468655cedc2a43d794d77801">Path</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; str)</td></tr>
+<tr class="memdesc:aa0734553468655cedc2a43d794d77801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#aa0734553468655cedc2a43d794d77801">More...</a><br/></td></tr>
+<tr class="separator:aa0734553468655cedc2a43d794d77801"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae58800eda4c88b6a8650b259121cbc27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#ae58800eda4c88b6a8650b259121cbc27">hasExtention</a> () const </td></tr>
 <tr class="memdesc:ae58800eda4c88b6a8650b259121cbc27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the path has extention.  <a href="#ae58800eda4c88b6a8650b259121cbc27">More...</a><br/></td></tr>
 <tr class="separator:ae58800eda4c88b6a8650b259121cbc27"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,39 +121,39 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a609ff2bc8f4f6d75e95d5a9db234e6c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the path is absolute.  <a href="#a609ff2bc8f4f6d75e95d5a9db234e6c1">More...</a><br/></td></tr>
 <tr class="separator:a609ff2bc8f4f6d75e95d5a9db234e6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42749de6477ac9b99594f375b9f29377"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a42749de6477ac9b99594f375b9f29377"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a42749de6477ac9b99594f375b9f29377">getNSegments</a> () const </td></tr>
+<a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a42749de6477ac9b99594f375b9f29377">getNSegments</a> () const </td></tr>
 <tr class="memdesc:a42749de6477ac9b99594f375b9f29377"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of segments in the path. <br/></td></tr>
 <tr class="separator:a42749de6477ac9b99594f375b9f29377"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a250ef427775112fb39eaff143bae59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a250ef427775112fb39eaff143bae59"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a2a250ef427775112fb39eaff143bae59">getSegement</a> (int index) const </td></tr>
-<tr class="memdesc:a2a250ef427775112fb39eaff143bae59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the path segment at the given index. <br/></td></tr>
-<tr class="separator:a2a250ef427775112fb39eaff143bae59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07196000c47f412e95fe0ebd05a39774"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a07196000c47f412e95fe0ebd05a39774"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a07196000c47f412e95fe0ebd05a39774">getExtention</a> () const </td></tr>
-<tr class="memdesc:a07196000c47f412e95fe0ebd05a39774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the extension if exists, otherwise, an empty string. <br/></td></tr>
-<tr class="separator:a07196000c47f412e95fe0ebd05a39774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57d6411b6c05615ff0f6abe0e90ede6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57d6411b6c05615ff0f6abe0e90ede6d"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a57d6411b6c05615ff0f6abe0e90ede6d">getFileName</a> () const </td></tr>
-<tr class="memdesc:a57d6411b6c05615ff0f6abe0e90ede6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last segment of the path excluding the extension if exists. <br/></td></tr>
-<tr class="separator:a57d6411b6c05615ff0f6abe0e90ede6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f0900b6f93c47b23d86a9c87a15067e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f0900b6f93c47b23d86a9c87a15067e"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a6f0900b6f93c47b23d86a9c87a15067e">getFileNameWithExtension</a> () const </td></tr>
-<tr class="memdesc:a6f0900b6f93c47b23d86a9c87a15067e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last segment of the path including extention. <br/></td></tr>
-<tr class="separator:a6f0900b6f93c47b23d86a9c87a15067e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb04ee98329bd5339816586655cefff9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adb04ee98329bd5339816586655cefff9"></a>
-<a class="el" href="classkfoundation_1_1_ptr.html">Ptr</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#adb04ee98329bd5339816586655cefff9">addSegement</a> (const string &amp;s)</td></tr>
-<tr class="memdesc:adb04ee98329bd5339816586655cefff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a segment to the path. <br/></td></tr>
-<tr class="separator:adb04ee98329bd5339816586655cefff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a058986fd8ea637f951f17a6b51d8d518"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ptr.html">Ptr</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a058986fd8ea637f951f17a6b51d8d518">changeExtension</a> (const string &amp;ex)</td></tr>
-<tr class="memdesc:a058986fd8ea637f951f17a6b51d8d518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the file extensions.  <a href="#a058986fd8ea637f951f17a6b51d8d518">More...</a><br/></td></tr>
-<tr class="separator:a058986fd8ea637f951f17a6b51d8d518"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfe59f6078f5ffd40112ca8922c4673b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfe59f6078f5ffd40112ca8922c4673b"></a>
-<a class="el" href="classkfoundation_1_1_ptr.html">Ptr</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#abfe59f6078f5ffd40112ca8922c4673b">removeExtension</a> ()</td></tr>
-<tr class="memdesc:abfe59f6078f5ffd40112ca8922c4673b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the extension. <br/></td></tr>
-<tr class="separator:abfe59f6078f5ffd40112ca8922c4673b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acedd8667f46a854027a4cffdc0e043cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ptr.html">Ptr</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#acedd8667f46a854027a4cffdc0e043cd">parent</a> ()</td></tr>
-<tr class="memdesc:acedd8667f46a854027a4cffdc0e043cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the parent path of the current path by removing its last segment.  <a href="#acedd8667f46a854027a4cffdc0e043cd">More...</a><br/></td></tr>
-<tr class="separator:acedd8667f46a854027a4cffdc0e043cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f98dacdf097a620e5da880557ebee37"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f98dacdf097a620e5da880557ebee37"></a>
+<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a2f98dacdf097a620e5da880557ebee37">getSegement</a> (int index) const </td></tr>
+<tr class="memdesc:a2f98dacdf097a620e5da880557ebee37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the path segment at the given index. <br/></td></tr>
+<tr class="separator:a2f98dacdf097a620e5da880557ebee37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a904464dcc79387231ce284f6c5a75"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68a904464dcc79387231ce284f6c5a75"></a>
+<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a68a904464dcc79387231ce284f6c5a75">getExtention</a> () const </td></tr>
+<tr class="memdesc:a68a904464dcc79387231ce284f6c5a75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the extension if exists, otherwise, an empty string. <br/></td></tr>
+<tr class="separator:a68a904464dcc79387231ce284f6c5a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e1fcece9592589c365c8c13f8226b03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e1fcece9592589c365c8c13f8226b03"></a>
+<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a3e1fcece9592589c365c8c13f8226b03">getFileName</a> () const </td></tr>
+<tr class="memdesc:a3e1fcece9592589c365c8c13f8226b03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last segment of the path excluding the extension if exists. <br/></td></tr>
+<tr class="separator:a3e1fcece9592589c365c8c13f8226b03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2448eaffb916716e74e0e6596afe9de6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2448eaffb916716e74e0e6596afe9de6"></a>
+<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a2448eaffb916716e74e0e6596afe9de6">getFileNameWithExtension</a> () const </td></tr>
+<tr class="memdesc:a2448eaffb916716e74e0e6596afe9de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last segment of the path including extention. <br/></td></tr>
+<tr class="separator:a2448eaffb916716e74e0e6596afe9de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac4dad479a691a318b6b49d0e3db5283"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac4dad479a691a318b6b49d0e3db5283"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#aac4dad479a691a318b6b49d0e3db5283">addSegement</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; s)</td></tr>
+<tr class="memdesc:aac4dad479a691a318b6b49d0e3db5283"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a segment to the path. <br/></td></tr>
+<tr class="separator:aac4dad479a691a318b6b49d0e3db5283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35e970258dbf9b36437a6718b9028b95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a35e970258dbf9b36437a6718b9028b95">changeExtension</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; ex)</td></tr>
+<tr class="memdesc:a35e970258dbf9b36437a6718b9028b95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the file extensions.  <a href="#a35e970258dbf9b36437a6718b9028b95">More...</a><br/></td></tr>
+<tr class="separator:a35e970258dbf9b36437a6718b9028b95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a1f6997f2ae1ca234d9f8bc79198f2d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a1f6997f2ae1ca234d9f8bc79198f2d"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a9a1f6997f2ae1ca234d9f8bc79198f2d">removeExtension</a> ()</td></tr>
+<tr class="memdesc:a9a1f6997f2ae1ca234d9f8bc79198f2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the extension. <br/></td></tr>
+<tr class="separator:a9a1f6997f2ae1ca234d9f8bc79198f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1451f07d5164bc88eaec7d86d21388e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a1451f07d5164bc88eaec7d86d21388e0">parent</a> ()</td></tr>
+<tr class="memdesc:a1451f07d5164bc88eaec7d86d21388e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the parent path of the current path by removing its last segment.  <a href="#a1451f07d5164bc88eaec7d86d21388e0">More...</a><br/></td></tr>
+<tr class="separator:a1451f07d5164bc88eaec7d86d21388e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70671dab0e7e93a6244a9973ea25a156"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70671dab0e7e93a6244a9973ea25a156"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a70671dab0e7e93a6244a9973ea25a156">makeDir</a> () const </td></tr>
 <tr class="memdesc:a70671dab0e7e93a6244a9973ea25a156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a new directory at the path encoded by this object. <br/></td></tr>
@@ -170,68 +166,68 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a11db28c872697f5d8b51a638bd572e3b">remove</a> () const </td></tr>
 <tr class="memdesc:a11db28c872697f5d8b51a638bd572e3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes the file or directory pointed by this path object. <br/></td></tr>
 <tr class="separator:a11db28c872697f5d8b51a638bd572e3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b2344dc47dbd551eb5e037bda0e9f28"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b2344dc47dbd551eb5e037bda0e9f28"></a>
-const string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a4b2344dc47dbd551eb5e037bda0e9f28">getString</a> () const </td></tr>
-<tr class="memdesc:a4b2344dc47dbd551eb5e037bda0e9f28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the string value of this pat. <br/></td></tr>
-<tr class="separator:a4b2344dc47dbd551eb5e037bda0e9f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41d2536b3c5947fd485eea4deb80f9da"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41d2536b3c5947fd485eea4deb80f9da"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a41d2536b3c5947fd485eea4deb80f9da">serialize</a> (<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; builder) const </td></tr>
-<tr class="memdesc:a41d2536b3c5947fd485eea4deb80f9da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements compatibility with <a class="el" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a> interface. <br/></td></tr>
-<tr class="separator:a41d2536b3c5947fd485eea4deb80f9da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ad751bfef0ca98541de0c374dd67a25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a4ad751bfef0ca98541de0c374dd67a25">printToStream</a> (ostream &amp;os) const </td></tr>
-<tr class="memdesc:a4ad751bfef0ca98541de0c374dd67a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements compatibility with <a class="el" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> interface.  <a href="#a4ad751bfef0ca98541de0c374dd67a25">More...</a><br/></td></tr>
-<tr class="separator:a4ad751bfef0ca98541de0c374dd67a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classkfoundation_1_1_managed_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_managed_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_managed_object.html">kfoundation::ManagedObject</a></td></tr>
-<tr class="memitem:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5386447e4305d42f5f697b620106d9b0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a5386447e4305d42f5f697b620106d9b0">ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br/></td></tr>
-<tr class="separator:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a98eeb2e2dba37376f6f933ad3eabc514">~ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor.  <a href="#a98eeb2e2dba37376f6f933ad3eabc514">More...</a><br/></td></tr>
-<tr class="separator:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6769c05015242c26f4f675620d37f9a"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_managed_object.html">ManagedObject</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#ac6769c05015242c26f4f675620d37f9a">getPtr</a> () const </td></tr>
-<tr class="memdesc:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a managed poitner to this object. <br/></td></tr>
-<tr class="separator:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classkfoundation_1_1_serializing_streamer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_serializing_streamer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_serializing_streamer.html">kfoundation::SerializingStreamer</a></td></tr>
-<tr class="memitem:a1f2de410e98f31ce13ee89f8fc289931 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f2de410e98f31ce13ee89f8fc289931"></a>
-virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_serializing_streamer.html#a1f2de410e98f31ce13ee89f8fc289931">toString</a> () const </td></tr>
-<tr class="memdesc:a1f2de410e98f31ce13ee89f8fc289931 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string containing the serialization of this object in KFOR format. <br/></td></tr>
-<tr class="separator:a1f2de410e98f31ce13ee89f8fc289931 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9a0997aea76faa2167e502f048c19f3 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_serializing_streamer.html#ad9a0997aea76faa2167e502f048c19f3">printToJsonStream</a> (ostream &amp;os) const </td></tr>
-<tr class="memdesc:ad9a0997aea76faa2167e502f048c19f3 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the serialization of this object in JSON format to the given stream.  <a href="#ad9a0997aea76faa2167e502f048c19f3">More...</a><br/></td></tr>
-<tr class="separator:ad9a0997aea76faa2167e502f048c19f3 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af604ebbb335d7996ce5d4bd8e8aa5d74 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_serializing_streamer.html#af604ebbb335d7996ce5d4bd8e8aa5d74">printToXmlStream</a> (ostream &amp;os) const </td></tr>
-<tr class="memdesc:af604ebbb335d7996ce5d4bd8e8aa5d74 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the serialization of this object in XML format to the given stream.  <a href="#af604ebbb335d7996ce5d4bd8e8aa5d74">More...</a><br/></td></tr>
-<tr class="separator:af604ebbb335d7996ce5d4bd8e8aa5d74 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a488a8837a82c133645c5143a93012fe1 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a488a8837a82c133645c5143a93012fe1"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_serializing_streamer.html#a488a8837a82c133645c5143a93012fe1">toJsonString</a> () const </td></tr>
-<tr class="memdesc:a488a8837a82c133645c5143a93012fe1 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string containing the serialization of this object in JSON format. <br/></td></tr>
-<tr class="separator:a488a8837a82c133645c5143a93012fe1 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bf77e4291a7d6edeca6824d0846ca7b inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2bf77e4291a7d6edeca6824d0846ca7b"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_serializing_streamer.html#a2bf77e4291a7d6edeca6824d0846ca7b">toXmlString</a> () const </td></tr>
-<tr class="memdesc:a2bf77e4291a7d6edeca6824d0846ca7b inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string containing the serialization of this object in XML format. <br/></td></tr>
-<tr class="separator:a2bf77e4291a7d6edeca6824d0846ca7b inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a78df40bdfba499a781b7efdd04f48c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5a78df40bdfba499a781b7efdd04f48c"></a>
+<a class="el" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01">kf_int64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a5a78df40bdfba499a781b7efdd04f48c">getFileSize</a> () const </td></tr>
+<tr class="memdesc:a5a78df40bdfba499a781b7efdd04f48c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the file pointed by this path. <br/></td></tr>
+<tr class="separator:a5a78df40bdfba499a781b7efdd04f48c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf9d8dec69185596206bbf2243a55ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afbf9d8dec69185596206bbf2243a55ba"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#afbf9d8dec69185596206bbf2243a55ba">isDirectory</a> () const </td></tr>
+<tr class="memdesc:afbf9d8dec69185596206bbf2243a55ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this path identifes a directory on the file system. <br/></td></tr>
+<tr class="separator:afbf9d8dec69185596206bbf2243a55ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa370f757bb4e0ab1bf473743b8ee81c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01">kf_int64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#afa370f757bb4e0ab1bf473743b8ee81c">getModificationTime</a> () const </td></tr>
+<tr class="memdesc:afa370f757bb4e0ab1bf473743b8ee81c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last modification time of the file pointed by this path.  <a href="#afa370f757bb4e0ab1bf473743b8ee81c">More...</a><br/></td></tr>
+<tr class="separator:afa370f757bb4e0ab1bf473743b8ee81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca0b3d2e99ff294e62e556f0d57cc061"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01">kf_int64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#aca0b3d2e99ff294e62e556f0d57cc061">getAccessTime</a> () const </td></tr>
+<tr class="memdesc:aca0b3d2e99ff294e62e556f0d57cc061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last access time to the file pointed by this path.  <a href="#aca0b3d2e99ff294e62e556f0d57cc061">More...</a><br/></td></tr>
+<tr class="separator:aca0b3d2e99ff294e62e556f0d57cc061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70f590d2cd8b09c3b7061ed243835382"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70f590d2cd8b09c3b7061ed243835382"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a70f590d2cd8b09c3b7061ed243835382">hasWritePermission</a> () const </td></tr>
+<tr class="memdesc:a70f590d2cd8b09c3b7061ed243835382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this process has permission to write on the file pointed by this path object. <br/></td></tr>
+<tr class="separator:a70f590d2cd8b09c3b7061ed243835382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a485cee3c4d625e9f8821f17dff4fa9ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a485cee3c4d625e9f8821f17dff4fa9ee"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a485cee3c4d625e9f8821f17dff4fa9ee">hasReadPermission</a> () const </td></tr>
+<tr class="memdesc:a485cee3c4d625e9f8821f17dff4fa9ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this process has permission to read the file pointed by this path object. <br/></td></tr>
+<tr class="separator:a485cee3c4d625e9f8821f17dff4fa9ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e5e0345287a9aaae10e58db22a3c421"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e5e0345287a9aaae10e58db22a3c421"></a>
+Md5&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a2e5e0345287a9aaae10e58db22a3c421">computeMd5</a> () const </td></tr>
+<tr class="memdesc:a2e5e0345287a9aaae10e58db22a3c421"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the MD5 code corresponding to the contents of the file pointed by this path object. <br/></td></tr>
+<tr class="separator:a2e5e0345287a9aaae10e58db22a3c421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36104c6100bb9cd730ae1058b8da29de"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36104c6100bb9cd730ae1058b8da29de"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a36104c6100bb9cd730ae1058b8da29de">serialize</a> (<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; builder) const </td></tr>
+<tr class="memdesc:a36104c6100bb9cd730ae1058b8da29de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements compatibility with <a class="el" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a> interface. <br/></td></tr>
+<tr class="separator:a36104c6100bb9cd730ae1058b8da29de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae088cd91db2164c1610c3cd657bae8bb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae088cd91db2164c1610c3cd657bae8bb"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#ae088cd91db2164c1610c3cd657bae8bb">printToStream</a> (<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_output_stream.html">OutputStream</a> &gt; stream) const </td></tr>
+<tr class="memdesc:ae088cd91db2164c1610c3cd657bae8bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements compatibility with <a class="el" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> interface. <br/></td></tr>
+<tr class="separator:ae088cd91db2164c1610c3cd657bae8bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96a013f424b5a39c98902249aa9e2603"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96a013f424b5a39c98902249aa9e2603"></a>
+<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a96a013f424b5a39c98902249aa9e2603">toString</a> () const </td></tr>
+<tr class="memdesc:a96a013f424b5a39c98902249aa9e2603"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the result of invocation of <code>printToStream(ostream&amp;)</code> to a <code>std::string</code> object. <br/></td></tr>
+<tr class="separator:a96a013f424b5a39c98902249aa9e2603"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classkfoundation_1_1_k_f_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_k_f_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_k_f_object.html">kfoundation::KFObject</a></td></tr>
+<tr class="memitem:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7e884f08321a2392637062ffee0c10d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_k_f_object.html#af7e884f08321a2392637062ffee0c10d">equals</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; <a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> &gt; other) const </td></tr>
+<tr class="memdesc:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this object is the same as the one reffered by the given refrence. <br/></td></tr>
+<tr class="separator:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a0ce154b8eac8d2433f9d85bae500eb58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ce154b8eac8d2433f9d85bae500eb58"></a>
 static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_path.html#a0ce154b8eac8d2433f9d85bae500eb58">PATH_SEPARATOR</a> = '/'</td></tr>
-<tr class="memdesc:a0ce154b8eac8d2433f9d85bae500eb58"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classkfoundation_1_1_path.html" title="Used to represent and manipulate file and directory pathnames. ">Path</a> separator symbol on the current platform. <br/></td></tr>
+<tr class="memdesc:a0ce154b8eac8d2433f9d85bae500eb58"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classkfoundation_1_1_path.html" title="Represents a file path. ">Path</a> separator symbol on the current platform. <br/></td></tr>
 <tr class="separator:a0ce154b8eac8d2433f9d85bae500eb58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Used to represent and manipulate file and directory pathnames. </p>
-<dl class="section note"><dt>Note</dt><dd>For better performance use <a class="el" href="classkfoundation_1_1_path.html#a4b2344dc47dbd551eb5e037bda0e9f28" title="Returns the string value of this pat. ">getString()</a> rather than toString() to get the string value of this object. </dd></dl>
+<div class="textblock"><p>Represents a file path. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a24a831cadb8457b8d7bf0972d73f4e6f"></a>
+<a class="anchor" id="aa0734553468655cedc2a43d794d77801"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">kfoundation::Path::Path </td>
           <td>(</td>
-          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td>
           <td class="paramname"><em>str</em>)</td><td></td>
           <td></td>
         </tr>
@@ -249,14 +245,14 @@ static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a058986fd8ea637f951f17a6b51d8d518"></a>
+<a class="anchor" id="a35e970258dbf9b36437a6718b9028b95"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_ptr.html">Ptr</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt; kfoundation::Path::changeExtension </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt; kfoundation::Path::changeExtension </td>
           <td>(</td>
-          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td>
           <td class="paramname"><em>ex</em>)</td><td></td>
           <td></td>
         </tr>
@@ -265,6 +261,42 @@ static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 
 <p>Changes the file extensions. </p>
 <p>Adds one if it does not exist. </p>
+
+</div>
+</div>
+<a class="anchor" id="aca0b3d2e99ff294e62e556f0d57cc061"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01">kf_int64_t</a> kfoundation::Path::getAccessTime </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the last access time to the file pointed by this path. </p>
+<p>Returned value is in milisecond from system epoch. </p>
+
+</div>
+</div>
+<a class="anchor" id="afa370f757bb4e0ab1bf473743b8ee81c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01">kf_int64_t</a> kfoundation::Path::getModificationTime </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the last modification time of the file pointed by this path. </p>
+<p>Returned value is in milisecond from system epoch. </p>
 
 </div>
 </div>
@@ -304,12 +336,12 @@ static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 
 </div>
 </div>
-<a class="anchor" id="acedd8667f46a854027a4cffdc0e043cd"></a>
+<a class="anchor" id="a1451f07d5164bc88eaec7d86d21388e0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_ptr.html">Ptr</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt; kfoundation::Path::parent </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_path.html">Path</a> &gt; kfoundation::Path::parent </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td></td>
@@ -322,41 +354,6 @@ static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 
 </div>
 </div>
-<a class="anchor" id="a4ad751bfef0ca98541de0c374dd67a25"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void kfoundation::Path::printToStream </td>
-          <td>(</td>
-          <td class="paramtype">ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>)</td><td></td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements compatibility with <a class="el" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> interface. </p>
-<p>Prints the serialization of this object in KFOR format to the given stream. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">os</td><td>The stream to print to. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Reimplemented from <a class="el" href="classkfoundation_1_1_serializing_streamer.html#a5c8646f1e2739e8aee715e7a5e8ded5f">kfoundation::SerializingStreamer</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_path_8h_source.html">Path.h</a></li>
 <li>Path.cpp</li>
@@ -364,7 +361,7 @@ static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

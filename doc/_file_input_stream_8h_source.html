@@ -108,52 +108,62 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#ifndef __KFoundation_XCode_Wrapper__FileInputStream__</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __KFoundation_XCode_Wrapper__FileInputStream__</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;InputStream.h&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Internal</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;RefDecl.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// Super</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;InputStream.h&quot;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">class </span>Path;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_file_input_stream.html">   37</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. ">FileInputStream</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_input_stream.html" title="Abstract interface for all input streams. ">InputStream</a> {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    ifstream* _ifs;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    streampos _mark;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01" title="64-bit signed numeric type. ">kf_int64_t</a> _size;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. ">FileInputStream</a>(<a class="code" href="classkfoundation_1_1_p_ptr.html" title="Passive pointer, will not release and retain automatically. ">PPtr&lt;Path&gt;</a> path);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. ">FileInputStream</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; fileName);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. ">FileInputStream</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01" title="64-bit signed numeric type. ">kf_int64_t</a> getSize() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> isOpen() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> close();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// From InputStream</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> read(<a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* buffer, <span class="keyword">const</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> nBytes);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> read();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">int</span> peek();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> skip(<a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> bytes);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> isEof();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> isMarkSupported();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> mark();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> reset();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> isBigEndian();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keyword">class </span>UString;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_file_input_stream.html">   38</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. ">FileInputStream</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_input_stream.html" title="Abstract interface for all input streams. ">InputStream</a> {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="comment">// --- FIELDS --- //</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">private</span>: <a class="code" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">Ref&lt;Path&gt;</a>  _path;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">private</span>: <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> _fileDescriptor;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">private</span>: <a class="code" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01" title="64-bit signed numeric type. ">kf_int64_t</a> _mark;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="comment">// --- (DE)CONSTRUCTORS --- //</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_file_input_stream.html#a119569c80089a68b5dfd414b79812f67" title="Constructor, opens the file pointed by the given Path object. ">FileInputStream</a>(<a class="code" href="classkfoundation_1_1_ref_const.html" title="Reference to constant vairation of Ref. ">RefConst&lt;Path&gt;</a> path);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_file_input_stream.html#a119569c80089a68b5dfd414b79812f67" title="Constructor, opens the file pointed by the given Path object. ">FileInputStream</a>(<a class="code" href="classkfoundation_1_1_ref_const.html">RefConst&lt;UString&gt;</a> path);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_file_input_stream.html#a8cea2b233f50de52f2f28997c7b95c9f" title="Deconstructor. ">~FileInputStream</a>();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="comment">// --- METHODS --- //</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   <span class="keyword">private</span>: <span class="keywordtype">void</span> construct(<a class="code" href="classkfoundation_1_1_ref_const.html" title="Reference to constant vairation of Ref. ">RefConst&lt;Path&gt;</a> path);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#a4fbde07c41fd386fe1be3a5bc2b182de" title="Checks if the file is open. ">isOpen</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#ae2a6cb7b4224bfd362dcfaf07de20ee8" title="Closes the file. ">close</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#a1e851f0d12a14ec586d45f93591ae3bf" title="Checks if the file is locked by another process. ">isLocked</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#abd278be146eca97dd2fcc8039cca3dfa" title="Puts a lock on this file, blocking access from other processes until unlockced. ">lock</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#a15939e41844f4ca04f38766fd2e3b383" title="Unlocks the this file if it is locked by this process. ">unlock</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  };</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation_XCode_Wrapper__FileInputStream__) */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">// From InputStream</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <a class="code" href="classkfoundation_1_1_file_input_stream.html#afcd9b21a3c0b7c6ac21f13faf8bd7775" title="Reads a single octet. ">read</a>(<a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* buffer, <span class="keyword">const</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> nOctets);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558" title="16-bit signed numeric type. ">kf_int16_t</a> <a class="code" href="classkfoundation_1_1_file_input_stream.html#afcd9b21a3c0b7c6ac21f13faf8bd7775" title="Reads a single octet. ">read</a>();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558" title="16-bit signed numeric type. ">kf_int16_t</a> <a class="code" href="classkfoundation_1_1_file_input_stream.html#a2cf37cc7ffa01caa723b32a1db7685e0" title="Reads a single octet without advancing. ">peek</a>();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <a class="code" href="classkfoundation_1_1_file_input_stream.html#a9f8d66031ff0f9e737832d11a69f8e33" title="Skips the at most the given number of octets without reading them. ">skip</a>(<a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> nOctets);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#adb850ee6aa2624a837f00d3545f95be0" title="Checks if the end of stream is reached. ">isEof</a>();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#a492cb8ff032b498be59a586f271eff66" title="If returns true, mark() and reset() methods can be used. ">isMarkSupported</a>();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#a4d2635939462471a6d23365737e0a7c6" title="Marks the current position of the stream. ">mark</a>();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#ac190ebc17d89003813e9ce6b17bd05a6" title="Returns the stream position to where mark() was used last time. ">reset</a>();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_file_input_stream.html#ac688e85a4f2d90bc68f8a09d5953700e" title="Checks if the stream is big-endian. ">isBigEndian</a>();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  };</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation_XCode_Wrapper__FileInputStream__) */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:26 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

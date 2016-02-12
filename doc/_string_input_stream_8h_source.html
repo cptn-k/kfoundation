@@ -108,40 +108,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#ifndef __KFoundation__StringInputStream__</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __KFoundation__StringInputStream__</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;InputStream.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  </div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_string_input_stream.html">   31</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_string_input_stream.html" title="Input stream to read from string. ">StringInputStream</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_input_stream.html" title="Abstract interface for all input streams. ">InputStream</a> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">string</span> _str;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> _pos;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> _mark;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">bool</span> _eof;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classkfoundation_1_1_string_input_stream.html#a4f2291cabb20efc0c82f8891d0e919e8" title="Constructor, uses the given string as input. ">StringInputStream</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; str);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classkfoundation_1_1_string_input_stream.html#a9deaa5e07a3a4154e775a2f2e0910b0a" title="Deconstructor. ">~StringInputStream</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// From InputStream</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <a class="code" href="classkfoundation_1_1_string_input_stream.html#ad42d9d71b6041c17cd97a521fb3dca3d" title="Reads a single octet. ">read</a>(<a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* buffer, <span class="keyword">const</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> nBytes);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#ad42d9d71b6041c17cd97a521fb3dca3d" title="Reads a single octet. ">read</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#a0d8801f6865fd8765ff70e8d41e5bc35" title="Reads a single octet without advancing. ">peek</a>();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <a class="code" href="classkfoundation_1_1_string_input_stream.html#a861e399a12cd6c872a8d040cc8753be3" title="Skips the at most the given number of octets without reading them. ">skip</a>(<a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> bytes);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#aff60f3926ead205c44c3422c4e4558ef" title="Checks if the end of stream is reached. ">isEof</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#a4db8b0af46fea2a06da4f8ba4ddfe091" title="If returns true, mark() and reset() methods can be used. ">isMarkSupported</a>();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#ab9a10558a7fab978d443973d03d64079" title="Marks the current position of the stream. ">mark</a>();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#afcac2b664e677137e07ff9a0093cb2bd" title="Returns the stream position to where mark() was used last time. ">reset</a>();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#a2968c2300baf39a42751cd0fb0aa14b2" title="Checks if the stream is big-endian. ">isBigEndian</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  };</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation__StringInputStream__) */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;RefDecl.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;InputStream.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keyword">class </span>UString;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_string_input_stream.html">   34</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_string_input_stream.html" title="Input stream to read from string. ">StringInputStream</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_input_stream.html" title="Abstract interface for all input streams. ">InputStream</a> {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="comment">// --- FIELDS --- //</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span>: <a class="code" href="classkfoundation_1_1_ref_const.html">RefConst&lt;UString&gt;</a> _str;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span>: <span class="keyword">const</span> <a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* _pos;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">private</span>: <span class="keyword">const</span> <a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* _end;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">private</span>: <span class="keyword">const</span> <a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* _mark;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">// --- (DE)CONSTRUCTORS --- //</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_string_input_stream.html#abf3316ba50cbfbd812cc871ce4ae11c2" title="Constructor, uses the given string as input. ">StringInputStream</a>(<a class="code" href="classkfoundation_1_1_ref_const.html">RefConst&lt;UString&gt;</a> str);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// --- METHODS --- //</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// From InputStream</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <a class="code" href="classkfoundation_1_1_string_input_stream.html#aadaff3b9643ae7c6d760c6e1a2e0ed8b" title="Reads a single octet. ">read</a>(<a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* buffer, <span class="keyword">const</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> nBytes);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558" title="16-bit signed numeric type. ">kf_int16_t</a> <a class="code" href="classkfoundation_1_1_string_input_stream.html#aadaff3b9643ae7c6d760c6e1a2e0ed8b" title="Reads a single octet. ">read</a>();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558" title="16-bit signed numeric type. ">kf_int16_t</a> <a class="code" href="classkfoundation_1_1_string_input_stream.html#acda989426dd2fe9372bec986c667ce82" title="Reads a single octet without advancing. ">peek</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <a class="code" href="classkfoundation_1_1_string_input_stream.html#a861e399a12cd6c872a8d040cc8753be3" title="Skips the at most the given number of octets without reading them. ">skip</a>(<a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> bytes);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#aff60f3926ead205c44c3422c4e4558ef" title="Checks if the end of stream is reached. ">isEof</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#a4db8b0af46fea2a06da4f8ba4ddfe091" title="If returns true, mark() and reset() methods can be used. ">isMarkSupported</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#ab9a10558a7fab978d443973d03d64079" title="Marks the current position of the stream. ">mark</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#afcac2b664e677137e07ff9a0093cb2bd" title="Returns the stream position to where mark() was used last time. ">reset</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_string_input_stream.html#a2968c2300baf39a42751cd0fb0aa14b2" title="Checks if the stream is big-endian. ">isBigEndian</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  };</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation__StringInputStream__) */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:26 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

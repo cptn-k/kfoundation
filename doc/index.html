@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.4"/>
-<title>KFoundation: Overview</title>
+<title>KFoundation: Overview (out of date)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,14 +77,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Overview </div>  </div>
+<div class="title">Overview (out of date) </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>KFoundation is a collection of C++ APIs that are essential to every program. Some of them like Logger have been missing in C++ standard libraries, and some of the like managed pointers (<code>Ptr</code>) replace existing C++ standard APIs like <code>auto_ptr</code>, etc. with better fucntionality.</p>
+<div class="textblock"><p>KFoundation is a collection of C++ APIs that are essential to every program. Some of them like Logger have been missing in C++ standard libraries, and some of the like managed pointers (<code>Ref</code>) replace existing C++ standard APIs like <code>auto_ptr</code>, etc. with better fucntionality.</p>
 <p>Most classes in KFoundation implement Streamer interface. This interface provides a <code>toString()</code> funtion and also overloads <code>&lt;&lt;</code> operator for both ostream and logger stream. For example, if <code>myObject</code> is a <code>Streamer</code>, you can do any of the following: </p>
-<pre class="fragment">cout &lt;&lt; myObject &lt;&lt; endl;
-LOG &lt;&lt; myObject &lt;&lt; EL;
-string str = myObject.toString();
+<pre class="fragment">LOG &lt;&lt; myObject &lt;&lt; OVER;
+Ref&lt;UString&gt; str = myObject-&gt;toString();
 </pre><p>The KFoundation APIs can be divided into the following categories (modules):</p>
 <ul>
 <li>Types and Macros</li>
@@ -101,19 +100,19 @@ string str = myObject.toString();
 <p>KFoundation defines a set of portable types. These are, <code>kf_octet_t</code>, <code>kf_int8_t</code>, <code>kf_int16_t</code>, <code>kf_int32_t</code>, and <code>kf_int64_t</code>.</p>
 <p>There are a serries of macros helping to detect the operating system. Thesre are, <code>KF_LINUX</code>, <code>KF_MAC</code>, <code>KF_MACH</code>, <code>KF_SOLARIS</code>, and <code>KF_FREE_BSD</code>. If the target machine or operating system is supported by KFoundation, <code>KF_SUPPORTED</code> will be defined.</p>
 <p><code><a class="el" href="group__defs.html#gac63fab50b06d52896c4c7d01f727246d" title="Tests if the argument is null. ">IS_NULL(X)</a></code> and <code><a class="el" href="group__defs.html#gac03454935ca50b751ab589ff66667209" title="Tests if the argument is not null. ">NOT_NULL(X)</a></code> macros are provided to help creating more readable codes.</p>
-<p><code><a class="el" href="group__memory.html#gaf9e4625ab05b7b7613b8a4d289fbd2ee" title="Operates like a member function on a Ptr&lt;T&gt; and returns a boolean. ">ISA(X)</a></code>, and <code><a class="el" href="group__memory.html#gadd1b84833ea960946a57fc042f648975" title="Operates like a member function on a Ptr&lt;T&gt; and casts it to another type. ">AS(X)</a></code> that are related to memory management module. Usage: </p>
+<p><code><a class="el" href="group__memory.html#gaf9e4625ab05b7b7613b8a4d289fbd2ee" title="Operates like a member function on a Ref&lt;T&gt; and returns a boolean. ">ISA(X)</a></code>, and <code><a class="el" href="group__memory.html#gadd1b84833ea960946a57fc042f648975" title="Operates like a member function on a Ref&lt;T&gt; and casts it to another type. ">AS(X)</a></code> that are related to memory management module. Usage: </p>
 <pre class="fragment">if(myObject.ISA(MyClass)) {
     myObject.AS(MyClass)-&gt;methodSpecificToMyClass();
 }
 </pre><p><a class="el" href="group__defs.html">See all APIs here.</a></p>
 <h1>Memory Management </h1>
-<p>KFoundation provides an automatic memory management solution with several advantages. Only subclasses of ManagedObject can take advantage of this feature. Thus ManagedObject is the root class in KFoundation inheritance hierarchy. To create a pointer to a managed object use Ptr&lt;T&gt;, PPtr&lt;T&gt;, or SPtr&lt;T&gt; instead a standard one. See documentation for <a class="el" href="classkfoundation_1_1_ptr.html" title="Managed pointer to a class of given template type. ">kfoundation::Ptr</a> for more details.</p>
+<p>KFoundation provides an automatic memory management solution with several advantages. Only subclasses of KFObject can take advantage of this feature. Thus KFObject is the root class in KFoundation inheritance hierarchy. To create a pointer to a managed object use Ref&lt;T&gt;, RefConst&lt;T&gt; instead a standard one. See documentation for <a class="el" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">kfoundation::Ref</a> for more details.</p>
 <p>KFoundation memory management protects you from getting segmentation fault, and instread throws NullPointerException or InvalidPointerException as appropriate with complete stack trace that helps you debug your program or just keep it running without a crash.</p>
 <p>If ever needed, you may interact with running memory managers by invoking <a class="el" href="classkfoundation_1_1_system.html#a9dd28185a2b3ba1e3bf7254b0fd453a8">System::getMasterMemoryManager()</a>. You may create and register your own managers as well. A memory manager should be a subclass of <a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a>.</p>
 <p><a class="el" href="group__memory.html">See all APIs here.</a></p>
 <h1>Wrappers and Containers </h1>
-<p>Languages like Java offer type-wrapper classes corresponding to primitive types. These are useful when you need to use a variable of primitive type like an object. KFoundation offers Bool, Int, LongInt, Double, and UniChar for the same purpose. Specially UniChar contains a set of very useful functions to deal with Unicode and UTF-8 encoding.</p>
-<p>At the moment, there are only two container classes, namely Array&lt;T&gt; and ManagedArray&lt;T&gt;. ManagedArray&lt;T&gt; is a container for ManagedObjects, and Array&lt;T&gt; is a container for everything else. However Array&lt;T&gt; is a ManagedObject itself. NummericVector&lt;T&gt; is a subclass of Array&lt;T&gt; that implements primary mathematical operations and implements Streamer interface i.e. it has a toString() method.</p>
+<p>Languages like Java offer type-wrapper classes corresponding to primitive types. These are useful when you need to use a variable of primitive type like an object. KFoundation offers Bool, Int, LongInt, Double, and UChar for the same purpose. Specially UChar contains a set of very useful functions to deal with Unicode and UTF-8 encoding.</p>
+<p>At the moment, there are only two container classes, namely Array&lt;T&gt; and RefArray&lt;T&gt;. RefArray&lt;T&gt; is a container for ManagedObjects, and Array&lt;T&gt; is a container for everything else. However Array&lt;T&gt; is a KFObject itself. NummericVector&lt;T&gt; is a subclass of Array&lt;T&gt; that implements primary mathematical operations and implements Streamer interface i.e. it has a toString() method.</p>
 <p><a class="el" href="group__containers.html">See all APIs here.</a></p>
 <h1>I/O </h1>
 <p>KFoundation offers InputStream and OutputStream classes as minimalist equivalant of standard ostream and istream. Thanks to their minimalist design, an extensive set of stream types could by provided by KFoundation. Thesre are, BufferInputStream, BufferOutputStream, FileInputStream, FileOutputStream, InternetInputStream, InternetOutputStream, and StringInputStream. If you need to use a standard istream or ostream object withing KFoundation simply use StandardInputStreamAdapter and StandardOutputStreamAdapter.</p>
@@ -127,7 +126,7 @@ string str = myObject.toString();
 <li><a class="el" href="classkfoundation_1_1_logger.html">Logger</a> is a multi-channel multi-level logging utility. You often use it indirectly via LOG, LOG_XXX, and DLOG_XXX macros.</li>
 <li><a class="el" href="classkfoundation_1_1_system.html">System</a> class provides a set of cross-platform APIs to access system features.</li>
 <li><a class="el" href="classkfoundation_1_1_timer.html">Timer</a> is used to measure performance of a code fragment.</li>
-<li><a class="el" href="classkfoundation_1_1_predictive_parser_base.html">PredictiveParserBase</a> is a utility to write parsers. It is used internally to implement obejct deserialization in KFoundation.</li>
+<li><a class="el" href="classkfoundation_1_1_stream_parser.html">StreamParser</a> is a utility to write parsers. It is used internally to implement obejct deserialization in KFoundation.</li>
 </ul>
 <p><a class="el" href="group__utils.html">See all APIs here.</a></p>
 <h1>Range Arithmatics </h1>
@@ -141,7 +140,7 @@ string str = myObject.toString();
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

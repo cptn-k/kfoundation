@@ -1,10 +1,12 @@
 <map id="kfoundation::ObjectStreamReader" name="kfoundation::ObjectStreamReader">
-<area shape="rect" id="node3" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="473,144,609,171"/>
-<area shape="rect" id="node2" href="$classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,144,197,171"/>
-<area shape="rect" id="node4" href="$classkfoundation_1_1_attribute_token.html" title="Represents an attribute in the parsed stream. " alt="" coords="663,5,849,32"/>
-<area shape="rect" id="node5" href="$classkfoundation_1_1_collection_token.html" title="Represents begining of a collection in the parsed stream. " alt="" coords="659,56,853,83"/>
-<area shape="rect" id="node6" href="$classkfoundation_1_1_end_collection_token.html" title="Represents end of a collection in the parsed stream. " alt="" coords="666,107,846,149"/>
-<area shape="rect" id="node7" href="$classkfoundation_1_1_end_object_token.html" title="Represents end of an object in the parsed stream. " alt="" coords="657,173,855,200"/>
-<area shape="rect" id="node8" href="$classkfoundation_1_1_object_token.html" title="Represents begining of an object in the parsed stream. " alt="" coords="669,224,843,251"/>
-<area shape="rect" id="node9" href="$classkfoundation_1_1_text_token.html" title="Represents a text body (CDATA) in the parsed stream. " alt="" coords="675,275,837,301"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="687,144,823,171"/>
+<area shape="rect" id="node11" href="$classkfoundation_1_1_xml_object_stream_reader.html" title="ObjectStreamReader to deserialize XML streams. " alt="" coords="653,195,856,237"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="224,173,377,200"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="5,166,176,207"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_attribute_token.html" title="Represents an attribute in the parsed stream. " alt="" coords="910,5,1095,32"/>
+<area shape="rect" id="node6" href="$classkfoundation_1_1_collection_token.html" title="Represents begining of a collection in the parsed stream. " alt="" coords="906,56,1099,83"/>
+<area shape="rect" id="node7" href="$classkfoundation_1_1_end_collection_token.html" title="Represents end of a collection in the parsed stream. " alt="" coords="913,107,1093,149"/>
+<area shape="rect" id="node8" href="$classkfoundation_1_1_end_object_token.html" title="Represents end of an object in the parsed stream. " alt="" coords="904,173,1101,200"/>
+<area shape="rect" id="node9" href="$classkfoundation_1_1_object_token.html" title="Represents begining of an object in the parsed stream. " alt="" coords="916,224,1089,251"/>
+<area shape="rect" id="node10" href="$classkfoundation_1_1_text_token.html" title="Represents a text body (CDATA) in the parsed stream. " alt="" coords="922,275,1083,301"/>
 </map>

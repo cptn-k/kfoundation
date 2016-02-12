@@ -1,7 +1,8 @@
 <map id="kfoundation::OutputStream" name="kfoundation::OutputStream">
-<area shape="rect" id="node3" href="$classkfoundation_1_1_buffer_output_stream.html" title="Output stream used to write to a buffer in memory. " alt="" coords="489,5,663,47"/>
-<area shape="rect" id="node4" href="$classkfoundation_1_1_file_output_stream.html" title="Output stream used to write data on file. " alt="" coords="475,71,677,98"/>
-<area shape="rect" id="node5" href="$classkfoundation_1_1_internet_output_stream.html" title="Input stream used to write to TCP/IP socket. " alt="" coords="484,123,668,164"/>
-<area shape="rect" id="node6" href="$classkfoundation_1_1_standard_output_stream_adapter.html" title="KFoundation wrapper for C++ ostream. " alt="" coords="480,188,672,229"/>
-<area shape="rect" id="node2" href="$classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,101,197,127"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_buffer_output_stream.html" title="Output stream used to write to a buffer in memory. " alt="" coords="669,5,843,47"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_file_output_stream.html" title="Output stream used to write data on file. " alt="" coords="655,71,857,98"/>
+<area shape="rect" id="node6" href="$classkfoundation_1_1_internet_output_stream.html" title="Input stream used to write to TCP/IP socket. " alt="" coords="664,123,848,164"/>
+<area shape="rect" id="node7" href="$classkfoundation_1_1_standard_output_stream_adapter.html" title="KFoundation wrapper for C++ ostream. " alt="" coords="660,188,852,229"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="224,101,377,127"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="5,93,176,135"/>
 </map>

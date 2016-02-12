@@ -92,53 +92,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef ORG_KNORBA_COMMON_TYPE_INTEGER_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define ORG_KNORBA_COMMON_TYPE_INTEGER_H </span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ostream&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;definitions.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;RefDecl.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Streamer.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;ManagedObject.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;KFObject.h&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_int.html">   20</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_int.html" title="Wrapper for int type. ">Int</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. ">ManagedObject</a>, <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">int</span> _value;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_int.html">   18</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_int.html" title="Wrapper for int type. ">Int</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. ">KFObject</a>, <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="comment">// --- FIELDS --- //</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">private</span>: <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> _value;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="classkfoundation_1_1_int.html" title="Wrapper for int type. ">Int</a>(<span class="keywordtype">int</span> _value);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classkfoundation_1_1_int.html" title="Wrapper for int type. ">Int</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; str);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">int</span> <span class="keyword">get</span>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> set(<span class="keyword">const</span> <span class="keywordtype">int</span> value);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> parse(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; str);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> toHexString(<span class="keyword">const</span> <span class="keywordtype">int</span> v);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> toString(<span class="keyword">const</span> <span class="keywordtype">int</span> v);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// From Streamer</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> printToStream(ostream&amp; os) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">string</span> toString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  };</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_int.html#a9a3b89f65b7c1446a758b6515fb59350">   46</a></span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">int</span> Int::get()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> _value;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_int.html#a6b29a3c11035c75839dc7f33b3d8652c">   55</a></span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">void</span> Int::set(<span class="keyword">const</span> <span class="keywordtype">int</span> value) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    _value = value;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="comment">// --- CONSTRUCTORS --- //</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_int.html#acb2c04e37c797f24829cbb60865b877e" title="Constructor. ">Int</a>(<a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> value);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_int.html#acb2c04e37c797f24829cbb60865b877e" title="Constructor. ">Int</a>(RefConst&lt;UString&gt; str);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="comment">// --- STATIC METHODS --- //</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">public</span>: <span class="keyword">static</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <a class="code" href="classkfoundation_1_1_int.html#a93866fe8db3eaee3844401b0e2a56cad" title="Parses the given string to corresponding integer value. ">parse</a>(RefConst&lt;UString&gt; str);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="comment">// --- METHODS --- //</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span>: <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> <span class="keyword">get</span>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_int.html#a642e5e661e480725accaea4e52a1054d" title="Setter method. ">set</a>(<span class="keyword">const</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> value);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_ref.html" title="Managed pointer to a class of given template type. ">Ref&lt;UString&gt;</a> <a class="code" href="classkfoundation_1_1_int.html#af737288a7084dcecff42a5ae9344eb7b" title="Returns the hexadecimal representation of the given value as a string. ">toHexString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// From Streamer</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_int.html#a1e73c4719893f473b45a4c285bf5f46a" title="Converts the given integer value to string. ">printToStream</a>(<a class="code" href="classkfoundation_1_1_ref.html" title="Managed pointer to a class of given template type. ">Ref&lt;OutputStream&gt;</a> os) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">public</span>: RefConst&lt;UString&gt; <a class="code" href="classkfoundation_1_1_int.html#abab37bbb03c5477b08d6cde9e29d9740" title="Converts the result of invocation of printToStream(ostream&amp;) to a std::string object. ">toString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  };</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 5 2016 17:43:35 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

@@ -106,7 +106,7 @@ Inheritance diagram for kfoundation::Thread:</div>
 <div class="dyncontent">
 <div class="center"><img src="classkfoundation_1_1_thread__inherit__graph.png" border="0" usemap="#kfoundation_1_1_thread_inherit__map" alt="Inheritance graph"/></div>
 <map name="kfoundation_1_1_thread_inherit__map" id="kfoundation_1_1_thread_inherit__map">
-<area shape="rect" id="node2" href="classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,5,197,32"/></map>
+<area shape="rect" id="node2" href="classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="14,95,167,121"/><area shape="rect" id="node3" href="classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="5,5,176,47"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -114,9 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab4a9c218a7b50e847c0ec454ecf90016"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#ab4a9c218a7b50e847c0ec454ecf90016">Thread</a> ()</td></tr>
 <tr class="memdesc:ab4a9c218a7b50e847c0ec454ecf90016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#ab4a9c218a7b50e847c0ec454ecf90016">More...</a><br/></td></tr>
 <tr class="separator:ab4a9c218a7b50e847c0ec454ecf90016"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a432be9a04c3fcbc05d02e2395aa5a2c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a432be9a04c3fcbc05d02e2395aa5a2c0">Thread</a> (const string &amp;name)</td></tr>
-<tr class="memdesc:a432be9a04c3fcbc05d02e2395aa5a2c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a named thread.  <a href="#a432be9a04c3fcbc05d02e2395aa5a2c0">More...</a><br/></td></tr>
-<tr class="separator:a432be9a04c3fcbc05d02e2395aa5a2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e218de4a84c6fead34e0e6628cdd9eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a2e218de4a84c6fead34e0e6628cdd9eb">Thread</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name)</td></tr>
+<tr class="memdesc:a2e218de4a84c6fead34e0e6628cdd9eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a named thread.  <a href="#a2e218de4a84c6fead34e0e6628cdd9eb">More...</a><br/></td></tr>
+<tr class="separator:a2e218de4a84c6fead34e0e6628cdd9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e969c5551e320da7bbd06ce4789c901"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e969c5551e320da7bbd06ce4789c901"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a9e969c5551e320da7bbd06ce4789c901">~Thread</a> ()</td></tr>
 <tr class="memdesc:a9e969c5551e320da7bbd06ce4789c901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor. <br/></td></tr>
@@ -130,32 +130,25 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa90a8e2a03d18a90503be22f21a3f845"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#aa90a8e2a03d18a90503be22f21a3f845">isRunning</a> () const </td></tr>
 <tr class="memdesc:aa90a8e2a03d18a90503be22f21a3f845"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this thread is running.  <a href="#aa90a8e2a03d18a90503be22f21a3f845">More...</a><br/></td></tr>
 <tr class="separator:aa90a8e2a03d18a90503be22f21a3f845"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e875aee60d6e2ce560156d52deda743"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e875aee60d6e2ce560156d52deda743"></a>
-const string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a3e875aee60d6e2ce560156d52deda743">getName</a> () const </td></tr>
-<tr class="memdesc:a3e875aee60d6e2ce560156d52deda743"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of this thread. <br/></td></tr>
-<tr class="separator:a3e875aee60d6e2ce560156d52deda743"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8eedd126b62980f493f4575b975e1861"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8eedd126b62980f493f4575b975e1861"></a>
+<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a8eedd126b62980f493f4575b975e1861">getName</a> () const </td></tr>
+<tr class="memdesc:a8eedd126b62980f493f4575b975e1861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of this thread. <br/></td></tr>
+<tr class="separator:a8eedd126b62980f493f4575b975e1861"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61f974f4ffb756bb3ef859a4e348812f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a61f974f4ffb756bb3ef859a4e348812f">isTheCurrentThread</a> () const </td></tr>
 <tr class="memdesc:a61f974f4ffb756bb3ef859a4e348812f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this method is invoked on the thread represented by this object.  <a href="#a61f974f4ffb756bb3ef859a4e348812f">More...</a><br/></td></tr>
 <tr class="separator:a61f974f4ffb756bb3ef859a4e348812f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classkfoundation_1_1_managed_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_managed_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_managed_object.html">kfoundation::ManagedObject</a></td></tr>
-<tr class="memitem:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5386447e4305d42f5f697b620106d9b0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a5386447e4305d42f5f697b620106d9b0">ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br/></td></tr>
-<tr class="separator:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a98eeb2e2dba37376f6f933ad3eabc514">~ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor.  <a href="#a98eeb2e2dba37376f6f933ad3eabc514">More...</a><br/></td></tr>
-<tr class="separator:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6769c05015242c26f4f675620d37f9a"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_managed_object.html">ManagedObject</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#ac6769c05015242c26f4f675620d37f9a">getPtr</a> () const </td></tr>
-<tr class="memdesc:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a managed poitner to this object. <br/></td></tr>
-<tr class="separator:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classkfoundation_1_1_k_f_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_k_f_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_k_f_object.html">kfoundation::KFObject</a></td></tr>
+<tr class="memitem:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7e884f08321a2392637062ffee0c10d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_k_f_object.html#af7e884f08321a2392637062ffee0c10d">equals</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; <a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> &gt; other) const </td></tr>
+<tr class="memdesc:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this object is the same as the one reffered by the given refrence. <br/></td></tr>
+<tr class="separator:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a4987a522bed2ab450fe1b09bb4c23b0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4987a522bed2ab450fe1b09bb4c23b0c"></a>
-static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a4987a522bed2ab450fe1b09bb4c23b0c">getNameOfCurrentThread</a> ()</td></tr>
-<tr class="memdesc:a4987a522bed2ab450fe1b09bb4c23b0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the thread that this method is invoked on. <br/></td></tr>
-<tr class="separator:a4987a522bed2ab450fe1b09bb4c23b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96e19c5df75830a8fea46e498d30c4f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96e19c5df75830a8fea46e498d30c4f4"></a>
+static <a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_thread.html#a96e19c5df75830a8fea46e498d30c4f4">getNameOfCurrentThread</a> ()</td></tr>
+<tr class="memdesc:a96e19c5df75830a8fea46e498d30c4f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the thread that this method is invoked on. <br/></td></tr>
+<tr class="separator:a96e19c5df75830a8fea46e498d30c4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An object-oriented, cross-platform abstraction for thread. </p>
@@ -179,14 +172,14 @@ static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 
 </div>
 </div>
-<a class="anchor" id="a432be9a04c3fcbc05d02e2395aa5a2c0"></a>
+<a class="anchor" id="a2e218de4a84c6fead34e0e6628cdd9eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">kfoundation::Thread::Thread </td>
           <td>(</td>
-          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td>
           <td class="paramname"><em>name</em>)</td><td></td>
           <td></td>
         </tr>
@@ -194,9 +187,9 @@ static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 </div><div class="memdoc">
 
 <p>Constructs a named thread. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classkfoundation_1_1_thread.html#a3e875aee60d6e2ce560156d52deda743" title="Returns the name of this thread. ">getName()</a> </dd>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classkfoundation_1_1_thread.html#a8eedd126b62980f493f4575b975e1861" title="Returns the name of this thread. ">getName()</a> </dd>
 <dd>
-<a class="el" href="classkfoundation_1_1_thread.html#a4987a522bed2ab450fe1b09bb4c23b0c" title="Returns the name of the thread that this method is invoked on. ">getNameOfCurrentThread()</a> </dd></dl>
+<a class="el" href="classkfoundation_1_1_thread.html#a96e19c5df75830a8fea46e498d30c4f4" title="Returns the name of the thread that this method is invoked on. ">getNameOfCurrentThread()</a> </dd></dl>
 
 </div>
 </div>
@@ -288,7 +281,7 @@ static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

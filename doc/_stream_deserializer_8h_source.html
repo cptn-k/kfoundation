@@ -100,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef __KFoundation__StreamDeserializer__</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __KFoundation__StreamDeserializer__</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;PtrDecl.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;RefDecl.h&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  </div>
@@ -109,8 +109,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  </div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_stream_deserializer.html">   28</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_stream_deserializer.html" title="Interface to be implemented by any class that can be deserialized from stream. ">StreamDeserializer</a> {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_stream_deserializer.html#a09c903db87556218b5eb84d88136ac8a" title="Implements object deserialization capability. ">deserialize</a>(<a class="code" href="classkfoundation_1_1_p_ptr.html" title="Passive pointer, will not release and retain automatically. ">PPtr&lt;ObjectToken&gt;</a> headToken) = 0;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_stream_deserializer.html#ab441fa578cd6fb4c35571c628d9c42f2" title="Sets this object deserializing the given XML stream. ">readFromXmlStream</a>(<a class="code" href="classkfoundation_1_1_p_ptr.html" title="Passive pointer, will not release and retain automatically. ">PPtr&lt;InputStream&gt;</a> stream);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_stream_deserializer.html#afad2d712d244e838bff1e3e8c918490f" title="Implements object deserialization capability. ">deserialize</a>(<a class="code" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">Ref&lt;ObjectToken&gt;</a> headToken) = 0;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_stream_deserializer.html#a7c827a25c2b8a6419960d1bdb503c006" title="Sets this object deserializing the given XML stream. ">readFromXmlStream</a>(<a class="code" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">Ref&lt;InputStream&gt;</a> stream);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  };</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
@@ -119,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:26 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

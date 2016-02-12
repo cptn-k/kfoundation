@@ -1,4 +1,5 @@
 <map id="kfoundation::BufferOutputStream" name="kfoundation::BufferOutputStream">
-<area shape="rect" id="node2" href="$classkfoundation_1_1_output_stream.html" title="Abstract inferface for all output streams. " alt="" coords="11,80,192,107"/>
-<area shape="rect" id="node3" href="$classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,5,197,32"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_output_stream.html" title="Abstract inferface for all output streams. " alt="" coords="5,169,187,196"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="19,95,173,121"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="11,5,181,47"/>
 </map>

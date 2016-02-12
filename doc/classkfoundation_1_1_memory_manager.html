@@ -110,35 +110,29 @@ Inheritance diagram for kfoundation::MemoryManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af848ec0c2bb48380bc14bec6653050fc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af848ec0c2bb48380bc14bec6653050fc"></a>
-virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#af848ec0c2bb48380bc14bec6653050fc">~MemoryManager</a> ()</td></tr>
-<tr class="memdesc:af848ec0c2bb48380bc14bec6653050fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor. <br/></td></tr>
-<tr class="separator:af848ec0c2bb48380bc14bec6653050fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef9bf59151ed951c4095ff1e74572a8a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef9bf59151ed951c4095ff1e74572a8a"></a>
-virtual const <a class="el" href="structkfoundation_1_1_object_record.html">ObjectRecord</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#aef9bf59151ed951c4095ff1e74572a8a">registerObject</a> (<a class="el" href="classkfoundation_1_1_managed_object.html">ManagedObject</a> *obj)=0</td></tr>
-<tr class="memdesc:aef9bf59151ed951c4095ff1e74572a8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new entry for the object at the given memory location. <br/></td></tr>
-<tr class="separator:aef9bf59151ed951c4095ff1e74572a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06b58e28504b1fa8a2ed70fa3c1f586d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06b58e28504b1fa8a2ed70fa3c1f586d"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a06b58e28504b1fa8a2ed70fa3c1f586d">retain</a> (<a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> index, <a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a> key)=0</td></tr>
-<tr class="memdesc:a06b58e28504b1fa8a2ed70fa3c1f586d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retains the object associated with the given index if key maches, otherwise throws <a class="el" href="classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. ">InvalidPointerException</a>. <br/></td></tr>
-<tr class="separator:a06b58e28504b1fa8a2ed70fa3c1f586d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a460d2d74f5936d4f2e314b4dc8c1657e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a460d2d74f5936d4f2e314b4dc8c1657e">release</a> (<a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> index, <a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a> key)=0</td></tr>
-<tr class="memdesc:a460d2d74f5936d4f2e314b4dc8c1657e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the object associated with the given index if the key matches, otherwise throws <a class="el" href="classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. ">InvalidPointerException</a>.  <a href="#a460d2d74f5936d4f2e314b4dc8c1657e">More...</a><br/></td></tr>
-<tr class="separator:a460d2d74f5936d4f2e314b4dc8c1657e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a561aac419f2abab27efeab2aa224e807"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a561aac419f2abab27efeab2aa224e807">remove</a> (<a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> index, <a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a> key)=0</td></tr>
-<tr class="memdesc:a561aac419f2abab27efeab2aa224e807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmanages the object at the given index if the key matches, otherwise, throws <a class="el" href="classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. ">InvalidPointerException</a>.  <a href="#a561aac419f2abab27efeab2aa224e807">More...</a><br/></td></tr>
-<tr class="separator:a561aac419f2abab27efeab2aa224e807"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e4f0cadd1e356b0247a8dfcd7879348"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structkfoundation_1_1_object_record.html">ObjectRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a3e4f0cadd1e356b0247a8dfcd7879348">getTable</a> ()=0</td></tr>
-<tr class="memdesc:a3e4f0cadd1e356b0247a8dfcd7879348"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the memory locatoin of the begining of this manager's object table.  <a href="#a3e4f0cadd1e356b0247a8dfcd7879348">More...</a><br/></td></tr>
-<tr class="separator:a3e4f0cadd1e356b0247a8dfcd7879348"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fc7706a1af20f1fe35b14805eb03a4c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a5fc7706a1af20f1fe35b14805eb03a4c">getTableSize</a> () const =0</td></tr>
-<tr class="memdesc:a5fc7706a1af20f1fe35b14805eb03a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of available table records.  <a href="#a5fc7706a1af20f1fe35b14805eb03a4c">More...</a><br/></td></tr>
-<tr class="separator:a5fc7706a1af20f1fe35b14805eb03a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eaffc9802c9dc713fedc921d7f9eacc"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structkfoundation_1_1kf__uref__t.html">kf_uref_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a7eaffc9802c9dc713fedc921d7f9eacc">add</a> (<a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> *obj, bool <a class="el" href="classkfoundation_1_1_memory_manager.html#ad5719b138a0808b913671f34473cf5fa">retain</a>)=0</td></tr>
+<tr class="memdesc:a7eaffc9802c9dc713fedc921d7f9eacc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new entry for the object at the given memory location.  <a href="#a7eaffc9802c9dc713fedc921d7f9eacc">More...</a><br/></td></tr>
+<tr class="separator:a7eaffc9802c9dc713fedc921d7f9eacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5719b138a0808b913671f34473cf5fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5719b138a0808b913671f34473cf5fa"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#ad5719b138a0808b913671f34473cf5fa">retain</a> (const <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> index, const <a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a> key)=0</td></tr>
+<tr class="memdesc:ad5719b138a0808b913671f34473cf5fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retains the object associated with the given index if key maches, otherwise throws <a class="el" href="classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. ">InvalidPointerException</a>. <br/></td></tr>
+<tr class="separator:ad5719b138a0808b913671f34473cf5fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac3fa13a3fa30467fed46388a583bb31"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#aac3fa13a3fa30467fed46388a583bb31">release</a> (const <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> index, const <a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a> key)=0</td></tr>
+<tr class="memdesc:aac3fa13a3fa30467fed46388a583bb31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the object associated with the given index if the key matches, otherwise throws <a class="el" href="classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. ">InvalidPointerException</a>.  <a href="#aac3fa13a3fa30467fed46388a583bb31">More...</a><br/></td></tr>
+<tr class="separator:aac3fa13a3fa30467fed46388a583bb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1faf5fa493e81ffc33b1d4057d48f782"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1faf5fa493e81ffc33b1d4057d48f782"></a>
+virtual <a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a1faf5fa493e81ffc33b1d4057d48f782">getObject</a> (const <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> index, const <a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a> key)=0</td></tr>
+<tr class="memdesc:a1faf5fa493e81ffc33b1d4057d48f782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the object referenced by the given index, if the given key matches the corresponding record. <br/></td></tr>
+<tr class="separator:a1faf5fa493e81ffc33b1d4057d48f782"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6549a2375ccd178fe2825157e28af1cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6549a2375ccd178fe2825157e28af1cd"></a>
+virtual <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_memory_manager.html#a6549a2375ccd178fe2825157e28af1cd">getObjectCount</a> () const =0</td></tr>
+<tr class="memdesc:a6549a2375ccd178fe2825157e28af1cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of alive objects currently managed by this manager. <br/></td></tr>
+<tr class="separator:a6549a2375ccd178fe2825157e28af1cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract interface to be implemented by all memory managers. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3e4f0cadd1e356b0247a8dfcd7879348"></a>
+<a class="anchor" id="a7eaffc9802c9dc713fedc921d7f9eacc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -146,39 +140,21 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">kfoundation::MemoryManager::getTable </td>
+          <td class="memname">kfoundation::MemoryManager::add </td>
           <td>(</td>
-          <td class="paramname">)</td><td></td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>retain</em>&#160;</td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the memory locatoin of the begining of this manager's object table. </p>
-<p>The object table is a one dimentional array of <a class="el" href="structkfoundation_1_1_object_record.html" title="Structure of memory manager&#39;s table records. ">ObjectRecord</a>.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classkfoundation_1_1_memory_manager.html#a5fc7706a1af20f1fe35b14805eb03a4c" title="Returns the number of available table records. ">getTableSize()</a> </dd></dl>
-
-<p>Implemented in <a class="el" href="classkfoundation_1_1_object_pool_memory_manager.html#ac15eddea388cc040a7ba6021b6b756bc">kfoundation::ObjectPoolMemoryManager&lt; T &gt;</a>, and <a class="el" href="classkfoundation_1_1_ref_count_memory_manager.html#a5e2af862214f91f35ed04959b9353390">kfoundation::RefCountMemoryManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5fc7706a1af20f1fe35b14805eb03a4c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">kfoundation::MemoryManager::getTableSize </td>
-          <td>(</td>
-          <td class="paramname">)</td><td></td>
-          <td> const</td>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -188,15 +164,20 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </table>
 </div><div class="memdoc">
 
-<p>Returns the number of available table records. </p>
-<p>Since some records can be unused, this is usually not equal but larger than the the number of objects managed by this manager.</p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classkfoundation_1_1_memory_manager.html#a3e4f0cadd1e356b0247a8dfcd7879348" title="Returns the memory locatoin of the begining of this manager&#39;s object table. ">getTable()</a> </dd></dl>
+<p>Creates a new entry for the object at the given memory location. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>- The object to manage </td></tr>
+    <tr><td class="paramname">retain</td><td>- If set true, the initial retain count of the object will be set to 1. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implemented in <a class="el" href="classkfoundation_1_1_object_pool_memory_manager.html#ab4382e208cb244509fce8cb6d0c23c81">kfoundation::ObjectPoolMemoryManager&lt; T &gt;</a>, and <a class="el" href="classkfoundation_1_1_ref_count_memory_manager.html#a5f944d14679850b4eb65212cad434646">kfoundation::RefCountMemoryManager</a>.</p>
+<p>Implemented in <a class="el" href="classkfoundation_1_1_ref_count_memory_manager.html#a780f2ee7d9a9daf4e0a87a8a5a033659">kfoundation::RefCountMemoryManager</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a460d2d74f5936d4f2e314b4dc8c1657e"></a>
+<a class="anchor" id="aac3fa13a3fa30467fed46388a583bb31"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -206,13 +187,13 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
         <tr>
           <td class="memname">kfoundation::MemoryManager::release </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a>&#160;</td>
           <td class="paramname"><em>index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a>&#160;</td>
           <td class="paramname"><em>key</em>&#160;</td>
         </tr>
         <tr>
@@ -231,46 +212,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Releases the object associated with the given index if the key matches, otherwise throws <a class="el" href="classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. ">InvalidPointerException</a>. </p>
 <p>If the retain count drops to zero the object will be deleted. </p>
 
-<p>Implemented in <a class="el" href="classkfoundation_1_1_object_pool_memory_manager.html#a8a2bfed8a42435c190647f7a2568dec7">kfoundation::ObjectPoolMemoryManager&lt; T &gt;</a>, and <a class="el" href="classkfoundation_1_1_ref_count_memory_manager.html#a2be70570d1b58b8ec5f5a360dedf11b3">kfoundation::RefCountMemoryManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a561aac419f2abab27efeab2aa224e807"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">kfoundation::MemoryManager::remove </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a>&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__defs.html#ga39cd653d079a98a8a1e4f196aee23558">kf_int16_t</a>&#160;</td>
-          <td class="paramname"><em>key</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Unmanages the object at the given index if the key matches, otherwise, throws <a class="el" href="classkfoundation_1_1_invalid_pointer_exception.html" title="Thrown on attempt to access an invalid pointer. ">InvalidPointerException</a>. </p>
-<p>The index will be reused in the future. </p>
-
-<p>Implemented in <a class="el" href="classkfoundation_1_1_object_pool_memory_manager.html#a5d634ee9968831def16dca1717365834">kfoundation::ObjectPoolMemoryManager&lt; T &gt;</a>, and <a class="el" href="classkfoundation_1_1_ref_count_memory_manager.html#a3b6cf2488d7975e5559d3d9bbaf392b6">kfoundation::RefCountMemoryManager</a>.</p>
+<p>Implemented in <a class="el" href="classkfoundation_1_1_object_pool_memory_manager.html#a8a2bfed8a42435c190647f7a2568dec7">kfoundation::ObjectPoolMemoryManager&lt; T &gt;</a>, and <a class="el" href="classkfoundation_1_1_ref_count_memory_manager.html#a26df6541bf63b3ca80d35a42c4d12b99">kfoundation::RefCountMemoryManager</a>.</p>
 
 </div>
 </div>
@@ -281,7 +223,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

@@ -1,8 +1,9 @@
 <map id="kfoundation::InputStream" name="kfoundation::InputStream">
-<area shape="rect" id="node3" href="$classkfoundation_1_1_buffer_input_stream.html" title="Input stream to read from a buffer in memory. " alt="" coords="478,5,642,47"/>
-<area shape="rect" id="node4" href="$classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. " alt="" coords="464,71,656,98"/>
-<area shape="rect" id="node5" href="$classkfoundation_1_1_internet_input_stream.html" title="Input stream used to read from a TCP/IP port. " alt="" coords="473,123,647,164"/>
-<area shape="rect" id="node6" href="$classkfoundation_1_1_standard_input_stream_adapter.html" title="Wraps around the given istream (C++ standard libraries) to be read as a a KFoundation input stream..." alt="" coords="469,188,651,229"/>
-<area shape="rect" id="node7" href="$classkfoundation_1_1_string_input_stream.html" title="Input stream to read from string. " alt="" coords="479,253,641,295"/>
-<area shape="rect" id="node2" href="$classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,130,197,157"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_buffer_input_stream.html" title="Input stream to read from a buffer in memory. " alt="" coords="658,5,822,47"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_file_input_stream.html" title="Input stream to read from file. " alt="" coords="644,71,836,98"/>
+<area shape="rect" id="node6" href="$classkfoundation_1_1_internet_input_stream.html" title="Input stream used to read from a TCP/IP port. " alt="" coords="653,123,827,164"/>
+<area shape="rect" id="node7" href="$classkfoundation_1_1_standard_input_stream_adapter.html" title="Wraps around the given istream (C++ standard libraries) to be read as a a KFoundation input stream..." alt="" coords="649,188,831,229"/>
+<area shape="rect" id="node8" href="$classkfoundation_1_1_string_input_stream.html" title="Input stream to read from string. " alt="" coords="659,253,821,295"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="224,130,377,157"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="5,123,176,164"/>
 </map>

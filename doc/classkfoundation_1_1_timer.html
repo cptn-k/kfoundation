@@ -105,7 +105,7 @@ Inheritance diagram for kfoundation::Timer:</div>
 <div class="dyncontent">
 <div class="center"><img src="classkfoundation_1_1_timer__inherit__graph.png" border="0" usemap="#kfoundation_1_1_timer_inherit__map" alt="Inheritance graph"/></div>
 <map name="kfoundation_1_1_timer_inherit__map" id="kfoundation_1_1_timer_inherit__map">
-<area shape="rect" id="node2" href="classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,5,197,32"/><area shape="rect" id="node3" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="222,5,375,32"/></map>
+<area shape="rect" id="node2" href="classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="15,102,169,129"/><area shape="rect" id="node3" href="classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="5,5,176,47"/><area shape="rect" id="node4" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. " alt="" coords="196,95,356,136"/><area shape="rect" id="node5" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="201,13,354,39"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -114,10 +114,10 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#ab471bf8e963b417c553a3cfca6f9e7b9">Timer</a> ()</td></tr>
 <tr class="memdesc:ab471bf8e963b417c553a3cfca6f9e7b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br/></td></tr>
 <tr class="separator:ab471bf8e963b417c553a3cfca6f9e7b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3750c6dedb3065710128e9252c0765f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3750c6dedb3065710128e9252c0765f4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a3750c6dedb3065710128e9252c0765f4">Timer</a> (string name)</td></tr>
-<tr class="memdesc:a3750c6dedb3065710128e9252c0765f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, creates a named timer. <br/></td></tr>
-<tr class="separator:a3750c6dedb3065710128e9252c0765f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6809f991ca8d9e5190912495f72fe628"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6809f991ca8d9e5190912495f72fe628"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a6809f991ca8d9e5190912495f72fe628">Timer</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name)</td></tr>
+<tr class="memdesc:a6809f991ca8d9e5190912495f72fe628"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, creates a named timer. <br/></td></tr>
+<tr class="separator:a6809f991ca8d9e5190912495f72fe628"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06611a6e4affbc7adffe0309c7cc2dcf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06611a6e4affbc7adffe0309c7cc2dcf"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a06611a6e4affbc7adffe0309c7cc2dcf">start</a> ()</td></tr>
 <tr class="memdesc:a06611a6e4affbc7adffe0309c7cc2dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts measuring. <br/></td></tr>
@@ -126,34 +126,31 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#ae6b18cf148aa23b8406c52b373fd9760">isStarted</a> () const </td></tr>
 <tr class="memdesc:ae6b18cf148aa23b8406c52b373fd9760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the timer is started. <br/></td></tr>
 <tr class="separator:ae6b18cf148aa23b8406c52b373fd9760"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d18020aee75ffd0089ddcd0f7c663a0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d18020aee75ffd0089ddcd0f7c663a0"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a9d18020aee75ffd0089ddcd0f7c663a0">get</a> () const </td></tr>
-<tr class="memdesc:a9d18020aee75ffd0089ddcd0f7c663a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the elapsed time since <a class="el" href="classkfoundation_1_1_timer.html#a06611a6e4affbc7adffe0309c7cc2dcf" title="Starts measuring. ">start()</a> is called. <br/></td></tr>
+<tr class="memitem:a015e674d50f58d077af5c50074628e62"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a015e674d50f58d077af5c50074628e62"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a015e674d50f58d077af5c50074628e62">getRealTime</a> () const </td></tr>
+<tr class="memdesc:a015e674d50f58d077af5c50074628e62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the elapsed time since <a class="el" href="classkfoundation_1_1_timer.html#a06611a6e4affbc7adffe0309c7cc2dcf" title="Starts measuring. ">start()</a> is called. <br/></td></tr>
+<tr class="separator:a015e674d50f58d077af5c50074628e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d18020aee75ffd0089ddcd0f7c663a0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a9d18020aee75ffd0089ddcd0f7c663a0">get</a> () const </td></tr>
+<tr class="memdesc:a9d18020aee75ffd0089ddcd0f7c663a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns amount of CPU time consumed by this process since <a class="el" href="classkfoundation_1_1_timer.html#a06611a6e4affbc7adffe0309c7cc2dcf" title="Starts measuring. ">start()</a> is called.  <a href="#a9d18020aee75ffd0089ddcd0f7c663a0">More...</a><br/></td></tr>
 <tr class="separator:a9d18020aee75ffd0089ddcd0f7c663a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0b118090c9c8a13b0d47da60d5d7e97"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#aa0b118090c9c8a13b0d47da60d5d7e97">getCpuTime</a> () const </td></tr>
-<tr class="memdesc:aa0b118090c9c8a13b0d47da60d5d7e97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns amount of CPU time consumed by this process since <a class="el" href="classkfoundation_1_1_timer.html#a06611a6e4affbc7adffe0309c7cc2dcf" title="Starts measuring. ">start()</a> is called.  <a href="#aa0b118090c9c8a13b0d47da60d5d7e97">More...</a><br/></td></tr>
-<tr class="separator:aa0b118090c9c8a13b0d47da60d5d7e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a567815b2bbe0baf9d1b7f534a73b53a2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a567815b2bbe0baf9d1b7f534a73b53a2"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a567815b2bbe0baf9d1b7f534a73b53a2">printToStream</a> (ostream &amp;os) const </td></tr>
-<tr class="memdesc:a567815b2bbe0baf9d1b7f534a73b53a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements compatibility with <a class="el" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> interface. <br/></td></tr>
-<tr class="separator:a567815b2bbe0baf9d1b7f534a73b53a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classkfoundation_1_1_managed_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_managed_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_managed_object.html">kfoundation::ManagedObject</a></td></tr>
-<tr class="memitem:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5386447e4305d42f5f697b620106d9b0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a5386447e4305d42f5f697b620106d9b0">ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br/></td></tr>
-<tr class="separator:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a98eeb2e2dba37376f6f933ad3eabc514">~ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor.  <a href="#a98eeb2e2dba37376f6f933ad3eabc514">More...</a><br/></td></tr>
-<tr class="separator:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6769c05015242c26f4f675620d37f9a"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_managed_object.html">ManagedObject</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#ac6769c05015242c26f4f675620d37f9a">getPtr</a> () const </td></tr>
-<tr class="memdesc:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a managed poitner to this object. <br/></td></tr>
-<tr class="separator:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classkfoundation_1_1_streamer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_streamer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_streamer.html">kfoundation::Streamer</a></td></tr>
-<tr class="memitem:a9d00bbc99e833cb12a32555422eb6b5b inherit pub_methods_classkfoundation_1_1_streamer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d00bbc99e833cb12a32555422eb6b5b"></a>
-virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_streamer.html#a9d00bbc99e833cb12a32555422eb6b5b">toString</a> () const </td></tr>
-<tr class="memdesc:a9d00bbc99e833cb12a32555422eb6b5b inherit pub_methods_classkfoundation_1_1_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the result of invocation of <code>printToStream(ostream&amp;)</code> to a <code>std::string</code> object. <br/></td></tr>
-<tr class="separator:a9d00bbc99e833cb12a32555422eb6b5b inherit pub_methods_classkfoundation_1_1_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11af99d241aefcfd95bfbddc3cb2da2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11af99d241aefcfd95bfbddc3cb2da2a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_timer.html#a11af99d241aefcfd95bfbddc3cb2da2a">serialize</a> (<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; stream) const </td></tr>
+<tr class="memdesc:a11af99d241aefcfd95bfbddc3cb2da2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements compatibility with <a class="el" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a> interface. <br/></td></tr>
+<tr class="separator:a11af99d241aefcfd95bfbddc3cb2da2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classkfoundation_1_1_k_f_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_k_f_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_k_f_object.html">kfoundation::KFObject</a></td></tr>
+<tr class="memitem:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7e884f08321a2392637062ffee0c10d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_k_f_object.html#af7e884f08321a2392637062ffee0c10d">equals</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; <a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> &gt; other) const </td></tr>
+<tr class="memdesc:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this object is the same as the one reffered by the given refrence. <br/></td></tr>
+<tr class="separator:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classkfoundation_1_1_serializing_streamer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_serializing_streamer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_serializing_streamer.html">kfoundation::SerializingStreamer</a></td></tr>
+<tr class="memitem:aed792d3ab8a6c770c651761a9e9c9df5 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed792d3ab8a6c770c651761a9e9c9df5"></a>
+virtual <a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_serializing_streamer.html#aed792d3ab8a6c770c651761a9e9c9df5">toString</a> () const </td></tr>
+<tr class="memdesc:aed792d3ab8a6c770c651761a9e9c9df5 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the result of invocation of <code>printToStream(ostream&amp;)</code> to a <code>std::string</code> object. <br/></td></tr>
+<tr class="separator:aed792d3ab8a6c770c651761a9e9c9df5 inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85a7a82621c5495672f879f0b02d9f6b inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85a7a82621c5495672f879f0b02d9f6b"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_serializing_streamer.html#a85a7a82621c5495672f879f0b02d9f6b">printToStream</a> (<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_output_stream.html">OutputStream</a> &gt; os) const </td></tr>
+<tr class="memdesc:a85a7a82621c5495672f879f0b02d9f6b inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements compatibility with <a class="el" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> interface. <br/></td></tr>
+<tr class="separator:a85a7a82621c5495672f879f0b02d9f6b inherit pub_methods_classkfoundation_1_1_serializing_streamer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility class to measure execution time of a code fragment. </p>
@@ -161,17 +158,17 @@ virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <pre class="fragment">Timer t;
 t.start();
 ... do whatever you want to measure here ...
-LOG &lt;&lt; t &lt;&lt; EL;
-</pre><p>If you want to store the elapsed time to use it later, use <a class="el" href="classkfoundation_1_1_timer.html#a9d18020aee75ffd0089ddcd0f7c663a0" title="Returns the elapsed time since start() is called. ">get()</a> method. </p>
+LOG &lt;&lt; t &lt;&lt; ENDS;
+</pre><p>If you want to store the elapsed time to use it later, use <a class="el" href="classkfoundation_1_1_timer.html#a9d18020aee75ffd0089ddcd0f7c663a0" title="Returns amount of CPU time consumed by this process since start() is called. ">get()</a> method. </p>
 <pre class="fragment">double duration = t.get();
 </pre><p>To reset an already started timer, call <a class="el" href="classkfoundation_1_1_timer.html#a06611a6e4affbc7adffe0309c7cc2dcf" title="Starts measuring. ">start()</a> method again. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa0b118090c9c8a13b0d47da60d5d7e97"></a>
+<a class="anchor" id="a9d18020aee75ffd0089ddcd0f7c663a0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double kfoundation::Timer::getCpuTime </td>
+          <td class="memname">double kfoundation::Timer::get </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td> const</td>
@@ -180,7 +177,7 @@ LOG &lt;&lt; t &lt;&lt; EL;
 </div><div class="memdoc">
 
 <p>Returns amount of CPU time consumed by this process since <a class="el" href="classkfoundation_1_1_timer.html#a06611a6e4affbc7adffe0309c7cc2dcf" title="Starts measuring. ">start()</a> is called. </p>
-<p>This might be bigger or smaller than <a class="el" href="classkfoundation_1_1_timer.html#a9d18020aee75ffd0089ddcd0f7c663a0" title="Returns the elapsed time since start() is called. ">get()</a> depending of the amount of CPU time and number of cores specified by OS to execute the process. </p>
+<p>This might be bigger or smaller than <a class="el" href="classkfoundation_1_1_timer.html#a9d18020aee75ffd0089ddcd0f7c663a0" title="Returns amount of CPU time consumed by this process since start() is called. ">get()</a> depending of the amount of CPU time and number of cores specified by OS to execute the process. </p>
 
 </div>
 </div>
@@ -191,7 +188,7 @@ LOG &lt;&lt; t &lt;&lt; EL;
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

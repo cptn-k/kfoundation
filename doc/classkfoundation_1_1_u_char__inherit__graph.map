@@ -1,0 +1,5 @@
+<map id="kfoundation::UChar" name="kfoundation::UChar">
+<area shape="rect" id="node2" href="$classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. " alt="" coords="5,95,159,121"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="183,95,336,121"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="174,5,345,47"/>
+</map>

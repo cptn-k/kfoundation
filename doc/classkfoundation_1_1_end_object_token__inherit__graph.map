@@ -1,5 +1,6 @@
 <map id="kfoundation::EndObjectToken" name="kfoundation::EndObjectToken">
-<area shape="rect" id="node2" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="36,169,172,196"/>
-<area shape="rect" id="node3" href="$classkfoundation_1_1_object_stream_reader.html" title="Generic interface for utility object used to read objets from an stream of a given format..." alt="" coords="14,80,194,121"/>
-<area shape="rect" id="node4" href="$classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="8,5,200,32"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="36,259,172,285"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_object_stream_reader.html" title="Generic interface for utility object used to read objets from an stream of a given format..." alt="" coords="14,169,194,211"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="27,95,181,121"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="19,5,189,47"/>
 </map>

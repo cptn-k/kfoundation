@@ -103,32 +103,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;CodeLocation.h&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_code_range.html">   25</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_code_range.html" title="Encodes the location of the begining and end of a text file fragment. ">CodeRange</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="comment">// --- FIELDS --- //</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">private</span>: <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a> _begin;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">private</span>: <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a> _end;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_code_range.html">   24</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_code_range.html" title="Encodes the location of the begining and end of a text file fragment. ">CodeRange</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="comment">// --- FIELDS --- //</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">private</span>: <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a> _begin;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">private</span>: <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a> _end;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="comment">// --- (DE)CONSTRUCTORS --- //</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_code_range.html#a5ff64a3030b5e653c65134058c02c4a5" title="Constructor. ">CodeRange</a>(<span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; begin, <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; end);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">public</span>: <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; <a class="code" href="classkfoundation_1_1_code_range.html#afdcb39ea579f3038f96c03e027859ae1" title="Returns the begining of the range. ">getBegin</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span>: <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; <a class="code" href="classkfoundation_1_1_code_range.html#acd2fb82aba58838028b720a653c45a2c" title="Returns the end of the range. ">getEnd</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_code_range.html#a6d61b984f2d8b5034e488fbf02ea4e22" title="Implements compatibility with SerializingStreamer interface. ">serialize</a>(<a class="code" href="classkfoundation_1_1_p_ptr.html" title="Passive pointer, will not release and retain automatically. ">PPtr&lt;ObjectSerializer&gt;</a> serializer) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation__CodeRange__) */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="comment">// --- (DE)CONSTRUCTORS --- //</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_code_range.html#a5ff64a3030b5e653c65134058c02c4a5" title="Constructor. ">CodeRange</a>(<span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; begin, <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; end);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">// --- METHODS --- //</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span>: <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; <a class="code" href="classkfoundation_1_1_code_range.html#afdcb39ea579f3038f96c03e027859ae1" title="Returns the begining of the range. ">getBegin</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">public</span>: <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_code_location.html" title="Encodes location of a character in a text file. ">CodeLocation</a>&amp; <a class="code" href="classkfoundation_1_1_code_range.html#acd2fb82aba58838028b720a653c45a2c" title="Returns the end of the range. ">getEnd</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_code_range.html#a8817dca4ac9b946dedf7b6726e9ac338" title="Implements compatibility with SerializingStreamer interface. ">serialize</a>(<a class="code" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">Ref&lt;ObjectSerializer&gt;</a> serializer) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  };</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation__CodeRange__) */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:26 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

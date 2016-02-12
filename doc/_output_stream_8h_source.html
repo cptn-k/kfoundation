@@ -109,42 +109,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define KFoundation_OutputStream_h</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;definitions.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;ManagedObject.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;PtrDecl.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;KFObject.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;RefDecl.h&quot;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keyword">class </span>InputStream;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">class </span>InputStream;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_output_stream.html">   37</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_output_stream.html" title="Abstract inferface for all output streams. ">OutputStream</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. ">ManagedObject</a> {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> write(<span class="keyword">const</span> <a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* buffer, <span class="keyword">const</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> nOctets) = 0;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> write(<span class="keyword">const</span> <a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a> octet) = 0;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> write(<a class="code" href="classkfoundation_1_1_p_ptr.html" title="Passive pointer, will not release and retain automatically. ">PPtr&lt;InputStream&gt;</a> is) = 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> close() = 0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isBigEndian() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  };</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_output_stream.html">   35</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_output_stream.html" title="Abstract inferface for all output streams. ">OutputStream</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. ">KFObject</a> {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_output_stream.html#ac59dd3587a363bbc8a8f13228e791d34" title="Writes the given number of octets of the given buffer to the stream. ">write</a>(<span class="keyword">const</span> <a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a>* buffer, <span class="keyword">const</span> <a class="code" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8" title="32-bit signed numeric type. ">kf_int32_t</a> nOctets) = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_output_stream.html#ac59dd3587a363bbc8a8f13228e791d34" title="Writes the given number of octets of the given buffer to the stream. ">write</a>(<span class="keyword">const</span> <a class="code" href="group__defs.html#gaa054667c742abf5a00a203812dc93339" title="8-bit unsigned numeric type. ">kf_octet_t</a> octet) = 0;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_output_stream.html#ac59dd3587a363bbc8a8f13228e791d34" title="Writes the given number of octets of the given buffer to the stream. ">write</a>(<a class="code" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">Ref&lt;InputStream&gt;</a> is) = 0;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_output_stream.html#a323bcf2aadb9a3bcea4e2c486b192536" title="Closes the stream. ">close</a>() = 0;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_output_stream.html#aea895b73cfe649fb8fff7ff33095f999" title="Flushes the output. ">flush</a>() = 0;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_output_stream.html#ae43f872c9bde6403212a22b4b749b875" title="Checks if the stream is big-endian. ">isBigEndian</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  };</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:26 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

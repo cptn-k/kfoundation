@@ -1,12 +1,12 @@
 var searchData=
 [
   ['fileinputstream',['FileInputStream',['../classkfoundation_1_1_file_input_stream.html',1,'kfoundation']]],
-  ['fileinputstream',['FileInputStream',['../classkfoundation_1_1_file_input_stream.html#a19f7b87bbb01958f20a8603074f1e158',1,'kfoundation::FileInputStream::FileInputStream(PPtr&lt; Path &gt; path)'],['../classkfoundation_1_1_file_input_stream.html#a2b2f58ecb009703e325acee6473270af',1,'kfoundation::FileInputStream::FileInputStream(const string &amp;fileName)']]],
+  ['fileinputstream',['FileInputStream',['../classkfoundation_1_1_file_input_stream.html#a119569c80089a68b5dfd414b79812f67',1,'kfoundation::FileInputStream::FileInputStream(RefConst&lt; Path &gt; path)'],['../classkfoundation_1_1_file_input_stream.html#a7ddfab7e4e5c7e116e6f04495cefd6d1',1,'kfoundation::FileInputStream::FileInputStream(RefConst&lt; UString &gt; path)']]],
   ['fileoutputstream',['FileOutputStream',['../classkfoundation_1_1_file_output_stream.html',1,'kfoundation']]],
-  ['fileoutputstream',['FileOutputStream',['../classkfoundation_1_1_file_output_stream.html#a93f6e254dea39759e8d33c9e9ede7aa3',1,'kfoundation::FileOutputStream']]],
-  ['finalize',['finalize',['../classkfoundation_1_1_pool_object.html#af0231d4b1be5cb7dcf6f4caf6ac13c85',1,'kfoundation::PoolObject']]],
+  ['fileoutputstream',['FileOutputStream',['../classkfoundation_1_1_file_output_stream.html#ab510cf9cb15b635fadc734d0146c8b34',1,'kfoundation::FileOutputStream::FileOutputStream(RefConst&lt; Path &gt; path)'],['../classkfoundation_1_1_file_output_stream.html#aaf5a0cf8c1cdc2591a9a49014291b202',1,'kfoundation::FileOutputStream::FileOutputStream(RefConst&lt; UString &gt; path)']]],
   ['first',['first',['../classkfoundation_1_1_direction_iterator.html#a33e10530d55c52343e55e13d4977ac65',1,'kfoundation::DirectionIterator::first()'],['../classkfoundation_1_1_range_iterator.html#a0e6462a50b75fa3a0978bca2c122143d',1,'kfoundation::RangeIterator::first()']]],
   ['flip',['flip',['../classkfoundation_1_1_range.html#ae73acc2b6b7a0f842c0028cada5722a6',1,'kfoundation::Range']]],
+  ['flush',['flush',['../classkfoundation_1_1_buffer_output_stream.html#a3714aa256482a73cf9fe5de19d9893af',1,'kfoundation::BufferOutputStream::flush()'],['../classkfoundation_1_1_file_output_stream.html#a24690b236672cb75e34c8de19defa7b9',1,'kfoundation::FileOutputStream::flush()'],['../classkfoundation_1_1_internet_output_stream.html#a0be9d5013cebb08d9ef052897c5af834',1,'kfoundation::InternetOutputStream::flush()'],['../classkfoundation_1_1_output_stream.html#aea895b73cfe649fb8fff7ff33095f999',1,'kfoundation::OutputStream::flush()'],['../classkfoundation_1_1_standard_output_stream_adapter.html#af2a8282ba1c6c1a89d60982f67681ac8',1,'kfoundation::StandardOutputStreamAdapter::flush()']]],
   ['forth',['FORTH',['../classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925a42420ce12ef9cb2b676311d372b45f91',1,'kfoundation::Direction']]],
   ['free_5fbsd',['FREE_BSD',['../classkfoundation_1_1_system.html#adba8e3fd02ce6b6d5be4e534c54ef804a41cf85d5748ebf35cf9205da84e01a34',1,'kfoundation::System']]]
 ];

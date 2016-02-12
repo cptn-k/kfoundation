@@ -105,15 +105,15 @@ Inheritance diagram for kfoundation::StandardOutputStreamAdapter:</div>
 <div class="dyncontent">
 <div class="center"><img src="classkfoundation_1_1_standard_output_stream_adapter__inherit__graph.png" border="0" usemap="#kfoundation_1_1_standard_output_stream_adapter_inherit__map" alt="Inheritance graph"/></div>
 <map name="kfoundation_1_1_standard_output_stream_adapter_inherit__map" id="kfoundation_1_1_standard_output_stream_adapter_inherit__map">
-<area shape="rect" id="node2" href="classkfoundation_1_1_output_stream.html" title="Abstract inferface for all output streams. " alt="" coords="11,80,192,107"/><area shape="rect" id="node3" href="classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,5,197,32"/></map>
+<area shape="rect" id="node2" href="classkfoundation_1_1_output_stream.html" title="Abstract inferface for all output streams. " alt="" coords="11,169,192,196"/><area shape="rect" id="node3" href="classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="25,95,178,121"/><area shape="rect" id="node4" href="classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="16,5,187,47"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a27d745f4c428ba5541c4feee86677ff6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27d745f4c428ba5541c4feee86677ff6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#a27d745f4c428ba5541c4feee86677ff6">StandardOutputStreamAdapter</a> (ostream &amp;os)</td></tr>
-<tr class="memdesc:a27d745f4c428ba5541c4feee86677ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, wraps the new object around a standard C++ <code>ostream</code> object. <br/></td></tr>
-<tr class="separator:a27d745f4c428ba5541c4feee86677ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af59f6f744f107ee6ee5802117153bb83"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af59f6f744f107ee6ee5802117153bb83"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#af59f6f744f107ee6ee5802117153bb83">StandardOutputStreamAdapter</a> (std::ostream &amp;os)</td></tr>
+<tr class="memdesc:af59f6f744f107ee6ee5802117153bb83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, wraps the new object around a standard C++ <code>ostream</code> object. <br/></td></tr>
+<tr class="separator:af59f6f744f107ee6ee5802117153bb83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9911602053f08a3e7b5de4936900e9d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9911602053f08a3e7b5de4936900e9d8"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#a9911602053f08a3e7b5de4936900e9d8">isBigEndian</a> () const </td></tr>
 <tr class="memdesc:a9911602053f08a3e7b5de4936900e9d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the stream is big-endian. <br/></td></tr>
@@ -124,12 +124,16 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:aece724531a2fe258a8e2e52d98fcf7f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#aece724531a2fe258a8e2e52d98fcf7f8">write</a> (<a class="el" href="group__defs.html#gaa054667c742abf5a00a203812dc93339">kf_octet_t</a> byte)</td></tr>
 <tr class="memdesc:aece724531a2fe258a8e2e52d98fcf7f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a single octet to the stream.  <a href="#aece724531a2fe258a8e2e52d98fcf7f8">More...</a><br/></td></tr>
 <tr class="separator:aece724531a2fe258a8e2e52d98fcf7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af675f9c36230544dbc3dd582ac07e9a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#af675f9c36230544dbc3dd582ac07e9a5">write</a> (<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_input_stream.html">InputStream</a> &gt; os)</td></tr>
-<tr class="memdesc:af675f9c36230544dbc3dd582ac07e9a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the available contents from the given input stream to this output stream.  <a href="#af675f9c36230544dbc3dd582ac07e9a5">More...</a><br/></td></tr>
-<tr class="separator:af675f9c36230544dbc3dd582ac07e9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19c86697671d2c0b77693e01c2c7e040"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#a19c86697671d2c0b77693e01c2c7e040">write</a> (<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_input_stream.html">InputStream</a> &gt; os)</td></tr>
+<tr class="memdesc:a19c86697671d2c0b77693e01c2c7e040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the available contents from the given input stream to this output stream.  <a href="#a19c86697671d2c0b77693e01c2c7e040">More...</a><br/></td></tr>
+<tr class="separator:a19c86697671d2c0b77693e01c2c7e040"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977a024e4389038f2148eb3ba653aa94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#a977a024e4389038f2148eb3ba653aa94">close</a> ()</td></tr>
 <tr class="memdesc:a977a024e4389038f2148eb3ba653aa94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the stream.  <a href="#a977a024e4389038f2148eb3ba653aa94">More...</a><br/></td></tr>
 <tr class="separator:a977a024e4389038f2148eb3ba653aa94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2a8282ba1c6c1a89d60982f67681ac8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2a8282ba1c6c1a89d60982f67681ac8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_standard_output_stream_adapter.html#af2a8282ba1c6c1a89d60982f67681ac8">flush</a> ()</td></tr>
+<tr class="memdesc:af2a8282ba1c6c1a89d60982f67681ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes the output. <br/></td></tr>
+<tr class="separator:af2a8282ba1c6c1a89d60982f67681ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>KFoundation wrapper for C++ <code>ostream</code>. </p>
@@ -241,7 +245,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="af675f9c36230544dbc3dd582ac07e9a5"></a>
+<a class="anchor" id="a19c86697671d2c0b77693e01c2c7e040"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -251,7 +255,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">void kfoundation::StandardOutputStreamAdapter::write </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_input_stream.html">InputStream</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_input_stream.html">InputStream</a> &gt;&#160;</td>
           <td class="paramname"><em>is</em>)</td><td></td>
           <td></td>
         </tr>
@@ -271,7 +275,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classkfoundation_1_1_output_stream.html#a9b5e9d1a3a118ac2425d8f1bfea0d36f">kfoundation::OutputStream</a>.</p>
+<p>Implements <a class="el" href="classkfoundation_1_1_output_stream.html#a00b70057404986ae58f5c7e9c3491ed7">kfoundation::OutputStream</a>.</p>
 
 </div>
 </div>
@@ -282,7 +286,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

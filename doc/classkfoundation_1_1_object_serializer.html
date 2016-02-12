@@ -89,11 +89,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classkfoundation_1_1_object_serializer-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">kfoundation::ObjectSerializer Class Reference<div class="ingroups"><a class="el" href="group__serialization.html">Object Serialization and Deserialization</a></div></div>  </div>
+<div class="title">kfoundation::ObjectSerializer Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__serialization.html">Object Serialization and Deserialization</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -106,163 +105,97 @@ Inheritance diagram for kfoundation::ObjectSerializer:</div>
 <div class="dyncontent">
 <div class="center"><img src="classkfoundation_1_1_object_serializer__inherit__graph.png" border="0" usemap="#kfoundation_1_1_object_serializer_inherit__map" alt="Inheritance graph"/></div>
 <map name="kfoundation_1_1_object_serializer_inherit__map" id="kfoundation_1_1_object_serializer_inherit__map">
-<area shape="rect" id="node2" href="classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,5,197,32"/></map>
+<area shape="rect" id="node2" href="classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="25,95,178,121"/><area shape="rect" id="node3" href="classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="16,5,187,47"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a8ad729a3bbb084338bc955157f657934"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934">output_type_t</a> { <a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934aa4bdaf1b62e1ac9be2d51c9a20cfe7ef">DUMP</a>, 
-<a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934a984336151f539f95c317541c11944bad">XML</a>, 
-<a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934ab27360d897dbbdc9feea4622720c6284">JSON</a>
- }</td></tr>
-<tr class="memdesc:a8ad729a3bbb084338bc955157f657934"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output format.  <a href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934">More...</a><br/></td></tr>
-<tr class="separator:a8ad729a3bbb084338bc955157f657934"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8411290da67394f795914710f9535288"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a8411290da67394f795914710f9535288">ObjectSerializer</a> (ostream &amp;stream, <a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934">output_type_t</a> outputType, int indentUnit)</td></tr>
-<tr class="memdesc:a8411290da67394f795914710f9535288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, sets output stream, type, and indent units.  <a href="#a8411290da67394f795914710f9535288">More...</a><br/></td></tr>
-<tr class="separator:a8411290da67394f795914710f9535288"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae22c5ac7647051ef9f0cf3fdc6a06fd4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#ae22c5ac7647051ef9f0cf3fdc6a06fd4">ObjectSerializer</a> (ostream &amp;stream, <a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934">output_type_t</a> outputType)</td></tr>
-<tr class="memdesc:ae22c5ac7647051ef9f0cf3fdc6a06fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, sets the output stream and type, and sets indent units to 4.  <a href="#ae22c5ac7647051ef9f0cf3fdc6a06fd4">More...</a><br/></td></tr>
-<tr class="separator:ae22c5ac7647051ef9f0cf3fdc6a06fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9becf481aac5a028282cd42835e12eaa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa">member</a> (const string &amp;name)</td></tr>
-<tr class="memdesc:a9becf481aac5a028282cd42835e12eaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to output an object owned by the current one.  <a href="#a9becf481aac5a028282cd42835e12eaa">More...</a><br/></td></tr>
-<tr class="separator:a9becf481aac5a028282cd42835e12eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2da8e54570ab2513c77c0d7efe9ac3c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1">object</a> (const string &amp;className)</td></tr>
-<tr class="memdesc:a2da8e54570ab2513c77c0d7efe9ac3c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to output an object.  <a href="#a2da8e54570ab2513c77c0d7efe9ac3c1">More...</a><br/></td></tr>
-<tr class="separator:a2da8e54570ab2513c77c0d7efe9ac3c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ba74f339c748ac46d93d41790d5d9d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a4ba74f339c748ac46d93d41790d5d9d7">object</a> (const <a class="el" href="classkfoundation_1_1_serializing_streamer.html">SerializingStreamer</a> &amp;ref)</td></tr>
-<tr class="memdesc:a4ba74f339c748ac46d93d41790d5d9d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to output a field which already has <a class="el" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a> interface implemented.  <a href="#a4ba74f339c748ac46d93d41790d5d9d7">More...</a><br/></td></tr>
-<tr class="separator:a4ba74f339c748ac46d93d41790d5d9d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aa1f4bd1feb2bba560c52bc5237ea79"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a8aa1f4bd1feb2bba560c52bc5237ea79">endObject</a> ()</td></tr>
-<tr class="memdesc:a8aa1f4bd1feb2bba560c52bc5237ea79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the end of an object started by the latest call of <a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1" title="Used to output an object. ">object()</a> method.  <a href="#a8aa1f4bd1feb2bba560c52bc5237ea79">More...</a><br/></td></tr>
-<tr class="separator:a8aa1f4bd1feb2bba560c52bc5237ea79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9bf89e0469e1d575d3fbd29ec51d186"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#ac9bf89e0469e1d575d3fbd29ec51d186">null</a> ()</td></tr>
-<tr class="memdesc:ac9bf89e0469e1d575d3fbd29ec51d186"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to print a field that is <code>NULL</code>.  <a href="#ac9bf89e0469e1d575d3fbd29ec51d186">More...</a><br/></td></tr>
-<tr class="separator:ac9bf89e0469e1d575d3fbd29ec51d186"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abda5598d7f8c52cfea1378ccec85f22b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abda5598d7f8c52cfea1378ccec85f22b"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#abda5598d7f8c52cfea1378ccec85f22b">attribute</a> (const string &amp;name, const string &amp;value)</td></tr>
-<tr class="memdesc:abda5598d7f8c52cfea1378ccec85f22b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>string</code> attribute. <br/></td></tr>
-<tr class="separator:abda5598d7f8c52cfea1378ccec85f22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a5f8579795dff33496fed0a9dcbf1fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a5f8579795dff33496fed0a9dcbf1fa"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a2a5f8579795dff33496fed0a9dcbf1fa">attribute</a> (const string &amp;name, char value)</td></tr>
-<tr class="memdesc:a2a5f8579795dff33496fed0a9dcbf1fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>char</code> attribute. <br/></td></tr>
-<tr class="separator:a2a5f8579795dff33496fed0a9dcbf1fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d92ebd9087aaeea00e9e2a7cffd3fef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d92ebd9087aaeea00e9e2a7cffd3fef"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a9d92ebd9087aaeea00e9e2a7cffd3fef">attribute</a> (const string &amp;name, int value)</td></tr>
-<tr class="memdesc:a9d92ebd9087aaeea00e9e2a7cffd3fef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes an <code>int</code> attribute. <br/></td></tr>
-<tr class="separator:a9d92ebd9087aaeea00e9e2a7cffd3fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fdc5fe70f7b0a8fe0d8a785618baa67"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fdc5fe70f7b0a8fe0d8a785618baa67"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a3fdc5fe70f7b0a8fe0d8a785618baa67">attribute</a> (const string &amp;name, unsigned int value)</td></tr>
-<tr class="memdesc:a3fdc5fe70f7b0a8fe0d8a785618baa67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes an <code>unsigned int</code> attribute. <br/></td></tr>
-<tr class="separator:a3fdc5fe70f7b0a8fe0d8a785618baa67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeebf6a4861c262919af3536b6ea02e03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeebf6a4861c262919af3536b6ea02e03"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#aeebf6a4861c262919af3536b6ea02e03">attribute</a> (const string &amp;name, long int value)</td></tr>
-<tr class="memdesc:aeebf6a4861c262919af3536b6ea02e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>long int</code> attribute. <br/></td></tr>
-<tr class="separator:aeebf6a4861c262919af3536b6ea02e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c8bfba42ecc9eb2e2e3ff86bce1eceb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c8bfba42ecc9eb2e2e3ff86bce1eceb"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a2c8bfba42ecc9eb2e2e3ff86bce1eceb">attribute</a> (const string &amp;name, unsigned long int value)</td></tr>
-<tr class="memdesc:a2c8bfba42ecc9eb2e2e3ff86bce1eceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes an <code>unsigned long int</code> attribute. <br/></td></tr>
-<tr class="separator:a2c8bfba42ecc9eb2e2e3ff86bce1eceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeccb0753dac4d70c25b8128b6dc8b142"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeccb0753dac4d70c25b8128b6dc8b142"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#aeccb0753dac4d70c25b8128b6dc8b142">attribute</a> (const string &amp;name, double value)</td></tr>
-<tr class="memdesc:aeccb0753dac4d70c25b8128b6dc8b142"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>double</code> attribuet. <br/></td></tr>
-<tr class="separator:aeccb0753dac4d70c25b8128b6dc8b142"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4d91f0c7a8de00548aff6fdf2caff50"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4d91f0c7a8de00548aff6fdf2caff50"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#ab4d91f0c7a8de00548aff6fdf2caff50">attribute</a> (const string &amp;name, bool value)</td></tr>
-<tr class="memdesc:ab4d91f0c7a8de00548aff6fdf2caff50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>bool</code> attribute. <br/></td></tr>
-<tr class="separator:ab4d91f0c7a8de00548aff6fdf2caff50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39c88f7c3a412cc76bd4e42a524d482e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a39c88f7c3a412cc76bd4e42a524d482e"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a39c88f7c3a412cc76bd4e42a524d482e">attribute</a> (const string &amp;name)</td></tr>
-<tr class="memdesc:a39c88f7c3a412cc76bd4e42a524d482e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes an attribute with no value. <br/></td></tr>
-<tr class="separator:a39c88f7c3a412cc76bd4e42a524d482e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa50b1ef5d91b08bb4f94f362446b1d64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#aa50b1ef5d91b08bb4f94f362446b1d64">collection</a> ()</td></tr>
-<tr class="memdesc:aa50b1ef5d91b08bb4f94f362446b1d64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to print a collection.  <a href="#aa50b1ef5d91b08bb4f94f362446b1d64">More...</a><br/></td></tr>
-<tr class="separator:aa50b1ef5d91b08bb4f94f362446b1d64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cfddecc02bcd29fd14fdc08cdf0fa85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a6cfddecc02bcd29fd14fdc08cdf0fa85">endCollection</a> ()</td></tr>
-<tr class="memdesc:a6cfddecc02bcd29fd14fdc08cdf0fa85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks end of a collection started by the latest unclosed call to <a class="el" href="classkfoundation_1_1_object_serializer.html#aa50b1ef5d91b08bb4f94f362446b1d64" title="Used to print a collection. ">collection()</a>.  <a href="#a6cfddecc02bcd29fd14fdc08cdf0fa85">More...</a><br/></td></tr>
-<tr class="separator:a6cfddecc02bcd29fd14fdc08cdf0fa85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classkfoundation_1_1_managed_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_managed_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_managed_object.html">kfoundation::ManagedObject</a></td></tr>
-<tr class="memitem:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5386447e4305d42f5f697b620106d9b0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a5386447e4305d42f5f697b620106d9b0">ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br/></td></tr>
-<tr class="separator:a5386447e4305d42f5f697b620106d9b0 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#a98eeb2e2dba37376f6f933ad3eabc514">~ManagedObject</a> ()</td></tr>
-<tr class="memdesc:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor.  <a href="#a98eeb2e2dba37376f6f933ad3eabc514">More...</a><br/></td></tr>
-<tr class="separator:a98eeb2e2dba37376f6f933ad3eabc514 inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6769c05015242c26f4f675620d37f9a"></a>
-<a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_managed_object.html">ManagedObject</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_managed_object.html#ac6769c05015242c26f4f675620d37f9a">getPtr</a> () const </td></tr>
-<tr class="memdesc:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a managed poitner to this object. <br/></td></tr>
-<tr class="separator:ac6769c05015242c26f4f675620d37f9a inherit pub_methods_classkfoundation_1_1_managed_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adab871c142d366b7b7e1891e3b7ea455"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#adab871c142d366b7b7e1891e3b7ea455">ObjectSerializer</a> (<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_output_stream.html">OutputStream</a> &gt; stream, <a class="el" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d">kf_int8_t</a> indentUnit=4)</td></tr>
+<tr class="memdesc:adab871c142d366b7b7e1891e3b7ea455"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, sets output stream, type, and indent units.  <a href="#adab871c142d366b7b7e1891e3b7ea455">More...</a><br/></td></tr>
+<tr class="separator:adab871c142d366b7b7e1891e3b7ea455"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf241dba4cb6b3b590247c39d29aa3eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#acf241dba4cb6b3b590247c39d29aa3eb">member</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name)</td></tr>
+<tr class="memdesc:acf241dba4cb6b3b590247c39d29aa3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to output an object owned by the current one.  <a href="#acf241dba4cb6b3b590247c39d29aa3eb">More...</a><br/></td></tr>
+<tr class="separator:acf241dba4cb6b3b590247c39d29aa3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a885de075dbd7bea1815241ac8e2b3605"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a885de075dbd7bea1815241ac8e2b3605">object</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; className)</td></tr>
+<tr class="memdesc:a885de075dbd7bea1815241ac8e2b3605"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to output an object.  <a href="#a885de075dbd7bea1815241ac8e2b3605">More...</a><br/></td></tr>
+<tr class="separator:a885de075dbd7bea1815241ac8e2b3605"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90ddbab03ee8f9b728f85c2ab399e3da"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90ddbab03ee8f9b728f85c2ab399e3da"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a90ddbab03ee8f9b728f85c2ab399e3da">attribute</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name, const wchar_t value)</td></tr>
+<tr class="memdesc:a90ddbab03ee8f9b728f85c2ab399e3da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>char</code> attribute. <br/></td></tr>
+<tr class="separator:a90ddbab03ee8f9b728f85c2ab399e3da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4f7417d192a91bfb5d08b3807c95c0b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4f7417d192a91bfb5d08b3807c95c0b"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#ab4f7417d192a91bfb5d08b3807c95c0b">attribute</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name, const <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> value)</td></tr>
+<tr class="memdesc:ab4f7417d192a91bfb5d08b3807c95c0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes an <code>int</code> attribute. <br/></td></tr>
+<tr class="separator:ab4f7417d192a91bfb5d08b3807c95c0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a943634db6c331024a6c6b24f10dff59f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a943634db6c331024a6c6b24f10dff59f"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a943634db6c331024a6c6b24f10dff59f">attribute</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name, const <a class="el" href="group__defs.html#ga9eb596be7b92fd6321f3d63c186a3a01">kf_int64_t</a> value)</td></tr>
+<tr class="memdesc:a943634db6c331024a6c6b24f10dff59f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes an <code>unsigned int</code> attribute. <br/></td></tr>
+<tr class="separator:a943634db6c331024a6c6b24f10dff59f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81880462ebc72d785117dc88dabe90ed"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81880462ebc72d785117dc88dabe90ed"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a81880462ebc72d785117dc88dabe90ed">attribute</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name, const double value)</td></tr>
+<tr class="memdesc:a81880462ebc72d785117dc88dabe90ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>double</code> attribuet. <br/></td></tr>
+<tr class="separator:a81880462ebc72d785117dc88dabe90ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7c90064d6eb738a0241f0c880527bb0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad7c90064d6eb738a0241f0c880527bb0"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#ad7c90064d6eb738a0241f0c880527bb0">attribute</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name, const bool value)</td></tr>
+<tr class="memdesc:ad7c90064d6eb738a0241f0c880527bb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a <code>bool</code> attribute. <br/></td></tr>
+<tr class="separator:ad7c90064d6eb738a0241f0c880527bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74ed1503793b44fb3a4bc17700920af9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74ed1503793b44fb3a4bc17700920af9"></a>
+<a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a74ed1503793b44fb3a4bc17700920af9">attribute</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt; name)</td></tr>
+<tr class="memdesc:a74ed1503793b44fb3a4bc17700920af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes an attribute with no value. <br/></td></tr>
+<tr class="separator:a74ed1503793b44fb3a4bc17700920af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a418d956464e2b1eb5ba693445747fbe1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a418d956464e2b1eb5ba693445747fbe1">null</a> ()</td></tr>
+<tr class="memdesc:a418d956464e2b1eb5ba693445747fbe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to print a field that is <code>NULL</code>.  <a href="#a418d956464e2b1eb5ba693445747fbe1">More...</a><br/></td></tr>
+<tr class="separator:a418d956464e2b1eb5ba693445747fbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a782f52a9785eea2796bdfa30e9e96831"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a782f52a9785eea2796bdfa30e9e96831">endObject</a> ()</td></tr>
+<tr class="memdesc:a782f52a9785eea2796bdfa30e9e96831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the end of an object started by the latest call of <a class="el" href="classkfoundation_1_1_object_serializer.html#a885de075dbd7bea1815241ac8e2b3605" title="Used to output an object. ">object()</a> method.  <a href="#a782f52a9785eea2796bdfa30e9e96831">More...</a><br/></td></tr>
+<tr class="separator:a782f52a9785eea2796bdfa30e9e96831"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b15652ce39dadd96cefdf45d2bda126"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a1b15652ce39dadd96cefdf45d2bda126">collection</a> ()</td></tr>
+<tr class="memdesc:a1b15652ce39dadd96cefdf45d2bda126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to print a collection.  <a href="#a1b15652ce39dadd96cefdf45d2bda126">More...</a><br/></td></tr>
+<tr class="separator:a1b15652ce39dadd96cefdf45d2bda126"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61e939b4a6b2b552d8e80753595968d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_object_serializer.html#a61e939b4a6b2b552d8e80753595968d7">endCollection</a> ()</td></tr>
+<tr class="memdesc:a61e939b4a6b2b552d8e80753595968d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks end of a collection started by the latest unclosed call to <a class="el" href="classkfoundation_1_1_object_serializer.html#a1b15652ce39dadd96cefdf45d2bda126" title="Used to print a collection. ">collection()</a>.  <a href="#a61e939b4a6b2b552d8e80753595968d7">More...</a><br/></td></tr>
+<tr class="separator:a61e939b4a6b2b552d8e80753595968d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classkfoundation_1_1_k_f_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkfoundation_1_1_k_f_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classkfoundation_1_1_k_f_object.html">kfoundation::KFObject</a></td></tr>
+<tr class="memitem:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7e884f08321a2392637062ffee0c10d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_k_f_object.html#af7e884f08321a2392637062ffee0c10d">equals</a> (<a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; <a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> &gt; other) const </td></tr>
+<tr class="memdesc:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this object is the same as the one reffered by the given refrence. <br/></td></tr>
+<tr class="separator:af7e884f08321a2392637062ffee0c10d inherit pub_methods_classkfoundation_1_1_k_f_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides APIs to serialize an object. </p>
 <p>This is usually used in conjuction with <a class="el" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a>.</p>
 <p>Supported output formats are KFOR (KFoundation Format), XML, and JSON. To use, the methods shoud be called in particular order. If the order is not observed, an expcetion will be thrown.</p>
 <ul>
-<li>A call to <a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1" title="Used to output an object. ">object(const string&amp;)</a> should be made first.</li>
-<li><a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1" title="Used to output an object. ">object()</a> can be followed by attribute(), <a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa" title="Used to output an object owned by the current one. ">member()</a>, or <a class="el" href="classkfoundation_1_1_object_serializer.html#a8aa1f4bd1feb2bba560c52bc5237ea79" title="Marks the end of an object started by the latest call of object() method. ">endObject()</a>.</li>
-<li>attribute() can be followed by attribute(), <a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa" title="Used to output an object owned by the current one. ">member()</a> or <a class="el" href="classkfoundation_1_1_object_serializer.html#a8aa1f4bd1feb2bba560c52bc5237ea79" title="Marks the end of an object started by the latest call of object() method. ">endObject()</a>.</li>
-<li><a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa" title="Used to output an object owned by the current one. ">member()</a> can be followed by <a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1" title="Used to output an object. ">object()</a>, <a class="el" href="classkfoundation_1_1_object_serializer.html#aa50b1ef5d91b08bb4f94f362446b1d64" title="Used to print a collection. ">collection()</a>, or <a class="el" href="classkfoundation_1_1_object_serializer.html#ac9bf89e0469e1d575d3fbd29ec51d186" title="Used to print a field that is NULL. ">null()</a>.</li>
-<li>There shold be an endObjectr() corresponding to each <a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1" title="Used to output an object. ">object()</a> and <a class="el" href="classkfoundation_1_1_object_serializer.html#a6cfddecc02bcd29fd14fdc08cdf0fa85" title="Marks end of a collection started by the latest unclosed call to collection(). ">endCollection()</a> corresponding to each <a class="el" href="classkfoundation_1_1_object_serializer.html#aa50b1ef5d91b08bb4f94f362446b1d64" title="Used to print a collection. ">collection()</a>.</li>
+<li>A call to object(const string&amp;) should be made first.</li>
+<li><a class="el" href="classkfoundation_1_1_object_serializer.html#a885de075dbd7bea1815241ac8e2b3605" title="Used to output an object. ">object()</a> can be followed by attribute(), <a class="el" href="classkfoundation_1_1_object_serializer.html#acf241dba4cb6b3b590247c39d29aa3eb" title="Used to output an object owned by the current one. ">member()</a>, or <a class="el" href="classkfoundation_1_1_object_serializer.html#a782f52a9785eea2796bdfa30e9e96831" title="Marks the end of an object started by the latest call of object() method. ">endObject()</a>.</li>
+<li>attribute() can be followed by attribute(), <a class="el" href="classkfoundation_1_1_object_serializer.html#acf241dba4cb6b3b590247c39d29aa3eb" title="Used to output an object owned by the current one. ">member()</a> or <a class="el" href="classkfoundation_1_1_object_serializer.html#a782f52a9785eea2796bdfa30e9e96831" title="Marks the end of an object started by the latest call of object() method. ">endObject()</a>.</li>
+<li><a class="el" href="classkfoundation_1_1_object_serializer.html#acf241dba4cb6b3b590247c39d29aa3eb" title="Used to output an object owned by the current one. ">member()</a> can be followed by <a class="el" href="classkfoundation_1_1_object_serializer.html#a885de075dbd7bea1815241ac8e2b3605" title="Used to output an object. ">object()</a>, <a class="el" href="classkfoundation_1_1_object_serializer.html#a1b15652ce39dadd96cefdf45d2bda126" title="Used to print a collection. ">collection()</a>, or <a class="el" href="classkfoundation_1_1_object_serializer.html#a418d956464e2b1eb5ba693445747fbe1" title="Used to print a field that is NULL. ">null()</a>.</li>
+<li>There shold be an endObjectr() corresponding to each <a class="el" href="classkfoundation_1_1_object_serializer.html#a885de075dbd7bea1815241ac8e2b3605" title="Used to output an object. ">object()</a> and <a class="el" href="classkfoundation_1_1_object_serializer.html#a61e939b4a6b2b552d8e80753595968d7" title="Marks end of a collection started by the latest unclosed call to collection(). ">endCollection()</a> corresponding to each <a class="el" href="classkfoundation_1_1_object_serializer.html#a1b15652ce39dadd96cefdf45d2bda126" title="Used to print a collection. ">collection()</a>.</li>
 </ul>
-<p>An expception is when using <a class="el" href="classkfoundation_1_1_object_serializer.html#a4ba74f339c748ac46d93d41790d5d9d7" title="Used to output a field which already has SerializingStreamer interface implemented. ">object(const SerializingStreamer&amp;)</a> or object(const PPtr&lt;T&gt;) it is not needed to call <a class="el" href="classkfoundation_1_1_object_serializer.html#a8aa1f4bd1feb2bba560c52bc5237ea79" title="Marks the end of an object started by the latest call of object() method. ">endObject()</a> because it is already called in the serializer() method of the given argument.</p>
+<p>An expception is when using object(const SerializingStreamer&amp;) or object(const Ref&lt;T&gt;) it is not needed to call <a class="el" href="classkfoundation_1_1_object_serializer.html#a782f52a9785eea2796bdfa30e9e96831" title="Marks the end of an object started by the latest call of object() method. ">endObject()</a> because it is already called in the serializer() method of the given argument.</p>
 <p>All of these methods can be used chained sytax. Example: </p>
-<pre class="fragment">void serialize(PPtr&lt;ObjectSerializer&gt; os) const {
+<pre class="fragment">void serialize(Ref&lt;ObjectSerializer&gt; os) const {
     os-&gt;object("MyClass")
       -&gt;attribute("counter", _counter)
       -&gt;attribute("name", _name)
       -&gt;member("innerObject")-&gt;object(innerObject)
       -&gt;endObject();
-</pre> </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a class="anchor" id="a8ad729a3bbb084338bc955157f657934"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934">kfoundation::ObjectSerializer::output_type_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Output format. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a8ad729a3bbb084338bc955157f657934aa4bdaf1b62e1ac9be2d51c9a20cfe7ef"></a>DUMP</em>&nbsp;</td><td class="fielddoc">
-<p>KFOR (KFoundation Format) </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a8ad729a3bbb084338bc955157f657934a984336151f539f95c317541c11944bad"></a>XML</em>&nbsp;</td><td class="fielddoc">
-<p>XML. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a8ad729a3bbb084338bc955157f657934ab27360d897dbbdc9feea4622720c6284"></a>JSON</em>&nbsp;</td><td class="fielddoc">
-<p>JSON. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a8411290da67394f795914710f9535288"></a>
+</pre> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="adab871c142d366b7b7e1891e3b7ea455"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">kfoundation::ObjectSerializer::ObjectSerializer </td>
           <td>(</td>
-          <td class="paramtype">ostream &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_output_stream.html">OutputStream</a> &gt;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934">output_type_t</a>&#160;</td>
-          <td class="paramname"><em>outputType</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>indentUnit</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d">kf_int8_t</a>&#160;</td>
+          <td class="paramname"><em>indentUnit</em> = <code>4</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -284,48 +217,13 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae22c5ac7647051ef9f0cf3fdc6a06fd4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">kfoundation::ObjectSerializer::ObjectSerializer </td>
-          <td>(</td>
-          <td class="paramtype">ostream &amp;&#160;</td>
-          <td class="paramname"><em>stream</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classkfoundation_1_1_object_serializer.html#a8ad729a3bbb084338bc955157f657934">output_type_t</a>&#160;</td>
-          <td class="paramname"><em>outputType</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructor, sets the output stream and type, and sets indent units to 4. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">stream</td><td>The stream to print the output to. </td></tr>
-    <tr><td class="paramname">outputType</td><td>The output format. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa50b1ef5d91b08bb4f94f362446b1d64"></a>
+<a class="anchor" id="a1b15652ce39dadd96cefdf45d2bda126"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::collection </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::collection </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td></td>
@@ -334,17 +232,17 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Used to print a collection. </p>
-<p>Allowed only after <a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa" title="Used to output an object owned by the current one. ">member()</a>. </p>
+<p>Allowed only after <a class="el" href="classkfoundation_1_1_object_serializer.html#acf241dba4cb6b3b590247c39d29aa3eb" title="Used to output an object owned by the current one. ">member()</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to self. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a6cfddecc02bcd29fd14fdc08cdf0fa85"></a>
+<a class="anchor" id="a61e939b4a6b2b552d8e80753595968d7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::endCollection </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::endCollection </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td></td>
@@ -352,17 +250,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Marks end of a collection started by the latest unclosed call to <a class="el" href="classkfoundation_1_1_object_serializer.html#aa50b1ef5d91b08bb4f94f362446b1d64" title="Used to print a collection. ">collection()</a>. </p>
+<p>Marks end of a collection started by the latest unclosed call to <a class="el" href="classkfoundation_1_1_object_serializer.html#a1b15652ce39dadd96cefdf45d2bda126" title="Used to print a collection. ">collection()</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to self. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a8aa1f4bd1feb2bba560c52bc5237ea79"></a>
+<a class="anchor" id="a782f52a9785eea2796bdfa30e9e96831"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::endObject </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::endObject </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td></td>
@@ -370,19 +268,19 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Marks the end of an object started by the latest call of <a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1" title="Used to output an object. ">object()</a> method. </p>
+<p>Marks the end of an object started by the latest call of <a class="el" href="classkfoundation_1_1_object_serializer.html#a885de075dbd7bea1815241ac8e2b3605" title="Used to output an object. ">object()</a> method. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to self. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a9becf481aac5a028282cd42835e12eaa"></a>
+<a class="anchor" id="acf241dba4cb6b3b590247c39d29aa3eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::member </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::member </td>
           <td>(</td>
-          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td>
           <td class="paramname"><em>name</em>)</td><td></td>
           <td></td>
         </tr>
@@ -390,7 +288,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Used to output an object owned by the current one. </p>
-<p>Only allowed after <a class="el" href="classkfoundation_1_1_object_serializer.html#a2da8e54570ab2513c77c0d7efe9ac3c1" title="Used to output an object. ">object()</a> and attribute().</p>
+<p>Only allowed after <a class="el" href="classkfoundation_1_1_object_serializer.html#a885de075dbd7bea1815241ac8e2b3605" title="Used to output an object. ">object()</a> and attribute().</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The corresponding member variable name (property name). </td></tr>
@@ -401,12 +299,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac9bf89e0469e1d575d3fbd29ec51d186"></a>
+<a class="anchor" id="a418d956464e2b1eb5ba693445747fbe1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::null </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::null </td>
           <td>(</td>
           <td class="paramname">)</td><td></td>
           <td></td>
@@ -415,18 +313,18 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Used to print a field that is <code>NULL</code>. </p>
-<p>Only allowed after <a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa" title="Used to output an object owned by the current one. ">member()</a>. </p>
+<p>Only allowed after <a class="el" href="classkfoundation_1_1_object_serializer.html#acf241dba4cb6b3b590247c39d29aa3eb" title="Used to output an object owned by the current one. ">member()</a>. </p>
 
 </div>
 </div>
-<a class="anchor" id="a2da8e54570ab2513c77c0d7efe9ac3c1"></a>
+<a class="anchor" id="a885de075dbd7bea1815241ac8e2b3605"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::object </td>
+          <td class="memname"><a class="el" href="classkfoundation_1_1_ref.html">Ref</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::object </td>
           <td>(</td>
-          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classkfoundation_1_1_ref_const.html">RefConst</a>&lt; UString &gt;&#160;</td>
           <td class="paramname"><em>className</em>)</td><td></td>
           <td></td>
         </tr>
@@ -434,36 +332,10 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Used to output an object. </p>
-<p>Allowed in the begining or after <a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa" title="Used to output an object owned by the current one. ">member()</a>.</p>
+<p>Allowed in the begining or after <a class="el" href="classkfoundation_1_1_object_serializer.html#acf241dba4cb6b3b590247c39d29aa3eb" title="Used to output an object owned by the current one. ">member()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">className</td><td>Class name of the designated object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to self. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a4ba74f339c748ac46d93d41790d5d9d7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classkfoundation_1_1_p_ptr.html">PPtr</a>&lt; <a class="el" href="classkfoundation_1_1_object_serializer.html">ObjectSerializer</a> &gt; kfoundation::ObjectSerializer::object </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classkfoundation_1_1_serializing_streamer.html">SerializingStreamer</a> &amp;&#160;</td>
-          <td class="paramname"><em>ref</em>)</td><td></td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Used to output a field which already has <a class="el" href="classkfoundation_1_1_serializing_streamer.html" title="Objects implementing this class can be serialized into any format allowed by ObjectSerializer. ">SerializingStreamer</a> interface implemented. </p>
-<p>Allowed only after <a class="el" href="classkfoundation_1_1_object_serializer.html#a9becf481aac5a028282cd42835e12eaa" title="Used to output an object owned by the current one. ">member()</a>. <a class="el" href="classkfoundation_1_1_object_serializer.html#a8aa1f4bd1feb2bba560c52bc5237ea79" title="Marks the end of an object started by the latest call of object() method. ">endObject()</a> should NOT be called for this method.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ref</td><td>The field to be printed. </td></tr>
   </table>
   </dd>
 </dl>
@@ -478,7 +350,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

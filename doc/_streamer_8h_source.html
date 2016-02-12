@@ -106,43 +106,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#ifndef ORG_KNORBA_COMMON_STRINGSTREAMER</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define ORG_KNORBA_COMMON_STRINGSTREAMER</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;ostream&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span>RefConst;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span>Ref;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keyword">class </span>OutputStream;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">class </span>UString;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_streamer.html">   40</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> printToStream(ostream&amp; stream) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">string</span> toString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  };</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">inline</span> ostream&amp; operator&lt;&lt;(ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a>&amp; streamer) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    streamer.<a class="code" href="classkfoundation_1_1_streamer.html#a1ceb1f7233f608d889be47d29db801c9" title="Implements compatibility with Streamer interface. ">printToStream</a>(os);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> os;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">string</span> operator+(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; lhs, <span class="keyword">const</span> Streamer&amp; rhs) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> lhs + rhs.toString();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">string</span> operator+(<span class="keyword">const</span> Streamer&amp; lhs, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; rhs) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">return</span> lhs.toString().append(rhs);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_streamer.html#a0d23aa14dcb0b21ef3efedcd4b1fda75" title="Implements compatibility with Streamer interface. ">printToStream</a>(<a class="code" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">Ref&lt;OutputStream&gt;</a> writer) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">public</span>: <span class="keyword">virtual</span> <a class="code" href="classkfoundation_1_1_ref_const.html">RefConst&lt;UString&gt;</a> <a class="code" href="classkfoundation_1_1_streamer.html#a65ce0f08ab0b1071decae29f829139d6" title="Converts the result of invocation of printToStream(ostream&amp;) to a std::string object. ">toString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  };</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <span class="comment">// namespace kfoundation</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:26 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

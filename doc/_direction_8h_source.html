@@ -100,84 +100,79 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef __KFoundation__Direction__</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __KFoundation__Direction__</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// Std</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// Internal</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;definitions.h&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// Internal</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;definitions.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// Super</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;Streamer.h&quot;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// Super</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;Streamer.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html">   34</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="comment">// --- NESTED TYPES --- //</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925">   42</a></span>&#160;    <span class="keyword">public</span>: <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925a989fa828e60e74e3d6647d726195ccdf">   43</a></span>&#160;      BACK    = -1, </div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925acdd9c3e923960e14023d375ea9ff7333">   44</a></span>&#160;      NEUTRAL = 0,  </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925a42420ce12ef9cb2b676311d372b45f91">   45</a></span>&#160;      FORTH   = 1   </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    } component_t;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>kfoundation {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  </div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html">   29</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a> : <span class="keyword">public</span> <a class="code" href="classkfoundation_1_1_streamer.html" title="Base class for all classes that can print information about themeselves to a std::ostream. ">Streamer</a> {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="comment">// --- NESTED TYPES --- //</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925">   37</a></span>&#160;    <span class="keyword">public</span>: <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925a989fa828e60e74e3d6647d726195ccdf">   38</a></span>&#160;      <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925a989fa828e60e74e3d6647d726195ccdf" title="Backward. ">BACK</a>    = -1, </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925acdd9c3e923960e14023d375ea9ff7333">   39</a></span>&#160;      <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925acdd9c3e923960e14023d375ea9ff7333" title="Netural. ">NEUTRAL</a> = 0,  </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925a42420ce12ef9cb2b676311d372b45f91">   40</a></span>&#160;      <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925a42420ce12ef9cb2b676311d372b45f91" title="Forward. ">FORTH</a>   = 1   </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    } <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">component_t</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">// --- FIELDS --- //</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">private</span>: <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> _components[4];</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">private</span>: <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> _size;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// --- FIELDS --- //</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">private</span>: <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> _components[4];</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">private</span>: <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> _size;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="comment">// --- (DE)CONSTRUCTORS --- //</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_direction.html#a3e0e351d17843f1eb57657361a99e667" title="Constructor, creates a neutral direction of the given size. ">Direction</a>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> size);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_direction.html#a3e0e351d17843f1eb57657361a99e667" title="Constructor, creates a neutral direction of the given size. ">Direction</a>(<span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>&amp; copy);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="comment">// --- (DE)CONSTRUCTORS --- //</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> size);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>(<span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>&amp; copy);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="comment">// --- METHODS --- //</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">public</span>: <span class="keyword">inline</span> <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> getSize() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">public</span>: <span class="keyword">inline</span> <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>&amp; set(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index, <span class="keyword">const</span> component_t value);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">public</span>: <span class="keyword">inline</span> component_t <span class="keyword">get</span>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> inc(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a> getOpposite() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> isCenter()  <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">// Inherited from Streamer //</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> printToStream(ostream&amp; stream) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  };</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">// --- INLINE METHODS --- //</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  </div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#ab7ad63cc1e7724a09368eb1f26eed43d">   83</a></span>&#160;  <span class="keyword">inline</span> <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> <a class="code" href="classkfoundation_1_1_direction.html#ab7ad63cc1e7724a09368eb1f26eed43d" title="Returns the number of elements. ">Direction::getSize</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">return</span> _size;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  </div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#aca8b5f24605ca33a464ae440295ea478">   94</a></span>&#160;  <span class="keyword">inline</span> <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>&amp; <a class="code" href="classkfoundation_1_1_direction.html#aca8b5f24605ca33a464ae440295ea478" title="Setter, sets the element at the given index to the given value. ">Direction::set</a>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index, <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">component_t</a> value) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    _components[index] = (<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a>)value;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  </div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a1b23d0bb915de4a9d366b395c0505be6">  104</a></span>&#160;  <span class="keyword">inline</span> <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">Direction::component_t</a> <a class="code" href="classkfoundation_1_1_direction.html#a1b23d0bb915de4a9d366b395c0505be6" title="Returns the value of element at the given index. ">Direction::get</a>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">return</span> (<a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">component_t</a>)_components[index];</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;} <span class="comment">// nam</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation__Direction__) */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="comment">// --- METHODS --- //</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span>: <span class="keyword">inline</span> <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> <a class="code" href="classkfoundation_1_1_direction.html#ab7ad63cc1e7724a09368eb1f26eed43d" title="Returns the number of elements. ">getSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">public</span>: <span class="keyword">inline</span> <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>&amp; <a class="code" href="classkfoundation_1_1_direction.html#aca8b5f24605ca33a464ae440295ea478" title="Setter, sets the element at the given index to the given value. ">set</a>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index, <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">component_t</a> value);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">public</span>: <span class="keyword">inline</span> <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">component_t</a> <span class="keyword">get</span>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> inc(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">public</span>: <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a> <a class="code" href="classkfoundation_1_1_direction.html#a07bfb98369e55534397c2aca8550d272" title="Returns a direction opposite to this one. ">getOpposite</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">bool</span> <a class="code" href="classkfoundation_1_1_direction.html#ab288b458b3d2d2dd4dc9f5e0a47e065e" title="Checks if this is a neutral direction. ">isCenter</a>()  <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">// Inherited from Streamer //</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">public</span>: <span class="keywordtype">void</span> <a class="code" href="classkfoundation_1_1_direction.html#ad2910fd4e825a10bb35bf11ba716e1cb" title="Implements compatibility with Streamer interface. ">printToStream</a>(<a class="code" href="classkfoundation_1_1_ref.html" title="Reference to a class of given template type. ">Ref&lt;OutputStream&gt;</a> os) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  };</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">// --- INLINE METHODS --- //</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#ab7ad63cc1e7724a09368eb1f26eed43d">   78</a></span>&#160;  <span class="keyword">inline</span> <a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> <a class="code" href="classkfoundation_1_1_direction.html#ab7ad63cc1e7724a09368eb1f26eed43d" title="Returns the number of elements. ">Direction::getSize</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> _size;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  </div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#aca8b5f24605ca33a464ae440295ea478">   89</a></span>&#160;  <span class="keyword">inline</span> <a class="code" href="classkfoundation_1_1_direction.html" title="Represents directions in n-dimensional space. ">Direction</a>&amp; <a class="code" href="classkfoundation_1_1_direction.html#aca8b5f24605ca33a464ae440295ea478" title="Setter, sets the element at the given index to the given value. ">Direction::set</a>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index, <span class="keyword">const</span> <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">component_t</a> value) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    _components[index] = (<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a>)value;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  </div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="code" href="classkfoundation_1_1_direction.html#a1b23d0bb915de4a9d366b395c0505be6">   99</a></span>&#160;  <span class="keyword">inline</span> <a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">Direction::component_t</a> <a class="code" href="classkfoundation_1_1_direction.html#a1b23d0bb915de4a9d366b395c0505be6" title="Returns the value of element at the given index. ">Direction::get</a>(<a class="code" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d" title="8-bit signed numeric type. ">kf_int8_t</a> index)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> (<a class="code" href="classkfoundation_1_1_direction.html#a6619d54e47b08ff0a7ea952b7e3ce925" title="Directions alongside a line. ">component_t</a>)_components[index];</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;} <span class="comment">// nam</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined(__KFoundation__Direction__) */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:26 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

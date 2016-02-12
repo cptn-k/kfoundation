@@ -111,31 +111,32 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a651fb215fc38354fdf4c2bb997923914">~MasterMemoryManager</a> ()</td></tr>
 <tr class="memdesc:a651fb215fc38354fdf4c2bb997923914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor. <br/></td></tr>
 <tr class="separator:a651fb215fc38354fdf4c2bb997923914"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0522081fbd4293a6e65fe4058e84b7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0522081fbd4293a6e65fe4058e84b7d"></a>
-const <a class="el" href="structkfoundation_1_1_object_record.html">ObjectRecord</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#aa0522081fbd4293a6e65fe4058e84b7d">registerObject</a> (<a class="el" href="classkfoundation_1_1_managed_object.html">ManagedObject</a> *ptr)</td></tr>
-<tr class="memdesc:aa0522081fbd4293a6e65fe4058e84b7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registeres a new object to the default manager. <br/></td></tr>
-<tr class="separator:aa0522081fbd4293a6e65fe4058e84b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a537745aa563b9384bb7db82c161c4423"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a537745aa563b9384bb7db82c161c4423">registerManager</a> (<a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a> *manager)</td></tr>
-<tr class="memdesc:a537745aa563b9384bb7db82c161c4423"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a new memory manager and assignes it with a unique ID.  <a href="#a537745aa563b9384bb7db82c161c4423">More...</a><br/></td></tr>
-<tr class="separator:a537745aa563b9384bb7db82c161c4423"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a6caf024a06ad08245d9c20d7285b07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a5a6caf024a06ad08245d9c20d7285b07">unregisterManager</a> (int index)</td></tr>
-<tr class="memdesc:a5a6caf024a06ad08245d9c20d7285b07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregisters a memory manager given its index.  <a href="#a5a6caf024a06ad08245d9c20d7285b07">More...</a><br/></td></tr>
-<tr class="separator:a5a6caf024a06ad08245d9c20d7285b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac77997a3367eae95682b1d3856deb43d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac77997a3367eae95682b1d3856deb43d"></a>
-<a class="el" href="group__defs.html#gaa054667c742abf5a00a203812dc93339">kf_octet_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#ac77997a3367eae95682b1d3856deb43d">getNManagers</a> ()</td></tr>
-<tr class="memdesc:ac77997a3367eae95682b1d3856deb43d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of registered managers. <br/></td></tr>
-<tr class="separator:ac77997a3367eae95682b1d3856deb43d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56ff08aed126bb109a3eaca9e0edd8f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a56ff08aed126bb109a3eaca9e0edd8f8"></a>
-<a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a56ff08aed126bb109a3eaca9e0edd8f8">getManagerAtIndex</a> (int index)</td></tr>
-<tr class="memdesc:a56ff08aed126bb109a3eaca9e0edd8f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the manager at the given index. <br/></td></tr>
-<tr class="separator:a56ff08aed126bb109a3eaca9e0edd8f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3887c733dc984e18cda934c7a37f0f59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a3887c733dc984e18cda934c7a37f0f59">updataTable</a> (int index)</td></tr>
-<tr class="memdesc:a3887c733dc984e18cda934c7a37f0f59"><td class="mdescLeft">&#160;</td><td class="mdescRight">This should be called whenever a manager reallocates its table.  <a href="#a3887c733dc984e18cda934c7a37f0f59">More...</a><br/></td></tr>
-<tr class="separator:a3887c733dc984e18cda934c7a37f0f59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45863de9fc0fefee3aa350ab4f947d89"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a45863de9fc0fefee3aa350ab4f947d89"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a45863de9fc0fefee3aa350ab4f947d89">dump</a> () const </td></tr>
-<tr class="memdesc:a45863de9fc0fefee3aa350ab4f947d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a list of all managed objects. <br/></td></tr>
-<tr class="separator:a45863de9fc0fefee3aa350ab4f947d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a981966332749f5b25506bdaf5f2fd758"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a981966332749f5b25506bdaf5f2fd758"></a>
+<a class="el" href="classkfoundation_1_1_k_f_object.html">KFObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a981966332749f5b25506bdaf5f2fd758">refToPtr</a> (<a class="el" href="structkfoundation_1_1kf__uref__t.html">kf_uref_t</a> ref)</td></tr>
+<tr class="memdesc:a981966332749f5b25506bdaf5f2fd758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deferences the given parametes into the corresponding memory address, if valid. <br/></td></tr>
+<tr class="separator:a981966332749f5b25506bdaf5f2fd758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9998bdc8b67b52743c97dd2a14ed98d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab9998bdc8b67b52743c97dd2a14ed98d"></a>
+<a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#ab9998bdc8b67b52743c97dd2a14ed98d">getDefaultManager</a> () const </td></tr>
+<tr class="memdesc:ab9998bdc8b67b52743c97dd2a14ed98d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the default reference-conting memory manager. <br/></td></tr>
+<tr class="separator:ab9998bdc8b67b52743c97dd2a14ed98d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26e262d4f717bdbdedc14c3e173a0006"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a26e262d4f717bdbdedc14c3e173a0006"></a>
+<a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a26e262d4f717bdbdedc14c3e173a0006">getStaticManager</a> () const </td></tr>
+<tr class="memdesc:a26e262d4f717bdbdedc14c3e173a0006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the default static memory manager. <br/></td></tr>
+<tr class="separator:a26e262d4f717bdbdedc14c3e173a0006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bfc691d8bb8b0e8ee1e9f987f1134ac"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a0bfc691d8bb8b0e8ee1e9f987f1134ac">addManager</a> (<a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a> *manager, MemoryManager::ObjectRecord *table, <a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a> size)</td></tr>
+<tr class="memdesc:a0bfc691d8bb8b0e8ee1e9f987f1134ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a new memory manager and assignes it with a unique ID.  <a href="#a0bfc691d8bb8b0e8ee1e9f987f1134ac">More...</a><br/></td></tr>
+<tr class="separator:a0bfc691d8bb8b0e8ee1e9f987f1134ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc5937fb2dea9922fb499a4713e91649"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#abc5937fb2dea9922fb499a4713e91649">removeManager</a> (int index)</td></tr>
+<tr class="memdesc:abc5937fb2dea9922fb499a4713e91649"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregisters a memory manager given its index.  <a href="#abc5937fb2dea9922fb499a4713e91649">More...</a><br/></td></tr>
+<tr class="separator:abc5937fb2dea9922fb499a4713e91649"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe808e710ea1d2877b187b3e0859554a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe808e710ea1d2877b187b3e0859554a"></a>
+<a class="el" href="group__defs.html#ga7a43c9c9febd20d5494a60fc1518e39d">kf_int8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#abe808e710ea1d2877b187b3e0859554a">getManagerCount</a> () const </td></tr>
+<tr class="memdesc:abe808e710ea1d2877b187b3e0859554a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of registered managers. <br/></td></tr>
+<tr class="separator:abe808e710ea1d2877b187b3e0859554a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9dde0db0db0e899b3bf33eaa71d2290"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9dde0db0db0e899b3bf33eaa71d2290"></a>
+<a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#aa9dde0db0db0e899b3bf33eaa71d2290">getManagerAtIndex</a> (int index) const </td></tr>
+<tr class="memdesc:aa9dde0db0db0e899b3bf33eaa71d2290"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the manager at the given index. <br/></td></tr>
+<tr class="separator:aa9dde0db0db0e899b3bf33eaa71d2290"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27bf7182c071a3ca825051318cc712ef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27bf7182c071a3ca825051318cc712ef"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classkfoundation_1_1_master_memory_manager.html#a27bf7182c071a3ca825051318cc712ef">printStats</a> () const </td></tr>
 <tr class="memdesc:a27bf7182c071a3ca825051318cc712ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a report of memory usage. <br/></td></tr>
@@ -144,18 +145,34 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Manages all the memory managers used in a process. </p>
 <p>Only once instance of this class exists per process. This instance can be obtained via <a class="el" href="classkfoundation_1_1_system.html#a9dd28185a2b3ba1e3bf7254b0fd453a8" title="Returns reference to the master memory manager. ">System::getMasterMemoryManager()</a>.</p>
-<p>This object always owns an instance of <a class="el" href="classkfoundation_1_1_ref_count_memory_manager.html" title="Reference counting memory manager. ">RefCountMemoryManager</a> as its default manager. To access use <code>getManagerAtIndex(0)</code>. </p>
+<p>This object is initialized with two memory managers. (1) The manager obtained by <a class="el" href="classkfoundation_1_1_master_memory_manager.html#ab9998bdc8b67b52743c97dd2a14ed98d" title="Returns the default reference-conting memory manager. ">getDefaultManager()</a> is the one responsible for ref-counted garbage collection. (2) The manager obtained by <a class="el" href="classkfoundation_1_1_master_memory_manager.html#a26e262d4f717bdbdedc14c3e173a0006" title="Returns the default static memory manager. ">getStaticManager()</a> is responsible for objects with unlimited lifetime. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a537745aa563b9384bb7db82c161c4423"></a>
+<a class="anchor" id="a0bfc691d8bb8b0e8ee1e9f987f1134ac"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int kfoundation::MasterMemoryManager::registerManager </td>
+          <td class="memname">int kfoundation::MasterMemoryManager::addManager </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classkfoundation_1_1_memory_manager.html">MemoryManager</a> *&#160;</td>
-          <td class="paramname"><em>manager</em>)</td><td></td>
+          <td class="paramname"><em>manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">MemoryManager::ObjectRecord *&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__defs.html#ga0e9c004c564e74522ffb6caa54b16ca8">kf_int32_t</a>&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -171,12 +188,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a5a6caf024a06ad08245d9c20d7285b07"></a>
+<a class="anchor" id="abc5937fb2dea9922fb499a4713e91649"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void kfoundation::MasterMemoryManager::unregisterManager </td>
+          <td class="memname">void kfoundation::MasterMemoryManager::removeManager </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em>)</td><td></td>
@@ -195,25 +212,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a3887c733dc984e18cda934c7a37f0f59"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void kfoundation::MasterMemoryManager::updataTable </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em>)</td><td></td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This should be called whenever a manager reallocates its table. </p>
-<p><a class="el" href="classkfoundation_1_1_master_memory_manager.html" title="Manages all the memory managers used in a process. ">MasterMemoryManager</a> keeps a separate record of the all memory manager tables. If its location is changed for any reason, this function should be called to so that master updates its internal reference. </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_master_memory_manager_8h_source.html">MasterMemoryManager.h</a></li>
 <li>MasterMemoryManager.cpp</li>
@@ -221,7 +219,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 30 2015 13:00:04 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 12 2016 18:50:27 for KFoundation by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>

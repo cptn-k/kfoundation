@@ -1,5 +1,6 @@
 <map id="kfoundation::TextToken" name="kfoundation::TextToken">
-<area shape="rect" id="node2" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="33,169,169,196"/>
-<area shape="rect" id="node3" href="$classkfoundation_1_1_object_stream_reader.html" title="Generic interface for utility object used to read objets from an stream of a given format..." alt="" coords="11,80,191,121"/>
-<area shape="rect" id="node4" href="$classkfoundation_1_1_managed_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="5,5,197,32"/>
+<area shape="rect" id="node2" href="$classkfoundation_1_1_token.html" title="Represents a token in a stream. " alt="" coords="27,259,163,285"/>
+<area shape="rect" id="node3" href="$classkfoundation_1_1_object_stream_reader.html" title="Generic interface for utility object used to read objets from an stream of a given format..." alt="" coords="5,169,185,211"/>
+<area shape="rect" id="node4" href="$classkfoundation_1_1_k_f_object.html" title="The root class for all classes using KFoundation framework. " alt="" coords="19,95,172,121"/>
+<area shape="rect" id="node5" href="$classkfoundation_1_1_comparable.html" title="kfoundation::Comparable\l\&lt; KFObject \&gt;" alt="" coords="10,5,181,47"/>
 </map>
