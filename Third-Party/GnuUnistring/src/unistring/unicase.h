@@ -21,7 +21,7 @@
 
 /* ========================================================================= */
 
-/* Character case mappings.
+/* UChar case mappings.
    These mappings are locale and context independent.
    WARNING! These functions are not sufficient for languages such as German.
    Better use the functions below that treat an entire string at once and are

@@ -49,8 +49,8 @@ add_library (kfoundation STATIC
   src/kfoundation/IndexOutOfBoundException.cpp
   src/kfoundation/Bool.cpp
   src/kfoundation/Double.cpp
-  src/kfoundation/Int.cpp
-  src/kfoundation/LongInt.cpp
+  src/kfoundation/Int32.cpp
+  src/kfoundation/Int64.cpp
   src/kfoundation/UChar.cpp
   src/kfoundation/UString.cpp
 # --- Utils --- #
@@ -66,6 +66,8 @@ add_library (kfoundation STATIC
   src/kfoundation/SerializingStreamer.cpp
   src/kfoundation/ObjectSerializer.cpp
   src/kfoundation/KforObjectSerializer.cpp
+  src/kfoundation/XmlObjectSerializer.cpp
+  src/kfoundation/JsonObjectSerializer.cpp
   src/kfoundation/ObjectStreamReader.cpp
   src/kfoundation/StreamDeserializer.cpp
   src/kfoundation/XmlObjectStreamReader.cpp
@@ -124,6 +126,7 @@ install(FILES
     src/kfoundation/StandardOutputStreamAdapter.h
     src/kfoundation/InternetOutputStream.h
     src/kfoundation/IOException.h
+    src/kfoundation/PrintWriter.h
     # --- Thread --- #
     src/kfoundation/Thread.h
     src/kfoundation/Mutex.h
@@ -142,8 +145,8 @@ install(FILES
     src/kfoundation/IndexOutOfBoundException.h
     src/kfoundation/Bool.h
     src/kfoundation/Double.h
-    src/kfoundation/Int.h
-    src/kfoundation/LongInt.h
+    src/kfoundation/Int32.h
+    src/kfoundation/Int64.h
     src/kfoundation/UChar.h
     src/kfoundation/UString.h
     # --- Utils --- #
@@ -160,6 +163,8 @@ install(FILES
     src/kfoundation/StreamDeserializer.h
     src/kfoundation/ObjectSerializer.h
     src/kfoundation/KforObjectSerializer.h
+    src/kfoundation/XmlObjectSerializer.h
+    src/kfoundation/JsonObjectSerializer.h
     src/kfoundation/ObjectStreamReader.h
     src/kfoundation/XmlObjectStreamReader.h
     # --- Region Arithmatics --- #

@@ -40,7 +40,7 @@ Featrues:
   - Automatic Memory Management
     - Safe: Detects all access violations, but throws exception instead of
       segmentation fault.
-    - Easy: Type "Ptr<MyClass> x = new MyClass()" and the rest is automatic.
+    - Easy: Type "Ref<MyClass> x = new MyClass()" and the rest is automatic.
     - Fast: All algorithms run in O(1) time complexity --- the fastest possible.
     - Compatible down to C++98
     - Extensible with custom memory managers
@@ -69,7 +69,7 @@ Featrues:
     - Multi-level
     - Multi-channel
     - Customizable
-    - Easy: LOG << "My value: " << 12 << EL;
+    - Easy: LOG << "My value: " << 12 << ENDS;
 
   - System class
     - Cross-platform, Object-oriented way to access system features
