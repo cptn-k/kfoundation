@@ -77,10 +77,10 @@ namespace kfoundation {
 
   // --- FIELDS --- //
 
-    private: state                     _state;
-    private: Ref<InputStream>          _input;
+    private: state             _state;
+    private: Ref<InputStream>  _input;
     private: Ref<StreamParser> _parser;
-    private: Ref<XmlAttribute>         _nextAttrib;
+    private: Ref<XmlAttribute> _nextAttrib;
     private: Ref< RefConstArray<UString> >  _elementStack;
 
 

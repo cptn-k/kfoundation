@@ -41,7 +41,7 @@ namespace kfoundation {
     
   // --- NESTED TYPES --- //
     
-    public: class Iterator {
+    public: class Iterator : public T {
 
     // --- FIELDS --- //
 
@@ -59,9 +59,10 @@ namespace kfoundation {
 
     // --- FIELDS --- //
 
-      public: T first();
-      public: T next();
+      public: void first();
+      public: void next();
       public: bool hasMore() const;
+      public: kf_int32_t getIndex() const;
       
     };
 
@@ -106,14 +107,14 @@ namespace kfoundation {
 
   template<typename T>
   class RefArray : public RefArrayBase< Ref<T> > {
-    public: RefArray(kf_int32_t capacity);
+    public: RefArray(kf_int32_t size);
     public: RefArray();
   };
 
 
   template<typename T>
   class RefConstArray : public RefArrayBase< RefConst<T> > {
-    public: RefConstArray(kf_int32_t capacity);
+    public: RefConstArray(kf_int32_t size);
     public: RefConstArray();
   };
 

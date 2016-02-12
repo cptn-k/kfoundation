@@ -28,6 +28,7 @@ namespace kfoundation {
   
   class KFException;
   class UString;
+  class Condition;
   
   
   /**
@@ -47,6 +48,7 @@ namespace kfoundation {
       public: virtual void start() = 0;
       public: virtual bool isRunning() const = 0;
       public: virtual void setName(RefConst<UString> name) = 0;
+      public: virtual void setTerminateCondition(Ref<Condition> c) = 0;
       public: virtual RefConst<UString> getName() const = 0;
       public: virtual bool isTheCurrentThread() const = 0;
     };
@@ -65,7 +67,7 @@ namespace kfoundation {
   // --- FIELDS --- //
     
     private: ThreadImplementation* _implementation;
-    
+
     
   // --- CONSTRUCTOR --- //
     
@@ -79,6 +81,7 @@ namespace kfoundation {
     public: virtual void run() = 0;
     public: void start();
     public: bool isRunning() const;
+    public: void notifyOnTerminate(Ref<Condition> c);
     public: RefConst<UString> getName() const;
     public: bool isTheCurrentThread() const;
     

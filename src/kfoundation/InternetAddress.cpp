@@ -45,7 +45,7 @@ namespace kfoundation {
   
   InternetAddress::InternetAddress() {
     memset(_ip, 0, sizeof(_ip));
-    _port = -1;
+    _port = 0;
   }
   
   
@@ -136,7 +136,7 @@ namespace kfoundation {
   
   
   /**
-   * Returns the IP address as an array of kf_octet_t
+   * Returns the IP address as an array of kf_octet_t.
    */
   
   const kf_octet_t* InternetAddress::getIp() const {

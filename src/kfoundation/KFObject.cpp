@@ -38,19 +38,28 @@ namespace kfoundation {
   {
     // Nothing;
   }
+  
+  
+  KFObject::~KFObject() {
+    // Nothing
+  }
+  
 
 // --- METHODS --- //
 
-  kf_uref_t KFObject::registerAndRetain(MemoryManager &manager) const {
+  kf_uref_t KFObject::registerToManager(MemoryManager &manager) const {
     if(NOT_NULL_REF(_ref)) {
-      manager.retain(_ref.index, _ref.key);
       return _ref;
     }
 
-    ((KFObject*)this)->_ref = manager.add((KFObject*)this, true);
+    ((KFObject*)this)->_ref = manager.add((KFObject*)this, false);
     return _ref;
   }
 
+  /**
+   * Checks if this object is the same as the one reffered by the given
+   * refrence.
+   */
 
   bool KFObject::equals(RefConst<KFObject> other) const {
     return _ref == other.get();

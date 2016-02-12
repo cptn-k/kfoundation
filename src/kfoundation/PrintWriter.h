@@ -17,16 +17,31 @@
 
 namespace kfoundation {
 
+  /**
+   * Special flag to flush the stream and end `<<` chain.
+   */
+
   typedef enum {
     OVER
   } printwriter_end_stream_flag_t;
 
+
+  /**
+   * Special flags to use with `<<`.
+   */
 
   typedef enum {
     NEW_LINE, ///< Line feed
     HEX       ///< Hex
   } printwriter_flag;
 
+
+  /**
+   * Writes formatted text on any OutputStream.
+   *
+   * @ingroup io
+   * @headerfile PrintWriter.h <kfoundation/PrintWriter.h>
+   */
 
   class PrintWriter : public KFObject {
 
@@ -67,6 +82,7 @@ namespace kfoundation {
     public: Ref<PrintWriter> print(RefConst<UString> value);
     public: Ref<PrintWriter> print(const Streamer& value);
     public: Ref<PrintWriter> print(const Streamer& value, kf_int32_t count);
+    public: Ref<PrintWriter> print(Ref<InputStream> stream);
     public: Ref<PrintWriter> printHex(kf_octet_t value);
     public: Ref<PrintWriter> printHex(const kf_int32_t value);
     public: Ref<PrintWriter> printHex(const kf_int64_t value);

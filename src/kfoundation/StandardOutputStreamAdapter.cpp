@@ -65,6 +65,7 @@ namespace kfoundation {
     while (!is->isEof()) {
       kf_int32_t s = is->read(buffer, 4069);
       write(buffer, s);
+      _os.flush();
     }
   }
   

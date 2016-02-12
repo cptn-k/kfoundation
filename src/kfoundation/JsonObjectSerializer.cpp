@@ -12,12 +12,40 @@
 #include "UString.h"
 #include "Ref.h"
 #include "PrintWriter.h"
+#include "BufferOutputStream.h"
 
 // Self
 #include "ObjectSerializer.h"
 
 
 namespace kfoundation {
+
+// --- STATIC METHODS --- //
+
+  Ref<UString> JsonObjectSerializer::toString(SerializingStreamer& obj) {
+    Ref<BufferOutputStream> stream = new BufferOutputStream();
+    Ref<JsonObjectSerializer> serializer
+        = new JsonObjectSerializer(stream.AS(OutputStream));
+    obj.serialize(serializer.AS(ObjectSerializer));
+    return stream->getString();
+  }
+
+
+  void JsonObjectSerializer::printToStream(SerializingStreamer& obj,
+      Ref<OutputStream> os)
+  {
+    Ref<JsonObjectSerializer> serializer = new JsonObjectSerializer(os);
+    obj.serialize(serializer.AS(ObjectSerializer));
+  }
+
+
+  Ref<PrintWriter> JsonObjectSerializer::print(Ref<PrintWriter> pw,
+      SerializingStreamer& obj)
+  {
+    printToStream(obj, pw->getStream());
+    return pw;
+  }
+
 
 // --- CONSTRUCTOR --- //
 
@@ -32,7 +60,7 @@ namespace kfoundation {
 // --- METHODS --- //
 
   void JsonObjectSerializer::printHeader() {
-    // Nothing;
+    _isFirst = true;
   }
 
 
@@ -65,6 +93,7 @@ namespace kfoundation {
         getWriter() << '\"' << value << '\"';
     }
 
+    _isFirst = false;
   }
 
 
@@ -75,7 +104,7 @@ namespace kfoundation {
       getWriter() << ", ";
     }
 
-    printIndent();
+    printIndent(!_isFirst);
 
     if(!name.isNull()) {
       getWriter() << '\"' << *name << "\": ";

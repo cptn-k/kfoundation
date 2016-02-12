@@ -7,7 +7,7 @@
 //
 
 #include "Ref.h"
-#include "LongInt.h"
+#include "Int64.h"
 #include "UString.h"
 
 // Self

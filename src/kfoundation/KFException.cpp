@@ -57,21 +57,20 @@ namespace kfoundation {
     parser.skipSpaces();
     parser.readNumber(_index);
 
-    StringPrintWriter pw;
+    parser.skipSpaces();
+    StringPrintWriter pw1;
+    parser.readAllBeforeSpace(pw1.getStream());
+    _exeName = pw1.toString();
 
     parser.skipSpaces();
-    parser.readAllBeforeSpace(pw.getStream());
-    _exeName = pw.toString();
-    pw.clear();
+    StringPrintWriter pw2;
+    parser.readAllAlphanumeric(pw2.getStream());
+    _address = pw2.toString();
 
     parser.skipSpaces();
-    parser.readAllAlphanumeric(pw.getStream());
-    _address = pw.toString();
-    pw.clear();
-
-    parser.skipSpaces();
-    parser.readAllBeforeSpace(pw.getStream());
-    _symbol = System::demangle(pw.toString()->getCString());
+    StringPrintWriter pw3;
+    parser.readAllBeforeSpace(pw3.getStream());
+    _symbol = System::demangle(pw3.toString());
 
     parser.skipSpaces();
     parser.readChar('+');
@@ -108,7 +107,6 @@ namespace kfoundation {
     _stackTrace = NULL;
     createStackTrace();
     _nHiddenFrames = 3;
-    _what = toString();
   }
   
   
@@ -123,7 +121,7 @@ namespace kfoundation {
     _nHiddenFrames = other._nHiddenFrames;
     _nFrames = other._nFrames;
     _stackTrace = other._stackTrace;
-    _what = other._what;
+    /// TODO shouldn't copy _what ?
   }
   
   
@@ -188,12 +186,6 @@ namespace kfoundation {
   
   // Inherited from SerializingStreamer //
   
-  /**
-   * Serializing method.
-   *
-   * @param builder The ObjectSerializer used to build the output.
-   */
-  
   void KFException::serialize(Ref<ObjectSerializer> builder) const {
     builder->object(_name)
       ->attribute(K"message", _message)
@@ -217,7 +209,10 @@ namespace kfoundation {
    */
   
   const char* KFException::what() const throw() {
-    return (char*)_what->getOctets();
+    if(_what.isNull()) {
+      _what = toString();
+    }
+    return _what->getCString();
   }
   
 } // namespace kfoundation

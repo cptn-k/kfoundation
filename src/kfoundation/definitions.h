@@ -186,9 +186,14 @@ namespace kfoundation {
   } kf_comparison_t;
 
 
+  /**
+   * @brief Alternative to boolean values, used for better code readability.
+   * @ingroup defs
+   */
+
   typedef enum {
-    ON = true,
-    OFF = false
+    ON = true, /// Equals true
+    OFF = false /// Equals false
   } kf_onoff_t;
 
 

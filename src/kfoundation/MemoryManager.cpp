@@ -36,9 +36,13 @@ namespace kfoundation {
 } // namespace kfoundation
 
 /**
- * @fn kfoundation::MemoryManager::registerObject(KFObject*)
+ * @fn kfoundation::MemoryManager::add(KFObject* obj, bool retain)
  *
  * Creates a new entry for the object at the given memory location.
+ *
+ * @param obj - The object to manage
+ * @param retain - If set true, the initial retain count of the object will be
+ *     set to 1.
  */
 
 /**
@@ -57,28 +61,21 @@ namespace kfoundation {
  */
 
 /**
- * @fn kfoundation::MemoryManager::remove(kf_int32_t, kf_int16_t)
+ * @fn kfoundation::MemoryManager::getObject(kf_int32_t, kf_int16_t)
  * 
- * Unmanages the object at the given index if the key matches, 
- * otherwise, throws InvalidPointerException. The index will be
- * reused in the future.
+ * Returns the object referenced by the given index, if the given key
+ * matches the corresponding record.
  */
 
 /**
- * @fn kfoundation::MemoryManager::getTable()
- * 
- * Returns the memory locatoin of the begining of this manager's object table.
- * The object table is a one dimentional array of ObjectRecord.
+ * @fn kfoundation::MemoryManager::getReatinCount(kf_int32_t, kf_int16_t)
  *
- * @see getTableSize()
+ * Returns the retain count of the object referenced by the given index, if the
+ * given key matches the corresponding record.
  */
 
 /**
- * @fn kfoundation::MemoryManager::getTableSize()
- * 
- * Returns the number of available table records. Since some records can be 
- * unused, this is usually not equal but larger than the the number of objects
- * managed by this manager.
+ * @fn kfoundation::MemoryManager::getObjectCount()
  *
- * @see getTable()
+ * Returns the number of alive objects currently managed by this manager.
  */

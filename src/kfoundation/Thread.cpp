@@ -21,7 +21,7 @@
 #include "KFException.h"
 #include "System.h"
 #include "Logger.h"
-#include "Int.h"
+#include "Int32.h"
 #include "Ref.h"
 #include "UString.h"
 
@@ -42,15 +42,16 @@ namespace kfoundation {
   class __k_ThreadImplementation : public Thread::ThreadImplementation {
     private: pthread_attr_t _attrib;
     private: pthread_t _handle;
-    private: Thread& _owner;
+    private: Thread* _owner;
     private: bool _isRunning;
     private: RefConst<UString> _name;
     private: static void* runner(void* arg);
-    public: __k_ThreadImplementation(Thread& owner);
+    public: __k_ThreadImplementation(Thread* owner);
     public: ~__k_ThreadImplementation();
     public: void start();
     public: bool isRunning() const;
     public: void setName(RefConst<UString> name);
+    public: void setTerminateCondition(Ref<Condition> c);
     public: RefConst<UString> getName() const;
     public: bool isTheCurrentThread() const;
   };
@@ -71,21 +72,18 @@ namespace kfoundation {
   #else
     #error "platform not supported"
   #endif
+
+    Ref<Thread> t = obj->_owner;
     
     obj->_isRunning = true;
-    obj->_owner.run();
+    obj->_owner->run();
     obj->_isRunning = false;
-
-    kf_uref_t ref = obj->_owner.getRef();
-
-    System::getMasterMemoryManager().getManagerAtIndex(ref.index)
-        .release(ref.index, ref.key);
 
     return 0;
   }
   
   
-  __k_ThreadImplementation::__k_ThreadImplementation(Thread& owner)
+  __k_ThreadImplementation::__k_ThreadImplementation(Thread* owner)
   : _owner(owner)
   {
     pthread_attr_init(&_attrib);
@@ -111,6 +109,11 @@ namespace kfoundation {
   
   void __k_ThreadImplementation::setName(RefConst<UString> str) {
     _name = str;
+  }
+
+
+  void __k_ThreadImplementation::setTerminateCondition(Ref<Condition> c) {
+
   }
   
   
@@ -141,7 +144,7 @@ namespace kfoundation {
   
 // --- STATIC FIELDS --- //
   
-  int Thread::_counter = 1;
+  int Thread::_counter = 0;
   
   
 // --- (DE)CONSTRUCTORS --- //
@@ -154,7 +157,7 @@ namespace kfoundation {
   
   Thread::Thread() {
     _counter++;
-    _implementation = new __k_ThreadImplementation(*this);
+    _implementation = new __k_ThreadImplementation(this);
     _implementation->setName(K"KFoundation Thread " + _counter);
   }
   
@@ -168,7 +171,7 @@ namespace kfoundation {
   
   Thread::Thread(RefConst<UString> name) {
     _counter++;
-    _implementation = new __k_ThreadImplementation(*this);
+    _implementation = new __k_ThreadImplementation(this);
     _implementation->setName(name);
   }
   
@@ -194,11 +197,6 @@ namespace kfoundation {
     if(isRunning()) {
       return;
     }
-
-    kf_uref_t ref = getRef();
-
-    System::getMasterMemoryManager().getManagerAtIndex(ref.index)
-      .retain(ref.index, ref.key);
 
     _implementation->start();
   }

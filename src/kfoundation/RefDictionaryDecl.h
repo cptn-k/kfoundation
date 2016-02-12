@@ -13,17 +13,20 @@
 #include "RefDecl.h"
 #include "RefArrayDecl.h"
 #include "ArrayDecl.h"
+#include "SerializingStreamer.h"
 
 namespace kfoundation {
 
   template<typename KY, typename VREF>
-  class DictionaryBase : public KFObject {
+  class DictionaryBase : public KFObject, public SerializingStreamer {
 
   // --- NESTED TYPES --- //
 
-    public: class Pair {
+    public: class Pair : public SerializingStreamer {
       public: RefConst<KY> _key;
       public: VREF _value;
+      private: static void printObject(Ref<ObjectSerializer> s, RefConst<KFObject> o);
+      public: void serialize(Ref<ObjectSerializer> serializer) const;
     };
 
 
@@ -61,6 +64,9 @@ namespace kfoundation {
     public: bool containsKey(RefConst<KY> key) const;
     public: Iterator getIterator() const;
     public: void clear();
+
+    // From SerializingStreamer
+    public: void serialize(Ref<ObjectSerializer> serializer) const;
 
   };
 

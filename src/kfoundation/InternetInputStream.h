@@ -42,7 +42,7 @@ namespace kfoundation {
     
   // --- FIELDS --- //
 
-    private: InternetAddress _address;
+    private: RefConst<InternetAddress> _address;
     private: sockaddr_in _sockaddr;
     private: int _hostSocket;
     private: int _readSocket;
@@ -60,8 +60,8 @@ namespace kfoundation {
     
   // --- METHODS --- //
     
-    public: const InternetAddress& getAddress() const;
-    public: void bind(const InternetAddress& address) throw(IOException);
+    public: RefConst<InternetAddress> getAddress() const;
+    public: void bind(RefConst<InternetAddress> address) throw(IOException);
     public: void unbind();
     public: bool isBound() const;
     public: void listen();

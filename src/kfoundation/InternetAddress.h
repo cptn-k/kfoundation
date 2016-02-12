@@ -21,6 +21,7 @@
 #include "RefDecl.h"
 
 // Super
+#include "KFObject.h"
 #include "Streamer.h"
 
 namespace kfoundation {
@@ -36,7 +37,7 @@ namespace kfoundation {
    */
   
   class InternetAddress
-      : public KFObject, public Streamer, public Comparable<InternetAddress>
+  : public KFObject, public Streamer, public Comparable<InternetAddress>
   {
     
   // --- NESTED TYPES --- //

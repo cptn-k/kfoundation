@@ -30,6 +30,7 @@
 #  include <sys/types.h>
 #  include <sys/wait.h>
 #  include <sys/time.h>
+#  include <sys/sysctl.h>
 #  include <execinfo.h>
 #  include <syslog.h>
 #endif
@@ -47,7 +48,7 @@
 #include "MemoryManager.h"
 #include "Logger.h"
 #include "Path.h"
-#include "Int.h"
+#include "Int32.h"
 #include "KFException.h"
 #include "StandardInputStreamAdapter.h"
 #include "StandardOutputStreamAdapter.h"
@@ -131,14 +132,23 @@ namespace kfoundation {
   MasterMemoryManager* System::master = NULL;
   StaticRef<Logger> System::logger = NULL;
 
+
+  /** PrintWriter to "void"; it simply discards everything written to it. */
+
   const StaticRef<PrintWriter> System::VOID = new PrintWriter(
       StaticRef<OutputStream>(new VoidOutputStream()));
+
+  /** PrintWriter to the standard output pipe. */
 
   const StaticRef<PrintWriter> System::OUT = new PrintWriter(
       StaticRef<OutputStream>(new StandardOutputStreamAdapter(std::cout)));
 
+  /** PrintWriter to the standard error output pipe. */
+
   const StaticRef<PrintWriter> System::ERR = new PrintWriter(
       StaticRef<OutputStream>(new StandardOutputStreamAdapter(std::cerr)));
+
+  /** InputStream from standard input pipe. */
 
   const StaticRef<InputStream> System::IN = new StandardInputStreamAdapter(std::cin);
 
@@ -207,19 +217,20 @@ namespace kfoundation {
    * Demangles a C++ ABI symbol into a human readable one.
    */
   
-  Ref<UString> System::demangle(const char* symbol) {
+  RefConst<UString> System::demangle(RefConst<UString> symbol) {
     size_t len = __KF_BUFFER_SIZE;
     char* output = (char*)malloc(len);
     int status;
-    output = abi::__cxa_demangle(symbol, output, &len, &status);
+    const char* cstr = symbol->getCString();
+    output = abi::__cxa_demangle(cstr, output, &len, &status);
     
-    if(output != NULL) {
+    if(NOT_NULL(output)) {
       Ref<UString> outstr = new UString(output);
       free(output);
       return outstr;
     }
     
-    return new UString(symbol);
+    return symbol;
   }
 
   
@@ -243,7 +254,7 @@ namespace kfoundation {
   
   /**
    * Returns the human-readable description of the last system error as
-   * indicated by errno variable.
+   * indicated by errno register.
    */
 
   Ref<UString> System::getLastSystemError() {
@@ -353,6 +364,22 @@ namespace kfoundation {
   int System::getPid() {
     return ::getpid();
   }
+
+
+  /** 
+   * Returns the number of CPU cores on this machine 
+   */
+  
+  kf_int16_t System::getNumberOfCpuCores() {
+    #if defined(KF_MAC)
+      int count;
+      size_t count_len = sizeof(count);
+      sysctlbyname("hw.logicalcpu", &count, &count_len, NULL, 0);
+      return (kf_int16_t)count;
+    #elif define(KF_UNIX)
+      return sysconf( _SC_NPROCESSORS_ONLN );
+    #endif
+  }
   
   
   int System::backtrace(void** addrList, int countLimit) {
@@ -362,6 +389,26 @@ namespace kfoundation {
   
   char** System::backtraceSymbols(void** addrList, int count) {
     return ::backtrace_symbols(addrList, count);
+  }
+
+
+  /**
+   * Immidiately terminated the program with the given exit code. Default value
+   * is 0.
+   */
+
+  void System::exit(kf_int32_t code) {
+    ::exit(code);
+  }
+
+
+  /**
+   * Waits for all child threads to terminate, then terminates this process
+   * with exit code 0.
+   */
+
+  void System::exitAfterAllThreads() {
+    pthread_exit(NULL);
   }
     
 } // namespace kfoundation

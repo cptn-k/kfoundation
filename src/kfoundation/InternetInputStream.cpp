@@ -22,7 +22,7 @@
 
 // Internal
 #include "Ref.h"
-#include "Int.h"
+#include "Int32.h"
 #include "System.h"
 #include "ObjectSerializer.h"
 #include "UString.h"
@@ -77,7 +77,7 @@ namespace kfoundation {
    * Returns the address that this stream is assigned to,.
    */
   
-  const InternetAddress& InternetInputStream::getAddress() const {
+  RefConst<InternetAddress> InternetInputStream::getAddress() const {
     return _address;
   }
   
@@ -94,19 +94,19 @@ namespace kfoundation {
    * @see isBound()
    */
   
-  void InternetInputStream::bind(const InternetAddress& address)
+  void InternetInputStream::bind(RefConst<InternetAddress> addr)
   throw(IOException)
   {
     if(_isBound) {
       unbind();
     }
 
-    _address = address;
+    _address = addr;
 
     memset(&_sockaddr, 0, sizeof(sockaddr_in));
     _sockaddr.sin_family = AF_INET;
-    memcpy(&_sockaddr.sin_addr.s_addr, address.getIp(), 4);
-    _sockaddr.sin_port = htons(address.getPort());
+    memcpy(&_sockaddr.sin_addr.s_addr, addr->getIp(), 4);
+    _sockaddr.sin_port = htons(addr->getPort());
 
     _hostSocket = socket(PF_INET, SOCK_STREAM, 0);
 
@@ -169,7 +169,7 @@ namespace kfoundation {
     
     int err = ::listen(_hostSocket, MAX_QUEUE_SIZE);
     if(err != 0) {
-      throw IOException(K"Could not initiate listening (Address: " + _address
+      throw IOException(K"Could not initiate listening (Address: " + *_address
           + "). Reason: " + System::getLastSystemError());
     }
     
@@ -220,7 +220,7 @@ namespace kfoundation {
   kf_int32_t InternetInputStream::read(kf_octet_t* buffer, const kf_int32_t nBytes) {
     if(!_isOpen) {
       throw IOException(K"Attemp to read a closed socket (Address: "
-          + _address + ")");
+          + *_address + ")");
     }
     
     kf_int32_t totalRead = 0;
@@ -246,7 +246,7 @@ namespace kfoundation {
   kf_int16_t InternetInputStream::read() {
     if(!_isOpen) {
       throw IOException(K"Attemp to read a closed socket (Address: "
-          + _address + ")");
+          + *_address + ")");
     }
     
     kf_octet_t v;

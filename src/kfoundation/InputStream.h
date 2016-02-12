@@ -84,6 +84,7 @@ namespace kfoundation {
     
     /**
      * If returns true, mark() and reset() methods can be used.
+     *
      * @see mark()
      * @see reset()
      */

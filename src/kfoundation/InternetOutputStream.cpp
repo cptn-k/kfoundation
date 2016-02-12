@@ -40,13 +40,13 @@ namespace kfoundation {
    * To use, invoke connect() first.
    */
   
-  InternetOutputStream::InternetOutputStream(const InternetAddress& address)
+  InternetOutputStream::InternetOutputStream(RefConst<InternetAddress> address)
   : _address(address)
   {
     memset(&_target, 0, sizeof(sockaddr_in));
     _target.sin_family = AF_INET;
-    memcpy(&_target.sin_addr.s_addr, address.getIp(), 4);
-    _target.sin_port = htons(address.getPort());
+    memcpy(&_target.sin_addr.s_addr, address->getIp(), 4);
+    _target.sin_port = htons(address->getPort());
     _isOpen = false;
   }
   
@@ -69,7 +69,7 @@ namespace kfoundation {
    * Returns the address this stream is assigend to.
    */
   
-  const InternetAddress& InternetOutputStream::getAddress() const {
+  RefConst<InternetAddress> InternetOutputStream::getAddress() const {
     return _address;
   }
   
@@ -84,7 +84,7 @@ namespace kfoundation {
   void InternetOutputStream::connect() throw(IOException){
     if(_isOpen) {
       throw IOException(K"Attempt to reconnect a stream that is already "
-          "connected (Address: " + _address + ")");
+          "connected (Address: " + *_address + ")");
     }
     
     _nSent = 0;
@@ -93,7 +93,7 @@ namespace kfoundation {
     int err = ::connect(_socket, (sockaddr*)&_target, sizeof(_target));
     
     if(err != 0) {
-      throw IOException(K"Connection faild  (Address: " + _address
+      throw IOException(K"Connection faild  (Address: " + *_address
           + "). Reason: " + System::getLastSystemError());
     }
     
@@ -142,7 +142,7 @@ namespace kfoundation {
       ssize_t s = ::write(_socket, buffer + totalSent, octetsToSend);
       
       if(s < 0) {
-        throw IOException(K"Failed to write to output (Address: " + _address
+        throw IOException(K"Failed to write to output (Address: " + *_address
             + "). Reason: " + System::getLastSystemError());
       }
       
@@ -157,7 +157,7 @@ namespace kfoundation {
   void InternetOutputStream::write(kf_octet_t byte) {
     ssize_t s = ::write(_socket, &byte, 1);
     if(s < 0) {
-      throw IOException(K"Failed to write to output (Address: " + _address
+      throw IOException(K"Failed to write to output (Address: " + *_address
           + "). Reason: " + System::getLastSystemError());
     }
     _nSent++;
@@ -167,7 +167,7 @@ namespace kfoundation {
   void InternetOutputStream::write(Ref<InputStream> os) {
     if(!_isOpen) {
       throw IOException(K"Attemp to write to a closed socket (Address: "
-          + _address + ")");
+          + *_address + ")");
     }
     
     kf_octet_t buffer[SOCK_CAPACITY];

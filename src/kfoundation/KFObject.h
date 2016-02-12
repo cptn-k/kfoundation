@@ -28,7 +28,7 @@ namespace kfoundation {
 
   /**
    * The root class for all classes using KFoundation framework. 
-   * Only subclasses of KFObject can be accessed via managed pointers.
+   * Only subclasses of KFObject can be used with KFoundation references.
    *
    * @headerfile KFObject.h <kfoundation/KFObject.h>
    */
@@ -43,11 +43,12 @@ namespace kfoundation {
   // --- CONSTRUCTORS --- //
 
     public: KFObject();
+    public: virtual ~KFObject();
 
     
   // --- METHODS --- //
 
-    public: virtual kf_uref_t registerAndRetain(MemoryManager& manager) const;
+    public: virtual kf_uref_t registerToManager(MemoryManager& manager) const;
     public: inline kf_uref_t getRef() const;
 
     private: void* internalAlloc(const void* original, kf_int64_t originalSize,

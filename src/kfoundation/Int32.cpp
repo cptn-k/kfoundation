@@ -9,7 +9,7 @@
 #include "OutputStream.h"
 
 // Self
-#include "Int.h"
+#include "Int32.h"
 
 namespace kfoundation {
 
@@ -19,7 +19,7 @@ namespace kfoundation {
    * Constructor. Sets the internal value to the given parameter.
    */
   
-  Int::Int(kf_int32_t value)
+  Int32::Int32(kf_int32_t value)
   : _value(value)
   {
     // Nothing;
@@ -31,7 +31,7 @@ namespace kfoundation {
    * accordingly.
    */
   
-  Int::Int(RefConst<UString> str)
+  Int32::Int32(RefConst<UString> str)
   : _value(parse(str))
   {
     // Nothing;
@@ -47,7 +47,7 @@ namespace kfoundation {
    * @return The numeric value extracted from the given string.
    */
     
-  kf_int32_t Int::parse(RefConst<UString> str) {
+  kf_int32_t Int32::parse(RefConst<UString> str) {
     StreamParser parser(new StringInputStream(str));
     long int value;
     parser.readNumber(value);
@@ -61,7 +61,7 @@ namespace kfoundation {
    * Getter method. Returns the internal value.
    */
 
-  int Int::get() const {
+  int Int32::get() const {
     return _value;
   }
 
@@ -70,7 +70,7 @@ namespace kfoundation {
    * Setter method. Sets the internal value to the given parameter.
    */
 
-  void Int::set(const kf_int32_t value) {
+  void Int32::set(const kf_int32_t value) {
     _value = value;
   }
 
@@ -82,7 +82,7 @@ namespace kfoundation {
    * @return The hexadecimal representation of the given value.
    */
   
-  Ref<UString> Int::toHexString() const {
+  Ref<UString> Int32::toHexString() const {
     char buffer[50];
     int n = sprintf(buffer, "%X", _value);
     return new UString((kf_octet_t*)buffer, n);
@@ -93,7 +93,7 @@ namespace kfoundation {
    * Converts the given integer value to string.
    */
   
-  void Int::printToStream(Ref<OutputStream> stream) const {
+  void Int32::printToStream(Ref<OutputStream> stream) const {
     char buffer[50];
     int n = sprintf(buffer, "%d", _value);
     if(n > 0) {
@@ -102,7 +102,7 @@ namespace kfoundation {
   }
 
 
-  RefConst<UString> Int::toString() const {
+  RefConst<UString> Int32::toString() const {
     char buffer[50];
     int n = sprintf(buffer, "%d", _value);
     return new UString((kf_octet_t*)buffer, n);

@@ -49,6 +49,16 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Constructor, opens the file pointed by the given string.
+   * If the file
+   * already exists, the writting begins from the end of the file. If it is
+   * desired to earase the existing contents of the file, use truncate() method.
+   *
+   * @param path Path to the file to be opened.
+   * @see truncate()
+   */
+
   FileOutputStream::FileOutputStream(RefConst<UString> path) {
     construct(new Path(path));
   }

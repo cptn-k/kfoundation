@@ -9,12 +9,13 @@
 #include "RefArray.h"
 #include "UString.h"
 #include "UChar.h"
-#include "LongInt.h"
+#include "Int64.h"
 #include "Ref.h"
 #include "Bool.h"
 #include "ObjectSerializer.h"
 #include "StreamParser.h"
 #include "PrintWriter.h"
+#include "BufferOutputStream.h"
 #include "StringPrintWriter.h"
 
 // Self
@@ -432,6 +433,7 @@ namespace kfoundation {
   const UChar XmlObjectStreamReader::NUMBER_SIGN = '#';
   const UChar XmlObjectStreamReader::BEGIN_CHAR = '<';
   const UChar XmlObjectStreamReader::END_CHAR = '>';
+  const UChar XmlObjectStreamReader::SEMICOLON = ';';
 
   
   /**
@@ -444,8 +446,7 @@ namespace kfoundation {
     _state = INITIAL;
     _input = input;
     _parser = new StreamParser(input);
-    
-    parseHeader();
+    _elementStack = new RefConstArray<UString>();
   }
 
   
@@ -464,7 +465,7 @@ namespace kfoundation {
       }
       
       if(attr->getName()->equals(K"encoding")) {
-        if(!attr->getValue()->Comparable<UString>::equals(K"utf-8")) {
+        if(!attr->getValue()->equals(K"utf-8")) {
           throw ParseException(K"XML encoding is not utf-8",
               attr->codeRange.getBegin());
         }
@@ -485,19 +486,18 @@ namespace kfoundation {
     _parser->skipSpacesAndNewLines();
     CodeLocation begin = _parser->getCodeLocation();
 
-    StringPrintWriter pw;
-    Ref<OutputStream> storage = pw.getStream();
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
 
     UChar strBeginChar;
     bool hasValue = false;
     
-    if(_parser->readIdentifier(storage) == 0) {
-      return Ref<XmlAttribute>();
+    if(_parser->readIdentifier(storage.AS(OutputStream)) == 0) {
+      return NULL;
     }
 
-    RefConst<UString> name = pw.toString();
-    pw.clear();
-    
+    RefConst<UString> name = new UString(storage->getData(), storage->getSize());
+    storage->clear();
+
     _parser->skipSpaces();
     
     if(_parser->readChar(EQUAL_SIGN)) {
@@ -513,7 +513,7 @@ namespace kfoundation {
         throw ParseException(K"Double quot expected", begin);
       }
       
-      readStringUnescaped(storage, strBeginChar);
+      readStringUnescaped(storage.AS(OutputStream), strBeginChar);
       if(!_parser->readChar(strBeginChar)) {
         throw ParseException(K"Closing '" + UChar(strBeginChar)
             + "' could not be found", _parser->getCodeLocation());
@@ -527,13 +527,12 @@ namespace kfoundation {
     }
     
     return new XmlAttribute(this, CodeRange(begin, end), name,
-        storage.toString());
+        storage->getString());
   }
   
   
   Ref<XmlElement> XmlObjectStreamReader::readElement() throw(ParseException) {
-    StringPrintWriter pw;
-    Ref<OutputStream> storage = pw.getStream();
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
     RefConst<UString> name;
     RefConst<UString> id;
     bool hasId = false;
@@ -546,14 +545,14 @@ namespace kfoundation {
       return NULL;
     }
     
-    if(!_parser->readIdentifier(storage)) {
+    if(!_parser->readIdentifier(storage.AS(OutputStream))) {
       throw ParseException(K"Tag name expected", _parser->getCodeLocation());
     }
     
     CodeLocation end = _parser->getCodeLocation();
 
-    name = pw.toString();
-    pw.clear();
+    name = new UString(storage->getData(), storage->getSize());
+    storage->clear();
 
     _elementStack->push(name);
 
@@ -664,10 +663,10 @@ namespace kfoundation {
     
     _parser->skipSpaces();
 
-    StringPrintWriter pw;
-    _parser->readIdentifier(pw.getStream());
-    RefConst<UString> name = pw.toString();
-    pw.clear();
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    _parser->readIdentifier(storage.AS(OutputStream));
+    RefConst<UString> name = new UString(storage->getData(), storage->getSize());
+    storage->clear();
 
     _parser->skipSpaces();
     
@@ -723,6 +722,7 @@ namespace kfoundation {
     
     switch (_state) {
       case INITIAL:
+        parseHeader();
         return readElement().AS(Token);
       
       case ELEMENT_HEAD: {
@@ -761,15 +761,15 @@ namespace kfoundation {
         
         if(_parser->readSequence(CDATA_BEGIN)) {
           CodeLocation begin = _parser->getCodeLocation();
-          StringPrintWriter pw;
-          _parser->readAllBeforeSequence(CDATA_END, pw.getStream());
+          Ref<BufferOutputStream> storage = new BufferOutputStream();
+          _parser->readAllBeforeSequence(CDATA_END, storage.AS(OutputStream));
           CodeLocation end = _parser->getCodeLocation();
           if(!_parser->readSequence(CDATA_END)) {
             throw ParseException(K"CDATA section is not properly closed "
                 "with \"]]>\"", begin);
           }
           _state = TEXT;
-          return new XmlText(this, CodeRange(begin, end), pw.toString());
+          return new XmlText(this, CodeRange(begin, end), storage->getString());
         }
         
         Ref<Token> closeTag = readEndElementOrEndCollection();
@@ -783,14 +783,14 @@ namespace kfoundation {
         }
         
         CodeLocation begin = _parser->getCodeLocation();
-        StringPrintWriter pw;
-        kf_int64_t n = _parser->readAllBeforeChar(BEGIN_CHAR, pw.getStream());
+        Ref<BufferOutputStream> storage = new BufferOutputStream();
+        kf_int64_t n = _parser->readAllBeforeChar(BEGIN_CHAR, storage.AS(OutputStream));
         if(n == 0) {
           throw ParseException(K"Error reading element body", begin);
         }
         _state = TEXT;
         CodeLocation end = _parser->getCodeLocation();
-        return new XmlText(this, CodeRange(begin, end), pw.toString());
+        return new XmlText(this, CodeRange(begin, end), storage->getString());
       }
         
       case ELEMENT_END: {

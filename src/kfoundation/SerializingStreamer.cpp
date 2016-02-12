@@ -8,7 +8,7 @@
 
 // Internal
 #include "Ref.h"
-#include "ObjectSerializer.h"
+#include "KforObjectSerializer.h"
 #include "OutputStream.h"
 #include "UString.h"
 #include "BufferOutputStream.h"
@@ -24,7 +24,8 @@ namespace kfoundation {
 
 
   void SerializingStreamer::printToStream(Ref<OutputStream> stream) const {
-
+    Ref<ObjectSerializer> s = new KforObjectSerializer(stream);
+    serialize(s);
   }
   
   

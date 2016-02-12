@@ -14,9 +14,20 @@
 
 namespace kfoundation {
 
+  /**
+   * Interface indicating the implementing class can be compared to the given
+   * type of values.
+   */
+
   template<typename T>
   class Comparable {
+
+    /**
+     * Returns true of the given reference equals to the given object.
+     */
+
     public: virtual bool equals(RefConst<T> other) const = 0;
+    
   };
 
 } // namespace kfoundation

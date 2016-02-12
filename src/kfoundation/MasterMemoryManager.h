@@ -29,8 +29,10 @@ namespace kfoundation {
    * Only once instance of this class exists per process.
    * This instance can be obtained via System::getMasterMemoryManager().
    * 
-   * This object always owns an instance of RefCountMemoryManager as its 
-   * default manager. To access use `getManagerAtIndex(0)`.
+   * This object is initialized with two memory managers. (1) The manager
+   * obtained by getDefaultManager() is the one responsible for ref-counted
+   * garbage collection. (2) The manager obtained by getStaticManager() is
+   * responsible for objects with unlimited lifetime.
    *
    * @ingroup memory
    * @headerfile MasterMemoryManager.h <kfoundation/MasterMemoryManager.h>
@@ -70,15 +72,27 @@ namespace kfoundation {
   };
 
 
+  /**
+   * Deferences the given parametes into the corresponding memory address, 
+   * if valid.
+   */
+
   inline KFObject* MasterMemoryManager::refToPtr(kf_uref_t ref) {
     return getManagerAtIndex(ref.manager).getObject(ref.index, ref.key);
   }
 
+  /**
+   * Returns the default reference-conting memory manager.
+   */
 
   inline MemoryManager& MasterMemoryManager::getDefaultManager() const {
     return *_defaultManager;
   }
 
+
+  /**
+   * Returns the default static memory manager.
+   */
 
   inline MemoryManager& MasterMemoryManager::getStaticManager() const {
     return *_staticManager;

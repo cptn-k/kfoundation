@@ -21,8 +21,8 @@
 #include "StringPrintWriter.h"
 
 #include "Bool.h"
-#include "Int.h"
-#include "LongInt.h"
+#include "Int32.h"
+#include "Int64.h"
 #include "Double.h"
 
 // Self
@@ -90,7 +90,10 @@ namespace kfoundation {
    * Duplicates another UString object.
    */
 
-  UString::UString(RefConst<UString> str) {
+  UString::UString(RefConst<UString> str)
+  : _buffer(NULL),
+    _hash(0)
+  {
     set(str);
   }
 
@@ -122,7 +125,7 @@ namespace kfoundation {
 
 
   kf_octet_t* UString::makeBuffer(const kf_octet_t* src, kf_int32_t size) {
-    kf_octet_t* buffer = new kf_octet_t[size + sizeof(kf_int32_t) + 1];
+    kf_octet_t* buffer = new kf_octet_t[size + HEADER_SIZE + 1];
 
     if(NOT_NULL(src)) {
       memcpy(buffer + HEADER_SIZE, src, size);
@@ -142,6 +145,16 @@ namespace kfoundation {
   }
 
 
+  const kf_octet_t* UString::getExternalOctets() const {
+    return NULL;
+  }
+
+
+  kf_int32_t UString::getExternalOctetCount() const {
+    return 0;
+  }
+
+
   const char* UString::getCString() const {
     if(IS_NULL(_buffer)) {
       _buffer = makeBuffer(getOctets(), getOctetCount());
@@ -149,7 +162,7 @@ namespace kfoundation {
       releaseOwner();
     }
 
-    return (const char*)_buffer;
+    return (const char*)(_buffer + HEADER_SIZE);
   }
 
 
@@ -376,17 +389,13 @@ namespace kfoundation {
 
 
   bool UString::equals(RefConst<UString> other) const {
+    if(other.isNull()) {
+      return false;
+    }
     return getHashCode() == other->getHashCode();
   }
 
   
-  void UString::serialize(Ref<ObjectSerializer> serializer) const {
-    serializer->object(K"UString")
-        ->attribute(K"value", RefConst<UString>(this))
-        ->endObject();
-  }
-
-
   void UString::printToStream(Ref<OutputStream> stream) const {
     stream->write(getOctets(), getOctetCount());
   }
@@ -403,12 +412,12 @@ namespace kfoundation {
 
 
   Ref<UString> operator+(RefConst<UString> str, const kf_int32_t v) {
-    return str->append(Int(v).toString());
+    return str->append(Int32(v).toString());
   }
 
 
   Ref<UString> operator+(RefConst<UString> str, const kf_int64_t v) {
-    return str->append(LongInt(v).toString());
+    return str->append(Int64(v).toString());
   }
 
 

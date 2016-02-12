@@ -23,7 +23,7 @@
 #include "RefCountMemoryManager.h"
 #include "KFException.h"
 #include "MemoryException.h"
-#include "Int.h"
+#include "Int32.h"
 #include "UString.h"
 
 // Self

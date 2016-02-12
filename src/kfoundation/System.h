@@ -71,7 +71,7 @@ namespace kfoundation {
     public: static Ref<Path>    getExePath();
     public: static Ref<Path>    getCurrentWorkingDirectory();
     public: static bool         isBigEndian();
-    public: static Ref<UString> demangle(const char* symbol);
+    public: static RefConst<UString> demangle(RefConst<UString> symbol);
     public: static Ref<UString> resolveSymbolName(void* ptr);
     public: static Ref<UString> getLastSystemError();
     public: static operating_system_t getOperatingSystem();
@@ -82,8 +82,11 @@ namespace kfoundation {
     public: static void         takeover(void* libHandle);
     public: static kf_int64_t   getCurrentTimeInMiliseconds();
     public: static kf_int32_t   getPid();
+    public: static kf_int16_t   getNumberOfCpuCores();
     public: static kf_int32_t   backtrace(void** addrList, kf_int32_t countLimit);
     public: static char**       backtraceSymbols(void** addrList, kf_int32_t count);
+    public: static void         exit(kf_int32_t code = 0);
+    public: static void         exitAfterAllThreads();
     
   };
   

@@ -103,6 +103,13 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Checks if the file is locked by another process.
+   *
+   * @see lock()
+   * @see unlock()
+   */
+
   bool FileInputStream::isLocked() const {
     if(flock(_fileDescriptor, LOCK_EX | LOCK_NB) == -1) {
       if(errno == EWOULDBLOCK) {
@@ -117,6 +124,14 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Puts a lock on this file, blocking access from other processes until
+   * unlockced.
+   *
+   * @see unlock()
+   * @see isLocked()
+   */
+
   void FileInputStream::lock() const {
     if(flock(_fileDescriptor, LOCK_EX) == -1) {
       throw IOException(K"Error locking for file " + *_path
@@ -124,6 +139,13 @@ namespace kfoundation {
     }
   }
 
+
+  /**
+   * Unlocks the this file if it is locked by this process.
+   *
+   * @see lock()
+   * @see isLocked()
+   */
 
   void FileInputStream::unlock() const {
     if(flock(_fileDescriptor, LOCK_UN) == -1) {

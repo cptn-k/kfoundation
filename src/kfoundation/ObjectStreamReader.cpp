@@ -8,8 +8,8 @@
 
 #include "ObjectStreamReader.h"
 #include "Ref.h"
-#include "Int.h"
-#include "LongInt.h"
+#include "Int32.h"
+#include "Int64.h"
 #include "Double.h"
 #include "Bool.h"
 
@@ -86,8 +86,8 @@ namespace kfoundation {
   
   void Token::validateType(const type_t& t) const {
     if(t != getType()) {
-      throw ParseException(K"Expected token of type " + toString(t) + " but "
-          + toString(getType()) + " found.", codeRange);
+      throw ParseException(K"Expected token of type \"" + toString(t)
+          + "\" but \"" + toString(getType()) + "\" found.", codeRange);
     }
   }
   
@@ -261,7 +261,7 @@ namespace kfoundation {
    */
   
   void EndObjectToken::validateClass(RefConst<UString> name) const {
-    if(getClassName()->equals(name)) {
+    if(!getClassName()->equals(name)) {
       throw ParseException(K"Excepted class name \"" + name + "\" but \""
           + getClassName() + "\" found.", codeRange);
     }
@@ -305,7 +305,7 @@ namespace kfoundation {
   Ref<AttributeToken> AttributeToken::validateName(RefConst<UString> name)
   const
   {
-    if(getName() != name) {
+    if(!getName()->equals(name)) {
       throw ParseException(K"Expected attribtue name \"" + name + "\" but \""
           + getName() + "\" found.", codeRange);
     }
@@ -335,12 +335,12 @@ namespace kfoundation {
 
 
   kf_int32_t AttributeToken::getInt32Value() const {
-    return Int::parse(getValue());
+    return Int32::parse(getValue());
   }
 
 
   kf_int64_t AttributeToken::getInt64Value() const {
-    return LongInt::parse(getValue());
+    return Int64::parse(getValue());
   }
 
 

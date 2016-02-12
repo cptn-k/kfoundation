@@ -1,5 +1,5 @@
 //
-//  LongInt.cpp
+//  Int64.cpp
 //  KFoundation-XCode-Wrapper
 //
 //  Created by Hamed KHANDAN on 8/13/14.
@@ -17,7 +17,7 @@
 #include "InputStream.h"
 
 // Self
-#include "LongInt.h"
+#include "Int64.h"
 
 namespace kfoundation {
 
@@ -27,7 +27,7 @@ namespace kfoundation {
    * Constructor. Assigns the internal value to the given paramaeter.
    */
   
-  LongInt::LongInt(kf_int64_t value)
+  Int64::Int64(kf_int64_t value)
   : _value(value)
   {
     // Nothing;
@@ -42,7 +42,7 @@ namespace kfoundation {
    * @param encoding The encoding of the given string. Default value is DECIMAL.
    */
 
-  LongInt::LongInt(RefConst<UString> str)
+  Int64::Int64(RefConst<UString> str)
   : _value(parse(str))
   {
     // Nothing
@@ -51,7 +51,7 @@ namespace kfoundation {
 
 // --- STATIC METHODS --- //
 
-  kf_int64_t LongInt::parse(RefConst<UString> str) {
+  kf_int64_t Int64::parse(RefConst<UString> str) {
     StreamParser parser(new StringInputStream(str));
     kf_int64_t value;
     parser.readNumber(value);
@@ -65,7 +65,7 @@ namespace kfoundation {
    * Getter method. Returns the internal value.
    */
   
-  kf_int64_t LongInt::get() const {
+  kf_int64_t Int64::get() const {
     return _value;
   }
   
@@ -76,7 +76,7 @@ namespace kfoundation {
    * @param v The value to be set.
    */
   
-  void LongInt::set(const kf_int64_t v) {
+  void Int64::set(const kf_int64_t v) {
     _value = v;
   }
 
@@ -88,7 +88,7 @@ namespace kfoundation {
    * @return The hexadecimal representation of the given value.
    */
 
-  Ref<UString> LongInt::toHexString() const {
+  Ref<UString> Int64::toHexString() const {
     char buffer[50];
     int n = sprintf(buffer, "%lX", _value);
     return new UString((kf_octet_t*)buffer, n);
@@ -99,7 +99,7 @@ namespace kfoundation {
    * Converts the given integer value to string.
    */
 
-  void LongInt::printToStream(Ref<OutputStream> stream) const {
+  void Int64::printToStream(Ref<OutputStream> stream) const {
     char buffer[50];
     int n = sprintf(buffer, "%ld", _value);
     if(n > 0) {
@@ -108,7 +108,7 @@ namespace kfoundation {
   }
 
 
-  RefConst<UString> LongInt::toString() const {
+  RefConst<UString> Int64::toString() const {
     char buffer[50];
     int n = sprintf(buffer, "%ld", _value);
     return new UString((kf_octet_t*)buffer, n);

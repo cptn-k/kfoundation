@@ -19,6 +19,55 @@
 
 namespace kfoundation {
 
+//\/ DictionaryBase::Pair /\///////////////////////////////////////////////////
+
+
+  template<typename KY, typename VREF>
+  void DictionaryBase<KY, VREF>::Pair::printObject(
+      Ref<ObjectSerializer> s, RefConst<KFObject> o)
+  {
+  }
+
+
+  template<typename KY, typename VREF>
+  void DictionaryBase<KY, VREF>::Pair::serialize(Ref<ObjectSerializer> s)
+  const
+  {
+    s->object(K"Pair");
+    s->member(K"key");
+
+    if(_key.isNull()) {
+      s->null();
+    } else if(_key.template ISA(SerializingStreamer)) {
+      s->object(dynamic_cast<const SerializingStreamer&>(*_key));
+    } else if(_key.template ISA(Streamer)) {
+      const Streamer& streamer = dynamic_cast<const Streamer&>(*_key);
+      s->object(_key.getTypeName())
+          ->attribute(K"value", streamer.toString())
+          ->endObject();
+    } else {
+      s->object(_key.getTypeName())->endObject();
+    }
+
+    s->member(K"value");
+
+    if(_value.isNull()) {
+      s->null();
+    } else if(_value.template ISA(SerializingStreamer)) {
+      s->object(dynamic_cast<const SerializingStreamer&>(*_value));
+    } else if(_value.template ISA(Streamer)) {
+      const Streamer& streamer = dynamic_cast<const Streamer&>(*_value);
+      s->object(_value.getTypeName())
+        ->attribute(K"value", streamer.toString())
+        ->endObject();
+    } else {
+      s->object(_value.getTypeName())->endObject();
+    }
+
+    s->endObject();
+  }
+
+
 //\/ DictionaryBase::Iterator /\///////////////////////////////////////////////
 
   template<typename KY, typename VREF>
@@ -170,6 +219,18 @@ namespace kfoundation {
       _pairs->at(i)._value = NULL;
     }
     _pairs->clear();
+  }
+
+
+  template<typename KY, typename VREF>
+  void DictionaryBase<KY, VREF>::serialize(Ref<ObjectSerializer> serializer)
+  const
+  {
+    serializer->object(K"Dictionary")->member(K"pairs")->collection();
+    for(kf_int32_t i = _pairs->getSize() - 1; i >= 0; i--) {
+      _pairs->at(i).serialize(serializer);
+    }
+    serializer->endCollection()->endObject();
   }
 
 

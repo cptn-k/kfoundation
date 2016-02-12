@@ -514,12 +514,21 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Returns the size of the file pointed by this path.
+   */
+
   kf_int64_t Path::getFileSize() const {
     struct stat stats;
     ::stat(_str->getCString(), &stats);
+    /// TODO check for errors
     return stats.st_size;
   }
 
+
+  /**
+   * Checks if this path identifes a directory on the file system.
+   */
 
   bool Path::isDirectory() const {
     struct stat stats;
@@ -527,6 +536,11 @@ namespace kfoundation {
     return S_ISDIR(stats.st_mode);
   }
 
+
+  /**
+   * Returns the last modification time of the file pointed by this path.
+   * Returned value is in milisecond from system epoch.
+   */
 
   kf_int64_t Path::getModificationTime() const {
     struct stat stats;
@@ -536,6 +550,11 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Returns the last access time to the file pointed by this path.
+   * Returned value is in milisecond from system epoch.
+   */
+
   kf_int64_t Path::getAccessTime() const {
     struct stat stats;
     ::stat(_str->getCString(), &stats);
@@ -544,15 +563,30 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Checks if this process has permission to write on the file pointed by
+   * this path object.
+   */
+
   bool Path::hasWritePermission() const {
     return access(_str->getCString(), W_OK) == 0;
   }
 
 
+  /**
+   * Checks if this process has permission to read the file pointed by
+   * this path object.
+   */
+
   bool Path::hasReadPermission() const {
     return access(_str->getCString(), R_OK) == 0;
   }
 
+
+  /**
+   * Computes the MD5 code corresponding to the contents of the file pointed
+   * by this path object.
+   */
 
   Path::Md5 Path::computeMd5() const {
     MD5_CTX mdContext;
@@ -591,7 +625,7 @@ namespace kfoundation {
 
     int s = getNSegments();
     for(int i = 0; i < s; i++) {
-      builder->object(*getSegement(i));
+      builder->object(K"Segment")->attribute(K"value", *getSegement(i))->endObject();
     }
 
     builder->endCollection()

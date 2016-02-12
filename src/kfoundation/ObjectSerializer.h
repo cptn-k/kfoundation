@@ -153,7 +153,7 @@ namespace kfoundation {
     private: RefConst<UString> stackToString() const;
     private: RefConst<UString> stateToString(state_t state) const;
 
-    protected: void printIndent();
+    protected: void printIndent(bool newLine = true);
     protected: PrintWriter& getWriter();
 
     public: Ref<ObjectSerializer> member(RefConst<UString> name);

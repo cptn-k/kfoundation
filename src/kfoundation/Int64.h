@@ -1,5 +1,5 @@
-#ifndef ORG_KNORBA_COMMON_TYPE_LONGINTEGER_H
-#define ORG_KNORBA_COMMON_TYPE_LONGINTEGER_H 
+#ifndef ORG_KNORBA_COMMON_TYPE_Int64EGER_H
+#define ORG_KNORBA_COMMON_TYPE_Int64EGER_H 
 
 // Super
 #include "Streamer.h"
@@ -14,10 +14,10 @@ namespace kfoundation {
    * Wrapper class for 'long int' type.
    *
    * @ingroup containers
-   * @headerfile LongInt.h <kfoundation/LongInt.h>
+   * @headerfile Int64.h <kfoundation/Int64.h>
    */
   
-  class LongInt : public KFObject, public Streamer {
+  class Int64 : public KFObject, public Streamer {
 
   // --- FIELDS --- //
 
@@ -26,8 +26,8 @@ namespace kfoundation {
 
   // --- CONSTRUCTORS --- //
 
-    public: LongInt(const kf_int64_t value);
-    public: LongInt(RefConst<UString> str);
+    public: Int64(const kf_int64_t value);
+    public: Int64(RefConst<UString> str);
 
 
   // --- STATIC METHODS --- //

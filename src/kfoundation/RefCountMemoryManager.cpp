@@ -20,7 +20,7 @@
 #include <cassert>
 
 // Internal
-#include "Int.h"
+#include "Int32.h"
 #include "InvalidPointerException.h"
 #include "MasterMemoryManager.h"
 #include "Logger.h"
@@ -233,10 +233,6 @@ namespace kfoundation {
   }
   
 
-  /**
-   * Serializing method.
-   */
-  
   void RefCountMemoryManager::serialize(Ref<ObjectSerializer> seralizer) const
   {
     seralizer->object(K"RefCountMemoryManager")
@@ -245,17 +241,24 @@ namespace kfoundation {
 
     seralizer->member(K"records")->collection();
 
+    RefConst<UString> OBJECT_RECORD = K"ObjectRecord";
+    RefConst<UString> TYPE = K"type";
+    RefConst<UString> INDEX = K"index";
+    RefConst<UString> KEY = K"key";
+    RefConst<UString> RETAIN_COUNT = K"retainCount";
+    
     int c = _size;
     for(int i = 0; i < c; i++) {
       const ObjectRecord& rec = _table[i];
-      if(rec.ptr != NULL) {
-        seralizer->object(K"ObjectRecord")
-            ->attribute(K"type", System::demangle(typeid(*rec.ptr).name()))
-            ->attribute(K"index", rec.ref.index)
-            ->attribute(K"key", rec.ref.key)
-            ->attribute(K"retainCount", rec.retainCount)
-            ->endObject();
+      if(IS_NULL(rec.ptr)) {
+        continue;
       }
+      seralizer->object(OBJECT_RECORD)
+          ->attribute(TYPE, System::demangle(K typeid(*rec.ptr).name()))
+          ->attribute(INDEX, rec.ref.index)
+          ->attribute(KEY, rec.ref.key)
+          ->attribute(RETAIN_COUNT, rec.retainCount)
+          ->endObject();
     }
 
     seralizer->endCollection();

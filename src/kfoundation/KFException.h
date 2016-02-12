@@ -47,7 +47,11 @@ namespace kfoundation {
 class KFException : public SerializingStreamer, public std::exception {
 
 // --- NESTED TYPES --- //
-  
+
+  /**
+   * Represents an element in stack trace.
+   */
+
   public: class StackTraceItem : public SerializingStreamer {
 
   // --- FIELDS --- //
@@ -63,21 +67,35 @@ class KFException : public SerializingStreamer, public std::exception {
 
     public: void set(char* str);
 
+    /** Returns the frame number for element. */
+
     public: kf_int32_t getIndex() const {
       return _index;
     }
+
+
+    /** Returns the name of the executable file for this element. */
     
     public: RefConst<UString> getExeName() const {
       return _exeName;
     }
+
+
+    /** Returns the function return address. */
     
     public: RefConst<UString> getAddress() const {
       return _address;
     }
+
+
+    /** Returns the function name. */
     
     public: RefConst<UString> getSymbol() const {
       return _symbol;
     }
+
+
+    /** Returns the instruction offset. */
     
     public: kf_int32_t getOffset() const {
       return _offset;
@@ -85,6 +103,7 @@ class KFException : public SerializingStreamer, public std::exception {
 
     // From SerializingStreamer
     public: void serialize(Ref<ObjectSerializer> os) const;
+
   };
   
   
@@ -99,7 +118,7 @@ class KFException : public SerializingStreamer, public std::exception {
   private: int _nFrames;
   private: RefConst<UString> _name;
   private: RefConst<UString> _message;
-  private: RefConst<UString> _what;
+  private: mutable RefConst<UString> _what;
   private: Ref< Array<StackTraceItem> > _stackTrace;
 
 

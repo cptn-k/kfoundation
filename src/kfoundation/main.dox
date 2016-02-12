@@ -9,7 +9,7 @@
 /** @defgroup range Range Arithmatics */
 
 /**
- * @mainpage Overview
+ * @mainpage Overview (out of date)
  *
  * KFoundation is a collection of C++ APIs that are essential to every
  * program. Some of them like Logger have been missing in C++ standard
@@ -21,9 +21,8 @@
  * operator for both ostream and logger stream. For example, if `myObject` is a
  * `Streamer`, you can do any of the following:
  *
- *     cout << myObject << endl;
- *     LOG << myObject << ENDS;
- *     string str = myObject.toString();
+ *     LOG << myObject << OVER;
+ *     Ref<UString> str = myObject->toString();
  *
  * The KFoundation APIs can be divided into the following categories (modules):
  *
@@ -68,8 +67,8 @@
  * KFoundation provides an automatic memory management solution with several
  * advantages. Only subclasses of KFObject can take advantage of
  * this feature. Thus KFObject is the root class in KFoundation inheritance
- * hierarchy. To create a pointer to a managed object use Ref<T>, Ref<T>, or
- * SPtr<T> instead a standard one. See documentation for
+ * hierarchy. To create a pointer to a managed object use Ref<T>, RefConst<T>
+ * instead a standard one. See documentation for
  * kfoundation::Ref for more details.
  *
  * KFoundation memory management protects you from getting segmentation fault,

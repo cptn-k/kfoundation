@@ -41,7 +41,7 @@ namespace kfoundation {
     
   // --- FIELDS --- //
     
-    private: InternetAddress _address;
+    private: RefConst<InternetAddress> _address;
     private: sockaddr_in _target;
     private: int _socket;
     private: bool _isOpen;
@@ -50,13 +50,13 @@ namespace kfoundation {
     
   // --- (DE)CONSTRUCTORS --- //
     
-    public: InternetOutputStream(const InternetAddress& address);
+    public: InternetOutputStream(RefConst<InternetAddress> address);
     public: ~InternetOutputStream();
     
     
   // --- METHODS --- //
     
-    public: const InternetAddress& getAddress() const;
+    public: RefConst<InternetAddress> getAddress() const;
     public: void connect() throw(IOException);
     public: bool isOpen() const;
     public: kf_int32_t getNSentOctets() const;

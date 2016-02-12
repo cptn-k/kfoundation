@@ -6,8 +6,8 @@
 #include "StringPrintWriter.h"
 #include "Array.h"
 #include "UChar.h"
-#include "Int.h"
-#include "LongInt.h"
+#include "Int32.h"
+#include "Int64.h"
 #include "Double.h"
 #include "Bool.h"
 #include "Array.h"
@@ -128,9 +128,12 @@ namespace kfoundation {
   } // stackToString()
   
   
-  void ObjectSerializer::printIndent() {
-    if(_indentUnit != -1 && _state != ROOT) {
-      _writer->newLine()->print(*SPACE, _indent * _indentUnit);
+  void ObjectSerializer::printIndent(bool newLine) {
+    if(newLine) {
+      _writer->newLine();
+    }
+    if(_indentUnit != -1) {
+      _writer->print(*SPACE, _indent * _indentUnit);
     }
   }
 
@@ -217,7 +220,7 @@ namespace kfoundation {
 
   Ref<ObjectSerializer>
   ObjectSerializer::attribute(RefConst<UString> name, const kf_int32_t value) {
-    return attribute(name, Int(value), NUMBER);
+    return attribute(name, Int32(value), NUMBER);
   }
 
 
@@ -227,7 +230,7 @@ namespace kfoundation {
 
   Ref<ObjectSerializer>
   ObjectSerializer::attribute(RefConst<UString> name, const kf_int64_t value) {
-    return attribute(name, LongInt(value), NUMBER);
+    return attribute(name, Int64(value), NUMBER);
   }
 
 
@@ -278,7 +281,7 @@ namespace kfoundation {
    */
 
   Ref<ObjectSerializer> ObjectSerializer::null() {
-    if(_state != MEMBER || _state != COLLECTION) {
+    if(_state != MEMBER && _state != COLLECTION) {
       throw ObjectDumpBuilderException(K"null is only allowed after member or"
           " in collection. Path: " + stackToString());
     }
@@ -291,6 +294,7 @@ namespace kfoundation {
       _name = NULL;
     } else /*if(_state == COLLECTION)*/ {
       printNull(NULL, _isLead);
+      _isLead = false;
     }
 
     return this;
@@ -310,13 +314,15 @@ namespace kfoundation {
     }
 
     StackItem item = _stack->pop();
+
+    _indent--;
+    printObjectEnd(item._name, _isLead);
+
     _state = item._state;
     _isLead = item._isLead;
 
-    _indent--;
 
-    printObjectEnd(item._name, _isLead);
-    
+
     if(_state ==  MEMBER) {
       item = _stack->pop();
       _state = item._state;
@@ -373,14 +379,13 @@ namespace kfoundation {
           + stackToString());
     }
 
-    StackItem item = _stack->pop();
-
     _indent--;
+    printCollectionEnd(_isLead);
 
+    StackItem item = _stack->pop();
     _state = item._state;
     _isLead = item._isLead;
 
-    printCollectionEnd(_isLead);
 
     if(_state ==  MEMBER) {
       item = _stack->pop();

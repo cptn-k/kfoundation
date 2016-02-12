@@ -24,9 +24,8 @@
 #include "IndexOutOfBoundException.h"
 #include "System.h"
 #include "MemoryManager.h"
-#include "Int.h"
+#include "Int32.h"
 #include "ObjectSerializer.h"
-#include "Logger.h"
 #include "UString.h"
 
 // Self
@@ -48,27 +47,33 @@ namespace kfoundation {
     _last(first + size),
     _pos(first)
   {
-    // Nothing;
+    ((T*)this)->operator=(*_pos);
   }
 
 
   template<typename T>
-  T RefArrayBase<T>::Iterator::first() {
+  void RefArrayBase<T>::Iterator::first() {
     _pos = _first;
-    return *_pos;
+    ((T*)this)->operator=(*_pos);
   }
 
 
   template<typename T>
-  T RefArrayBase<T>::Iterator::next() {
+  void RefArrayBase<T>::Iterator::next() {
     _pos++;
-    return *_pos;
+    ((T*)this)->operator=(*_pos);
   }
 
 
   template<typename T>
   bool RefArrayBase<T>::Iterator::hasMore() const {
     return _pos < _last;
+  }
+  
+  
+  template<typename T>
+  kf_int32_t RefArrayBase<T>::Iterator::getIndex() const {
+    return (kf_int32_t)(_pos - _first);
   }
 
 
@@ -84,9 +89,9 @@ namespace kfoundation {
    */
   
   template<typename T>
-  RefArrayBase<T>::RefArrayBase(kf_int32_t initialCapacity) {
-    _size = 0;
-    _capacity = initialCapacity;
+  RefArrayBase<T>::RefArrayBase(kf_int32_t size) {
+    _size = size;
+    _capacity = size;
     _data = new T[_capacity];
   }
   
@@ -176,8 +181,9 @@ namespace kfoundation {
     if(_size == 0) {
       throw IndexOutOfBoundException(K"Can't pop because array is empty");
     }
-    T d = last();
-    last() = NULL;
+    T d = _data[_size - 1];
+    _data[_size - 1] = NULL;
+    _size--;
     return d;
   }
   
@@ -359,13 +365,14 @@ namespace kfoundation {
       if(d.isNull()) {
         builder->null();
       } else if(d.template ISA(SerializingStreamer)) {
-        builder->object(*d.template AS(SerializingStreamer));
+        builder->object(dynamic_cast<const SerializingStreamer&>(*d));
       } else if(d.template ISA(Streamer)) {
-        builder->object(System::demangle(typeid(T).name()))
-          ->attribute(K"toString", d.template AS(Streamer)->toString())
+        const Streamer& streamer = dynamic_cast<const Streamer&>(*d);
+        builder->object(d.getTypeName())
+          ->attribute(K"value", streamer.toString())
           ->endObject();
       } else {
-        builder->object(System::demangle(typeid(T).name()))->endObject();
+        builder->object(d.getTypeName())->endObject();
       }
     }
     builder->endCollection();
@@ -375,8 +382,8 @@ namespace kfoundation {
 //\/ RefArray /\///////////////////////////////////////////////////////////////
 
   template<typename T>
-  RefArray<T>::RefArray(kf_int32_t capacity)
-  : RefArrayBase< Ref<T> >(capacity)
+  RefArray<T>::RefArray(kf_int32_t size)
+  : RefArrayBase< Ref<T> >(size)
   {
     // Nothing;
   }
@@ -394,8 +401,8 @@ namespace kfoundation {
 //\/ RefConstArray /\//////////////////////////////////////////////////////////
 
   template<typename T>
-  RefConstArray<T>::RefConstArray(kf_int32_t capacity)
-  :RefArrayBase< RefConst<T> >(capacity)
+  RefConstArray<T>::RefConstArray(kf_int32_t size)
+  :RefArrayBase< RefConst<T> >(size)
   {
     // Nothing
   }

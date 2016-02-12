@@ -49,8 +49,8 @@ namespace kfoundation {
 
     // From UString
     private: void releaseOwner() const;
-    public: inline const kf_octet_t* getOctets() const;
-    public: inline kf_int32_t getOctetCount() const;
+    public: inline const kf_octet_t* getExternalOctets() const;
+    public: inline kf_int32_t getExternalOctetCount() const;
 
   };
 
@@ -67,12 +67,12 @@ namespace kfoundation {
   }
 
 
-  inline const kf_octet_t* BufferOutputStreamString::getOctets() const {
+  inline const kf_octet_t* BufferOutputStreamString::getExternalOctets() const {
     return _bufferOwner->getData();
   }
 
 
-  inline kf_int32_t BufferOutputStreamString::getOctetCount() const {
+  inline kf_int32_t BufferOutputStreamString::getExternalOctetCount() const {
     return _bufferOwner->getSize();
   }
 
@@ -135,10 +135,18 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Returns the contents written on this stream as a string.
+   */
+
   Ref<UString> BufferOutputStream::getString() const {
     return new BufferOutputStreamString(this);
   }
 
+
+  /**
+   * Clears the buffer.
+   */
 
   void BufferOutputStream::clear() {
     _size = 0;

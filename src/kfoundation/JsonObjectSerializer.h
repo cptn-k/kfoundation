@@ -17,12 +17,28 @@
 
 namespace kfoundation {
 
+  class PrintWriter;
+
   class JsonObjectSerializer : public ObjectSerializer {
+
+  // --- STATIC METHODS --- //
+
+    public: static Ref<UString> toString(SerializingStreamer& obj);
+    public: static void printToStream(SerializingStreamer& obj,
+        Ref<OutputStream> os);
+    public: static Ref<PrintWriter> print(Ref<PrintWriter> pw,
+        SerializingStreamer& obj);
+
 
   // --- CONSTRUCTOR --- //
 
     public: JsonObjectSerializer(Ref<OutputStream> stream, kf_int8_t indentUnits = 4);
 
+
+  // --- FIELDS --- //
+
+    private: bool _isFirst;
+    
 
   // --- METHODS --- //
 

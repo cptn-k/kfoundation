@@ -17,6 +17,8 @@
 #ifndef __KFoundation__Condition__
 #define __KFoundation__Condition__
 
+#include "KFObject.h"
+
 namespace kfoundation {
   
   /**
@@ -26,7 +28,7 @@ namespace kfoundation {
    * @headerfile Condition.h <kfoundation/Condition.h>
    */
   
-  class Condition {
+  class Condition : public KFObject {
   
   // --- NESTED TYPE --- //
     

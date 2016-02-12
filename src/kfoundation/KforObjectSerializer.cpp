@@ -6,8 +6,6 @@
 //  Copyright © 2015 Kay Khandan. All rights reserved.
 //
 
-#include "KforObjectSerializer.h"
-
 // Internal
 #include "UString.h"
 #include "Ref.h"
@@ -32,7 +30,7 @@ namespace kfoundation {
 // --- METHODS --- //
 
   void KforObjectSerializer::printHeader() {
-    // Nothing
+    _isFirst = true;
   }
 
 
@@ -73,11 +71,12 @@ namespace kfoundation {
     if(!isLead) {
       getWriter() << ", ";
     }
-    printIndent();
+    printIndent(!_isFirst);
     if(!name.isNull()) {
       getWriter() << *name << ": ";
     }
     getWriter() << *className << '[';
+    _isFirst = false;
   }
 
 
@@ -93,7 +92,11 @@ namespace kfoundation {
       getWriter() << ", ";
     }
     printIndent();
-    getWriter() << *name << ": null";
+    if(name.isNull()) {
+      getWriter() << "null";
+    } else {
+      getWriter() << *name << ": null";
+    }
   }
 
 

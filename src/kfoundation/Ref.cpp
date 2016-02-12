@@ -21,8 +21,7 @@
 #include "definitions.h"
 #include "System.h"
 #include "MasterMemoryManager.h"
-#include "Int.h"
-#include "LongInt.h"
+#include "Int64.h"
 #include "ObjectSerializer.h"
 #include "StringPrintWriter.h"
 #include "UString.h"
@@ -57,7 +56,7 @@ namespace kfoundation {
    */
 
   int RefBase::getRetainCount() const {
-    if(_ref.index == -1) {
+    if(IS_NULL_REF(_ref)) {
       return -1;
     }
 
@@ -70,7 +69,7 @@ namespace kfoundation {
    */
 
   bool RefBase::isNull() const {
-    return _ref.index == -1;
+    return IS_NULL_REF(_ref);
   }
 
 
@@ -80,7 +79,7 @@ namespace kfoundation {
    */
 
   bool RefBase::isValid() const {
-    if(_ref.index == -1) {
+    if(IS_NULL_REF(_ref)) {
       return false;
     }
 
@@ -102,18 +101,28 @@ namespace kfoundation {
 
     if(isValid()) {
       builder->attribute(K"memory",
-          LongInt((kf_int64_t)masterTable[_ref.manager][_ref.index].ptr)
+          Int64((kf_int64_t)masterTable[_ref.manager][_ref.index].ptr)
           .toHexString());
     }
 
     builder->endObject();
   }
 
+
+  /**
+   * Generates a description of this reference.
+   */
   
   RefConst<UString> RefBase::toString() const {
     StringPrintWriter pw;
-    pw << getTypeName() << "@[" << (kf_int8_t)_ref.manager << ':'
-      << _ref.index << " +" << getRetainCount() << ']';
+      pw << getTypeName() << "@[" << (int)_ref.manager << ':'
+        << _ref.index << '(' << _ref.key;
+
+    if(NOT_NULL_REF(_ref)) {
+      pw << ") +" << getRetainCount() << ']';
+    } else {
+      pw << ") NULL]";
+    }
     return pw.toString();
   }
   

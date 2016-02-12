@@ -105,7 +105,7 @@ namespace kfoundation {
     if(ch.equals(NEW_LINE_CHAR)) {
       _tmpLine++;
       _tmpCol = 1;
-    } else if(ch.equals(RETURN_CHAR)) {
+    } else if(!ch.equals(RETURN_CHAR)) {
       _tmpCol++;
     }
 
@@ -251,7 +251,7 @@ namespace kfoundation {
    */
   
   bool StreamParser::testEndOfStream() {
-    return _stream.isEof();
+    return _stream.isEof() && _bufferPos == _bufferSize;
   }
   
   
@@ -384,11 +384,12 @@ namespace kfoundation {
   kf_int8_t StreamParser::readNumeric(kf_int8_t& digit) {
     UChar ch;
     kf_int8_t s = read(ch);
-    wchar_t wch = ch.toWChar();
-    if(!isNumeric(wch)) {
+    if(!ch.isNumeric()) {
+      rollback(s);
       return 0;
     }
-    digit = getNumericalValueOf(wch);
+    digit = getNumericalValueOf(*ch.get());
+    commit(s);
     return s;
   }
 
@@ -400,14 +401,19 @@ namespace kfoundation {
     wchar_t wch = ch.toWChar();
     if(wch >= '0' && wch <= '9') {
       n = wch - '0';
+      commit(1);
       return 1;
     } else if(wch >= 'a' && wch <= 'f') {
       n = wch - 'a' + 10;
+      commit(1);
       return 1;
     } else if(wch >= 'A' && wch <= 'F') {
       n = wch - 'A' + 10;
+      commit(1);
       return 1;
     }
+    
+    rollback(1);
     return 0;
   }
   
@@ -517,17 +523,13 @@ namespace kfoundation {
   kf_int8_t StreamParser::readNewLine() {
     UChar ch;
     kf_int8_t s = read(ch);
-    
+
+    if(ch.equals(RETURN_CHAR)) {
+      s += read(ch);
+    }
+
     if(ch.equals(NEW_LINE_CHAR)) {
       commit(s);
-      
-      kf_int8_t s2 = read(ch);
-      if(ch.equals(RETURN_CHAR)) {
-        commit(s2);
-        return s + s2;
-      }
-      rollback(s2);
-      
       return s;
     }
     
@@ -967,8 +969,81 @@ namespace kfoundation {
     
     return total;
   }
-  
-  
+
+
+  Ref<UString> StreamParser::readAllAlphabet() {
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    readAllAlphabet(storage.AS(OutputStream));
+    Ref<UString> str = new UString(storage->getString());
+    return str;
+  }
+
+
+  Ref<UString> StreamParser::readAllAlphanumeric() {
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    readAllAlphanumeric(storage.AS(OutputStream));
+    Ref<UString> str = new UString(storage->getString());
+    return str;
+  }
+
+
+  Ref<UString> StreamParser::readAllNumeric() {
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    readAllNumeric(storage.AS(OutputStream));
+    Ref<UString> str = new UString(storage->getString());
+    return str;
+  }
+
+
+  Ref<UString> StreamParser::readAllBeforeSpace() {
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    readAllBeforeSpace(storage.AS(OutputStream));
+    Ref<UString> str = new UString(storage->getString());
+    skipSpaces();
+    return str;
+  }
+
+
+  Ref<UString> StreamParser::readAllBeforeNewLine() {
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    readAllBeforeNewLine(storage.AS(OutputStream));
+    Ref<UString> str = new UString(storage->getString());
+    readNewLine();
+    return str;
+  }
+
+
+  Ref<UString> StreamParser::readAllBeforeSpaceOrNewLine() {
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    readAllBeforeSpaceOrNewLine(storage.AS(OutputStream));
+    Ref<UString> str = new UString(storage->getString());
+    skipSpacesAndNewLines();
+    return str;
+  }
+
+
+  Ref<UString> StreamParser::readAllBeforeChar(UChar ch) {
+    Ref<BufferOutputStream> storage = new BufferOutputStream();
+    readAllBeforeChar(ch, storage.AS(OutputStream));
+    Ref<UString> str = new UString(storage->getString());
+    return str;
+  }
+
+
+  kf_int64_t StreamParser::readInteger() {
+    kf_int64_t n = 0;
+    readNumber(n);
+    return n;
+  }
+
+
+  double StreamParser::readDouble() {
+    double n = 0;
+    readNumber(n);
+    return n;
+  }
+
+
   /**
    * Consumes all the spaces and new line characters next in the stream.
    *

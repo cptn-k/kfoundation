@@ -27,7 +27,7 @@
 #include "IndexOutOfBoundException.h"
 #include "System.h"
 #include "MemoryManager.h"
-#include "Int.h"
+#include "Int32.h"
 #include "ObjectSerializer.h"
 
 // Self

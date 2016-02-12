@@ -14,12 +14,13 @@
 
 // Internal
 #include "Bool.h"
-#include "Int.h"
-#include "LongInt.h"
+#include "Int32.h"
+#include "Int64.h"
 #include "Double.h"
 #include "Streamer.h"
 #include "UString.h"
 #include "UChar.h"
+#include "InputStream.h"
 
 // Self
 #include "PrintWriter.h"
@@ -35,6 +36,10 @@ namespace kfoundation {
 
 // --- (DE)CONSTRUCTORS --- //
 
+  /**
+   * Creates a new PrintWriter to write on the given stream.
+   */
+
   PrintWriter::PrintWriter(Ref<OutputStream> stream)
   : _stream(stream),
     _hex(false)
@@ -48,20 +53,30 @@ namespace kfoundation {
   void PrintWriter::printHex(kf_octet_t *buffer, const kf_octet_t *values,
       kf_int32_t count, bool reverse)
   {
-    for(register kf_int32_t i = count - 1; i >= 0; i--) {
+    for(register kf_int32_t i = 0; i < count; i++) {
       kf_octet_t value = values[i];
-      buffer[i*2] = HEX_DIGITS[value >> 4];
-      buffer[i*2 + 1] = HEX_DIGITS[value & 0xF];
+      int n = (count - i - 1) * 2;
+      buffer[n] = HEX_DIGITS[value >> 4];
+      buffer[n + 1] = HEX_DIGITS[value & 0xF];
     }
   }
 
 
 // --- METHODS --- //
 
+  /**
+   * Returns the stream used as output of this PrintWriter.
+   */
+
   Ref<OutputStream> PrintWriter::getStream() const {
     return _stream;
   }
 
+
+  /**
+   * Prints a boolean vlaue.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::print(const bool value) {
     Bool(value).printToStream(_stream);
@@ -69,17 +84,32 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints a 32-bit integer vlaue.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::print(const kf_int32_t value) {
-    Int(value).printToStream(_stream);
+    Int32(value).printToStream(_stream);
     return this;
   }
 
+
+  /**
+   * Prints a 64-bit vlaue.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::print(const kf_int64_t value) {
-    LongInt(value).printToStream(_stream);
+    Int64(value).printToStream(_stream);
     return this;
   }
 
+
+  /**
+   * Prints a float vlaue.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::print(const float value) {
     Double(value).printToStream(_stream);
@@ -87,11 +117,21 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints a double vlaue.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::print(const double value) {
     Double(value).printToStream(_stream);
     return this;
   }
 
+
+  /**
+   * Prints a 8-bit character.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::print(const char value) {
     UChar(value).printToStream(_stream);
@@ -99,12 +139,22 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints a wide character.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::print(const wchar_t value) {
     UChar(value).printToStream(_stream);
     return this;
   }
 
     
+  /**
+   * Prints a C-style string.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::print(const char* value) {
     _stream->write((const kf_octet_t*)value, (kf_int32_t)strlen(value));
     return this;
@@ -123,17 +173,32 @@ namespace kfoundation {
 //  }
 
   
+  /**
+   * Prints a UString.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::print(RefConst<kfoundation::UString> value) {
     value->printToStream(_stream);
     return this;
   }
 
 
+  /**
+   * Prints any Streamer object.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::print(const Streamer& value) {
     value.printToStream(_stream);
     return this;
   }
 
+
+  /**
+   * Prints any streamer object in given number of times.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::print(const Streamer& value, kf_int32_t count) {
     for(int i = count - 1; i >= 0; i--) {
@@ -143,6 +208,22 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Reads and prints everything from the given InputStream.
+   * @return refernece to self
+   */
+
+  Ref<PrintWriter> PrintWriter::print(Ref<InputStream> stream) {
+    _stream->write(stream);
+    return this;
+  }
+
+
+  /**
+   * Prints an octet in hexadecimal.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::printHex(kf_octet_t value) {
     kf_octet_t digits[2];
     printHex(digits, &value, 1, false);
@@ -150,6 +231,11 @@ namespace kfoundation {
     return this;
   }
 
+
+  /**
+   * Prints a 32-bit integer value in hexadecimal.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::printHex(const kf_int32_t value) {
     kf_octet_t digits[8];
@@ -159,6 +245,11 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints a 64-bit integer value in hexadecimal.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::printHex(const kf_int64_t value) {
     kf_octet_t digits[16];
     printHex(digits, (const kf_octet_t*)&value, 8, System::isBigEndian());
@@ -166,6 +257,12 @@ namespace kfoundation {
     return this;
   }
 
+
+  /**
+   * Prints the hex value corresponding to each one of the given number of 
+   * octets starting from the given memory address.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::printHex(const kf_octet_t* octets,
       kf_int32_t count)
@@ -176,6 +273,11 @@ namespace kfoundation {
     return this;
   }
 
+
+  /**
+   * Corresponds to printf() function.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::printFormat(RefConst<UString> format, ...) {
     char* buffer = new char[256];
@@ -189,6 +291,12 @@ namespace kfoundation {
     return this;
   }
 
+
+  /**
+   * Prints a time value. The input is expressed in milliseconds from epoch.
+   * Format string corresponds to strftime() function.
+   * @return refernece to self
+   */
 
   Ref<PrintWriter> PrintWriter::printTime(RefConst<UString> format,
       kf_int64_t time)
@@ -208,21 +316,40 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints the new line character.
+   * @return refernece to self
+   */
+
   Ref<PrintWriter> PrintWriter::newLine() {
     _stream->write('\n');
     return this;
   }
 
 
+  /**
+   * Flushes the stream. May or may not also print a newline character,
+   * depending on implementation.
+   */
+
   void PrintWriter::over() {
     newLine();
   }
 
 
+  /**
+   * Processes a special end of chain flag.
+   */
+
   void PrintWriter::operator<<(const printwriter_end_stream_flag_t flag) {
     over();
   }
 
+
+  /**
+   * Processes a special flag.
+   * @return self
+   */
 
   PrintWriter& PrintWriter::operator<<(const printwriter_flag flag) {
     switch (flag) {
@@ -239,32 +366,52 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints a boolean value.
+   * @return self
+   */
+
   PrintWriter& PrintWriter::operator<<(const bool value) {
     Bool(value).printToStream(_stream);
     return *this;
   }
 
 
+  /**
+   * Prints a 32-bit integer value.
+   * @return self
+   */
+
   PrintWriter& PrintWriter::operator<<(const kf_int32_t value) {
     if(_hex) {
       printHex(value);
       _hex = false;
     } else {
-      Int(value).printToStream(_stream);
+      Int32(value).printToStream(_stream);
     }
     return *this;
   }
 
+
+  /**
+   * Prints a 64-bit integer value.
+   * @return self
+   */
 
   PrintWriter& PrintWriter::operator<<(const kf_int64_t value) {
     if(_hex) {
       printHex(value);
     } else {
-      LongInt(value).printToStream(_stream);
+      Int64(value).printToStream(_stream);
     }
     return *this;
   }
 
+
+  /**
+   * Prints a float value.
+   * @return self
+   */
 
   PrintWriter& PrintWriter::operator<<(const float value) {
     Double(value).printToStream(_stream);
@@ -272,11 +419,21 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints a double value.
+   * @return self
+   */
+
   PrintWriter& PrintWriter::operator<<(const double value) {
     Double(value).printToStream(_stream);
     return *this;
   }
 
+
+  /**
+   * Prints a 8-bit character.
+   * @return self
+   */
 
   PrintWriter& PrintWriter::operator<<(const char value) {
     UChar(value).printToStream(_stream);
@@ -284,12 +441,22 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Prints a wide character.
+   * @return self
+   */
+
   PrintWriter& PrintWriter::operator<<(const wchar_t value) {
     UChar(value).printToStream(_stream);
     return *this;
   }
 
   
+  /**
+   * Prints a boolean value.
+   * @return self
+   */
+
   PrintWriter& PrintWriter::operator<<(const char *cstr) {
     _stream->write((const kf_octet_t*)cstr, (kf_int32_t)strlen(cstr));
     return *this;
@@ -308,22 +475,42 @@ namespace kfoundation {
 //  }
 
   
+  /**
+   * Prints a UString.
+   * @return self
+   */
+
   PrintWriter& PrintWriter::operator<<(RefConst<UString> value) {
     value->printToStream(_stream);
     return *this;
   }
 
 
+  /**
+   * Prints any Streamer object.
+   * @return self
+   */
+
   PrintWriter& PrintWriter::operator<<(const Streamer& value) {
     value.printToStream(_stream);
     return *this;
   }
 
-  
+
+  /**
+   * Processes special end of chain flag.
+   */
+
   void operator<<(Ref<PrintWriter> pw, const printwriter_end_stream_flag_t flag) {
     pw->over();
   }
-  
+
+
+  /**
+   * Processes a special flag.
+   *
+   * @return reference to self.
+   */
   
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const printwriter_flag flag) {
     *pw << flag;
@@ -331,35 +518,71 @@ namespace kfoundation {
   }
   
   
+  /**
+   * Prints a boolean value.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const bool value) {
     *pw << value;
     return pw;
   }
   
   
+  /**
+   * Prints a 32-bit integer value.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const kf_int32_t value) {
     *pw << value;
     return pw;
   }
   
   
+  /**
+   * Prints a 64-bit integer value.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const kf_int64_t value) {
     *pw << value;
     return pw;
   }
   
   
+  /**
+   * Prints a float value.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const float value) {
     *pw << value;
     return pw;
   }
   
   
+  /**
+   * Prints a double value.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const double value) {
     *pw << value;
     return pw;
   }
 
+
+  /**
+   * Prints a 8-bit character.
+   *
+   * @return reference to self.
+   */
 
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const char value) {
     *pw << value;
@@ -367,12 +590,24 @@ namespace kfoundation {
   }
 
   
+  /**
+   * Prints a wide character character.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const wchar_t value) {
     *pw << value;
     return pw;
   }
   
   
+  /**
+   * Prints a C-style string.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const char *cstr) {
     *pw << cstr;
     return pw;
@@ -391,12 +626,24 @@ namespace kfoundation {
 //  }
 
   
+  /**
+   * Prints a UString.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const RefConst<UString> value) {
     *pw << value;
     return pw;
   }
   
   
+  /**
+   * Prints any stream object.
+   *
+   * @return reference to self.
+   */
+
   Ref<PrintWriter> operator<<(Ref<PrintWriter> pw, const Streamer& value) {
     *pw << value;
     return pw;

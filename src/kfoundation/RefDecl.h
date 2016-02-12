@@ -100,7 +100,7 @@ namespace kfoundation {
 
   // --- ABSTRACT METHODS --- //
 
-    public: virtual Ref<UString> getTypeName() const = 0;
+    public: virtual RefConst<UString> getTypeName() const = 0;
 
 
   // --- METHODS --- //
@@ -135,7 +135,7 @@ namespace kfoundation {
 
 
   /**
-   * Managed pointer to a class of given template type.
+   * Reference to a class of given template type.
    * The template type should be a subclass of KFObject.
    * To use, try
    *
@@ -170,30 +170,24 @@ namespace kfoundation {
    * pointer.
    *
    *     if(myObject.ISA(MySuperClass)) {
-   *       LOG << "I Love KFoundation <3" << ENDS;
+   *       ...
    *     }
    *
-   * Managed objects do not need to be explicitly destructed. `Ref` will 
+   * Referenced objects do not need to be explicitly destructed. `Ref` will
    * automatically retain and release the instance of the object it is pointing 
    * to whenever necessary, and calls the destructor when the object instance
    * is no longer needed.
    *
-   * You can check the retain count using getRetainCount() method. Inputting
-   * a `Ref` to stream or logger will print a more detailed description of it.
+   * You can check the retain count using getRetainCount() method. Use
+   * toString() method to print a description of this reference, plus the
+   * corresponding retain count.
    *
-   *     LOG << myObject << ENDS;
+   *     LOG << myObject.toString() << OVER;
    *
    * If you mean to print the content of the object being pointed to, rather
    * than the content of the pointer, make sure to dereference it.
    *
-   *     LOG << *myObject << ENDS;
-   *
-   * There are two variants of Ref: Passive Pointer (Ref) and Static Pointer
-   * (SPtr). Ref do not retain or release the object with the scope they are
-   * defined. If you are sure within a cerain scope the retain count of an
-   * object will not be changed, it is advisable to use Ref to produce a 
-   * faster program. SPtr makes the pointed object immortal. It should be used
-   * for static class members.
+   *     LOG << *myObject << OVER;
    *
    * KFoundation managed pointers are designed to be fast and efficient.
    * The size of `Ref` is exactly 8 bytes --- the same as normal pointers on
@@ -202,9 +196,9 @@ namespace kfoundation {
    * a novel fast algorithm with O(1) time complexity is developed to do the
    * task.
    *
-   * On rare ocasions it might be needed to manage the reference count manually.
-   * In such cases you may use retain(), release() and replace() methods.
-   * But unless absolutely necessary please refrain from using these methods.
+   * @see RefConst - Reference to constant
+   * @see StaticRef - Static reference
+   * @see StaticRefConst - Static reference to constant
    *
    * @ingroup memory
    * @headerfile RefDecl.h <kfoundation/Ref.h>
@@ -227,7 +221,7 @@ namespace kfoundation {
     public: template<typename TT> Ref<TT> cast() const;
 
     // Inherited from PtrBase
-    public: Ref<UString> getTypeName() const;
+    public: RefConst<UString> getTypeName() const;
 
 
   // --- OPERATORS --- //
@@ -241,6 +235,19 @@ namespace kfoundation {
 
 
 //\/ ConstPtr /\///////////////////////////////////////////////////////////////
+
+  /**
+   * Reference to constant vairation of Ref. The result of derefencing this
+   * class is a constant image of the referenced object.
+   *
+   * RefConst can be assigned from Ref.
+   *
+   *    Ref<MyClass> ref = new MyClass();
+   *    RefConst<MyClass> constRef = ref;
+   *.
+   * @ingroup memory
+   * @headerfile RefDecl.h <kfoundation/Ref.h>
+   */
 
   template<typename T>
   class RefConst : public RefBase {
@@ -260,7 +267,7 @@ namespace kfoundation {
     public: template<typename TT> RefConst<TT> cast() const;
 
     // Inherited from PtrBase
-    public: Ref<UString> getTypeName() const;
+    public: RefConst<UString> getTypeName() const;
 
     
   // --- OPERATOR --- //
@@ -276,6 +283,22 @@ namespace kfoundation {
 
 //\/ StaticRef /\//////////////////////////////////////////////////////////////
 
+  /**
+   * Static variant of Ref. Uses the default static memory manager instead of
+   * the default reference counting manager. Objects referenced by this
+   * class will never be deleted.
+   *
+   * Use to define static fields.
+   *
+   *     class MyClass : public KFObject {
+   *       private: static StaticRef<UString> STATIC_FIELD;
+   *     }
+   *.
+   * @see StaticRefConst
+   * @ingroup memory
+   * @headerfile RefDecl.h <kfoundation/Ref.h>
+   */
+
   template<typename T>
   class StaticRef : public Ref<T> {
 
@@ -288,6 +311,19 @@ namespace kfoundation {
 
 
 //\/ StaticRefConst /\/////////////////////////////////////////////////////////
+
+  /**
+   * Reference to constant variant of StaticRef. Use to define static constant
+   * fields.
+   *
+   *     class MyClass : public KFObject {
+   *       public: static const StaticRefConst<UString> STR;
+   *     }
+   *.
+   * @see StaticRef
+   * @ingroup memory
+   * @headerfile RefDecl.h <kfoundation/Ref.h>
+   */
 
   template<typename T>
   class StaticRefConst : public RefConst<T> {

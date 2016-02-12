@@ -76,7 +76,7 @@ namespace kfoundation {
 
   // --- METHODS --- //
 
-    private: inline static kf_int8_t getNumericalValueOf(const wchar_t& ch);
+    private: inline static kf_int8_t getNumericalValueOf(const char ch);
     private: kf_int8_t read(UChar& ch);
     private: kf_int8_t read(kf_octet_t* readOctets);
     private: void commit(const kf_int8_t n);
@@ -137,6 +137,16 @@ namespace kfoundation {
     public: kf_int64_t skipSpaces();
     public: kf_int64_t skipSpacesAndNewLines();
 
+    public: Ref<UString> readAllAlphabet();
+    public: Ref<UString> readAllAlphanumeric();
+    public: Ref<UString> readAllNumeric();
+    public: Ref<UString> readAllBeforeSpace();
+    public: Ref<UString> readAllBeforeNewLine();
+    public: Ref<UString> readAllBeforeSpaceOrNewLine();
+    public: Ref<UString> readAllBeforeChar(UChar ch);
+    public: kf_int64_t   readInteger();
+    public: double       readDouble();
+
     public: const CodeLocation& getCodeLocation() const;
   };
   
@@ -152,7 +162,7 @@ namespace kfoundation {
     return isAlphabet(ch) || isNumeric(ch);
   }
   
-  inline kf_int8_t StreamParser::getNumericalValueOf(const wchar_t& ch) {
+  inline kf_int8_t StreamParser::getNumericalValueOf(const char ch) {
     return ch - '0';
   }
 

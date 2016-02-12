@@ -12,10 +12,10 @@ namespace kfoundation {
    * Wrapper for `int` type.
    *
    * @ingroup containers
-   * @headerfile Int.h <kfoundation/Int.h>
+   * @headerfile Int32.h <kfoundation/Int32.h>
    */
   
-  class Int : public KFObject, public Streamer {
+  class Int32 : public KFObject, public Streamer {
 
   // --- FIELDS --- //
 
@@ -24,8 +24,8 @@ namespace kfoundation {
 
   // --- CONSTRUCTORS --- //
 
-    public: Int(kf_int32_t value);
-    public: Int(RefConst<UString> str);
+    public: Int32(kf_int32_t value);
+    public: Int32(RefConst<UString> str);
 
 
   // --- STATIC METHODS --- //

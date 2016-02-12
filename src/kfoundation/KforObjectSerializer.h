@@ -22,6 +22,11 @@ namespace kfoundation {
         kf_int8_t indentUnits = 4);
 
 
+  // --- FIELDS --- //
+
+    private: bool _isFirst;
+
+
   // --- METHODS --- //
 
     // From ObjectSerializer

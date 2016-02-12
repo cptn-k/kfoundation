@@ -31,7 +31,7 @@ namespace kfoundation {
 //\/ UString /\////////////////////////////////////////////////////////////////
 
   class UString
-  : public KFObject, public SerializingStreamer, public Comparable<UString>
+  : public KFObject, public Streamer, public Comparable<UString>
   {
 
   // --- STATIC FIELDS --- //
@@ -66,8 +66,11 @@ namespace kfoundation {
   // --- METHODS --- //
 
     protected: virtual void releaseOwner() const;
-    public: inline virtual const kf_octet_t* getOctets() const;
-    public: inline virtual kf_int32_t  getOctetCount() const;
+    protected: virtual const kf_octet_t* getExternalOctets() const;
+    protected: virtual kf_int32_t getExternalOctetCount() const;
+
+    public: inline const kf_octet_t* getOctets() const;
+    public: inline kf_int32_t  getOctetCount() const;
 
     public: inline kf_octet_t at(const kf_int32_t octetIndex) const throw(IndexOutOfBoundException);
     public: const char* getCString() const;
@@ -83,9 +86,9 @@ namespace kfoundation {
 
     public: bool equalsIgnoreCase(RefConst<UString> str) const;
 
-    public: kf_int32_t   find(const kf_octet_t octet, const kf_int32_t offset = 0) const;
-    public: kf_int32_t   find(UChar uchar, const kf_int32_t offset = 0) const;
-    public: kf_int32_t   find(RefConst<UString> str, const kf_int32_t offset = 0) const;
+    public: kf_int32_t find(const kf_octet_t octet, const kf_int32_t offset = 0) const;
+    public: kf_int32_t find(UChar uchar, const kf_int32_t offset = 0) const;
+    public: kf_int32_t find(RefConst<UString> str, const kf_int32_t offset = 0) const;
 
     public: Ref<UString> toLowercase() const;
     public: Ref<UString> toUppercase() const;
@@ -97,10 +100,7 @@ namespace kfoundation {
     public: UCharIterator getUCharIterator() const;
 
     // From Comparable<UString>
-    public: bool equals(RefConst<UString> str) const;
-
-    // From SerializingStreamer
-    public: void serialize(Ref<ObjectSerializer> serializer) const;
+    public: bool equals(RefConst<UString> other) const;
 
     // From SerializingStreamer::Streamer
     public: void printToStream(Ref<OutputStream> stream) const;
@@ -121,7 +121,7 @@ namespace kfoundation {
 
 
   inline const kf_octet_t* UString::getOctets() const {
-    return IS_NULL(_buffer)?NULL:_buffer + HEADER_SIZE;
+    return IS_NULL(_buffer)?getExternalOctets():_buffer + HEADER_SIZE;
   }
 
 
@@ -130,7 +130,7 @@ namespace kfoundation {
    */
 
   inline kf_int32_t UString::getOctetCount() const {
-    return IS_NULL(_buffer)?0:*(kf_int32_t*)_buffer;
+    return IS_NULL(_buffer)?getExternalOctetCount():*(kf_int32_t*)_buffer;
   }
 
 
@@ -166,18 +166,18 @@ namespace kfoundation {
 
     // From UString
     public: void releaseOwner() const;
-    public: inline const kf_octet_t* getOctets() const;
-    public: inline kf_int32_t getOctetCount() const;
+    public: inline const kf_octet_t* getExternalOctets() const;
+    public: inline kf_int32_t getExternalOctetCount() const;
 
   };
 
 
-  inline const kf_octet_t* UStringWindow::getOctets() const {
+  inline const kf_octet_t* UStringWindow::getExternalOctets() const {
     return _bufferOwner->getOctets() + _offset;
   }
 
 
-  inline kf_int32_t UStringWindow::getOctetCount() const {
+  inline kf_int32_t UStringWindow::getExternalOctetCount() const {
     return _size;
   }
 
@@ -206,8 +206,8 @@ namespace kfoundation {
 
   // --- METHODS --- //
 
-    public: inline const kf_octet_t* getOctets() const;
-    public: inline kf_int32_t getOctetCount() const;
+    public: inline const kf_octet_t* getExternalOctets() const;
+    public: inline kf_int32_t getExternalOctetCount() const;
 
 
   // --- OPERATORS --- //
@@ -217,12 +217,12 @@ namespace kfoundation {
   };
 
 
-  inline const kf_octet_t* UStringLiteral::getOctets() const {
+  inline const kf_octet_t* UStringLiteral::getExternalOctets() const {
     return _memory;
   }
 
 
-  inline kf_int32_t UStringLiteral::getOctetCount() const {
+  inline kf_int32_t UStringLiteral::getExternalOctetCount() const {
     return _size;
   }
 

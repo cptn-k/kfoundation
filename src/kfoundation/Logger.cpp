@@ -15,6 +15,7 @@
 
 // Unix
 #include <syslog.h>
+#include <cstdlib>
 
 namespace {
   const int SYS_LOG_ERR = LOG_ERR;
@@ -56,6 +57,7 @@ namespace kfoundation {
     const kf_octet_t* buffer = _buffer->getData();
     const kf_int32_t size = _buffer->getSize();
 
+    System::sleep(rand()%10);
     Dic::Iterator it = _channels->getIterator();
     _mutex.lock();
     for(it.first(); it.hasMore(); it.next()) {

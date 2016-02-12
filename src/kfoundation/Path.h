@@ -26,10 +26,7 @@ namespace kfoundation {
   class UString;
 
   /**
-   * Used to represent and manipulate file and directory pathnames.
-   *
-   * @note For better performance use getString() rather than toString() to 
-   * get the string value of this object.
+   * Represents a file path.
    *
    * @ingroup io
    * @headerfile Path.h <kfoundation/Path.h>

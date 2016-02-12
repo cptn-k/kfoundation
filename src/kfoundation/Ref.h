@@ -19,9 +19,6 @@
 #ifndef KFOUNDATION_PTR_H
 #define KFOUNDATION_PTR_H
 
-// Std
-#include <typeinfo>
-
 // Internal
 #include "NullPointerException.h"
 #include "MasterMemoryManager.h"
@@ -48,6 +45,10 @@ namespace kfoundation {
 
   inline void RefBase::assignNull() {
     SET_NULL_REF(_ref);
+
+    #ifdef DEBUG
+    obj = NULL;
+    #endif
   }
 
 
@@ -59,7 +60,8 @@ namespace kfoundation {
     if(IS_NULL(cptr)) {
       assignNull();
     } else {
-      _ref = cptr->registerAndRetain(*defaultManager);
+      _ref = cptr->registerToManager(*defaultManager);
+      retain();
     }
 
     #ifdef DEBUG
@@ -74,18 +76,27 @@ namespace kfoundation {
     } else {
       _ref = ref;
       retain();
-    }
 
-    #ifdef DEBUG
-    obj = masterTable[_ref.manager][_ref.index].ptr;
-    #endif
+      #ifdef DEBUG
+      obj = masterTable[_ref.manager][_ref.index].ptr;
+      #endif
+    }
   }
 
+
+  /**
+   * Returns the value of reference.
+   */
 
   inline kf_uref_t RefBase::get() const {
     return _ref;
   }
 
+
+  /**
+   * Checks if the referenced object is a subclass of the given template
+   * argument.
+   */
 
   template<typename TT>
   bool RefBase::isa() const {
@@ -101,7 +112,7 @@ namespace kfoundation {
 // --- (DE)CONSTRUCTORS --- //
   
   /**
-   * Constructs a NULL-pointer to the given template class type.
+   * Constructs a NULL reference to the given template class type.
    */
   
   template<typename T>
@@ -116,6 +127,10 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Constructs a reference to the object pointed by the given argument.
+   */
+
   template<typename T>
   Ref<T>::Ref(const T* cptr) {
     assignCptr(cptr);
@@ -128,11 +143,6 @@ namespace kfoundation {
   }
 
 
-  /**
-   * Deconstructor. If not a passive pointer, the pointed object will
-   * be released.
-   */
-  
   template<typename T>
   Ref<T>::~Ref() {
     if(NOT_NULL_REF(_ref)) {
@@ -142,6 +152,12 @@ namespace kfoundation {
   
   
 // --- METHODS --- //
+
+  /**
+   * Casts this reference to the given type. Throws KFException if the
+   * referenced object is of a type not compatible with the given template
+   * argument.
+   */
 
   template<typename T>
   template<typename TT>
@@ -155,14 +171,14 @@ namespace kfoundation {
     }
 
     throw KFException(K"Cannot cast a reference of type \""
-        + System::demangle(typeid(T).name()) + "\" to type \""
-        + System::demangle(typeid(TT).name()) + "\"");
+        + System::demangle(K typeid(T).name()) + "\" to type \""
+        + System::demangle(K typeid(TT).name()) + "\"");
   }
 
 
   template<typename T>
-  Ref<UString> Ref<T>::getTypeName() const {
-    return System::demangle(typeid(T).name());
+  RefConst<UString> Ref<T>::getTypeName() const {
+    return System::demangle(K typeid(T).name());
   }
 
   
@@ -197,8 +213,7 @@ namespace kfoundation {
 
   
   /**
-   * Replaces the pointed object with a new one, releases the previous object,
-   * and retains the new one. Internally, it calls replace(const Ref<T>&).
+   * Replaces the referenced object with a new one.
    *
    * @return Self
    */
@@ -214,8 +229,7 @@ namespace kfoundation {
 
   
   /**
-   * Replaces the pointed object with a new one, releases the previous object,
-   * and retains the new one. Internally, it calls replace(T* const&).
+   * Replaces the referenced object with a new one.
    *
    * @return Self
    */
@@ -235,7 +249,7 @@ namespace kfoundation {
 // --- (DE)CONSTRUCTORS --- //
 
   /**
-   * Constructs a NULL-pointer to the given template class type.
+   * Constructs a NULL reference to the given template class type.
    */
 
   template<typename T>
@@ -249,6 +263,10 @@ namespace kfoundation {
     assignRef(uref);
   }
 
+
+  /**
+   * Constructs a reference to the object pointed by the given argument.
+   */
 
   template<typename T>
   RefConst<T>::RefConst(const T* obj) {
@@ -268,11 +286,6 @@ namespace kfoundation {
   }
 
 
-  /**
-   * Deconstructor. If not a passive pointer, the pointed object will
-   * be released.
-   */
-
   template<typename T>
   RefConst<T>::~RefConst() {
     if(NOT_NULL_REF(_ref)) {
@@ -283,6 +296,11 @@ namespace kfoundation {
 
 // --- METHODS --- //
 
+  /**
+   * Casts this reference to the given type. Throws KFException if the
+   * referenced object is of a type not compatible with the given template
+   * argument.
+   */
 
   template<typename T>
   template<typename TT>
@@ -296,14 +314,14 @@ namespace kfoundation {
     }
 
     throw KFException(K"Cannot cast a reference of type \""
-      + System::demangle(typeid(T).name()) + "\" to type \""
-      + System::demangle(typeid(TT).name()) + "\"");
+      + System::demangle(K typeid(T).name()) + "\" to type \""
+      + System::demangle(K typeid(TT).name()) + "\"");
   }
 
 
   template<typename T>
-  Ref<UString> RefConst<T>::getTypeName() const {
-    return K"const " + System::demangle(typeid(T).name());
+  RefConst<UString> RefConst<T>::getTypeName() const {
+    return System::demangle(K typeid(T).name());
   }
 
 
@@ -338,8 +356,7 @@ namespace kfoundation {
 
 
   /**
-   * Replaces the pointed object with a new one, releases the previous object,
-   * and retains the new one. Internally, it calls replace(T* const&).
+   * Replaces the pointed object with a new one.
    *
    * @return Self
    */
@@ -355,8 +372,7 @@ namespace kfoundation {
 
 
   /**
-   * Replaces the pointed object with a new one, releases the previous object,
-   * and retains the new one. Internally, it calls replace(const Ref<T>&).
+   * Replaces the pointed object with a new one.
    *
    * @return Self
    */
@@ -370,6 +386,12 @@ namespace kfoundation {
     return *this;
   }
 
+
+  /**
+   * Replaces the pointed object with a new one.
+   *
+   * @return Self
+   */
 
   template<typename T>
   inline RefConst<T>& RefConst<T>::operator=(const RefConst<T>& other) {
@@ -389,6 +411,10 @@ namespace kfoundation {
   }
 
 
+  /**
+   * Constructs a reference to the object pointed by the given argument.
+   */
+
   template<typename T>
   StaticRef<T>::StaticRef(T* cptr) {
     if(IS_NULL(RefBase::master)) {
@@ -397,12 +423,16 @@ namespace kfoundation {
     if(IS_NULL(cptr)) {
       RefBase::assignNull();
     } else {
-      RefBase::assignRef(cptr->registerAndRetain(RefBase::master->getStaticManager()));
+      RefBase::assignRef(cptr->registerToManager(RefBase::master->getStaticManager()));
     }
   }
 
 
 //\/ StaticRefConst /\/////////////////////////////////////////////////////////
+
+  /**
+   * Constructs a reference to the object pointed by the given argument.
+   */
 
   template<typename T>
   StaticRefConst<T>::StaticRefConst(T* cptr) {
@@ -412,7 +442,7 @@ namespace kfoundation {
     if(IS_NULL(cptr)) {
       RefBase::assignNull();
     } else {
-      RefBase::assignRef(cptr->registerAndRetain(RefBase::master->getStaticManager()));
+      RefBase::assignRef(cptr->registerToManager(RefBase::master->getStaticManager()));
     }
   }
 
