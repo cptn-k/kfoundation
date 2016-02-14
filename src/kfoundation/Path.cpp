@@ -545,8 +545,12 @@ namespace kfoundation {
   kf_int64_t Path::getModificationTime() const {
     struct stat stats;
     ::stat(_str->getCString(), &stats);
+    #ifdef KF_MAC
     return stats.st_mtimespec.tv_sec * 1000
         + stats.st_mtimespec.tv_nsec / 1000000;
+    #elif defined(KF_LINUX)
+    return stats.st_mtime * 1000;
+    #endif
   }
 
 
@@ -558,8 +562,12 @@ namespace kfoundation {
   kf_int64_t Path::getAccessTime() const {
     struct stat stats;
     ::stat(_str->getCString(), &stats);
+    #ifdef KF_MAC
     return stats.st_atimespec.tv_sec * 1000
       + stats.st_atimespec.tv_nsec / 1000000;
+    #elif defined(KF_LINUX)
+    return stats.st_atime * 1000;
+    #endif
   }
 
 

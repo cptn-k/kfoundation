@@ -20,6 +20,7 @@
 // Std
 #include <cstdlib>
 #include <iostream>
+#include <cstring>
 
 // Unix
 #ifdef KF_UNIX
@@ -174,20 +175,16 @@ namespace kfoundation {
     return res;
   }
 #elif defined(KF_LINUX)
-  Ref<Path> __SystemImpl::getExePath() {
-    if(_exePath.isNull()) {
-      string linkPath = "/proc/self/exe";
+  Ref<Path> System::getExePath() {
+      const char* linkPath = "/proc/self/exe";
       char buffer[__KF_BUFFER_SIZE];
-      ssize_t nBytes = readlink(linkPath.c_str(), buffer, __KF_BUFFER_SIZE);
+      ssize_t nBytes = readlink(linkPath, buffer, __KF_BUFFER_SIZE);
       if(nBytes == -1) {
         throw KFException(K"Internal error resolving symbolik link "
                           + linkPath + ". Reason: " + System::getLastSystemError());
       }
 
-      Path* _exePath = new Path(new UString((kf_octet_t*)buffer, nBytes));
-    }
-
-    return _exePath;
+      return new Path(new UString((kf_octet_t*)buffer, nBytes));
   }
 #endif
 
@@ -376,7 +373,7 @@ namespace kfoundation {
       size_t count_len = sizeof(count);
       sysctlbyname("hw.logicalcpu", &count, &count_len, NULL, 0);
       return (kf_int16_t)count;
-    #elif define(KF_UNIX)
+    #elif defined(KF_UNIX)
       return sysconf( _SC_NPROCESSORS_ONLN );
     #endif
   }

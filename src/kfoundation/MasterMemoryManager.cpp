@@ -44,7 +44,7 @@ namespace kfoundation {
     memset(_recordTable, 0, sizeof(MemoryManager::ObjectRecord*)*N_MAX_MANAGERS);
     
     _managers = new MemoryManager*[N_MAX_MANAGERS];
-    memset(_managers, 0, sizeof(MemoryManager::MemoryManager*)*N_MAX_MANAGERS);
+    memset(_managers, 0, sizeof(MemoryManager*)*N_MAX_MANAGERS);
 
     _nManagers = 0;
     _staticManager  = new RefCountMemoryManager(this, true);

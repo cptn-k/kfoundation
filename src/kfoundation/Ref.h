@@ -19,6 +19,9 @@
 #ifndef KFOUNDATION_PTR_H
 #define KFOUNDATION_PTR_H
 
+// Std
+#include <typeinfo>
+
 // Internal
 #include "NullPointerException.h"
 #include "MasterMemoryManager.h"

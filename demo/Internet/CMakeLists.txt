@@ -1,7 +1,7 @@
-cmake_minimum_required (VERSION 3.0)
-project (Containers)
+cmake_minimum_required (VERSION 2.8)
+project (Internet)
 
-set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
+set(CMAKE_CXX_FLAGS "-fvisibility=hidden -ldl -pthread")
 
 include_directories(SYSTEM /usr/local/include)
 link_directories(/usr/local/lib)

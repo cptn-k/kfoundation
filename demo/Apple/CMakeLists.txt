@@ -1,11 +1,11 @@
 cmake_minimum_required (VERSION 2.8)
-project (Thread)
+project (Containers)
 
 set(CMAKE_CXX_FLAGS "-fvisibility=hidden -pthread -ldl")
 
 include_directories(SYSTEM /usr/local/include)
 link_directories(/usr/local/lib)
 
-add_executable (threadTest Person.cpp)
+add_executable (apple Apple.cpp)
 
-target_link_libraries (threadTest kfoundation cityhash unistring)
+target_link_libraries (apple kfoundation cityhash unistring)

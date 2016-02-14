@@ -359,7 +359,7 @@ namespace kfoundation {
   template<typename T>
   void RefArrayBase<T>::serialize(Ref<ObjectSerializer> builder) const {
     builder->collection();
-    size_t s = _size;
+    kf_int32_t s = _size;
     for(int i = 0; i < s; i++) {
       T d = _data[i];
       if(d.isNull()) {

@@ -14,11 +14,17 @@
  |
  *//////////////////////////////////////////////////////////////////////////////
 
+#include "definitions.h"
+
 // Unix
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <errno.h>
+
+#ifdef KF_LINUX
+#include <sys/file.h>
+#endif
 
 // Internal
 #include "UString.h"
@@ -111,7 +117,7 @@ namespace kfoundation {
    */
 
   bool FileInputStream::isLocked() const {
-    if(flock(_fileDescriptor, LOCK_EX | LOCK_NB) == -1) {
+    if(::flock((int)_fileDescriptor, LOCK_EX | LOCK_NB) == -1) {
       if(errno == EWOULDBLOCK) {
         return true;
       } else {
@@ -133,7 +139,7 @@ namespace kfoundation {
    */
 
   void FileInputStream::lock() const {
-    if(flock(_fileDescriptor, LOCK_EX) == -1) {
+    if(::flock((int)_fileDescriptor, LOCK_EX) == -1) {
       throw IOException(K"Error locking for file " + *_path
           + ". Cause: " + System::getLastSystemError());
     }
@@ -148,7 +154,7 @@ namespace kfoundation {
    */
 
   void FileInputStream::unlock() const {
-    if(flock(_fileDescriptor, LOCK_UN) == -1) {
+    if(::flock((int)_fileDescriptor, LOCK_UN) == -1) {
       throw IOException(K"Error locking file " + *_path + ". Cause: "
           + System::getLastSystemError());
     }

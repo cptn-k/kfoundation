@@ -4,7 +4,11 @@ project (KFoundation)
 set(VERSION 2.0)
 
 set(CMAKE_VERBOSE_MAKEFILE off)
-set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
+if(UNIX)
+  set(CMAKE_CXX_FLAGS "-fvisibility=hidden -pthread -rdynamic -ldl")
+else(UNIX)
+  set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
+endif(UNIX)
 
 add_subdirectory (Third-Party/CityHash     build-tmp/CityHash)
 add_subdirectory (Third-Party/GnuUnistring build-tmp/GnuUnistring)

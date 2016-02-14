@@ -1,7 +1,7 @@
-cmake_minimum_required (VERSION 3.0)
-project (Apple)
+cmake_minimum_required (VERSION 2.8)
+project (PassingApple)
 
-set(CMAKE_CXX_FLAGS "-fvisibility=hidden")
+set(CMAKE_CXX_FLAGS "-fvisibility=hidden -pthread -ldl")
 
 include_directories(SYSTEM /usr/local/include)
 link_directories(/usr/local/lib)
